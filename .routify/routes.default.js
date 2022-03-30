@@ -29,3 +29,5 @@ export default {
     }
   ]
 }
+
+import '@roxi/routify/lib/buildtime/plugins/devHelper/runtime.js'
