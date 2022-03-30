@@ -1,4 +1,4 @@
 [dev]
   command = "npm run dev"
-  publish = "public"
+  publish = "dist"
   port = 8888 
