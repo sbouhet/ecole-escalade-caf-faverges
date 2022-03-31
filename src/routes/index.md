@@ -36,6 +36,6 @@
 </script>
 
 LOLOL
-<button on:click|preventDefault={handleClick}>Say hello</button>
+<CreateAccount/>
 
 <!-- <Login /> -->
