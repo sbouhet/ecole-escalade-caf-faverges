@@ -25,8 +25,8 @@
     <div>{currentUser}</div>
     <main class="container">
         <slot></slot>
-        <Back />
-        <Logout />
+        <!-- <Back />
+        <Logout /> -->
     </main>
 </body>
 
