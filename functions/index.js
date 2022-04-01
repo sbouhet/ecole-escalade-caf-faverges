@@ -1,56 +1,96 @@
+var dayjs = require("dayjs")
 const functions = require("firebase-functions")
 const admin = require("firebase-admin")
 admin.initializeApp()
 const db = admin.firestore()
-/* exports.randomNumber = functions.https.onRequest((request, response) => {
-  const number = "lol"
-  response.send(number)
-})
 
-exports.sayHello = functions.https.onCall((data, context) => {
+const season = () => {
+  const string = (year) => {
+    return `${year}-${year + 1}`
+  }
+  const seasonObject = (year) => {
+    return {
+      current: string(year),
+      last: string(year - 1),
+      next: string(year + 1),
+    }
+  }
+  const currentMonth = parseInt(dayjs().format("M"))
+  const septemberOrLater = currentMonth > 8
+  const thisYear = parseInt(dayjs().format("YYYY"))
+
+  if (septemberOrLater) return seasonObject(thisYear)
+  return seasonObject(thisYear - 1)
+}
+
+/* exports.randomNumber = functions.https.onRequest((request, response) => {
+  const truc = `
+  This season: ${season().current},
+  next season: ${season().next},
+  last season: ${season().last}`
+  response.send(truc)
+}) */
+
+/* exports.sayHello = functions.https.onCall((data, context) => {
   const name = data.name
   return `Hello lolilol ${name}`
 }) */
 
-exports.newUserSignup = functions.auth.user().onCreate((user) => {
+exports.newAuthUser = functions.auth.user().onCreate((user) => {
   return db.collection("users").doc(user.uid).set({
     email: user.email,
     id: user.uid,
   })
 })
 
-exports.userDeleted = functions.auth.user().onDelete((user) => {
+exports.delAuthUser = functions.auth.user().onDelete((user) => {
   return db.collection("users").doc(user.uid).delete()
 })
 
-exports.updateUserList = functions.firestore
+exports.newFirestoreUser = functions.firestore
   .document("users/{userId}")
   .onCreate((snap, context) => {
     const user = snap.data()
+    const month = parseInt(dayjs().format("M"))
+    const seasonString = month === 8 ? season().next : season().current
 
     return db
-      .doc("admin/2022-2023")
-      .update({ [`PUPILS.${user.id}`]: { id: user.id, email: user.email } })
+      .doc(`years/${seasonString}`)
+      .update({ [`pupils.${user.id}`]: { id: user.id, email: user.email } })
   })
 
-exports.deleteUser = functions.firestore
+exports.updateFirestoreUser = functions.firestore
+  .document("users/{userId}")
+  .onUpdate((change, context) => {
+    const user = change.after.data()
+    const month = parseInt(dayjs().format("M"))
+    const seasonString = month === 8 ? season().next : season().current
+
+    return db
+      .doc(`years/${seasonString}`)
+      .update({ [`pupils.${user.id}`]: { id: user.id, email: user.email } })
+  })
+
+exports.delFirestoreUser = functions.firestore
   .document("users/{userId}")
   .onDelete((snap, context) => {
     // Get an object representing the document prior to deletion
     // e.g. {'name': 'Marie', 'age': 66}
     const user = snap.data()
+    const month = parseInt(dayjs().format("M"))
+    const seasonString = month === 8 ? season().next : season().current
     return db
-      .doc("admin/2022-2023")
+      .doc(`years/${seasonString}`)
       .get()
       .then((doc) => {
-        let PUPILS = doc.data().PUPILS
-        delete PUPILS[user.id]
-        return db.doc("admin/2022-2023").update({ PUPILS: PUPILS })
+        let pupils = doc.data().pupils
+        delete pupils[user.id]
+        return db.doc(`years/${seasonString}`).update({ pupils: pupils })
       })
       .catch((err) => {
         console.log(err)
       })
-    //return db.doc("admin/2022-2023").update({ [`PUPILS.${user.id}`]: null })
+    //return db.doc(`years/${seasonString}`).update({ [`PUPILS.${user.id}`]: null })
 
     // perform desired operations ...
   })
