@@ -42,3 +42,4 @@
 ACCUEIL
 
 <a href="/inscription">Inscription</a>
+<slot></slot> <!-- just to hide error warning in console -->
