@@ -7,22 +7,24 @@
     const auth = getAuth();
     let email
     let password = ''
-    let password2 = ''
+    //let password2 = ''
     let error = null
-    let userCreated = false
+    export let showCreateAccount = true
+
+    const handelSwitch = ()=>{
+        showCreateAccount = false
+    }
     
-    const handleClick = async (e) => {
-        e.preventDefault()
+    const handleClick = async () => {
         console.log(`trying to create user : ${email}`)
-        if (password != password2) {
+        /* if (password != password2) {
             console.error('Passwords are different')
             error = 'Erreur : Les mots de passes sont différents'
             return
-        }
+        } */
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
             console.log(`Made new user`)
-            userCreated = true
             console.log(userCredential.user)
             email = ''
             password = ''
@@ -38,13 +40,12 @@
     <h1>Créer un compte</h1>
     <EmailForm bind:email={email}/>
     <PasswordForm bind:password={password}/>
-    <PasswordForm bind:password={password2}/>
+    <!-- <PasswordForm bind:password={password2}/> -->
     <br>
-    <button on:click={handleClick}>créer un compte</button>
-    <h4 class:hidden={!userCreated}>
-        Inscription réussie.
-    </h4>
+    <button on:click|preventDefault={handleClick}>Créer un compte</button>
+    
     {#if error}
         <ErrorMessage error={error}/>
     {/if}
+    <small>Vous avez déjà un compte ? <a href="#" on:click={handelSwitch}>Connectez-vous</a></small>
 </form>

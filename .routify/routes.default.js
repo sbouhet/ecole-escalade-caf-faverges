@@ -3,13 +3,12 @@
 export default {
   "meta": {},
   "id": "_default",
-  "module": () => import('../src/routes/_module.svelte'),
   "file": {
-    "path": "src/routes/_module.svelte",
-    "dir": "src/routes",
-    "base": "_module.svelte",
-    "ext": ".svelte",
-    "name": "_module"
+    "path": "src/routes",
+    "dir": "src",
+    "base": "routes",
+    "ext": "",
+    "name": "routes"
   },
   "rootName": "default",
   "routifyDir": import.meta.url,
@@ -27,6 +26,35 @@ export default {
         "name": "index"
       },
       "children": []
+    },
+    {
+      "meta": {},
+      "id": "_default_inscription",
+      "name": "inscription",
+      "module": () => import('../src/routes/inscription/_module.svelte'),
+      "file": {
+        "path": "src/routes/inscription/_module.svelte",
+        "dir": "src/routes/inscription",
+        "base": "_module.svelte",
+        "ext": ".svelte",
+        "name": "_module"
+      },
+      "children": [
+        {
+          "meta": {},
+          "id": "_default_inscription_index_md",
+          "name": "index",
+          "module": () => import('../src/routes/inscription/index.md'),
+          "file": {
+            "path": "src/routes/inscription/index.md",
+            "dir": "src/routes/inscription",
+            "base": "index.md",
+            "ext": ".md",
+            "name": "index"
+          },
+          "children": []
+        }
+      ]
     }
   ]
 }

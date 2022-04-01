@@ -39,3 +39,5 @@
 <!-- <Login /> -->
 
 ACCUEIL
+
+<a href="/inscription">Inscription</a>

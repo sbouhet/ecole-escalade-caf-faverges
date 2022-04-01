@@ -18,6 +18,7 @@
 
 
 Vous êtes connectés mais votre adresse mail n'est pas vérifiée.<br>
-CLiquez ici pour la verifier
+<br>
+Cliquez ici pour la verifier
 
 <button on:click|preventDefault={handleClick}>Envoyer le mail de verification</button>

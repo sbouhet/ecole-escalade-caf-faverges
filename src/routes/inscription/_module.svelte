@@ -1,26 +1,30 @@
 <script>
-    import Back from '../components/Back.svelte'
+    import Back from '../../components/Back.svelte'
     import { getAuth, onAuthStateChanged } from "firebase/auth";
-    import Logout from '../components/Logout.svelte'
-    import Login from '../components/forms/Login.svelte'
-    import VerifyEmail from '../components/VerifyEmail.svelte'
-    import {currentUser, loggedin, verified, admin} from '../utilities/stores'
+    import Logout from '../../components/Logout.svelte'
+    import Login from '../../components/forms/Login.svelte'
+    import VerifyEmail from '../../components/VerifyEmail.svelte'
+    import {currentUser, loggedin, verified, admin} from '../../utilities/stores'
+    import CreateAccount from '../../components/CreateAccount.svelte';
     
     const allowDebug = true
     let debug = true
     let userStoreUpToDate = false
-
+    let showCreateAccount = true
+    
     document.addEventListener('keydown', e=>{
         if (e.key==="Dead" && allowDebug) debug = !debug}
-    )
-
+        )
+        
+    console.log('module starting')
 
 
     onAuthStateChanged(getAuth(), (usr)=>{
+        console.log('authStateCHange starting')
         userStoreUpToDate = false
-
+        $currentUser = getAuth().currentUser
       if(usr){
-        $currentUser = usr
+        //$currentUser = usr
         $loggedin = true
         $verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
@@ -29,8 +33,9 @@
         })
       }else{
         $loggedin = false
-        $currentUser = null
+        //$currentUser = null
         $admin = false
+        $verified = false
         userStoreUpToDate = true
         //refresh ??
       }
@@ -65,7 +70,11 @@
                 <VerifyEmail/>
             {/if}
         {:else}
-            <Login />
+            {#if showCreateAccount}
+                <CreateAccount bind:showCreateAccount={showCreateAccount}/>
+            {:else}
+                <Login bind:showCreateAccount={showCreateAccount}/>
+            {/if}
         {/if}
     {:else}
         ... merci de patientez (si ca dur trop longtemps contactez Jules au 06 74 80 69 72)

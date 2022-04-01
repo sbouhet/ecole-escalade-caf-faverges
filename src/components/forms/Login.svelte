@@ -7,6 +7,11 @@
     const auth = getAuth();
     let email, password
     let error = null
+    export let showCreateAccount = false
+
+    const handleSwitch = () =>{
+        showCreateAccount = true
+    }
     
     const handleClick = () => {
         signInWithEmailAndPassword(auth, email, password)
@@ -28,7 +33,8 @@
     <PasswordForm bind:password={password}/>
     
     <br>
-    <button on:click|preventDefault={handleClick}>se connecter</button>
+    <button on:click|preventDefault={handleClick}>Se connecter</button>
     <ErrorMessage error={error}/>
+    <small>Pas encore de compte ? <a href="#" on:click={handleSwitch}>Créer un compte</a></small>
 </form>
 
