@@ -1,11 +1,11 @@
 <script>
-    export let email = 'votre adresse email'
+    export let email = 'Votre adresse email'
     let focus = false
 
     const handleFocus = ()=>{
         if (focus) return
         //if first time focused
-        email = ''
+        email = undefined
         focus = true
     }
 </script>
@@ -17,11 +17,6 @@
 <style>
     .default{
         color:lightgrey
-    }
-    input{
-        color:black;
-        width: 100%;
-        max-width: 400px;
     }
     
 </style>

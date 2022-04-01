@@ -1,8 +1,8 @@
 <script>
     import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
-    import EmailForm from "../components/EmailForm.svelte"
-    import PasswordForm from "../components/PasswordForm.svelte"
-    import ErrorMessage from "../components/ErrorMessage.svelte"
+    import EmailForm from "./forms/EmailForm.svelte"
+    import PasswordForm from "./forms/PasswordForm.svelte"
+    import ErrorMessage from "./ErrorMessage.svelte"
 
     const auth = getAuth();
     let email
@@ -16,7 +16,7 @@
         console.log(`trying to create user : ${email}`)
         if (password != password2) {
             console.error('Passwords are different')
-            error = 'Les mots de passes sont différents'
+            error = 'Erreur : Les mots de passes sont différents'
             return
         }
         try {
@@ -27,8 +27,9 @@
             email = ''
             password = ''
             error = null
-        } catch (error) {
-            console.error(error)
+        } catch (err) {
+            console.error(err)
+            error = err
         }
     }  
 </script>

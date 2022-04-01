@@ -1,11 +1,11 @@
 <script>
     import { db } from '../utilities/firebase'
     import { doc, getDoc } from "firebase/firestore"
-    import Login from '../components/Login.svelte'
+    import Login from '../components/forms/Login.svelte'
     import CreateAccount from '../components/CreateAccount.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions";
 
-
+/* 
  
     const test = async () => {
         const docRef = doc(db, "admin", "2022-2023")
@@ -17,7 +17,6 @@
         console.log(info)
     }
 
-    test()
 
     const functions = getFunctions()
     const sayHello = httpsCallable(functions, 'sayHello')
@@ -28,14 +27,15 @@
             console.log(result.data)
         })
         
-    }
+    } */
 
     
 
 
 </script>
 
-LOLOL
-<CreateAccount/>
+<!-- <CreateAccount/> -->
 
 <!-- <Login /> -->
+
+ACCUEIL

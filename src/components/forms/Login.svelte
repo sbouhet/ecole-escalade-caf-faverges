@@ -1,19 +1,22 @@
 <script>
     import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+    import EmailForm from "./EmailForm.svelte"
+    import PasswordForm from "./PasswordForm.svelte"
+    import ErrorMessage from "../ErrorMessage.svelte"
+
     const auth = getAuth();
-    let email
-    let password = ''
+    let email, password
     let error = null
     
-    const handleClick = (e) => {
+    const handleClick = () => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            console.log(userCredential.user)
-            email = ''
-            password = ''
+            email = undefined
+            password = undefined
             error = null
         })
         .catch((err) => {
+            error = err
             throw err
         });
     }  
@@ -21,14 +24,11 @@
 
 <form>
     <h1>Se connecter</h1>
-    email
-    <input type="email" bind:value={email}>
-    password
-    <input type="password" bind:value={password}>
+    <EmailForm bind:email={email}/>
+    <PasswordForm bind:password={password}/>
+    
     <br>
     <button on:click|preventDefault={handleClick}>se connecter</button>
+    <ErrorMessage error={error}/>
 </form>
 
-<style>
-
-</style>

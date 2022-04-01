@@ -18,7 +18,5 @@
     .default{
         color:lightgrey
     }
-    input{
-        color:black
-    }
+    
 </style>
