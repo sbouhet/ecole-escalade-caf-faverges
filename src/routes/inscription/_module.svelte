@@ -1,14 +1,19 @@
 <script>
+    import { firebaseApp } from '../../utilities/firebase' //important, do not remove
+    export let context //just to hide warning in console
     import Back from '../../components/Back.svelte'
-    import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import { getAuth, onAuthStateChanged } from "firebase/auth"
     import Logout from '../../components/Logout.svelte'
     import Login from '../../components/forms/Login.svelte'
     import VerifyEmail from '../../components/VerifyEmail.svelte'
     import {currentUser, loggedin, verified, admin} from '../../utilities/stores'
-    import CreateAccount from '../../components/CreateAccount.svelte';
+    import CreateAccount from '../../components/CreateAccount.svelte'
+
+    
+
     
     const allowDebug = true
-    let debug = true
+    let debug = false
     let userStoreUpToDate = false
     let showCreateAccount = true
     
@@ -16,11 +21,9 @@
         if (e.key==="Dead" && allowDebug) debug = !debug}
         )
         
-    console.log('module starting')
 
 
     onAuthStateChanged(getAuth(), (usr)=>{
-        console.log('authStateCHange starting')
         userStoreUpToDate = false
         $currentUser = getAuth().currentUser
       if(usr){

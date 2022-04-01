@@ -1,4 +1,5 @@
 <script>
+      export let context //just to hide warning in console
     import { db } from '../utilities/firebase'
     import { doc, getDoc } from "firebase/firestore"
     import Login from '../components/forms/Login.svelte'
