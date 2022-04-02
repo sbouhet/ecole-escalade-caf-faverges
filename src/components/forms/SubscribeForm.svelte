@@ -1,24 +1,23 @@
 <script>
     import AdultSubscriptionForm from "./AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./ChildSubscriptionForm.svelte"
+    import DayForm from "./DayForm.svelte"
 
     export let adult
-    export let day
+    export let dayUrl
 
     const handleSubmit = () => {
         console.log("ok")
     }
 </script>
 
-{#if day}
-    {day}
-{/if}
 
-<form on:submit={handleSubmit}>
+<form on:submit|preventDefault={handleSubmit}>
+    <DayForm {dayUrl}/> 
     {#if adult}
-    <AdultSubscriptionForm />
+        <AdultSubscriptionForm />
     {:else}
-    <ChildSubscriptionForm />
+        <ChildSubscriptionForm />
     {/if}
     <button>Submit</button>
 </form>

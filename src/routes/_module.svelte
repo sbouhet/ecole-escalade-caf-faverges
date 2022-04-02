@@ -1,37 +1,31 @@
 <script>
-/*     export let context //just to hide warning in console
-
-    import { db } from '../utilities/firebase'
-    import { doc, getDoc} from "firebase/firestore"
-    import { seasons } from '../utilities/seasons'
+    export let context //just to hide warning in console
     import { currentSeason } from '../utilities/stores'
-
-
-   const getCurrentSeason = async () => {
-        const docRef = doc(db, "years", seasons().current)
-        const docSnap = await getDoc(docRef)
-        if (docSnap.exists()) {
-            return docSnap.data()
-        }
-        throw "Current season not found"
-    }
+    import { getSeasonFromFirestore } from '../utilities/getSeasonFromFirestore'
+   
+ 
     
-   let season = $currentSeason || getCurrentSeason() */
-    
-    
+    let promise = getSeasonFromFirestore().then(season=>{
+        $currentSeason = season
+    }).catch(err=>{
+        throw err
+    })
 </script>
 
+{#await promise}
 
-<!-- {#await season}
-
-	<h2>attente de SEASON</h2>
-{:then}
-{season}
+{:then season}
+   <div>{$currentSeason.name}</div>
     <slot></slot>
 {:catch error}
 	<p>Something went wrong: {error.message}</p>
 {/await}
 
- -->
 
-    <slot></slot>
+
+
+<style>
+    div{
+        color: rgba(0, 0, 0, 0.2);
+    }
+</style>

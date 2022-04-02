@@ -13,14 +13,8 @@
      
     <label for="relationship">Affiliation</label>
     <select id="relationship" required>
-        {#if nb==1}
-            <option value="mother" selected>Mère</option>
-        <option value="father">Père</option>
-        {:else}
-            <option value="mother">Mère</option>
-        <option value="father" selected>Père</option>
-        {/if}
-        
+        <option value="mother" selected={nb==1}>Mère</option>
+        <option value="father" selected={nb==2}>Père</option>
         <option value="other">Autre</option>
     </select>
     
@@ -28,9 +22,9 @@
     {#if nb==1}
         <input type="email" id="email" name="email" value={user.email} disabled>
     {:else}
-        <input type="email" id="email" name="email" placeholder="Adresse email" required>
+        <input type="email" id="email" name="email" placeholder="Adresse email">
     {/if}
 
     <label for="phoneNumber">Telephone</label>
-    <input type="tel" id="tel" name="tel">
+    <input type="tel" id="tel" name="tel" required={nb==1}>
 </section>

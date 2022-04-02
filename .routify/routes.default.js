@@ -16,6 +16,20 @@ export default {
   "children": [
     {
       "meta": {},
+      "id": "_default_admin_md",
+      "name": "admin",
+      "module": () => import('../src/routes/admin.md'),
+      "file": {
+        "path": "src/routes/admin.md",
+        "dir": "src/routes",
+        "base": "admin.md",
+        "ext": ".md",
+        "name": "admin"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_index_md",
       "name": "index",
       "module": () => import('../src/routes/index.md'),

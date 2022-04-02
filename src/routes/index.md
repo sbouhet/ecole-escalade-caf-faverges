@@ -68,5 +68,6 @@ ACCUEIL
 
 <a href="/prive/inscription">Inscription</a><br>
 <a href="/prive/mon-compte">Mon compte</a><br>
-<a href="/test">test</a>
+<a href="/test">test</a><br><br>
+<a href="/admin">ADMIN</a>
 <slot></slot> <!-- just to hide error warning in console -->
