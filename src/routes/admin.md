@@ -1,5 +1,5 @@
 <script>
-    export let context //just to hide warning in console
+/*     export let context //just to hide warning in console
 
     import { db } from '../utilities/firebase'
     import { doc, updateDoc} from "firebase/firestore"
@@ -15,7 +15,7 @@
             days,
             ageGroups
         })
-    }
+    } */
 </script>
 
 <button on:click|preventDefault={test}>TEST</button>
