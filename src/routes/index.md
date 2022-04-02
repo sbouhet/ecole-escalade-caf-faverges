@@ -41,5 +41,5 @@
 
 ACCUEIL
 
-<a href="/inscription">Inscription</a>
+<a href="/prive/inscription">Inscription</a>
 <slot></slot> <!-- just to hide error warning in console -->

@@ -1,14 +1,21 @@
 <script>
     import { getAuth, signOut } from "firebase/auth"
+    import ErrorMessage from './ErrorMessage.svelte'
+    let error = null
     const auth = getAuth()
-    const handleClick = (e) =>{
-        e.preventDefault()
+    const handleClick = () =>{
         try {
             signOut(auth)
-        } catch (error) {
-            throw error
+            error = null
+        } catch (err) {
+            error = err
+            throw err
         }
     }
 </script>
 
-<button on:click={handleClick}>Se déconnecter</button>
+
+<button class='secondary' on:click|preventDefault={handleClick}>Se déconnecter</button>
+{#if error}
+    <ErrorMessage error={error}/>
+{/if}

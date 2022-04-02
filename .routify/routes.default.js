@@ -29,12 +29,12 @@ export default {
     },
     {
       "meta": {},
-      "id": "_default_inscription",
-      "name": "inscription",
-      "module": () => import('../src/routes/inscription/_module.svelte'),
+      "id": "_default_prive",
+      "name": "prive",
+      "module": () => import('../src/routes/prive/_module.svelte'),
       "file": {
-        "path": "src/routes/inscription/_module.svelte",
-        "dir": "src/routes/inscription",
+        "path": "src/routes/prive/_module.svelte",
+        "dir": "src/routes/prive",
         "base": "_module.svelte",
         "ext": ".svelte",
         "name": "_module"
@@ -42,17 +42,46 @@ export default {
       "children": [
         {
           "meta": {},
-          "id": "_default_inscription_index_md",
-          "name": "index",
-          "module": () => import('../src/routes/inscription/index.md'),
+          "id": "_default_prive_inscription_md",
+          "name": "inscription",
+          "module": () => import('../src/routes/prive/inscription.md'),
           "file": {
-            "path": "src/routes/inscription/index.md",
-            "dir": "src/routes/inscription",
-            "base": "index.md",
+            "path": "src/routes/prive/inscription.md",
+            "dir": "src/routes/prive",
+            "base": "inscription.md",
             "ext": ".md",
-            "name": "index"
+            "name": "inscription"
           },
           "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_prive_inscriptionlol",
+          "name": "inscriptionlol",
+          "module": false,
+          "file": {
+            "path": "src/routes/prive/inscriptionlol",
+            "dir": "src/routes/prive",
+            "base": "inscriptionlol",
+            "ext": "",
+            "name": "inscriptionlol"
+          },
+          "children": [
+            {
+              "meta": {},
+              "id": "_default_prive_inscriptionlol_index_md",
+              "name": "index",
+              "module": () => import('../src/routes/prive/inscriptionlol/index.md'),
+              "file": {
+                "path": "src/routes/prive/inscriptionlol/index.md",
+                "dir": "src/routes/prive/inscriptionlol",
+                "base": "index.md",
+                "ext": ".md",
+                "name": "index"
+              },
+              "children": []
+            }
+          ]
         }
       ]
     }

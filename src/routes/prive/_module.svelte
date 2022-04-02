@@ -72,6 +72,7 @@
             {:else}
                 <VerifyEmail/>
             {/if}
+            <Logout />
         {:else}
             {#if showCreateAccount}
                 <CreateAccount bind:showCreateAccount={showCreateAccount}/>
@@ -80,11 +81,11 @@
             {/if}
         {/if}
     {:else}
-        ... merci de patientez (si ca dur trop longtemps contactez Jules au 06 74 80 69 72)
+        ... merci de patientez
     {/if}
         
-        <Back />
-        <Logout />
+        
+        
     </main>
 </body>
 
