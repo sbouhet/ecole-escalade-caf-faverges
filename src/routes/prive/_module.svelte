@@ -7,15 +7,14 @@
     import Login from '../../components/forms/Login.svelte'
     import VerifyEmail from '../../components/VerifyEmail.svelte'
     import {currentUser, loggedin, verified, admin} from '../../utilities/stores'
-    import CreateAccount from '../../components/CreateAccount.svelte'
-
+    import CreateAccount from '../../components/CreateAccount.svelte' 
+    import {isActive} from '@roxi/routify'
     
-
     
     const allowDebug = true
     let debug = false
     let userStoreUpToDate = false
-    let showCreateAccount = true
+    let showCreateAccount = $isActive('/prive/inscription')
     
     document.addEventListener('keydown', e=>{
         if (e.key==="Dead" && allowDebug) debug = !debug}
@@ -44,7 +43,6 @@
       }
       
 	  })
-
 </script>
 <body>
 {#if debug}

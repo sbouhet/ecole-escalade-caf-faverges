@@ -9,7 +9,7 @@
     let password = ''
     //let password2 = ''
     let error = null
-    export let showCreateAccount = true
+    export let showCreateAccount
 
     const handelSwitch = ()=>{
         showCreateAccount = false

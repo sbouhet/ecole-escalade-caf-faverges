@@ -7,7 +7,7 @@
     const auth = getAuth();
     let email, password
     let error = null
-    export let showCreateAccount = false
+    export let showCreateAccount
 
     const handleSwitch = () =>{
         showCreateAccount = true

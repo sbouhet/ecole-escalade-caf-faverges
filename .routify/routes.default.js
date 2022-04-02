@@ -56,34 +56,33 @@ export default {
         },
         {
           "meta": {},
-          "id": "_default_prive_inscriptionlol",
-          "name": "inscriptionlol",
-          "module": false,
+          "id": "_default_prive_mon_compte_md",
+          "name": "mon-compte",
+          "module": () => import('../src/routes/prive/mon-compte.md'),
           "file": {
-            "path": "src/routes/prive/inscriptionlol",
+            "path": "src/routes/prive/mon-compte.md",
             "dir": "src/routes/prive",
-            "base": "inscriptionlol",
-            "ext": "",
-            "name": "inscriptionlol"
+            "base": "mon-compte.md",
+            "ext": ".md",
+            "name": "mon-compte"
           },
-          "children": [
-            {
-              "meta": {},
-              "id": "_default_prive_inscriptionlol_index_md",
-              "name": "index",
-              "module": () => import('../src/routes/prive/inscriptionlol/index.md'),
-              "file": {
-                "path": "src/routes/prive/inscriptionlol/index.md",
-                "dir": "src/routes/prive/inscriptionlol",
-                "base": "index.md",
-                "ext": ".md",
-                "name": "index"
-              },
-              "children": []
-            }
-          ]
+          "children": []
         }
       ]
+    },
+    {
+      "meta": {},
+      "id": "_default_test_md",
+      "name": "test",
+      "module": () => import('../src/routes/test.md'),
+      "file": {
+        "path": "src/routes/test.md",
+        "dir": "src/routes",
+        "base": "test.md",
+        "ext": ".md",
+        "name": "test"
+      },
+      "children": []
     }
   ]
 }
