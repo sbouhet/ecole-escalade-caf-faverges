@@ -18,12 +18,12 @@
 
 <section>
     <label for="day">Créneau</label>
-    <select id="day" required disabled={dayUrl} bind:value={selectedDay}>
+    <select id="day" required  bind:value={selectedDay}>
         {#each season.days as day }
         <option value={day}>{getDayName(day)}</option>  
         {/each}
     </select>
-    <small>{warningMessage}</small>
+    <small><i>{warningMessage}</i></small>
 </section>
 
 

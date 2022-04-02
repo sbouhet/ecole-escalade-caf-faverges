@@ -26,6 +26,7 @@
 
 <style>
     div{
+        position: absolute;
         color: rgba(0, 0, 0, 0.2);
     }
 </style>
