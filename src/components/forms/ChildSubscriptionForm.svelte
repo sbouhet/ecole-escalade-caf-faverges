@@ -3,7 +3,6 @@
     import ChildInfo from './ChildInfo.svelte'
 </script>
 
-<h3>Formulaire enfant</h3>
 
 <ChildInfo />
 <ParentInfo nb=1 />

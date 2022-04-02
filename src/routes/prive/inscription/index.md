@@ -8,10 +8,10 @@
 
 <article>
     <h1>Inscription</h1>
-    <div>
+    <section>
         <button class:outline={adult===true || adult===null} on:click|preventDefault={()=>adult=false}>J'inscris mon enfant</button>
         <button class:outline={!adult} on:click|preventDefault={()=>adult=true}>Je m'inscris</button>
-    </div>
+    </section>
     
     {#if adult !== null}
     <SubscribeForm {adult} {day}/>

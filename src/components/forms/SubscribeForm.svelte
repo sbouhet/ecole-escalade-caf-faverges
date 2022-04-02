@@ -4,15 +4,21 @@
 
     export let adult
     export let day
+
+    const handleSubmit = () => {
+        console.log("ok")
+    }
 </script>
 
 {#if day}
     {day}
 {/if}
 
-
-{#if adult}
-<AdultSubscriptionForm />
-{:else}
-<ChildSubscriptionForm />
-{/if}
+<form on:submit={handleSubmit}>
+    {#if adult}
+    <AdultSubscriptionForm />
+    {:else}
+    <ChildSubscriptionForm />
+    {/if}
+    <button>Submit</button>
+</form>

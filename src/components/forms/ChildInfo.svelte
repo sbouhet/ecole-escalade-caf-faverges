@@ -4,7 +4,8 @@
 
 <section>
     <h5>Enfant</h5>
-    <NameForm />
+    
+    <NameForm required={true}/>
     
     <div>
         <label for="dateOfBirth">Date de naissance</label>

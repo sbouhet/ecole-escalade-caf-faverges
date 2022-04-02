@@ -1,11 +1,10 @@
 <script>
-    import { firebaseApp } from '../utilities/firebase' //important, do not remove
-    export let context //just to hide warning in console
+/*     export let context //just to hide warning in console
 
-    import { season } from '../utilities/stores'
     import { db } from '../utilities/firebase'
-    import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore"
-    import {seasons} from '../utilities/seasons'
+    import { doc, getDoc} from "firebase/firestore"
+    import { seasons } from '../utilities/seasons'
+    import { currentSeason } from '../utilities/stores'
 
 
    const getCurrentSeason = async () => {
@@ -17,18 +16,22 @@
         throw "Current season not found"
     }
     
-   let currentSeason = $season || getCurrentSeason()
+   let season = $currentSeason || getCurrentSeason() */
     
     
 </script>
 
 
-{#await currentSeason}
+<!-- {#await season}
+
 	<h2>attente de SEASON</h2>
 {:then}
+{season}
     <slot></slot>
 {:catch error}
 	<p>Something went wrong: {error.message}</p>
 {/await}
 
+ -->
 
+    <slot></slot>

@@ -7,6 +7,31 @@
     import { getFunctions, httpsCallable } from "firebase/functions";
 
 /* 
+
+ const test = async ()=>{
+        const students = collection(db, "students")
+        const q = query(students, where("emails", "array-contains", "friarobaz@gmail.com"))
+        
+        try {
+            const querySnapshot = await getDocs(q)
+            let result = []
+            querySnapshot.forEach((doc) => {
+                result.push(doc.data())
+            })
+            console.log('Success')
+            console.log(result[0])
+            return result[0]
+            
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+
+
+
+
  
     const test = async () => {
         const docRef = doc(db, "admin", "2022-2023")

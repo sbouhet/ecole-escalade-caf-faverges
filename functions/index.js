@@ -56,7 +56,7 @@ exports.newFirestoreUser = functions.firestore
 
     return db
       .doc(`years/${seasonString}`)
-      .update({ [`pupils.${user.id}`]: { id: user.id, email: user.email } })
+      .update({ [`students.${user.id}`]: { id: user.id, email: user.email } })
   })
 
 exports.updateFirestoreUser = functions.firestore
@@ -68,7 +68,7 @@ exports.updateFirestoreUser = functions.firestore
 
     return db
       .doc(`years/${seasonString}`)
-      .update({ [`pupils.${user.id}`]: { id: user.id, email: user.email } })
+      .update({ [`students.${user.id}`]: { id: user.id, email: user.email } })
   })
 
 exports.delFirestoreUser = functions.firestore
@@ -83,16 +83,13 @@ exports.delFirestoreUser = functions.firestore
       .doc(`years/${seasonString}`)
       .get()
       .then((doc) => {
-        let pupils = doc.data().pupils
-        delete pupils[user.id]
-        return db.doc(`years/${seasonString}`).update({ pupils: pupils })
+        let students = doc.data().students
+        delete students[user.id]
+        return db.doc(`years/${seasonString}`).update({ students: students })
       })
       .catch((err) => {
         console.log(err)
       })
-    //return db.doc(`years/${seasonString}`).update({ [`PUPILS.${user.id}`]: null })
-
-    // perform desired operations ...
   })
 
 /* exports.onCreateUser = functions.firestore
