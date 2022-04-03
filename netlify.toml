@@ -4,7 +4,7 @@
   port = 8888 
 
 [[redirects]]
-  from = "/prive/inscription"
-  to = "/prive/inscription?"
-  status = 301
+  from = "/"
+  to = "/test"
+  status = 404
   force = false
