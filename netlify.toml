@@ -5,6 +5,6 @@
 
 [[redirects]]
   from = "/prive/inscription"
-  to = "/prive/inscription"
+  to = "/prive/inscription?"
   status = 301
   force = false
