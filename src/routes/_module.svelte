@@ -1,7 +1,7 @@
 <script>
     import { firebaseApp } from '../utilities/firebase' //important, do not remove
     export let context //just to hide warning in console
-    import { currentSeason, currentDay} from '../utilities/stores'
+    import { currentSeason, currentDay, subscription} from '../utilities/stores'
     import { getSeasonFromFirestore } from '../utilities/getSeasonFromFirestore'
    
  
@@ -12,6 +12,11 @@
         throw err
     })
     $:day = $currentDay
+
+    $:console.log($subscription)
+    
+
+
 </script>
 
 {#await promise}
@@ -20,10 +25,9 @@
    <div>{$currentSeason.name}</div>
    <div>
        Day:
-       {#if day}
-       {day.weekday}
-   {/if}
-
+        {#if day}
+             {day.weekday}
+        {/if}
    </div>
    
     <slot></slot>

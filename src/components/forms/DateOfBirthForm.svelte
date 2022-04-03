@@ -1,15 +1,14 @@
 <script>
     import {getAge, getMinYear} from '../../utilities/ageGroups'
-    import { currentDay, currentSeason } from '../../utilities/stores'
+    import { currentDay, currentSeason, subscription } from '../../utilities/stores'
    
-    let ageGroup
+    
+    let ageGroup, dateOfBirth, age, status
     $: if ($currentDay) {
         ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
     }
 
-    let dateOfBirth
-    let age
-    let status
+    $:$subscription.ageChecksOut = status==='ok'
     $: if (dateOfBirth) {
         let year = parseInt(dateOfBirth.split('-')[0])
         if (year>1900) {
