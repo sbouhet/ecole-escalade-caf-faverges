@@ -9,7 +9,7 @@
    
  
     const allowDebug = true
-    let debug = true
+    let debug = false
     document.addEventListener('keydown', e=>{
         if (e.key==="Dead" && allowDebug) debug = !debug}
     )

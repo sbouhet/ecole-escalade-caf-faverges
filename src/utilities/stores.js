@@ -10,5 +10,5 @@ export const subscription = writable({
   lastName: null,
   dateOfBirth: null,
   ageChecksOut: null,
-  parents: [],
+  parents: [{}],
 })

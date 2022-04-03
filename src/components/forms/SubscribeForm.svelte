@@ -2,7 +2,7 @@
     import AdultSubscriptionForm from "./AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./ChildSubscriptionForm.svelte"
     import DayForm from "./DayForm.svelte"
-    import { currentSeason, currentDay } from '$utils/stores'
+    import { currentSeason, currentDay, subscription } from '$utils/stores'
     import { isDayForAdults } from '$utils/days'
 
     let adult, lockedDay
@@ -10,11 +10,16 @@
     if($currentDay) lockedDay = $currentDay
     $:if($currentDay) adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
     
-
+    export let submitted
   
 
     const handleSubmit = () => {
-        console.log("ok")
+        if (!$subscription.ageChecksOut) {
+            console.error('age does not match day')
+            alert("L'age de votre enfant ne correspond pas au groupe choisi")
+            return
+        }
+        submitted = true
     }
 </script>
 

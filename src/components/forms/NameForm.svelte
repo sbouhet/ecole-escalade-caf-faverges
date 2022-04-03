@@ -3,12 +3,12 @@
     export let target, nb
     import { subscription } from '$utils/stores'
 
-    $:if (target==='student' && firstName && lastName) {
-        $subscription.firstName = firstName.toLowerCase()
-        $subscription.lastName = lastName.toLowerCase()
-    }else if(target==='parent' && firstName && lastName){
-        $subscription.parents[nb-1].firstName = firstName.toLowerCase()
-        $subscription.parents[nb-1].lastName = lastName.toLowerCase()
+    $:if (target==='student') {
+        if (firstName) $subscription.firstName = firstName.toLowerCase()
+        if (lastName) $subscription.lastName = lastName.toLowerCase()
+    }else if(target==='parent'){
+        if (firstName) $subscription.parents[nb-1].firstName = firstName.toLowerCase()
+        if (lastName) $subscription.parents[nb-1].lastName = lastName.toLowerCase()
     }
     let firstName, lastName
 </script>
