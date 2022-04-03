@@ -100,3 +100,9 @@ export const getDayFromUrl = (url, days) => {
 export const getDayFromName = (name, days) => {
   return days.filter((day) => getDayName(day) === name)[0]
 }
+
+export const isDayForAdults = (day, ageGroups) => {
+  if (!day) throw "No day to check"
+  const ageGroup = ageGroups[day.ageGroupIndex]
+  return ageGroup.min === 18
+}

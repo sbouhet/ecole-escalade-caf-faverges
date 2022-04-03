@@ -2,7 +2,11 @@
     import {getAge, getMinYear} from '../../utilities/ageGroups'
     import { currentDay, currentSeason } from '../../utilities/stores'
    
-    $: ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
+    let ageGroup
+    $: if ($currentDay) {
+        ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
+    }
+
     let dateOfBirth
     let age
     let status

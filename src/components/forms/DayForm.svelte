@@ -2,24 +2,25 @@
     import {getDayName, getDayUrl, getWarningMessage, getDayFromUrl, getMinYear} from '../../utilities/days'
     import { currentSeason, currentDay } from '../../utilities/stores'
 
-    export let dayUrl
-    let selectedDay
-    let season = $currentSeason
-    let warningMessage
+    export let lockedDay
+    let selectedDay, warningMessage
+    $:season = $currentSeason
+    $:day = $currentDay
+
     $:if (selectedDay) {
         warningMessage = getWarningMessage(getMinYear(selectedDay, season.ageGroups))
         $currentDay = selectedDay
     }
 
-    if (dayUrl) {
-        selectedDay = getDayFromUrl(dayUrl, season.days)
+    if (lockedDay) {
+        selectedDay = lockedDay
     }
    
 </script>
 
 <section>
     <label for="day">Créneau</label>
-    <select id="day" required disabled={dayUrl} bind:value={selectedDay}>
+    <select id="day" required disabled={lockedDay} bind:value={selectedDay}>
         {#each season.days as day }
         <option value={day}>{getDayName(day)}</option>  
         {/each}

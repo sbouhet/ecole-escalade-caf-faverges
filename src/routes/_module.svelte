@@ -1,7 +1,7 @@
 <script>
     import { firebaseApp } from '../utilities/firebase' //important, do not remove
     export let context //just to hide warning in console
-    import { currentSeason } from '../utilities/stores'
+    import { currentSeason, currentDay} from '../utilities/stores'
     import { getSeasonFromFirestore } from '../utilities/getSeasonFromFirestore'
    
  
@@ -11,12 +11,21 @@
     }).catch(err=>{
         throw err
     })
+    $:day = $currentDay
 </script>
 
 {#await promise}
 
 {:then season}
    <div>{$currentSeason.name}</div>
+   <div>
+       Day:
+       {#if day}
+       {day.weekday}
+   {/if}
+
+   </div>
+   
     <slot></slot>
 {:catch error}
 	<p>Something went wrong: {error.message}</p>
@@ -27,7 +36,7 @@
 
 <style>
     div{
-        position: absolute;
+        
         color: rgba(0, 0, 0, 0.2);
     }
 </style>

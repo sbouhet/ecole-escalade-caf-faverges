@@ -2,18 +2,24 @@
     import AdultSubscriptionForm from "./AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./ChildSubscriptionForm.svelte"
     import DayForm from "./DayForm.svelte"
+    import { currentSeason, currentDay } from '../../utilities/stores'
+    import { isDayForAdults } from '../../utilities/days'
 
-    export let adult
-    export let dayUrl
+    let adult, lockedDay
+
+    if($currentDay) lockedDay = $currentDay
+    $:if($currentDay) adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
+    
+
+  
 
     const handleSubmit = () => {
         console.log("ok")
     }
 </script>
 
-
 <form on:submit|preventDefault={handleSubmit}>
-    <DayForm {dayUrl}/> 
+    <DayForm {lockedDay}/> 
     {#if adult}
         <AdultSubscriptionForm />
     {:else}
