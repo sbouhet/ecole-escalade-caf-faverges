@@ -2,96 +2,27 @@
     import { firebaseApp } from '$utils/firebase' //important, do not remove
     export let context //just to hide warning in console
     import Back from '$components/Back.svelte'
-    import { getAuth, onAuthStateChanged } from "firebase/auth"
     import Logout from '$components/Logout.svelte'
     import Login from '$components/forms/Login.svelte'
     import VerifyEmail from '$components/VerifyEmail.svelte'
-    import {currentUser, loggedin, verified, admin} from '$utils/stores'
+    import {loggedin, verified} from '$utils/stores'
     import CreateAccount from '$components/CreateAccount.svelte' 
     import {isActive} from '@roxi/routify'
     
-    
-    const allowDebug = true
-    let debug = false
-    let userStoreUpToDate = false
     let showCreateAccount = $isActive('/prive/inscription')
-    
-    document.addEventListener('keydown', e=>{
-        if (e.key==="Dead" && allowDebug) debug = !debug}
-        )
-        
-
-
-    onAuthStateChanged(getAuth(), (usr)=>{
-        userStoreUpToDate = false
-        $currentUser = getAuth().currentUser
-      if(usr){
-        //$currentUser = usr
-        $loggedin = true
-        $verified = usr.emailVerified
-        usr.getIdTokenResult().then(res => {
-          $admin = !!res.claims.admin
-          userStoreUpToDate = true
-        })
-      }else{
-        $loggedin = false
-        //$currentUser = null
-        $admin = false
-        $verified = false
-        userStoreUpToDate = true
-        //refresh ??
-      }
-      
-	  })
 </script>
-<body>
-{#if debug}
-    <div class="debug">
-        <div>UserStoreUpToDate: {userStoreUpToDate}</div>
-        <div>Loggedin: {$loggedin}</div>
-        <div>Verified: {$verified}</div>
-        <div>Admin: {$admin}</div>
-        <div>User: {$currentUser}</div>
-        {#if $loggedin}
-            <div>Email: {$currentUser.email}</div>
-        <div>Id: {$currentUser.uid}</div>
-        {/if}
-    </div>
-{/if}
 
-    
-    
-    <main class="container">
-
-    {#if userStoreUpToDate}
-        {#if $loggedin}
-            {#if $verified}
-                <slot></slot>
-            {:else}
-                <VerifyEmail/>
-            {/if}
-            <Logout />
-        {:else}
-            {#if showCreateAccount}
-                <CreateAccount bind:showCreateAccount={showCreateAccount}/>
-            {:else}
-                <Login bind:showCreateAccount={showCreateAccount}/>
-            {/if}
-        {/if}
+{#if $loggedin}
+    {#if $verified}
+        <slot></slot>
     {:else}
-        ... merci de patientez
+        <VerifyEmail/>
     {/if}
-        
-        
-        
-    </main>
-</body>
-
-<style>
-    .debug{
-        position: absolute;
-        color: white;
-        right: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-    }
-</style>
+    <Logout />
+{:else}
+    {#if showCreateAccount}
+        <CreateAccount bind:showCreateAccount={showCreateAccount}/>
+    {:else}
+        <Login bind:showCreateAccount={showCreateAccount}/>
+    {/if}
+{/if}

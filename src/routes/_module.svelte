@@ -1,60 +1,75 @@
 <script>
     import { firebaseApp } from '$utils/firebase' //important, do not remove
     export let context //just to hide warning in console
+    import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { currentSeason, currentDay, subscription} from '$utils/stores'
     import { getSeasonFromFirestore } from '$utils/getSeasonFromFirestore'
+    import {currentUser, loggedin, verified, admin} from '$utils/stores'
+    import Debug from '$components/Debug.svelte'
    
  
+    const allowDebug = true
+    let debug = true
+    document.addEventListener('keydown', e=>{
+        if (e.key==="Dead" && allowDebug) debug = !debug}
+    )
     
+    let userStoreUpToDate = false
+
+    onAuthStateChanged(getAuth(), (usr)=>{
+        userStoreUpToDate = false
+        $currentUser = getAuth().currentUser
+      if(usr){
+        $loggedin = true
+        $verified = usr.emailVerified
+        usr.getIdTokenResult().then(res => {
+          $admin = !!res.claims.admin
+          userStoreUpToDate = true
+        })
+      }else{
+        $loggedin = false
+        $currentUser = null
+        $admin = false
+        $verified = false
+        userStoreUpToDate = true
+        //refresh ??
+      }
+      
+	  })
+
+
     let promise = getSeasonFromFirestore().then(season=>{
         $currentSeason = season
     }).catch(err=>{
         throw err
     })
-    $:day = $currentDay
-
-    let proprieties
-    $:if ($subscription) {
-        proprieties = []
-        for (const prop in $subscription) {
-            proprieties.push(prop)
-        }
-    }
-    
-    
-    
-
-
 </script>
 
-{#await promise}
-
-{:then season}
-   <div>{$currentSeason.name}</div>
-   <div>
-       Day:
-        {#if day}
-             {day.weekday}
-        {/if}
-   </div>
-   <div>
-       Subscription :<br>
-       {#each proprieties as prop}
-            {prop}: {$subscription[prop]}<br>
-       {/each}
-   </div>
-   
-    <slot></slot>
-{:catch error}
-	<p>Something went wrong: {error.message}</p>
-{/await}
-
-
-
-
-<style>
-    div{
+<body>
+    {#if debug}
+                <Debug />
+    {/if}
+    <main class='container'>
+        {#await promise}
+            waiting for season from firestore
+        {:then season}
+            
+            {#if userStoreUpToDate}
+                <slot></slot>
+            {:else} 
+                Waiting for user store update
+            {/if}
         
-        color: rgba(0, 0, 0, 0.2);
-    }
-</style>
+        {:catch error}
+            <p>Something went wrong: {error.message}</p>
+        {/await}
+    </main>
+</body>
+
+
+
+
+
+
+
+
