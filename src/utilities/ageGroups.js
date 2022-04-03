@@ -6,16 +6,6 @@
   { min: 18 },
 ] */
 
-export const getAdultIndexes = (ageGroups) => {
-  return ageGroups.filter((group) => group.min >= 18)
-}
-
-export const getAdultDays = (ageGroups) => {
-  const adultIndexes = getAdultIndexes(ageGroups)
-  console.log(adultIndexes)
-  return adultIndexes.map((x) => ageGroups[x])
-}
-
 export const getAgeGroupName = (ageGroup) => {
   if (ageGroup.min === 18) return "Adultes"
   return `${ageGroup.min}‑${ageGroup.max} ans`
