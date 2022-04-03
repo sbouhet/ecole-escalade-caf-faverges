@@ -13,14 +13,12 @@
     })
     $:day = $currentDay
 
-    $:console.log($subscription)
     let proprieties
     $:if ($subscription) {
         proprieties = []
         for (const prop in $subscription) {
             proprieties.push(prop)
         }
-        console.log(proprieties)
     }
     
     
