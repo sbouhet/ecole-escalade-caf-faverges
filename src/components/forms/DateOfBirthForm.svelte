@@ -24,6 +24,9 @@
                 }
             }
         }
+        
+    $subscription.dateOfBirth = dateOfBirth
+        
     }
 </script>
 

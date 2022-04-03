@@ -5,4 +5,10 @@ export const loggedin = writable(false)
 export const verified = writable(false)
 export const admin = writable(false)
 export const currentDay = writable(null)
-export const subscription = writable({})
+export const subscription = writable({
+  firstName: null,
+  lastName: null,
+  dateOfBirth: null,
+  ageChecksOut: null,
+  parents: [],
+})

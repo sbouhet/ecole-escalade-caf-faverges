@@ -4,6 +4,5 @@
     import { subscription } from '$utils/stores'
 
 
-    $subscription.test = true
     
 </script>

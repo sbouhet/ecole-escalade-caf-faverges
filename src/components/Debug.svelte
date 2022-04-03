@@ -10,6 +10,7 @@
             proprieties.push(prop)
         }
     }
+    $:console.log($subscription)
 </script>
 
 <div class="debug">
@@ -37,10 +38,11 @@
         Subscription :
         <ul>
             {#each proprieties as prop}
-            <li>
-                {prop}: {$subscription[prop]}
-            </li>
-                
+                {#if $subscription[prop] !== null}
+                    <li>
+                        {prop}: {$subscription[prop]}
+                    </li>
+                {/if}
             {/each}
         </ul>
     </div>
@@ -50,11 +52,11 @@
     .debug{
         position: sticky;
         top: 0;
-        color: white;
+        color: black;
         right: 0;
-        background-color: rgba(0, 0, 0, 0.6);
+        /* background-color: rgba(0, 0, 0, 0.6); */
     }
     ul, li{
-        color:white
+        color:black
     }
 </style>
