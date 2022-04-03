@@ -1,8 +1,8 @@
 <script>
-    import { firebaseApp } from '../utilities/firebase' //important, do not remove
+    import { firebaseApp } from '$utils/firebase' //important, do not remove
     export let context //just to hide warning in console
-    import { currentSeason, currentDay, subscription} from '../utilities/stores'
-    import { getSeasonFromFirestore } from '../utilities/getSeasonFromFirestore'
+    import { currentSeason, currentDay, subscription} from '$utils/stores'
+    import { getSeasonFromFirestore } from '$utils/getSeasonFromFirestore'
    
  
     
@@ -14,6 +14,16 @@
     $:day = $currentDay
 
     $:console.log($subscription)
+    let proprieties
+    $:if ($subscription) {
+        proprieties = []
+        for (const prop in $subscription) {
+            proprieties.push(prop)
+        }
+        console.log(proprieties)
+    }
+    
+    
     
 
 
@@ -28,6 +38,12 @@
         {#if day}
              {day.weekday}
         {/if}
+   </div>
+   <div>
+       Subscription :<br>
+       {#each proprieties as prop}
+            {prop}: {$subscription[prop]}<br>
+       {/each}
    </div>
    
     <slot></slot>

@@ -1,5 +1,5 @@
 <script>
-    import {currentUser} from '../../utilities/stores'
+    import {currentUser} from '$utils/stores'
     import NameForm from './NameForm.svelte'
     const user = $currentUser
     export let nb

@@ -2,8 +2,8 @@
     import AdultSubscriptionForm from "./AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./ChildSubscriptionForm.svelte"
     import DayForm from "./DayForm.svelte"
-    import { currentSeason, currentDay } from '../../utilities/stores'
-    import { isDayForAdults } from '../../utilities/days'
+    import { currentSeason, currentDay } from '$utils/stores'
+    import { isDayForAdults } from '$utils/days'
 
     let adult, lockedDay
 

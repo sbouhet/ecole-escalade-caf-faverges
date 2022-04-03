@@ -1,6 +1,11 @@
 {
   "exclude": ["node_modules", "dist", "functions"],
   "compilerOptions": {
-    "checkJs": true
+    "checkJs": true,
+    "baseUrl": "src",
+    "paths": {
+      "$utils/*": ["utilities/*"],
+      "$components/*": ["components/*"]
+    }
   }
 }

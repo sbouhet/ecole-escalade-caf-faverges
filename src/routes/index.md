@@ -1,9 +1,9 @@
 <script>
       export let context //just to hide warning in console
-    import { db } from '../utilities/firebase'
+    import { db } from '$utils/firebase'
     import { doc, getDoc } from "firebase/firestore"
-    import Login from '../components/forms/Login.svelte'
-    import CreateAccount from '../components/CreateAccount.svelte'
+    import Login from '$components/forms/Login.svelte'
+    import CreateAccount from '$components/CreateAccount.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions";
 
 /* 

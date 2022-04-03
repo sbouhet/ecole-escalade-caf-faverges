@@ -1,10 +1,9 @@
 <script>
     import { isActive } from '@roxi/routify'
-     import { url } from '@roxi/routify'
-    export let context
-    export let node
-    export let nested = 0
+    import { url } from '@roxi/routify'
+    import { subscription } from '$utils/stores'
 
-    console.log($url)
+
+    $subscription.test = true
     
 </script>

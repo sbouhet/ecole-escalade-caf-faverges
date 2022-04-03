@@ -1,7 +1,7 @@
 <script>
         export let context //just to hide warning in console
 
-    import {currentUser} from '../../utilities/stores'
+    import {currentUser} from '$utils/stores'
     const user = $currentUser
 </script>
 

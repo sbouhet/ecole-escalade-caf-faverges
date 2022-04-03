@@ -1,6 +1,6 @@
 <script>
     import { sendEmailVerification } from "firebase/auth"
-    import {currentUser} from '../utilities/stores'
+    import {currentUser} from '$utils/stores'
     import ErrorMessage from './ErrorMessage.svelte'
 
     let error = null

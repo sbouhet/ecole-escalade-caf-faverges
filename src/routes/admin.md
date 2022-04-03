@@ -1,10 +1,10 @@
 <script>
 /*     export let context //just to hide warning in console
 
-    import { db } from '../utilities/firebase'
+    import { db } from '$utils/firebase'
     import { doc, updateDoc} from "firebase/firestore"
-    import {days} from '../utilities/days'
-    import {ageGroups} from '../utilities/ageGroups'
+    import {days} from '$utils/days'
+    import {ageGroups} from '$utils/ageGroups'
 
 
 

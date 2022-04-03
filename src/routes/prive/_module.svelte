@@ -1,13 +1,13 @@
 <script>
-    import { firebaseApp } from '../../utilities/firebase' //important, do not remove
+    import { firebaseApp } from '$utils/firebase' //important, do not remove
     export let context //just to hide warning in console
-    import Back from '../../components/Back.svelte'
+    import Back from '$components/Back.svelte'
     import { getAuth, onAuthStateChanged } from "firebase/auth"
-    import Logout from '../../components/Logout.svelte'
-    import Login from '../../components/forms/Login.svelte'
-    import VerifyEmail from '../../components/VerifyEmail.svelte'
-    import {currentUser, loggedin, verified, admin} from '../../utilities/stores'
-    import CreateAccount from '../../components/CreateAccount.svelte' 
+    import Logout from '$components/Logout.svelte'
+    import Login from '$components/forms/Login.svelte'
+    import VerifyEmail from '$components/VerifyEmail.svelte'
+    import {currentUser, loggedin, verified, admin} from '$utils/stores'
+    import CreateAccount from '$components/CreateAccount.svelte' 
     import {isActive} from '@roxi/routify'
     
     

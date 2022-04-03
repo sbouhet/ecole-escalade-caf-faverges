@@ -1,6 +1,6 @@
 <script>
-    import {getDayName, getDayUrl, getWarningMessage, getDayFromUrl, getMinYear} from '../../utilities/days'
-    import { currentSeason, currentDay } from '../../utilities/stores'
+    import {getDayName, getDayUrl, getWarningMessage, getDayFromUrl, getMinYear} from '$utils/days'
+    import { currentSeason, currentDay } from '$utils/stores'
 
     export let lockedDay
     let selectedDay, warningMessage

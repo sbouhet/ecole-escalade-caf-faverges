@@ -1,6 +1,6 @@
 <script>
-    import {getAge, getMinYear} from '../../utilities/ageGroups'
-    import { currentDay, currentSeason, subscription } from '../../utilities/stores'
+    import {getAge, getMinYear} from '$utils/ageGroups'
+    import { currentDay, currentSeason, subscription } from '$utils/stores'
    
     
     let ageGroup, dateOfBirth, age, status
