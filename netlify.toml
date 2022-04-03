@@ -10,7 +10,7 @@
   force = false
 
 [[redirects]]
-  from = "*"
-  to = "/"
+  from = "/*"
+  to = "/404.html"
   status = 404
   force = false
