@@ -4,7 +4,7 @@
   port = 8888 
 
 [[redirects]]
-  from = "/"
-  to = "/test"
+  from = "/*"
+  to = "/"
   status = 404
   force = false
