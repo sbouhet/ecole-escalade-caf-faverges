@@ -9,6 +9,7 @@
     }
 
     $:$subscription.ageChecksOut = status==='ok'
+    
     $: if (dateOfBirth) {
         let year = parseInt(dateOfBirth.split('-')[0])
         if (year>1900) {
