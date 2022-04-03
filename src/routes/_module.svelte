@@ -1,4 +1,5 @@
 <script>
+    import { firebaseApp } from '../utilities/firebase' //important, do not remove
     export let context //just to hide warning in console
     import { currentSeason } from '../utilities/stores'
     import { getSeasonFromFirestore } from '../utilities/getSeasonFromFirestore'
