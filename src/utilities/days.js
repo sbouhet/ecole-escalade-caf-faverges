@@ -77,16 +77,26 @@ const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export const getWarningMessage = (day, ageGroups) => {
+export const getWarningMessage = (minYear) => {
   let currentYear = dayjs().year()
-  const ageGroup = ageGroups[day.ageGroupIndex]
-  const minAge = ageGroup.min
+  const minAge = currentYear - minYear
   if (minAge >= 18) return "Ce créneaux est reservé aux adultes."
   return `Ce créneau est reservé aux enfants nés en ${
     currentYear - minAge
   } ou avant.`
 }
 
+export const getMinYear = (day, ageGroups) => {
+  let currentYear = dayjs().year()
+  const ageGroup = ageGroups[day.ageGroupIndex]
+  const minAge = ageGroup.min
+  return currentYear - minAge
+}
+
 export const getDayFromUrl = (url, days) => {
   return days.filter((day) => getDayUrl(day) === url)[0]
+}
+
+export const getDayFromName = (name, days) => {
+  return days.filter((day) => getDayName(day) === name)[0]
 }

@@ -1,14 +1,14 @@
 <script>
     import NameForm from './NameForm.svelte'
+    import DateOfBirthForm from './DateOfBirthForm.svelte'
 </script>
 
 <section>
     <h5>Enfant</h5>
     
     <NameForm required={true}/>
+    <DateOfBirthForm />
     
-    <div>
-        <label for="dateOfBirth">Date de naissance</label>
-        <input type="date" required>
-    </div>
+
 </section>
+

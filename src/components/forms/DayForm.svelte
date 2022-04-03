@@ -1,13 +1,14 @@
 <script>
-    import {getDayName, getDayUrl, getWarningMessage, getDayFromUrl} from '../../utilities/days'
-    import { currentSeason } from '../../utilities/stores'
+    import {getDayName, getDayUrl, getWarningMessage, getDayFromUrl, getMinYear} from '../../utilities/days'
+    import { currentSeason, currentDay } from '../../utilities/stores'
 
     export let dayUrl
     let selectedDay
     let season = $currentSeason
     let warningMessage
     $:if (selectedDay) {
-        warningMessage = getWarningMessage(selectedDay, season.ageGroups)
+        warningMessage = getWarningMessage(getMinYear(selectedDay, season.ageGroups))
+        $currentDay = selectedDay
     }
 
     if (dayUrl) {
