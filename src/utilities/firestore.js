@@ -31,7 +31,7 @@ export const createNewStudent = async (
 ) => {
   console.log(`Trying to subscribe ${student.firstName}`)
   student.years[season] = getDayUrl(day)
-  student.status = "Pré‑inscrit"
+  student.status = "Pré‑inscrit(e)"
   const docRef = await addDoc(collection(db, "students"), student)
   await updateDoc(docRef, { id: docRef.id })
   console.log("Document written with ID: ", docRef.id)
