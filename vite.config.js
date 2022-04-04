@@ -25,7 +25,7 @@ export default defineConfig({
       compilerOptions: {
         dev: !production,
       },
-      extensions: [".md", ".svelte", ".js"],
+      extensions: [".md", ".svelte"],
       preprocess: [mdsvex({ extension: "md" })],
     }),
   ],

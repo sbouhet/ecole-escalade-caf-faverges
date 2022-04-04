@@ -27,11 +27,16 @@ import {
         })
         console.log(`Found ${students.length} students for this query`)
     })
+    let table
+    $:if(table){
+        new Tablesort(table)
+    }
 </script>
+
 
 {#if students.length > 0}
     <figure>
-        <table role="grid" class='sortable'>
+        <table role="grid" bind:this={table}>
             <thead>
                 <tr>
                     {#if admin}<th scope="col">Del</th>{/if}
@@ -73,4 +78,5 @@ import {
         color:red;
         cursor: pointer;
     }
+     th{cursor:pointer; font-weight: bold;}
 </style>
