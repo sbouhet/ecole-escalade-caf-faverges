@@ -3,9 +3,9 @@
 </script>
 
 {#if value}
-    <div class="true">OK</div>
+    <div class="true">☑</div>
 {:else}
-    <div class="false">Non</div>
+    <div class="false">×</div>
 {/if}
 
 <style>
@@ -15,5 +15,8 @@
 
     .false{
         color: red;
+    }
+    div{
+        font-size:large;
     }
 </style>

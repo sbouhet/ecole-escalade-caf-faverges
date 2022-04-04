@@ -37,15 +37,15 @@
                 {#each students as student}
                 <tr>
                     {#if admin}
-                        <td class="del" on:click={()=>deleteStudent(student.id)}>X</td>
+                        <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
                     <!-- <td>{student.id}</td> -->
                     <td>{capitalize(student.firstName)}</td>
                     <td>{student.lastName.toUpperCase()}</td>
                     <td>{#if student.status==='Pré‑inscrit(e)'}
-                        ⌛
+                        <span data-tooltip="Pré‑inscrit(e)">⌛</span>
                     {:else if student.status==='Inscrit(e)'}
-                        ✓
+                        <span data-tooltip="Inscrit(e)">✅</span>
                     {:else}
                         {student.status}
                     {/if}
@@ -69,4 +69,8 @@
         cursor: pointer;
     }
      th{cursor:pointer; font-weight: bold;}
+
+     span{
+         color: rgb(255, 255, 255);
+     }
 </style>
