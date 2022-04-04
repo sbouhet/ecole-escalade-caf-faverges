@@ -4,7 +4,9 @@
     import { doc, getDoc } from "firebase/firestore"
     import Login from '$components/forms/Login.svelte'
     import CreateAccount from '$components/CreateAccount.svelte'
-    import { getFunctions, httpsCallable } from "firebase/functions";
+    import { getFunctions, httpsCallable } from "firebase/functions"
+    import { subscription } from '$utils/stores'
+    import { subscriptionReset } from '$utils/subscriptionReset';
 
 /* 
 
@@ -66,7 +68,7 @@
 
 ACCUEIL
 
-<a href="/prive/inscription">Inscription</a><br>
+<a href="/prive/inscription" on:click={()=>$subscription = subscriptionReset()}>Inscription</a><br>
 <a href="/prive/mon-compte">Mon compte</a><br>
 <a href="/test">test</a><br><br>
 <a href="/admin">ADMIN</a>

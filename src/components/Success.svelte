@@ -2,7 +2,6 @@
     import { subscription, currentDay, currentSeason } from '$utils/stores'
     import { getDayName } from '$utils/days'
     import { printName } from '$utils/printName'
-    import { goto } from '@roxi/routify'
     let open = true
 
     const subscribeAnother = ()=>{
