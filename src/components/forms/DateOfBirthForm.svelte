@@ -8,7 +8,7 @@
         ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
     }
 
-    $:$subscription.ageChecksOut = status==='ok'
+    $: $subscription.ageChecksOut = status
     
     $: if (dateOfBirth) {
         let year = parseInt(dateOfBirth.split('-')[0])
@@ -16,9 +16,9 @@
             age = getAge(dateOfBirth, false)
             if (ageGroup) {
                 if (year > getMinYear(ageGroup)) {
-                    status = 'too young'
+                    status = 'tooYoung'
                 }else if(age > ageGroup.max) {
-                    status = 'too old'
+                    status = 'tooOld'
                 }else{
                     status = 'ok'
                 }
@@ -42,12 +42,12 @@
                 <span>✓</span>
                 <small>Votre enfant a {age} ans, il peut s'inscrire sur ce créneau.</small>
             </div>
-        {:else if status === 'too young'}
+        {:else if status === 'tooYoung'}
             <div class="red">
                 <span>✕</span>
                 <small>Votre enfant est né après {getMinYear(ageGroup)}, il est trop jeune pour ce groupe.</small>
             </div>
-        {:else if status === 'too old'}
+        {:else if status === 'tooOld'}
             <div class="red">
                 <span>✕</span>
                 <small>Votre enfant a {age} ans, il est trop agé pour ce groupe.</small>

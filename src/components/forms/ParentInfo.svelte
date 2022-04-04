@@ -21,7 +21,7 @@
  <section>
     <h5>Parent {nb}</h5>
     
-    <NameForm required={nb==1} target=parent {nb}/>
+    <NameForm target=parent {nb}/>
      
     <label for="relationship">Affiliation</label>
     <select id="relationship" required bind:value={role}>

@@ -65,16 +65,15 @@
   },
 ] */
 
+import { capitalize } from "$utils/capitalize"
+
 export const getDayName = (day) => {
-  let weekday = capitalizeFirstLetter(day.weekday)
+  let weekday = capitalize(day.weekday)
   return `${weekday} ${day.startTime}`
 }
 
 export const getDayUrl = (day) => {
   return `${day.weekday}-${day.startTime}`
-}
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
 export const getWarningMessage = (minYear) => {

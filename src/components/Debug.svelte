@@ -10,7 +10,6 @@
             proprieties.push(prop)
         }
     }
-    $:console.log($subscription)
 </script>
 
 <div class="debug">

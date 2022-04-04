@@ -6,7 +6,7 @@
 <section>
     <h5>Enfant</h5>
     
-    <NameForm required={true} target=student/>
+    <NameForm target=student/>
     <DateOfBirthForm />
     
 </section>

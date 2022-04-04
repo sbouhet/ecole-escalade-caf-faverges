@@ -36,7 +36,7 @@ const season = () => {
   return `Hello lolilol ${name}`
 }) */
 
-exports.newAuthUser = functions.auth.user().onCreate((user) => {
+/* exports.newAuthUser = functions.auth.user().onCreate((user) => {
   return db.collection("users").doc(user.uid).set({
     email: user.email,
     id: user.uid,
@@ -45,38 +45,37 @@ exports.newAuthUser = functions.auth.user().onCreate((user) => {
 
 exports.delAuthUser = functions.auth.user().onDelete((user) => {
   return db.collection("users").doc(user.uid).delete()
-})
+}) */
 
 exports.newFirestoreUser = functions.firestore
-  .document("users/{userId}")
+  .document("students/{userId}")
   .onCreate((snap, context) => {
     const user = snap.data()
+    const id = snap.id
     const month = parseInt(dayjs().format("M"))
     const seasonString = month === 8 ? season().next : season().current
 
-    return db
-      .doc(`years/${seasonString}`)
-      .update({ [`students.${user.id}`]: { id: user.id, email: user.email } })
+    return db.doc(`years/${seasonString}`).update({ [`students.${id}`]: user })
   })
 
 exports.updateFirestoreUser = functions.firestore
-  .document("users/{userId}")
+  .document("students/{userId}")
   .onUpdate((change, context) => {
     const user = change.after.data()
+    const id = change.after.id
     const month = parseInt(dayjs().format("M"))
     const seasonString = month === 8 ? season().next : season().current
 
-    return db
-      .doc(`years/${seasonString}`)
-      .update({ [`students.${user.id}`]: { id: user.id, email: user.email } })
+    return db.doc(`years/${seasonString}`).update({ [`students.${id}`]: user })
   })
 
 exports.delFirestoreUser = functions.firestore
-  .document("users/{userId}")
+  .document("students/{userId}")
   .onDelete((snap, context) => {
     // Get an object representing the document prior to deletion
     // e.g. {'name': 'Marie', 'age': 66}
     const user = snap.data()
+    const id = snap.id
     const month = parseInt(dayjs().format("M"))
     const seasonString = month === 8 ? season().next : season().current
     return db
@@ -84,7 +83,7 @@ exports.delFirestoreUser = functions.firestore
       .get()
       .then((doc) => {
         let students = doc.data().students
-        delete students[user.id]
+        delete students[id]
         return db.doc(`years/${seasonString}`).update({ students: students })
       })
       .catch((err) => {
@@ -100,11 +99,11 @@ exports.delFirestoreUser = functions.firestore
     const newValue = snap.data()
 
     // access a particular field as you would any JS property
-    const penis = newValue.penis
+    const tetst = newValue.test
 
-    console.log(penis)
+    console.log(test)
 
-    return db.doc("essai/essai").set({ penis: "petit" })
+    return db.doc("essai/essai").set({ test: "petit" })
 
     // perform desired operations ...
   }) */

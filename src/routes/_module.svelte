@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { currentSeason, currentDay, subscription} from '$utils/stores'
-    import { getSeasonFromFirestore } from '$utils/getSeasonFromFirestore'
+    import { getSeasonFromFirestore } from '$utils/firestore'
     import {currentUser, loggedin, verified, admin} from '$utils/stores'
     import Debug from '$components/Debug.svelte'
    

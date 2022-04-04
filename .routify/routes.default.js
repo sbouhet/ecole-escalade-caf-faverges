@@ -57,32 +57,17 @@ export default {
       "children": [
         {
           "meta": {},
-          "id": "_default_prive_inscription",
+          "id": "_default_prive_inscription_md",
           "name": "inscription",
-          "module": false,
+          "module": () => import('../src/routes/prive/inscription.md'),
           "file": {
-            "path": "src/routes/prive/inscription",
+            "path": "src/routes/prive/inscription.md",
             "dir": "src/routes/prive",
-            "base": "inscription",
-            "ext": "",
+            "base": "inscription.md",
+            "ext": ".md",
             "name": "inscription"
           },
-          "children": [
-            {
-              "meta": {},
-              "id": "_default_prive_inscription_index_md",
-              "name": "index",
-              "module": () => import('../src/routes/prive/inscription/index.md'),
-              "file": {
-                "path": "src/routes/prive/inscription/index.md",
-                "dir": "src/routes/prive/inscription",
-                "base": "index.md",
-                "ext": ".md",
-                "name": "index"
-              },
-              "children": []
-            }
-          ]
+          "children": []
         },
         {
           "meta": {},

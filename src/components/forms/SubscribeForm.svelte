@@ -4,26 +4,31 @@
     import DayForm from "./DayForm.svelte"
     import { currentSeason, currentDay, subscription } from '$utils/stores'
     import { isDayForAdults } from '$utils/days'
+    import WrongAgeModal from '$components/WrongAgeModal.svelte'
 
     let adult, lockedDay
+    let openErrorModal = false
 
     if($currentDay) lockedDay = $currentDay
     $:if($currentDay) adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
     
-    export let submitted
+
   
 
     const handleSubmit = () => {
-        if (!$subscription.ageChecksOut) {
+        if (openErrorModal) return
+        if ($subscription.ageChecksOut!=='ok') {
             console.error('age does not match day')
-            alert("L'age de votre enfant ne correspond pas au groupe choisi")
+            openErrorModal = true
             return
         }
-        submitted = true
+        $subscription.status = 'readyToCheck'
     }
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
+<WrongAgeModal bind:open={openErrorModal}/>
+
+<form on:submit|preventDefault={handleSubmit} class="{openErrorModal? 'modal-is-open' : ''}">
     <DayForm {lockedDay}/> 
     {#if adult}
         <AdultSubscriptionForm />
