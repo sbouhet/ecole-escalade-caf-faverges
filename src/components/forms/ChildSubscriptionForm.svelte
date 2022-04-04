@@ -26,11 +26,11 @@
     </div>
     <div style="display:flex; justify-content:space-between">
          <div >
-            <a style="font-weight:bold" href="#" on:click|preventDefault={addParent}>✚ Ajouter un parent</a>
+            <a href="#" role="button" class="outline" on:click|preventDefault={addParent}>✚ Ajouter un parent</a>
         </div>
         <div>
             {#if nbOfParents>1}
-                <a href="#" class="secondary" on:click|preventDefault={removeParent}>✕ Supprimer le dernier parent</a>
+                <a href="#" class="outline delete" role="button" on:click|preventDefault={removeParent}>✕ Supprimer le dernier parent</a>
             {/if}
         </div>
     </div>
@@ -40,7 +40,11 @@
 </section>
 
 <style>
- 
+    .delete{
+        color:red;
+        border-color: red;
+        opacity: 0.5;
+    }
 </style>
 
 
