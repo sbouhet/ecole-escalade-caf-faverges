@@ -17,6 +17,6 @@
         color: red;
     }
     div{
-        font-size:large;
+        font-size:x-large;
     }
 </style>

@@ -22,10 +22,19 @@
         querySnapshot.forEach((doc) => {
         students.push(doc.data())
         })
+        console.log(students)
         console.log(`Found ${students.length} students for this query`)
     })
-
+    let myStudents = []
+    $:if($currentUser){
+      myStudents = students.filter(student => student.parents.some(p => p.email === $currentUser.email))
+    }
+    
     
 </script>
 
+<h2>Mes inscriptions</h2>
+<StudentsStatusTable students={myStudents}/>
+<hr>
+<h2>Toutes les inscriptions en cours</h2>
 <StudentsStatusTable {students}/>

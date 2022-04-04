@@ -24,8 +24,9 @@
                 <tr>
                     {#if admin}<th scope="col">Del</th>{/if}
                     <!-- <th scope="col">Id</th> -->
-                    <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">E‑mail</th>
                     <th scope="col">Status</th>
                     <th scope="col">Licence</th>
                     <th scope="col">Paiement</th>
@@ -42,6 +43,7 @@
                     <!-- <td>{student.id}</td> -->
                     <td>{capitalize(student.firstName)}</td>
                     <td>{student.lastName.toUpperCase()}</td>
+                    <td>{student.parents[0].email}</td>
                     <td>{#if student.status==='Pré‑inscrit(e)'}
                         <span data-tooltip="Pré‑inscrit(e)">⌛</span>
                     {:else if student.status==='Inscrit(e)'}
