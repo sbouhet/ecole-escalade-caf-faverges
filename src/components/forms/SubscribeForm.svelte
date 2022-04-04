@@ -13,8 +13,6 @@
     $:if($currentDay) adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
     
 
-  
-
     const handleSubmit = () => {
         if (openErrorModal) return
         if ($subscription.ageChecksOut!=='ok') {
@@ -28,7 +26,7 @@
 
 <WrongAgeModal bind:open={openErrorModal}/>
 
-<form on:submit|preventDefault={handleSubmit} class="{openErrorModal? 'modal-is-open' : ''}">
+<form on:submit|preventDefault={handleSubmit}>
     <DayForm {lockedDay}/> 
     {#if adult}
         <AdultSubscriptionForm />

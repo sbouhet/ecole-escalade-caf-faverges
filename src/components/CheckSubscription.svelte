@@ -10,7 +10,7 @@
 
 
     const submitSubscription = () => {
-      createNewStudent($subscription, seasons().current, $currentDay).then(()=>{
+      createNewStudent($subscription, $currentDay).then(()=>{
         $subscription.status = 'uploadedToFirestore'
       }).catch(err=>{
         $subscription.status = 'errorUploading'

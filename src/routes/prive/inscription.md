@@ -9,7 +9,6 @@
     import { goto } from '@roxi/routify'
     import Back from '$components/Back.svelte'
 
- 
     let dayUrl = $params.creneau
     if (dayUrl) {
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
