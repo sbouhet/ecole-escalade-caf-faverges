@@ -30,6 +30,37 @@ export default {
     },
     {
       "meta": {},
+      "id": "_default_creneaux",
+      "name": "creneaux",
+      "module": false,
+      "file": {
+        "path": "src/routes/creneaux",
+        "dir": "src/routes",
+        "base": "creneaux",
+        "ext": "",
+        "name": "creneaux"
+      },
+      "children": [
+        {
+          "meta": {
+            "dynamic": true
+          },
+          "id": "_default_creneaux__day__md",
+          "name": "[day]",
+          "module": () => import('../src/routes/creneaux/[day].md'),
+          "file": {
+            "path": "src/routes/creneaux/[day].md",
+            "dir": "src/routes/creneaux",
+            "base": "[day].md",
+            "ext": ".md",
+            "name": "[day]"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "meta": {},
       "id": "_default_index_md",
       "name": "index",
       "module": () => import('../src/routes/index.md'),

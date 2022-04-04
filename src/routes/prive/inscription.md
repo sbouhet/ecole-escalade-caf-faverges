@@ -8,13 +8,28 @@
     import Success from '$components/Success.svelte'
     import { goto } from '@roxi/routify'
     import Back from '$components/Back.svelte'
+    import { getSeasonFromFirestore } from '$utils/firestore'
 
     let dayUrl = $params.creneau
     if (dayUrl) {
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
     }
+
+/*     const updateSeasonObject = async ()=>{
+        //$currentSeason = null
+        try {
+            let firestoreSeason = await getSeasonFromFirestore("current")
+            $currentSeason = firestoreSeason
+        } catch (error) {
+            throw error
+        }
+    } */
+
     $:if ($subscription.status === 'done') {
-        $goto('/')
+        $goto('/')  
+        /* updateSeasonObject().then(()=>{
+            $goto('/')  
+        }) */
     }
 
 </script>

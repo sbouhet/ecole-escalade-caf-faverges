@@ -1,12 +1,12 @@
 <script>
     import { getStudents } from '$utils/getStudents'
-    import { currentSeason } from '$utils/stores'
+    import { currentSeason, currentUser } from '$utils/stores'
+    import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
 
-    const test = ()=>{
-        let students = getStudents($currentSeason, 'lundi-17h')
-        //console.log(students)
-    }
+    
+    
+
     
 </script>
 
-<button on:click={test}>Get students</button>
+<StudentsStatusTable />

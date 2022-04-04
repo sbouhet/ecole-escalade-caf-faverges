@@ -2,11 +2,17 @@
     import { firebaseApp } from '$utils/firebase' //important, do not remove
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
-    import { currentSeason, currentDay, subscription} from '$utils/stores'
     import { getSeasonFromFirestore } from '$utils/firestore'
-    import {currentUser, loggedin, verified, admin} from '$utils/stores'
+    import {currentUser, loggedin, verified, admin, currentSeason} from '$utils/stores'
     import Debug from '$components/Debug.svelte'
-   
+    import { doc, onSnapshot } from "firebase/firestore"
+    import { seasons } from '$utils/seasons'
+    import { db } from '$utils/firebase'
+
+    const firestoreSeason = onSnapshot(doc(db, "years", seasons().current), (doc) => {
+        //console.log("Season updated: ", doc.data())
+        $currentSeason = doc.data()
+    })
  
     const allowDebug = true
     let debug = false
@@ -38,11 +44,11 @@
 	  })
 
 
-    let promise = getSeasonFromFirestore().then(season=>{
+    /* let promise = getSeasonFromFirestore().then(season=>{
         $currentSeason = season
     }).catch(err=>{
         throw err
-    })
+    }) */
 </script>
 
 <body>
@@ -50,7 +56,7 @@
                 <Debug />
     {/if}
     <main class='container'>
-        {#await promise}
+        {#await firestoreSeason}
             waiting for season from firestore
         {:then season}
             
