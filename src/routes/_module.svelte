@@ -9,10 +9,7 @@
     import { seasons } from '$utils/seasons'
     import { db } from '$utils/firebase'
 
-    const firestoreSeason = onSnapshot(doc(db, "years", seasons().current), (doc) => {
-        //console.log("Season updated: ", doc.data())
-        $currentSeason = doc.data()
-    })
+   
  
     const allowDebug = true
     let debug = false
@@ -44,11 +41,11 @@
 	  })
 
 
-    /* let promise = getSeasonFromFirestore().then(season=>{
+    let promise = getSeasonFromFirestore().then(season=>{
         $currentSeason = season
     }).catch(err=>{
         throw err
-    }) */
+    })
 </script>
 
 <body>
@@ -56,7 +53,7 @@
                 <Debug />
     {/if}
     <main class='container'>
-        {#await firestoreSeason}
+        {#await promise}
             waiting for season from firestore
         {:then season}
             

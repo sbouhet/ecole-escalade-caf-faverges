@@ -45,14 +45,14 @@ export const deleteStudent = async (id) => {
   return true
 }
 
-export const getStudentsFromFirestoreWithUpdates = (dayUrl) => {
-  /*  let q1, q2, q3
+/* export const getStudentsFromFirestoreWithUpdates = (dayUrl) => {
+   let q1, q2, q3
   if(dayUrl){
     q1 = "firstName"
     q2 = ">"
     q3 = 0
-  } */
-  //const q = query(collection(db, "students"), where("first", "==", "CA"))
+  }
+  const q = query(collection(db, "students"), where("first", "==", "CA"))
   const q = query(collection(db, "students"))
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     const students = []
@@ -62,7 +62,7 @@ export const getStudentsFromFirestoreWithUpdates = (dayUrl) => {
     console.log(`Found ${students.length} students for this query`)
   })
   return unsubscribe
-}
+} */
 
 /* export const getStudents = async (day = null, season=seasons().current) => {
   const docRef = doc(db, "years", season)

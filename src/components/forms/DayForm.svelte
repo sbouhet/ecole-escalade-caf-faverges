@@ -23,7 +23,7 @@
     <label for="day">Créneau</label>
     <select id="day" required disabled={dayUrl} bind:value={selectedDay}>
         {#each season.days as day }
-        <option value={day}>{getDayName(day)}</option>  
+            <option value={day}>{getDayName(day)}</option>  
         {/each}
     </select>
     <span>ℹ</span>

@@ -12,12 +12,10 @@ import {
   onSnapshot,
 } from "firebase/firestore"
     import { currentSeason, currentUser } from "$utils/stores"
-    import { getStudentsFromFirestoreWithUpdates } from '$utils/firestore'
-
     import Boolean from "$components/Boolean.svelte"
     import { deleteStudent } from '$utils/firestore'
     let students = []
-    export let dayUrl
+    
     let admin = false
     if($currentUser.email==='friarobaz@gmail.com') admin = true
 
@@ -36,7 +34,7 @@ import {
         <table role="grid" class='sortable'>
             <thead>
                 <tr>
-                    <th scope="col">Del</th>
+                    {#if admin}<th scope="col">Del</th>{/if}
                     <th scope="col">Id</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
@@ -50,8 +48,9 @@ import {
             <tbody>
                 {#each students as student}
                 <tr>
-                    <td class="del" on:click={()=>deleteStudent(student.id)}>X</td>
-
+                    {#if admin}
+                        <td class="del" on:click={()=>deleteStudent(student.id)}>X</td>
+                    {/if}
                     <td>{student.id}</td>
                     <td>{student.firstName}</td>
                     <td>{student.lastName}</td>
