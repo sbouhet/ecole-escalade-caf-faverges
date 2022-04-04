@@ -8,6 +8,6 @@ export const subscriptionReset = () => {
     ageChecksOut: null,
     parents: [{}],
     status: null,
-    years: [seasons().current],
+    years: { [seasons().current]: null },
   }
 }

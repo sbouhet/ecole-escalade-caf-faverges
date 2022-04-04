@@ -7,6 +7,7 @@
     import { getDayFromUrl } from '$utils/days'
     import Success from '$components/Success.svelte'
     import { goto } from '@roxi/routify'
+    import Back from '$components/Back.svelte'
 
  
     let dayUrl = $params.creneau
@@ -32,5 +33,7 @@
     {/if}
     
 </article>
+
+<Back home={true}/>
 
 <slot></slot> <!-- just to hide error warning in console -->

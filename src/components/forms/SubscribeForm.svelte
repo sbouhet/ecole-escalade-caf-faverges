@@ -35,5 +35,5 @@
     {:else}
         <ChildSubscriptionForm />
     {/if}
-    <button>Submit</button>
+    <button>Valider</button>
 </form>

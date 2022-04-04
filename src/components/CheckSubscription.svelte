@@ -5,11 +5,12 @@
     import { translateRole } from '$utils/translateRole'
     import { createNewStudent, getSeasonFromFirestore } from '$utils/firestore'
     import { printName } from '$utils/printName'
+    import { seasons } from '$utils/seasons'
 
 
 
     const submitSubscription = () => {
-      createNewStudent($subscription).then(()=>{
+      createNewStudent($subscription, seasons().current, $currentDay).then(()=>{
         $subscription.status = 'uploadedToFirestore'
       }).catch(err=>{
         $subscription.status = 'errorUploading'
