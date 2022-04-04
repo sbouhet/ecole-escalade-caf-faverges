@@ -1,32 +1,15 @@
 <script>
-    import { db } from "$utils/firebase"
-import {
-  doc,
-  getDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  collection,
-  query,
-  where,
-  onSnapshot,
-} from "firebase/firestore"
     import { currentSeason, currentUser } from "$utils/stores"
+    import { getDayName, getDayFromUrl} from '$utils/days'
     import Boolean from "$components/Boolean.svelte"
     import { deleteStudent } from '$utils/firestore'
-    let students = []
+    import { capitalize } from '$utils/capitalize'
+    export let students = []
     
     let admin = false
     if($currentUser.email==='friarobaz@gmail.com') admin = true
 
-    const q = query(collection(db, "students"))
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        students = []
-        querySnapshot.forEach((doc) => {
-        students.push(doc.data())
-        })
-        console.log(`Found ${students.length} students for this query`)
-    })
+    
     let table
     $:if(table){
         new Tablesort(table)
@@ -57,13 +40,13 @@ import {
                         <td class="del" on:click={()=>deleteStudent(student.id)}>X</td>
                     {/if}
                     <td>{student.id}</td>
-                    <td>{student.firstName}</td>
-                    <td>{student.lastName}</td>
+                    <td>{capitalize(student.firstName)}</td>
+                    <td>{student.lastName.toUpperCase()}</td>
                     <td>{student.status}</td>
                     <td><Boolean value={student.licence}/></td>
                     <td><Boolean value={student.payment}/></td>
                     <td><Boolean value={student.medicalCertificate}/></td>
-                    <td>{student.years[$currentSeason.name]}</td>
+                    <td>{getDayName(getDayFromUrl(student.years[$currentSeason.name], $currentSeason.days))}</td>
                 </tr>
                 {/each}
             </tbody>

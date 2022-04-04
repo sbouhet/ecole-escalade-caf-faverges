@@ -39,6 +39,8 @@ export const createNewStudent = async (
 }
 
 export const deleteStudent = async (id) => {
+  let result = window.confirm("Sur de chez sur ?")
+  if (!result) return
   console.log("Trying to delete doc" + id)
   await deleteDoc(doc(db, "students", id))
   console.log("Doc deleted")
