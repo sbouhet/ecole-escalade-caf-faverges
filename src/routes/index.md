@@ -5,7 +5,7 @@
     import Login from '$components/forms/Login.svelte'
     import CreateAccount from '$components/CreateAccount.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
-    import { subscription } from '$utils/stores'
+    import { subscription, currentDay } from '$utils/stores'
     import { subscriptionReset } from '$utils/subscriptionReset';
 
 /* 
@@ -57,7 +57,10 @@
         
     } */
 
-    
+const reset = ()=>{
+    $subscription = subscriptionReset()
+    $currentDay = null
+}
 
 
 </script>
@@ -68,7 +71,7 @@
 
 ACCUEIL
 
-<a href="/prive/inscription" on:click={()=>$subscription = subscriptionReset()}>Inscription</a><br>
+<a href="/prive/inscription" on:click={reset}>Inscription</a><br>
 <a href="/prive/mon-compte">Mon compte</a><br>
 <a href="/test">test</a><br><br>
 <a href="/admin">ADMIN</a>
