@@ -27,7 +27,7 @@
                     <!-- <th scope="col">Id</th> -->
                     <th scope="col">Prénom</th>
                     <th scope="col">Nom</th>
-                    <th scope="col">E‑mail</th>
+                    {#if admin}<th scope="col">E‑mail</th>{/if}
                     <th scope="col">Status</th>
                     <th scope="col">Licence</th>
                     <th scope="col">Paiement</th>
@@ -44,19 +44,21 @@
                     <!-- <td>{student.id}</td> -->
                     <td>{capitalize(student.firstName)}</td>
                     <td>{student.lastName.toUpperCase()}</td>
-                    <td>{student.parents[0].email}</td>
-                    <td>{#if student.status==='Pré‑inscrit(e)'}
-                        <span data-tooltip="Pré‑inscrit(e)">⌛</span>
-                    {:else if student.status==='Inscrit(e)'}
+                    {#if admin}
+                        <td>{student.parents[0].email}</td>
+                    {/if}
+                    <td>{#if student.seasons[seasons().current].status==='Pré‑inscrit(e)'}
+                        <span data-tooltip="Pré‑inscrit(e), le dossier n'est pas complet.">⌛</span>
+                    {:else if student.seasons[seasons().current].status==='Inscrit(e)'}
                         <span data-tooltip="Inscrit(e)">✅</span>
                     {:else}
-                        {student.status}
+                        {student.seasons[seasons().current].status}
                     {/if}
                     </td>
                     <td><Boolean value={student.licence}/></td>
                     <td><Boolean value={student.payment}/></td>
                     <td><Boolean value={student.medicalCertificate}/></td>
-                    <td>{getDayName(getDayFromUrl(student.seasons[seasons().current], $currentSeason.days))}</td>
+                    <td>{getDayName(getDayFromUrl(student.seasons[seasons().current].day, $currentSeason.days))}</td>
                 </tr>
                 {/each}
             </tbody>

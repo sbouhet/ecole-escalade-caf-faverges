@@ -17,7 +17,7 @@
     import { seasons } from '$utils/seasons'
 
     let students = []
-    const q = query(collection(db, "students"), where(`seasons.${seasons().current}`, ">", ""))
+    const q = query(collection(db, "students"), where(`seasons.${seasons().current}.status`, ">", ""))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         students = []
         querySnapshot.forEach((doc) => {
