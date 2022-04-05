@@ -14,9 +14,10 @@
     import { getStudents } from '$utils/getStudents'
     import { currentSeason, currentUser } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
+    import { seasons } from '$utils/seasons'
 
     let students = []
-    const q = query(collection(db, "students"))
+    const q = query(collection(db, "students"), where(`years.${seasons().current}`, ">", ""))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         students = []
         querySnapshot.forEach((doc) => {
