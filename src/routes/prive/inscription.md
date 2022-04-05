@@ -9,6 +9,7 @@
     import { goto } from '@roxi/routify'
     import Back from '$components/Back.svelte'
     import { getSeasonFromFirestore } from '$utils/firestore'
+    import { seasons } from '$utils/seasons'
 
     let dayUrl = $params.creneau
     if (dayUrl) {
@@ -25,7 +26,7 @@
         }
     } */
 
-    $:if ($subscription.status === 'done') {
+    $:if ($subscription.seasons[seasons().current].status === 'done') {
         $goto('/')  
         /* updateSeasonObject().then(()=>{
             $goto('/')  
@@ -36,13 +37,13 @@
 
 <article>
     <h1>Inscription</h1>
-    {#if $subscription.status === 'readyToCheck'}
+    {#if $subscription.seasons[seasons().current].status === 'readyToCheck'}
         <CheckSubscription />
-    {:else if $subscription.status === 'uploadedToFirestore'}
+    {:else if $subscription.seasons[seasons().current].status === 'uploadedToFirestore'}
         <Success />
     {/if}
 
-    {#if $subscription.status !== 'done'}
+    {#if $subscription.seasons[seasons().current].status !== 'done'}
         <SubscribeForm />
     {/if}
     

@@ -55,7 +55,9 @@ exports.newFirestoreUser = functions.firestore
     const month = parseInt(dayjs().format("M"))
     const seasonString = month === 8 ? season().next : season().current
 
-    return db.doc(`years/${seasonString}`).update({ [`students.${id}`]: user })
+    return db
+      .doc(`seasons/${seasonString}`)
+      .update({ [`students.${id}`]: user })
   })
 
 exports.updateFirestoreUser = functions.firestore
@@ -66,7 +68,9 @@ exports.updateFirestoreUser = functions.firestore
     const month = parseInt(dayjs().format("M"))
     const seasonString = month === 8 ? season().next : season().current
 
-    return db.doc(`years/${seasonString}`).update({ [`students.${id}`]: user })
+    return db
+      .doc(`seasons/${seasonString}`)
+      .update({ [`students.${id}`]: user })
   })
 
 exports.delFirestoreUser = functions.firestore
@@ -79,12 +83,12 @@ exports.delFirestoreUser = functions.firestore
     const month = parseInt(dayjs().format("M"))
     const seasonString = month === 8 ? season().next : season().current
     return db
-      .doc(`years/${seasonString}`)
+      .doc(`seasons/${seasonString}`)
       .get()
       .then((doc) => {
         let students = doc.data().students
         delete students[id]
-        return db.doc(`years/${seasonString}`).update({ students: students })
+        return db.doc(`seasons/${seasonString}`).update({ students: students })
       })
       .catch((err) => {
         console.log(err)

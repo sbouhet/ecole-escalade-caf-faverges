@@ -6,7 +6,7 @@ export const getStudents = (seasonObject, dayUrl) => {
   }
   if (!dayUrl) return students
   let filtered = students.filter(
-    (student) => student.years[seasonObject.name] === dayUrl
+    (student) => student.seasons[seasonObject.name] === dayUrl
   )
   return filtered
 }

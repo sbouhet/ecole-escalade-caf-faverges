@@ -4,6 +4,7 @@
     import Boolean from "$components/Boolean.svelte"
     import { deleteStudent } from '$utils/firestore'
     import { capitalize } from '$utils/capitalize'
+    import { seasons } from '$utils/seasons'
     export let students = []
     
     let admin = false
@@ -55,7 +56,7 @@
                     <td><Boolean value={student.licence}/></td>
                     <td><Boolean value={student.payment}/></td>
                     <td><Boolean value={student.medicalCertificate}/></td>
-                    <td>{getDayName(getDayFromUrl(student.years[$currentSeason.name], $currentSeason.days))}</td>
+                    <td>{getDayName(getDayFromUrl(student.seasons[seasons().current], $currentSeason.days))}</td>
                 </tr>
                 {/each}
             </tbody>

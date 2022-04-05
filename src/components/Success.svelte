@@ -2,14 +2,15 @@
     import { subscription, currentDay, currentSeason } from '$utils/stores'
     import { getDayName } from '$utils/days'
     import { printName } from '$utils/printName'
+    import { seasons } from '$utils/seasons'
     let open = true
 
     const subscribeAnother = ()=>{
-        $subscription.status = null
+        $subscription.seasons[seasons().current].status = null
     }
 
     const backToHomePage = ()=>{
-        $subscription.status = 'done'
+        $subscription.seasons[seasons().current].status = 'done'
     }
 </script>
 

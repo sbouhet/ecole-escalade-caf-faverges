@@ -5,6 +5,7 @@
     import { currentSeason, currentDay, subscription } from '$utils/stores'
     import { isDayForAdults } from '$utils/days'
     import WrongAgeModal from '$components/WrongAgeModal.svelte'
+    import { seasons } from '$utils/seasons'
 
     let adult, lockedDay
     let openErrorModal = false
@@ -20,7 +21,7 @@
             openErrorModal = true
             return
         }
-        $subscription.status = 'readyToCheck'
+        $subscription.seasons[seasons().current].status = 'readyToCheck'
     }
 </script>
 

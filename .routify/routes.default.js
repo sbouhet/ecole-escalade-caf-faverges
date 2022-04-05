@@ -118,15 +118,29 @@ export default {
     },
     {
       "meta": {},
-      "id": "_default_test_md",
+      "id": "_default_test_svelte",
       "name": "test",
-      "module": () => import('../src/routes/test.md'),
+      "module": () => import('../src/routes/test.svelte'),
       "file": {
-        "path": "src/routes/test.md",
+        "path": "src/routes/test.svelte",
         "dir": "src/routes",
-        "base": "test.md",
-        "ext": ".md",
+        "base": "test.svelte",
+        "ext": ".svelte",
         "name": "test"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
+      "id": "_default_tous_les_eleves_md",
+      "name": "tous-les-eleves",
+      "module": () => import('../src/routes/tous-les-eleves.md'),
+      "file": {
+        "path": "src/routes/tous-les-eleves.md",
+        "dir": "src/routes",
+        "base": "tous-les-eleves.md",
+        "ext": ".md",
+        "name": "tous-les-eleves"
       },
       "children": []
     }

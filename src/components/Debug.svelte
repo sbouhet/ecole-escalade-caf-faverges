@@ -1,6 +1,7 @@
 <script>
     import { currentSeason, currentDay, subscription, loggedin, verified, admin, currentUser} from '$utils/stores'
     import { getDayName } from '$utils/days'
+    import { seasons } from '$utils/seasons'
 
 
     let proprieties
@@ -44,6 +45,10 @@
                 {/if}
             {/each}
         </ul>
+    </div>
+    <div>
+        seasons.season.day : {$subscription.seasons[seasons().current].day}<br>
+        seasons.season.status : {$subscription.seasons[seasons().current].status}<br>
     </div>
 </div>
 

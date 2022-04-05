@@ -1,16 +1,16 @@
 <script>
     import {getDayName, getDayUrl, getWarningMessage, getMinYear} from '$utils/days'
-    import { currentSeason, currentDay } from '$utils/stores'
+    import { currentSeason, currentDay, subscription } from '$utils/stores'
+    import { seasons } from '$utils/seasons'
     import {params} from '@roxi/routify'
     $:dayUrl = $params.creneau
     export let lockedDay
     let selectedDay, warningMessage
-    $:season = $currentSeason
-    $:day = $currentDay
 
     $:if (selectedDay) {
-        warningMessage = getWarningMessage(getMinYear(selectedDay, season.ageGroups))
+        warningMessage = getWarningMessage(getMinYear(selectedDay, $currentSeason.ageGroups))
         $currentDay = selectedDay
+        $subscription.seasons[seasons().current].day = getDayUrl(selectedDay)
     }
 
     if (lockedDay) {
@@ -22,7 +22,7 @@
 <section>
     <label for="day">Créneau</label>
     <select id="day" required disabled={dayUrl} bind:value={selectedDay}>
-        {#each season.days as day }
+        {#each $currentSeason.days as day }
             <option value={day}>{getDayName(day)}</option>  
         {/each}
     </select>

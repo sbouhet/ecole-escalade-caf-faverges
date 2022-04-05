@@ -12,9 +12,9 @@
     const submitSubscription = () => {
       createNewStudent($subscription, $currentDay).then((answer)=>{
         console.log(answer)
-        $subscription.status = 'uploadedToFirestore'
+        $subscription.seasons[seasons().current].status = 'uploadedToFirestore'
       }).catch(err=>{
-        $subscription.status = 'errorUploading'
+        $subscription.seasons[seasons().current].status = 'errorUploading'
         throw err
       })
     }
@@ -43,7 +43,7 @@
       </section>
     </div>
     <footer>
-      <a href="#" role="button" class="secondary" on:click={()=>$subscription.status=null}>Annuler</a>
+      <a href="#" role="button" class="secondary" on:click={()=>$subscription.seasons[seasons().current].status=null}>Annuler</a>
       <a href="#" role="button" on:click={submitSubscription}>Confirmer l'inscription</a>
     </footer>
   </article>

@@ -1,35 +1,32 @@
 <script>
+    export let context //just to hide warning in console
     import { db } from '$utils/firebase'
     import { collection, query, where, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
     import { goto } from '@roxi/routify'
-/*     export let context //just to hide warning in console
+    import { copySeason } from '$utils/firestore'
 
-    import {days} from '$utils/days'
-    import {ageGroups} from '$utils/ageGroups'
-
-
-
-    const test = async() => {
-        const season = doc(db, "years", "2022-2023")
-        await updateDoc(season, {
-            name: "2021-2022",
-            days,
-            ageGroups
+    const delAllStudentsDOESNTWORK = async()=>{
+        const q = query(collection(db, "students"))
+        const querySnapshot = await getDocs(q)
+        querySnapshot.forEach((student) => {
+        deleteDoc(doc(db, "students", student.id));
         })
-    } */
-    
+    }
 
-/* const test = async()=>{
-    const q = query(collection(db, "students"))
-    const querySnapshot = await getDocs(q)
-    querySnapshot.forEach((student) => {
-     deleteDoc(doc(db, "students", student.id));
-    })
-} */
-
-/* const test = ()=>{
-    $goto('/prive/mon-compte')
-} */
+    let oldSeasonName, newSeasonName
+    const handleCopy = async()=>{
+        let result = window.confirm(`Copy ${oldSeasonName} to ${newSeasonName} ?`)
+        if(!result) return
+        copySeason(oldSeasonName, newSeasonName)
+    }
 </script>
 
-<button on:click|preventDefault={test}>TEST</button>
+<section>
+    <h4>Copy season</h4>
+    <label for="oldSeasonName">Old season name :</label>
+    <input type="text" id="oldSeasonName" bind:value={oldSeasonName} />
+    <label for="newSeasonName">New season name :</label>
+    <input type="text" id="newSeasonName" bind:value={newSeasonName} />
+
+    <button on:click|preventDefault={handleCopy}>Copy Season</button>
+</section>
