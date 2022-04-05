@@ -57,7 +57,7 @@
     {/if}
     {#if $loggedin && $currentUser}
     <small>
-        <div>👤 {$currentUser.email}</div>
+        <div><span>👤 </span>{$currentUser.email}</div>
         <Logout tiny={true} />
     </small>
         
@@ -106,6 +106,10 @@
         flex: 1;
         max-width: 200px;
         margin-right: 10px;
+    }
+
+    span{
+        margin: 5px;
     }
 </style>
 

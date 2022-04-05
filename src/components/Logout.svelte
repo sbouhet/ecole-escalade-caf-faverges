@@ -28,8 +28,5 @@
 {/if}
 
 <style>
-    /* button{
-        max-width: 200px;
-        margin-top: 20px;
-    } */
+    
 </style>
