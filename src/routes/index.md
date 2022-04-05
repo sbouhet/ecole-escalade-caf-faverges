@@ -73,7 +73,7 @@ ACCUEIL
 
 <a href="/prive/inscription" on:click={reset}>Inscription</a><br>
 <a href="/prive/mon-compte">Mon compte</a><br>
-<a href="/tous-les-eleves">tous les eleves</a><br><br>
+<a href="/inscriptions-en-cours">Voir les inscriptions en cours</a><br><br>
 <a href="/test">test</a><br>
 <a href="/admin">ADMIN</a>
 <slot></slot> <!-- just to hide error warning in console -->

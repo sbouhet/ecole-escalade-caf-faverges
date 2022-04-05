@@ -75,6 +75,20 @@ export default {
     },
     {
       "meta": {},
+      "id": "_default_inscriptions_en_cours_svelte",
+      "name": "inscriptions-en-cours",
+      "module": () => import('../src/routes/inscriptions-en-cours.svelte'),
+      "file": {
+        "path": "src/routes/inscriptions-en-cours.svelte",
+        "dir": "src/routes",
+        "base": "inscriptions-en-cours.svelte",
+        "ext": ".svelte",
+        "name": "inscriptions-en-cours"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_prive",
       "name": "prive",
       "module": () => import('../src/routes/prive/_module.svelte'),
@@ -127,20 +141,6 @@ export default {
         "base": "test.svelte",
         "ext": ".svelte",
         "name": "test"
-      },
-      "children": []
-    },
-    {
-      "meta": {},
-      "id": "_default_tous_les_eleves_md",
-      "name": "tous-les-eleves",
-      "module": () => import('../src/routes/tous-les-eleves.md'),
-      "file": {
-        "path": "src/routes/tous-les-eleves.md",
-        "dir": "src/routes",
-        "base": "tous-les-eleves.md",
-        "ext": ".md",
-        "name": "tous-les-eleves"
       },
       "children": []
     }

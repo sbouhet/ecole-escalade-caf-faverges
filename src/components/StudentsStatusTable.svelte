@@ -8,7 +8,7 @@
     export let students = []
     
     let admin = false
-    if($currentUser.email==='friarobaz@gmail.com') admin = true
+    if($currentUser && $currentUser.email==='friarobaz@gmail.com') admin = true
 
     
     let table
@@ -29,10 +29,10 @@
                     <th scope="col">Nom</th>
                     {#if admin}<th scope="col">E‑mail</th>{/if}
                     <th scope="col">Status</th>
+                    <th scope="col">Créneau</th>
                     <th scope="col">Licence</th>
                     <th scope="col">Paiement</th>
                     <th scope="col">Certificat médical</th>
-                    <th scope="col">Créneau</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,10 +55,10 @@
                         {student.seasons[seasons().current].status}
                     {/if}
                     </td>
+                    <td>{getDayName(getDayFromUrl(student.seasons[seasons().current].day, $currentSeason.days))}</td>
                     <td><Boolean value={student.licence}/></td>
                     <td><Boolean value={student.payment}/></td>
                     <td><Boolean value={student.medicalCertificate}/></td>
-                    <td>{getDayName(getDayFromUrl(student.seasons[seasons().current].day, $currentSeason.days))}</td>
                 </tr>
                 {/each}
             </tbody>

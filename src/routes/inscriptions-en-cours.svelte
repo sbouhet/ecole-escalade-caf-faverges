@@ -12,7 +12,7 @@
   onSnapshot,
     } from "firebase/firestore"
     import { getStudents } from '$utils/getStudents'
-    import { currentSeason, currentUser } from '$utils/stores'
+    import { currentSeason, currentUser, loggedin } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import { seasons } from '$utils/seasons'
 
@@ -33,9 +33,12 @@
     
     
 </script>
+{#if $loggedin}
+  <h2>Mes inscriptions</h2>
+  <StudentsStatusTable students={myStudents}/>
+  <hr>
+{/if}
 
-<h2>Mes inscriptions</h2>
-<StudentsStatusTable students={myStudents}/>
-<hr>
 <h2>Toutes les inscriptions en cours</h2>
+<p>Cliquez sur une colone pour trier les données</p>
 <StudentsStatusTable {students}/>
