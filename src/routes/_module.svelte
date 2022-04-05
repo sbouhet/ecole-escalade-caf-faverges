@@ -76,11 +76,13 @@
                         <Back path='/' msg='Accueil'/>
                     </div>
                     {/if}
-                    {#if $loggedin}
-                    <div>
-                        <Logout />
-                    </div>
-                    {/if}
+
+                   <!--  {#if $loggedin}
+                        <div>
+                            <Logout />
+                        </div>
+                    {/if} -->
+
                 </footer>
                 
             {:else} 
