@@ -1,3 +1,4 @@
+<!-- routify:meta reset -->
 <script>
     import { currentSeason, currentUser } from "$utils/stores"
     import { getDayName, getDayFromUrl} from '$utils/days'

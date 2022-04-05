@@ -18,7 +18,6 @@
     {:else}
         <VerifyEmail/>
     {/if}
-    <Logout />
 {:else}
     {#if showCreateAccount}
         <CreateAccount bind:showCreateAccount={showCreateAccount}/>

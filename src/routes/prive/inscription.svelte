@@ -36,7 +36,10 @@
 </script>
 
 <article>
-    <h1>Inscription</h1>
+    <hgroup>
+        <h1>Inscription</h1>
+        <h1>Saison {seasons().current}</h1>
+    </hgroup>
     {#if $subscription.seasons[seasons().current].status === 'readyToCheck'}
         <CheckSubscription />
     {:else if $subscription.seasons[seasons().current].status === 'uploadedToFirestore'}
@@ -46,9 +49,8 @@
     {#if $subscription.seasons[seasons().current].status !== 'done'}
         <SubscribeForm />
     {/if}
-    
+
 </article>
 
-<Back home={true}/>
 
 <slot></slot> <!-- just to hide error warning in console -->

@@ -16,14 +16,14 @@ export default {
   "children": [
     {
       "meta": {},
-      "id": "_default_admin_md",
+      "id": "_default_admin_svelte",
       "name": "admin",
-      "module": () => import('../src/routes/admin.md'),
+      "module": () => import('../src/routes/admin.svelte'),
       "file": {
-        "path": "src/routes/admin.md",
+        "path": "src/routes/admin.svelte",
         "dir": "src/routes",
-        "base": "admin.md",
-        "ext": ".md",
+        "base": "admin.svelte",
+        "ext": ".svelte",
         "name": "admin"
       },
       "children": []
@@ -61,14 +61,14 @@ export default {
     },
     {
       "meta": {},
-      "id": "_default_index_md",
+      "id": "_default_index_svelte",
       "name": "index",
-      "module": () => import('../src/routes/index.md'),
+      "module": () => import('../src/routes/index.svelte'),
       "file": {
-        "path": "src/routes/index.md",
+        "path": "src/routes/index.svelte",
         "dir": "src/routes",
-        "base": "index.md",
-        "ext": ".md",
+        "base": "index.svelte",
+        "ext": ".svelte",
         "name": "index"
       },
       "children": []
@@ -102,28 +102,28 @@ export default {
       "children": [
         {
           "meta": {},
-          "id": "_default_prive_inscription_md",
+          "id": "_default_prive_inscription_svelte",
           "name": "inscription",
-          "module": () => import('../src/routes/prive/inscription.md'),
+          "module": () => import('../src/routes/prive/inscription.svelte'),
           "file": {
-            "path": "src/routes/prive/inscription.md",
+            "path": "src/routes/prive/inscription.svelte",
             "dir": "src/routes/prive",
-            "base": "inscription.md",
-            "ext": ".md",
+            "base": "inscription.svelte",
+            "ext": ".svelte",
             "name": "inscription"
           },
           "children": []
         },
         {
           "meta": {},
-          "id": "_default_prive_mon_compte_md",
+          "id": "_default_prive_mon_compte_svelte",
           "name": "mon-compte",
-          "module": () => import('../src/routes/prive/mon-compte.md'),
+          "module": () => import('../src/routes/prive/mon-compte.svelte'),
           "file": {
-            "path": "src/routes/prive/mon-compte.md",
+            "path": "src/routes/prive/mon-compte.svelte",
             "dir": "src/routes/prive",
-            "base": "mon-compte.md",
-            "ext": ".md",
+            "base": "mon-compte.svelte",
+            "ext": ".svelte",
             "name": "mon-compte"
           },
           "children": []

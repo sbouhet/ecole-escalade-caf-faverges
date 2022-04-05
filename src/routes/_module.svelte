@@ -5,6 +5,9 @@
     import { getSeasonFromFirestore } from '$utils/firestore'
     import {currentUser, loggedin, verified, admin, currentSeason} from '$utils/stores'
     import Debug from '$components/Debug.svelte'
+    import Back from '$components/Back.svelte'
+    import Logout from '$components/Logout.svelte'
+    import {isActive} from '@roxi/routify'
     import { doc, onSnapshot } from "firebase/firestore"
     import { seasons } from '$utils/seasons'
     import { db } from '$utils/firebase'
@@ -52,6 +55,13 @@
     {#if debug}
                 <Debug />
     {/if}
+    {#if $loggedin && $currentUser}
+    <small>
+        <div>👤 {$currentUser.email}</div>
+        <Logout tiny={true} />
+    </small>
+        
+    {/if}
     <main class='container'>
         {#await promise}
             waiting for season from firestore
@@ -59,6 +69,20 @@
             
             {#if userStoreUpToDate}
                 <slot></slot>
+
+                <footer>
+                    {#if !$isActive('/')}
+                    <div>
+                        <Back path='/' msg='Accueil'/>
+                    </div>
+                    {/if}
+                    {#if $loggedin}
+                    <div>
+                        <Logout />
+                    </div>
+                    {/if}
+                </footer>
+                
             {:else} 
                 Waiting for user store update
             {/if}
@@ -69,6 +93,19 @@
     </main>
 </body>
 
+<style>
+    footer{
+        display:flex;
+        flex-wrap: wrap;
+        margin-top: 200px;
+    }
+
+    footer div{
+        flex: 1;
+        max-width: 200px;
+        margin-right: 10px;
+    }
+</style>
 
 
 

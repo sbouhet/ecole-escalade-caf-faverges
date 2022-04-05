@@ -1,6 +1,7 @@
 <script>
     import { getAuth, signOut } from "firebase/auth"
     import ErrorMessage from './ErrorMessage.svelte'
+    export let tiny = false
     let error = null
     const auth = getAuth()
     const handleClick = () =>{
@@ -15,7 +16,20 @@
 </script>
 
 
-<button class='secondary' on:click|preventDefault={handleClick}>Se déconnecter</button>
+{#if tiny}
+    <a href="#" on:click|preventDefault={handleClick}>Se déconnecter</a>
+{:else}
+    <button class='secondary outline' on:click|preventDefault={handleClick}>Se déconnecter</button>
+{/if}
+
+
 {#if error}
     <ErrorMessage error={error}/>
 {/if}
+
+<style>
+    /* button{
+        max-width: 200px;
+        margin-top: 20px;
+    } */
+</style>

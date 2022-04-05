@@ -6,7 +6,8 @@
     import CreateAccount from '$components/CreateAccount.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { subscription, currentDay } from '$utils/stores'
-    import { subscriptionReset } from '$utils/subscriptionReset';
+    import { subscriptionReset } from '$utils/subscriptionReset'
+    import { seasons } from '$utils/seasons'
 
 /* 
 
@@ -69,7 +70,11 @@ const reset = ()=>{
 
 <!-- <Login /> -->
 
-ACCUEIL
+<hgroup>
+    <h1>École d'escalade</h1>
+    <h1>Saison {seasons().current}</h1>
+</hgroup>
+
 
 <a href="/prive/inscription" on:click={reset}>Inscription</a><br>
 <a href="/prive/mon-compte">Mon compte</a><br>
