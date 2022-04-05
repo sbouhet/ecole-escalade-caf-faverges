@@ -38,11 +38,11 @@ export const createNewStudent = async (
 ) => {
   console.log(`Trying to subscribe ${student.firstName}`)
   console.log(student)
-  student.seasons[seasons().current].status = "Pré‑inscrit(e)"
-  const docRef = await addDoc(collection(db, "students"), student)
+  student.publicInfo.seasons[seasons().current].status = "Pré‑inscrit(e)"
+  const docRef = await addDoc(collection(db, "students"), student.publicInfo)
   const privateDataRef = await setDoc(
     doc(db, "students", docRef.id, "privateCol", "privateDoc"),
-    { secret: true }
+    student.privateInfo
   )
   await updateDoc(docRef, { id: docRef.id })
   console.log("Document written with ID: ", docRef.id)

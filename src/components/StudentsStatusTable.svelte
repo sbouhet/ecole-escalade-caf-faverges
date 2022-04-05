@@ -28,7 +28,7 @@
                     <!-- <th scope="col">Id</th> -->
                     <th scope="col">Prénom</th>
                     <th scope="col">Nom</th>
-                    {#if admin}<th scope="col">E‑mail</th>{/if}
+                    <!-- {#if admin}<th scope="col">E‑mail</th>{/if} -->
                     <th scope="col">Créneau</th>
                     <th scope="col">Status</th>
                     <th scope="col">Licence</th>
@@ -45,9 +45,9 @@
                     <!-- <td>{student.id}</td> -->
                     <td>{capitalize(student.firstName)}</td>
                     <td>{student.lastName.toUpperCase()}</td>
-                    {#if admin}
+                   <!--  {#if admin}
                         <td>{student.parents[0].email}</td>
-                    {/if}
+                    {/if} -->
                     <td>{getDayName(getDayFromUrl(student.seasons[seasons().current].day, $currentSeason.days))}</td>
                     <td>{#if student.seasons[seasons().current].status==='Pré‑inscrit(e)'}
                         <span data-tooltip="Pré‑inscrit(e), le dossier n'est pas complet.">⌛</span>

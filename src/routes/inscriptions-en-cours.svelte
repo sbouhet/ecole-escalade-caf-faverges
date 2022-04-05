@@ -6,6 +6,7 @@
   addDoc,
   updateDoc,
   deleteDoc,
+  collectionGroup,
   collection,
   query,
   where,
@@ -26,10 +27,29 @@
         console.log(students)
         console.log(`Found ${students.length} students for this query`)
     })
+
+
+
+
     let myStudents = []
-    $:if($currentUser){
+    const privateQuery = query(collectionGroup(db, 'privateCol'), where('email', '==', 'friarobaz@gmail.com'));
+    const unsubscribe2 = onSnapshot(privateQuery, (querySnapshot) => {
+        myStudents = []
+        querySnapshot.forEach((doc) => {
+        myStudents.push(doc.data())
+        })
+        console.log(myStudents)
+        console.log(`Found ${myStudents.length} students for this query`)
+    })
+
+
+
+
+
+
+   /*  $:if($currentUser){
       myStudents = students.filter(student => student.parents.some(p => p.email === $currentUser.email))
-    }
+    } */
     
     
 </script>

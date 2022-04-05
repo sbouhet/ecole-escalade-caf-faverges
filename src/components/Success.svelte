@@ -17,7 +17,7 @@
 <dialog open={open}>
   <article>
     <h2>Votre demande d'inscription a bien été enregistrée !</h2>
-    <p><b>{printName($subscription)}</b> est bien inscrit(e) sur le créneau du {getDayName($currentDay)}</p>
+    <p><b>{printName($subscription.publicInfo)}</b> est pré‑inscrit(e) sur le créneau de {getDayName($currentDay)}</p>
       
     
       
