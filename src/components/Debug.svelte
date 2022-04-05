@@ -4,11 +4,16 @@
     import { seasons } from '$utils/seasons'
 
 
-    let proprieties
+    let proprietiesPublic
+    let proprietiesPrivate
     $:if ($subscription) {
-        proprieties = []
-        for (const prop in $subscription) {
-            proprieties.push(prop)
+        proprietiesPublic = []
+        for (const prop in $subscription.publicInfo) {
+            proprietiesPublic.push(prop)
+        }
+        proprietiesPrivate = []
+        for (const prop in $subscription.privateInfo) {
+            proprietiesPrivate.push(prop)
         }
     }
 </script>
@@ -36,20 +41,34 @@
     </div>
     <div>
         ageStatus : {$ageStatus}<br>
-        Subscription :
+    </div>
+    <div>
+        Public :
         <ul>
-            {#each proprieties as prop}
+            {#each proprietiesPublic as prop}
                 {#if $subscription[prop] !== null}
                     <li>
-                        {prop}: {$subscription[prop]}
+                        {prop}: {$subscription.publicInfo[prop]}
                     </li>
                 {/if}
             {/each}
         </ul>
     </div>
     <div>
-        seasons.season.day : {$subscription.seasons[seasons().current].day}<br>
-        seasons.season.status : {$subscription.seasons[seasons().current].status}<br>
+        Private :
+        <ul>
+            {#each proprietiesPrivate as prop}
+                {#if $subscription[prop] !== null}
+                    <li>
+                        {prop}: {$subscription.privateInfo[prop]}
+                    </li>
+                {/if}
+            {/each}
+        </ul>
+    </div>
+    <div>
+        seasons.season.day : {$subscription.publicInfo.seasons[seasons().current].day}<br>
+        seasons.season.status : {$subscription.publicInfo.seasons[seasons().current].status}<br>
     </div>
 </div>
 

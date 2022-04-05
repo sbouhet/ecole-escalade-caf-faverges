@@ -25,7 +25,7 @@
             }
         }
         
-    $subscription.dateOfBirth = dateOfBirth
+    $subscription.privateInfo.dateOfBirth = dateOfBirth
         
     }
 </script>

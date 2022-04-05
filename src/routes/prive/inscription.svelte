@@ -26,7 +26,7 @@
         }
     } */
 
-    $:if ($subscription.seasons[seasons().current].status === 'done') {
+    $:if ($subscription.publicInfo.seasons[seasons().current].status === 'done') {
         $goto('/')  
         /* updateSeasonObject().then(()=>{
             $goto('/')  
@@ -40,13 +40,13 @@
         <h1>Inscription</h1>
         <h1>Saison {seasons().current}</h1>
     </hgroup>
-    {#if $subscription.seasons[seasons().current].status === 'readyToCheck'}
+    {#if $subscription.publicInfo.seasons[seasons().current].status === 'readyToCheck'}
         <CheckSubscription />
-    {:else if $subscription.seasons[seasons().current].status === 'uploadedToFirestore'}
+    {:else if $subscription.publicInfo.seasons[seasons().current].status === 'uploadedToFirestore'}
         <Success />
     {/if}
 
-    {#if $subscription.seasons[seasons().current].status !== 'done'}
+    {#if $subscription.publicInfo.seasons[seasons().current].status !== 'done'}
         <SubscribeForm />
     {/if}
 

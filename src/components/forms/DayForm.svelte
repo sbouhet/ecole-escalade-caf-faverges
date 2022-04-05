@@ -10,7 +10,7 @@
     $:if (selectedDay) {
         warningMessage = getWarningMessage(getMinYear(selectedDay, $currentSeason.ageGroups))
         $currentDay = selectedDay
-        $subscription.seasons[seasons().current].day = getDayUrl(selectedDay)
+        $subscription.publicInfo.seasons[seasons().current].day = getDayUrl(selectedDay)
     }
 
     if (lockedDay) {

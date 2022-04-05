@@ -11,10 +11,10 @@
     }
     if (nb===2) role='father'
     
-    $subscription.parents[nb-1] = {}
-    $:$subscription.parents[nb-1].role = role
-    $:$subscription.parents[nb-1].email = email
-    $:$subscription.parents[nb-1].tel = tel
+    $subscription.privateInfo.parents[nb-1] = {}
+    $:$subscription.privateInfo.parents[nb-1].role = role
+    $:$subscription.privateInfo.parents[nb-1].email = email
+    $:$subscription.privateInfo.parents[nb-1].tel = tel
 
 </script>
 

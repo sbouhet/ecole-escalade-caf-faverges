@@ -4,11 +4,11 @@
     let firstName, lastName
 
     $:if (target==='student') {
-        if (firstName) $subscription.firstName = firstName.toLowerCase()
-        if (lastName) $subscription.lastName = lastName.toLowerCase()
+        if (firstName) $subscription.publicInfo.firstName = firstName.toLowerCase()
+        if (lastName) $subscription.publicInfo.lastName = lastName.toLowerCase()
     }else if(target==='parent'){
-        if (firstName) $subscription.parents[nb-1].firstName = firstName.toLowerCase()
-        if (lastName) $subscription.parents[nb-1].lastName = lastName.toLowerCase()
+        if (firstName) $subscription.privateInfo.parents[nb-1].firstName = firstName.toLowerCase()
+        if (lastName) $subscription.privateInfo.parents[nb-1].lastName = lastName.toLowerCase()
     }
 </script>
 

@@ -12,9 +12,9 @@
     const submitSubscription = () => {
       createNewStudent($subscription, $currentDay).then((answer)=>{
         console.log(answer)
-        $subscription.seasons[seasons().current].status = 'uploadedToFirestore'
+        $subscription.publicInfo.seasons[seasons().current].status = 'uploadedToFirestore'
       }).catch(err=>{
-        $subscription.seasons[seasons().current].status = 'errorUploading'
+        $subscription.publicInfo.seasons[seasons().current].status = 'errorUploading'
         throw err
       })
     }
@@ -27,12 +27,12 @@
       <h5>
         {printName($subscription)}
       </h5>
-      <div>Né(e) le <b>{dayjs($subscription.dateOfBirth).format('D MMMM YYYY')}</b> ({getAge($subscription.dateOfBirth, false)} ans)</div>
+      <div>Né(e) le <b>{dayjs($subscription.privateInfo.dateOfBirth).format('D MMMM YYYY')}</b> ({getAge($subscription.privateInfo.dateOfBirth, false)} ans)</div>
       <div>Créneau choisi : <b>{getDayName($currentDay)}</b></div>
       <br>
       <section>
         Parents :
-        {#each $subscription.parents as parent}
+        {#each $subscription.privateInfo.parents as parent}
         <hr>
           <div>
             <div><b>{printName(parent)}</b> <small>({translateRole(parent.role)})</small></div>
@@ -43,7 +43,7 @@
       </section>
     </div>
     <footer>
-      <a href="#" role="button" class="secondary" on:click={()=>$subscription.seasons[seasons().current].status=null}>Annuler</a>
+      <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[seasons().current].status=null}>Annuler</a>
       <a href="#" role="button" on:click={submitSubscription}>Confirmer l'inscription</a>
     </footer>
   </article>

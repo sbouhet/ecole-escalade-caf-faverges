@@ -3,14 +3,14 @@
     import ChildInfo from './ChildInfo.svelte'
     import { subscription } from '$utils/stores'
 
-    $: nbOfParents = $subscription.parents.length
+    $: nbOfParents = $subscription.privateInfo.parents.length
     const removeParent = ()=>{
         if (nbOfParents<=1) return 
-        $subscription.parents.pop()
+        $subscription.privateInfo.parents.pop()
         $subscription = $subscription
     }
     const addParent = ()=>{
-        $subscription.parents.push({})
+        $subscription.privateInfo.parents.push({})
         $subscription = $subscription
     }
 </script>

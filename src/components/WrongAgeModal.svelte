@@ -12,9 +12,9 @@
     maxAge = $currentSeason.ageGroups[$currentDay.ageGroupIndex].max
   }
   $:if ($subscription) {
-    firstName = $subscription.firstName
-    subYear = $subscription.dateOfBirth ? $subscription.dateOfBirth.split('-')[0] : null
-    subAge = $subscription.dateOfBirth ? getAge($subscription.dateOfBirth, false) : null
+    firstName = $subscription.publicInfo.firstName
+    subYear = $subscription.privateInfo.dateOfBirth ? $subscription.privateInfo.dateOfBirth.split('-')[0] : null
+    subAge = $subscription.privateInfo.dateOfBirth ? getAge($subscription.privateInfo.dateOfBirth, false) : null
     if ($ageStatus === 'tooYoung') {
       title = 'Erreur : votre enfant est trop jeune pour ce groupe'
       message = `L'année de naissance maximum pour ce groupe est ${minYear}, votre enfant est né en ${subYear}`

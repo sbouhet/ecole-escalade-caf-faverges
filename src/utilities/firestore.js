@@ -40,6 +40,10 @@ export const createNewStudent = async (
   console.log(student)
   student.seasons[seasons().current].status = "Pré‑inscrit(e)"
   const docRef = await addDoc(collection(db, "students"), student)
+  const privateDataRef = await setDoc(
+    doc(db, "students", docRef.id, "privateCol", "privateDoc"),
+    { secret: true }
+  )
   await updateDoc(docRef, { id: docRef.id })
   console.log("Document written with ID: ", docRef.id)
   return "ALL GOOD"

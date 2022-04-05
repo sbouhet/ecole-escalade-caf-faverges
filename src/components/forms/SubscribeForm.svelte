@@ -21,7 +21,7 @@
             openErrorModal = true
             return
         }
-        $subscription.seasons[seasons().current].status = 'readyToCheck'
+        $subscription.publicInfo.seasons[seasons().current].status = 'readyToCheck'
     }
 </script>
 

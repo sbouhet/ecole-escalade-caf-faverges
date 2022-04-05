@@ -2,10 +2,16 @@ import { seasons } from "$utils/seasons"
 
 export const subscriptionReset = () => {
   return {
-    firstName: null,
-    lastName: null,
-    dateOfBirth: null,
-    parents: [{}],
-    seasons: { [seasons().current]: { day: null, status: null } },
+    publicInfo: {
+      firstName: null,
+      lastName: null,
+      seasons: { [seasons().current]: { day: null, status: null } },
+    },
+    privateInfo: {
+      tel: null,
+      email: null,
+      dateOfBirth: null,
+      parents: [{}],
+    },
   }
 }
