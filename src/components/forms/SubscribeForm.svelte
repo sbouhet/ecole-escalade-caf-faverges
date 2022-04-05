@@ -2,7 +2,7 @@
     import AdultSubscriptionForm from "./AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./ChildSubscriptionForm.svelte"
     import DayForm from "./DayForm.svelte"
-    import { currentSeason, currentDay, subscription } from '$utils/stores'
+    import { currentSeason, currentDay, subscription, ageStatus } from '$utils/stores'
     import { isDayForAdults } from '$utils/days'
     import WrongAgeModal from '$components/WrongAgeModal.svelte'
     import { seasons } from '$utils/seasons'
@@ -16,7 +16,7 @@
 
     const handleSubmit = () => {
         if (openErrorModal) return
-        if ($subscription.ageChecksOut!=='ok') {
+        if ($ageStatus!=='ok') {
             console.error('age does not match day')
             openErrorModal = true
             return

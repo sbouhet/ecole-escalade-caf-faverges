@@ -1,6 +1,6 @@
 <script>
     import {getAge, getMinYear} from '$utils/ageGroups'
-    import { currentDay, currentSeason, subscription } from '$utils/stores'
+    import { currentDay, currentSeason, subscription, ageStatus } from '$utils/stores'
    
     
     let ageGroup, dateOfBirth, age, status
@@ -8,7 +8,7 @@
         ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
     }
 
-    $: $subscription.ageChecksOut = status
+    $: $ageStatus = status
     
     $: if (dateOfBirth) {
         let year = parseInt(dateOfBirth.split('-')[0])

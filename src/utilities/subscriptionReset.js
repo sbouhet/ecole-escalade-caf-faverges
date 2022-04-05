@@ -5,7 +5,6 @@ export const subscriptionReset = () => {
     firstName: null,
     lastName: null,
     dateOfBirth: null,
-    ageChecksOut: null,
     parents: [{}],
     seasons: { [seasons().current]: { day: null, status: null } },
   }

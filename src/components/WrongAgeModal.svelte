@@ -1,6 +1,6 @@
 <script>
   export let open = true
-  import { subscription, currentDay, currentSeason } from '$utils/stores'
+  import { subscription, currentDay, currentSeason, ageStatus } from '$utils/stores'
   import { getDayName, getMinYear } from '$utils/days'
   import { getAge } from '$utils/ageGroups'
   import { capitalize } from '$utils/capitalize'
@@ -15,10 +15,10 @@
     firstName = $subscription.firstName
     subYear = $subscription.dateOfBirth ? $subscription.dateOfBirth.split('-')[0] : null
     subAge = $subscription.dateOfBirth ? getAge($subscription.dateOfBirth, false) : null
-    if ($subscription.ageChecksOut === 'tooYoung') {
+    if ($ageStatus === 'tooYoung') {
       title = 'Erreur : votre enfant est trop jeune pour ce groupe'
       message = `L'année de naissance maximum pour ce groupe est ${minYear}, votre enfant est né en ${subYear}`
-    }else if ($subscription.ageChecksOut === 'tooOld') {
+    }else if ($ageStatus === 'tooOld') {
       title = 'Erreur : votre enfant est trop agé pour ce groupe'
       message = `L'age maximum pour ce groupe est de ${maxAge} ans, ${capitalize(firstName)} a ${subAge} ans.`
     }

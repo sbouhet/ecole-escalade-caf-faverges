@@ -1,5 +1,5 @@
 <script>
-    import { currentSeason, currentDay, subscription, loggedin, verified, admin, currentUser} from '$utils/stores'
+    import { currentSeason, currentDay, subscription, loggedin, verified, admin, currentUser, ageStatus} from '$utils/stores'
     import { getDayName } from '$utils/days'
     import { seasons } from '$utils/seasons'
 
@@ -35,6 +35,7 @@
         {/if}
     </div>
     <div>
+        ageStatus : {$ageStatus}<br>
         Subscription :
         <ul>
             {#each proprieties as prop}
