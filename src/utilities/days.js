@@ -68,7 +68,7 @@
 import { capitalize } from "$utils/capitalize"
 
 export const getDayName = (day) => {
-  console.log(`Trying to read name from ${day}`)
+  //console.log(`Trying to read name from ${day}`)
   if (!day) return undefined
   let weekday = capitalize(day.weekday)
   return `${weekday} ${day.startTime}`

@@ -7,10 +7,13 @@ import {
   updateDoc,
   deleteDoc,
   collection,
+  arrayUnion,
+  arrayRemove,
   query,
   where,
   onSnapshot,
 } from "firebase/firestore"
+import { getAuth } from "firebase/auth"
 import { seasons } from "./seasons"
 import { getDayUrl } from "$utils/days"
 
@@ -31,21 +34,32 @@ export const getSeasonFromFirestore = async (time = "current") => {
   return await getSeason(name)
 }
 
-export const createNewStudent = async (
-  student,
-  day,
-  season = seasons().current
-) => {
+export const createNewStudent = async (student, season = seasons().current) => {
   console.log(`Trying to subscribe ${student.firstName}`)
-  console.log(student)
+
+  //change student status to "préinscrit"
   student.publicInfo.seasons[seasons().current].status = "Pré‑inscrit(e)"
-  const docRef = await addDoc(collection(db, "students"), student.publicInfo)
+
+  //write public data to student doc (students/{studentId})
+  const studentRef = await addDoc(
+    collection(db, "students"),
+    student.publicInfo
+  )
+  await updateDoc(studentRef, { id: studentRef.id })
+
+  //write private data to student doc (students/{studentId}/privateCol/privateDoc)
   const privateDataRef = await setDoc(
-    doc(db, "students", docRef.id, "privateCol", "privateDoc"),
+    doc(db, "students", studentRef.id, "privateCol", "privateDoc"),
     student.privateInfo
   )
-  await updateDoc(docRef, { id: docRef.id })
-  console.log("Document written with ID: ", docRef.id)
+
+  //write student ID to user doc (users/{userId})
+  const userId = getAuth().currentUser.uid
+  await updateDoc(doc(db, "users", userId), {
+    students: arrayUnion(studentRef.id),
+  })
+
+  console.log("Document written with ID: ", studentRef.id)
   return "ALL GOOD"
 }
 

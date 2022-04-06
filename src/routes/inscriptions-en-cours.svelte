@@ -30,20 +30,23 @@
 
 
 
-
-    let myStudents = []
+  let myStudents = []
     const privateQuery = query(collectionGroup(db, 'privateCol'), where('email', '==', 'friarobaz@gmail.com'));
     const unsubscribe2 = onSnapshot(privateQuery, (querySnapshot) => {
         myStudents = []
         querySnapshot.forEach((doc) => {
-        myStudents.push(doc.data())
+          const docRef = doc.ref
+          const parentCollectionRef = docRef.parent   // CollectionReference
+          const immediateParentDocumentRef = parentCollectionRef.parent; // DocumentReference
+          const docSnap = getDoc(immediateParentDocumentRef).then(snap=>{
+            console.log(snap.data())
+            myStudents = [...myStudents, snap.data()]
+          })
+
+          
         })
-        console.log(myStudents)
-        console.log(`Found ${myStudents.length} students for this query`)
+        
     })
-
-
-
 
 
 

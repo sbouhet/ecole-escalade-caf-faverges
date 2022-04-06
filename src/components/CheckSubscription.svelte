@@ -1,5 +1,5 @@
 <script>
-    import { subscription, currentDay, currentSeason } from '$utils/stores'
+    import { subscription, currentDay, currentSeason, currentUser } from '$utils/stores'
     import { getAge } from '$utils/ageGroups'
     import { getDayName } from '$utils/days'
     import { translateRole } from '$utils/translateRole'
@@ -10,7 +10,7 @@
 
 
     const submitSubscription = () => {
-      createNewStudent($subscription, $currentDay).then((answer)=>{
+      createNewStudent($subscription, $currentUser.uid).then((answer)=>{
         console.log(answer)
         $subscription.publicInfo.seasons[seasons().current].status = 'uploadedToFirestore'
       }).catch(err=>{

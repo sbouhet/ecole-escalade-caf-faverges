@@ -99,7 +99,7 @@
     footer{
         display:flex;
         flex-wrap: wrap;
-        margin-top: 200px;
+        margin-top: 100px;
     }
 
     footer div{

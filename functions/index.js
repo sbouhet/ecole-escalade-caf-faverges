@@ -23,6 +23,20 @@ const season = () => {
   return seasonObject(thisYear - 1)
 }
 
+const getEmails = (studentPrivateData) => {
+  let emails = []
+  let data = studentPrivateData
+  if (!data) throw "no data"
+  if (data.email) emails.push(data.email)
+  if (data.parents && data.parents.length) {
+    //if parents
+    for (const parent of data.parents) {
+      if (parent.email) emails.push(parent.email)
+    }
+  }
+  return emails
+}
+
 /* exports.randomNumber = functions.https.onRequest((request, response) => {
   const truc = `
   This season: ${season().current},
@@ -31,12 +45,53 @@ const season = () => {
   response.send(truc)
 }) */
 
-/* exports.sayHello = functions.https.onCall((data, context) => {
+exports.sayHello = functions.https.onCall((data, context) => {
   const name = data.name
-  return `Hello lolilol ${name}`
-}) */
+  return `Hello  ${name}`
+})
 
-/* exports.newAuthUser = functions.auth.user().onCreate((user) => {
+exports.test = functions.https.onCall((data, context) => {
+  const email = context.auth.token.email || null
+  const uid = context.auth.uid
+  if (!email) return
+  const privateCollectionsRef = db
+    .collectionGroup("privateCol")
+    .where("emails", "array-contains", email)
+
+  return privateCollectionsRef
+    .get()
+    .then((querySnapshot) => {
+      let childrenIds = []
+      querySnapshot.forEach((privateDoc) => {
+        childrenIds.push(privateDoc.ref._path.segments[1]) //student id
+      })
+      return childrenIds
+    })
+    .then((childrenIds) => {
+      return db.collection("users").doc(uid).update({
+        students: childrenIds,
+      })
+    })
+})
+
+exports.findChildren = functions.https.onCall((data, context) => {
+  const parentEmail = data.email
+  console.log(parentEmail)
+  var childrenRef = db
+    .collectionGroup("privateCol")
+    .where("emails", "array-contains", parentEmail)
+
+  childrenRef.get().then((querySnapshot) => {
+    let children = []
+    querySnapshot.forEach((doc) => {
+      children.push(doc.id)
+    })
+    console.log(children)
+    return children
+  })
+})
+
+exports.newAuthUser = functions.auth.user().onCreate((user) => {
   return db.collection("users").doc(user.uid).set({
     email: user.email,
     id: user.uid,
@@ -45,9 +100,22 @@ const season = () => {
 
 exports.delAuthUser = functions.auth.user().onDelete((user) => {
   return db.collection("users").doc(user.uid).delete()
-}) */
+})
 
-exports.newFirestoreUser = functions.firestore
+//When user is created, updated, or deleted, update Emails array
+exports.updateEmails = functions.firestore
+  .document("students/{studentId}/privateCol/{privateDoc}")
+  .onWrite(async (change, context) => {
+    const privateData = change.after.data()
+    const emails = getEmails(privateData)
+    const studentId = context.params.studentId
+    if (!privateData) return //if deleted do nothing
+    return db
+      .doc(`students/${studentId}/privateCol/privateDoc`)
+      .update({ emails: emails })
+  })
+
+/* exports.newFirestoreUser = functions.firestore
   .document("students/{userId}")
   .onCreate((snap, context) => {
     const user = snap.data()
@@ -58,9 +126,9 @@ exports.newFirestoreUser = functions.firestore
     return db
       .doc(`seasons/${seasonString}`)
       .update({ [`students.${id}`]: user })
-  })
+  }) */
 
-exports.updateFirestoreUser = functions.firestore
+/* exports.updateFirestoreUser = functions.firestore
   .document("students/{userId}")
   .onUpdate((change, context) => {
     const user = change.after.data()
@@ -71,9 +139,9 @@ exports.updateFirestoreUser = functions.firestore
     return db
       .doc(`seasons/${seasonString}`)
       .update({ [`students.${id}`]: user })
-  })
+  }) */
 
-exports.delFirestoreUser = functions.firestore
+/* exports.delFirestoreUser = functions.firestore
   .document("students/{userId}")
   .onDelete((snap, context) => {
     // Get an object representing the document prior to deletion
@@ -93,7 +161,7 @@ exports.delFirestoreUser = functions.firestore
       .catch((err) => {
         console.log(err)
       })
-  })
+  }) */
 
 /* exports.onCreateUser = functions.firestore
   .document("users/{userId}")
