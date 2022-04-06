@@ -37,6 +37,28 @@ const getEmails = (studentPrivateData) => {
   return emails
 }
 
+const removeStudentIdFromParents = (studentId) => {
+  console.log(`Removing ${studentId} from parents`)
+  //Query parents
+  const parentsRef = db
+    .collection("users")
+    .where("students", "array-contains", studentId)
+
+  //Get parents
+  return parentsRef.get().then((querySnapshot) => {
+    //For each parent
+    querySnapshot.forEach((parentDoc) => {
+      console.log("Parent found")
+      console.log(parentDoc.data())
+      const parentRef = db.collection("users").doc(parentDoc.id)
+      //remove student id
+      return parentRef.update({
+        students: admin.firestore.FieldValue.arrayRemove(studentId),
+      })
+    })
+  })
+}
+
 /* exports.randomNumber = functions.https.onRequest((request, response) => {
   const truc = `
   This season: ${season().current},
@@ -113,6 +135,14 @@ exports.updateEmails = functions.firestore
     return db
       .doc(`students/${studentId}/privateCol/privateDoc`)
       .update({ emails: emails })
+  })
+
+exports.delFirestoreUser = functions.firestore
+  .document("students/{studentId}")
+  .onDelete((snap, context) => {
+    const user = snap.data()
+    const studentId = snap.id
+    return removeStudentIdFromParents(studentId)
   })
 
 /* exports.newFirestoreUser = functions.firestore

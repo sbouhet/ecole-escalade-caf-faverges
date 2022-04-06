@@ -12,11 +12,15 @@
   where,
   onSnapshot,
     } from "firebase/firestore"
-    import { getFunctions, httpsCallable } from "firebase/functions"
+    import { getApp } from "firebase/app";
+    import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions"
     import { getStudents } from '$utils/getStudents'
     import { currentSeason, currentUser, loggedin } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import { seasons } from '$utils/seasons'
+
+    const functions = getFunctions(getApp())
+    connectFunctionsEmulator(functions, "localhost", 5001);
 
     let privateData
 
@@ -47,7 +51,7 @@ const getEmails = (studentPrivateData)=>{
   return emails
 }
 
-const functions = getFunctions()
+//const functions = getFunctions()
 
 const findChildren = httpsCallable(functions, 'findChildren')
 const sayHello = httpsCallable(functions, 'sayHello')
