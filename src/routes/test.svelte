@@ -20,7 +20,7 @@
     import { seasons } from '$utils/seasons'
 
     const functions = getFunctions(getApp())
-    connectFunctionsEmulator(functions, "localhost", 5001);
+    //connectFunctionsEmulator(functions, "localhost", 5001);
 
     let privateData
 

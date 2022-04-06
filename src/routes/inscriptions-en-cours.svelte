@@ -16,6 +16,8 @@
     import { currentSeason, currentUser, loggedin } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import { seasons } from '$utils/seasons'
+        import { getAuth } from "firebase/auth"
+
 
     let students = []
     const q = query(collection(db, "students"), where(`seasons.${seasons().current}.status`, ">", ""))
@@ -28,26 +30,26 @@
         console.log(`Found ${students.length} students for this query`)
     })
 
+  const getMyStudents = async()=>{
+    let myStudents = []
+    let currentUser = getAuth().currentUser
+    const userRef = doc(db, "users", currentUser.uid)
+    const userSnap = await getDoc(userRef)
+    let ids = userSnap.data().students
+    console.log(ids)
+    for (const id of ids) {
+      const studentRef = doc(db, "students", id)
+      const studentSnap = await getDoc(studentRef)
+      myStudents.push(studentSnap.data())
+    }
+    console.log(myStudents)
+    return myStudents
+  }
 
 
-  let myStudents = []
-    const privateQuery = query(collectionGroup(db, 'privateCol'), where('email', '==', 'friarobaz@gmail.com'));
-    const unsubscribe2 = onSnapshot(privateQuery, (querySnapshot) => {
-        myStudents = []
-        querySnapshot.forEach((doc) => {
-          const docRef = doc.ref
-          const parentCollectionRef = docRef.parent   // CollectionReference
-          const immediateParentDocumentRef = parentCollectionRef.parent; // DocumentReference
-          const docSnap = getDoc(immediateParentDocumentRef).then(snap=>{
-            console.log(snap.data())
-            myStudents = [...myStudents, snap.data()]
-          })
 
-          
-        })
-        
-    })
 
+    const myStudents = getMyStudents()
 
 
    /*  $:if($currentUser){
@@ -58,7 +60,11 @@
 </script>
 {#if $loggedin}
   <h2>Mes inscriptions</h2>
+  {#await myStudents}
+    please wait...
+  {:then myStudents} 
   <StudentsStatusTable students={myStudents}/>
+  {/await}
   <hr>
 {/if}
 

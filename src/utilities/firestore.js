@@ -69,6 +69,7 @@ export const deleteStudent = async (id) => {
   )
   if (!result) return
   console.log("Trying to delete doc" + id)
+  await deleteDoc(doc(db, "students", id, "privateCol", "privateDoc"))
   await deleteDoc(doc(db, "students", id))
   console.log("Doc deleted")
   return true
