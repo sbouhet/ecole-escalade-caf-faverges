@@ -5,8 +5,6 @@
     import { translateRole } from '$utils/translateRole'
     import { createNewStudent, getSeasonFromFirestore } from '$utils/firestore'
     import { printName } from '$utils/printName'
-    import { seasons } from '$utils/seasons'
-    import { getAuth } from "firebase/auth"
 
 
 

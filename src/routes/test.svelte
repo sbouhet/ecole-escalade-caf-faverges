@@ -3,6 +3,7 @@
     import {
   doc,
   getDoc,
+  setDoc,
   addDoc,
   updateDoc,
   deleteDoc,
@@ -72,7 +73,7 @@ const handleClick = () => {
             console.log(result.data)
     })        
 }
-    
+        
 </script>
 
 {#if privateData}
@@ -83,3 +84,4 @@ const handleClick = () => {
 <button on:click={getEmails}>Get emails</button>
 <button on:click={handelGetChildren}>Get children</button>
 <button on:click={handleClick}>Hello</button>
+

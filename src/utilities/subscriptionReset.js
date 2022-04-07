@@ -1,11 +1,12 @@
 import { seasons } from "$utils/seasons"
 
-export const subscriptionReset = (season) => {
+export const subscriptionReset = (seasonName) => {
+  console.log("RESETTING SUBSCRIPTION")
   return {
     publicInfo: {
       firstName: null,
       lastName: null,
-      seasons: { [season.name]: { day: null, status: null } },
+      seasons: { [seasonName]: { day: null, status: null } },
     },
     privateInfo: {
       tel: null,

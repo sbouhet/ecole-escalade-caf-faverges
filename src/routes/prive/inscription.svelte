@@ -14,8 +14,11 @@
     if (dayUrl) {
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
     }
-    $subscription = subscriptionReset($currentSeason)
     $:status = $subscription.publicInfo.seasons[$currentSeason.name].status
+    $:if (status === 'done') {
+        
+        $goto('/')
+    }    
 </script>
 
 <article>

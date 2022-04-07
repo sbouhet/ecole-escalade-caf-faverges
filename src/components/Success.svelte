@@ -10,7 +10,7 @@
     }
 
     const backToHomePage = ()=>{
-      $goto('/')
+      $subscription.publicInfo.seasons[$currentSeason.name].status = 'done'
     }
 </script>
 

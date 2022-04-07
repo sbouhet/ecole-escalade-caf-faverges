@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeasonFromFirestore } from '$utils/firestore'
-    import {currentSeason, loggedin} from '$utils/stores'
+    import {currentSeason, loggedin, subscription} from '$utils/stores'
     import Debug from '$components/Debug.svelte'
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'
@@ -12,10 +12,18 @@
     import { seasons } from '$utils/seasons'
     import { db } from '$utils/firebase'
     import ErrorMessage from '$components/ErrorMessage.svelte'
+    import { subscriptionReset } from '$utils/subscriptionReset'
 
     let admin = false
     let verified = false
     let selectedSeason = 'current'
+
+    $:if ($currentSeason) {
+        console.log($currentSeason)
+        $subscription = subscriptionReset($currentSeason.name)
+    }
+
+    $:console.log($subscription)
    
  
     const allowDebug = true

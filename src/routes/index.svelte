@@ -8,12 +8,10 @@
    
 
 const reset = ()=>{
-    console.log('Restting subsccripion store')
-    $subscription = subscriptionReset($currentSeason)
-    $currentDay = null
+    $subscription = subscriptionReset($currentSeason.name)
 }
 
-
+console.log('this is INDEX')
 </script>
 
 
