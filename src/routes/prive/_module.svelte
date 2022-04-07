@@ -5,15 +5,16 @@
     import Logout from '$components/Logout.svelte'
     import Login from '$components/forms/Login.svelte'
     import VerifyEmail from '$components/VerifyEmail.svelte'
-    import {loggedin, verified} from '$utils/stores'
     import CreateAccount from '$components/CreateAccount.svelte' 
     import {isActive} from '@roxi/routify'
+    import { getAuth } from "firebase/auth"
+import { loggedin } from '$utils/stores';
     
     let showCreateAccount = $isActive('/prive/inscription')
 </script>
 
 {#if $loggedin}
-    {#if $verified}
+    {#if getAuth().currentUser.emailVerified }
         <slot></slot>
     {:else}
         <VerifyEmail/>

@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeasonFromFirestore } from '$utils/firestore'
-    import {currentUser, loggedin, verified, admin, currentSeason} from '$utils/stores'
+    import {currentSeason, loggedin} from '$utils/stores'
     import Debug from '$components/Debug.svelte'
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'
@@ -12,6 +12,8 @@
     import { seasons } from '$utils/seasons'
     import { db } from '$utils/firebase'
 
+    let verified = false
+    let admin = false
    
  
     const allowDebug = true
@@ -24,21 +26,20 @@
 
     onAuthStateChanged(getAuth(), (usr)=>{
         userStoreUpToDate = false
-        $currentUser = getAuth().currentUser
+        //console.log(getAuth().currentUser)
       if(usr){
         $loggedin = true
-        $verified = usr.emailVerified
+        verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
-          $admin = !!res.claims.admin
+            //console.log(res.claims.admin)
+          admin = !!res.claims.admin
           userStoreUpToDate = true
         })
       }else{
         $loggedin = false
-        $currentUser = null
-        $admin = false
-        $verified = false
+        admin = false
+        verified = false
         userStoreUpToDate = true
-        //refresh ??
       }
       
 	  })
@@ -55,13 +56,20 @@
     {#if debug}
                 <Debug />
     {/if}
-    {#if $loggedin && $currentUser}
     <small>
-        <div><span>👤 </span>{$currentUser.email}</div>
-        <Logout tiny={true} />
+        {#if $loggedin && getAuth().currentUser}
+            <div>
+                <span>👤 </span>
+                {getAuth().currentUser.email}
+                {#if admin}
+                    (admin)
+                {/if}
+            </div>
+            <Logout tiny={true} />
+        {:else}
+            <a href="/prive/mon-compte">Se connecter</a>
+        {/if}
     </small>
-        
-    {/if}
     <main class='container'>
         {#await promise}
             waiting for season from firestore
@@ -77,7 +85,7 @@
                     </div>
                     {/if}
 
-                   <!--  {#if $loggedin}
+                   <!--  {#if getAuth().currentUser!==null}
                         <div>
                             <Logout />
                         </div>

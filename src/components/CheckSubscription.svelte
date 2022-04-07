@@ -1,16 +1,17 @@
 <script>
-    import { subscription, currentDay, currentSeason, currentUser } from '$utils/stores'
+    import { subscription, currentDay, currentSeason } from '$utils/stores'
     import { getAge } from '$utils/ageGroups'
     import { getDayName } from '$utils/days'
     import { translateRole } from '$utils/translateRole'
     import { createNewStudent, getSeasonFromFirestore } from '$utils/firestore'
     import { printName } from '$utils/printName'
     import { seasons } from '$utils/seasons'
+    import { getAuth } from "firebase/auth"
 
 
 
     const submitSubscription = () => {
-      createNewStudent($subscription, $currentUser.uid).then((answer)=>{
+      createNewStudent($subscription, getAuth().currentUser.uid).then((answer)=>{
         console.log(answer)
         $subscription.publicInfo.seasons[seasons().current].status = 'uploadedToFirestore'
       }).catch(err=>{

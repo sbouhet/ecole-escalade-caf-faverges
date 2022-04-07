@@ -209,3 +209,80 @@ exports.delFirestoreUser = functions.firestore
 
     // perform desired operations ...
   }) */
+
+exports.addAdminRole = functions.https.onCall((data, context) => {
+  let targetId
+  // check user is not null
+  if (!context.auth) {
+    return { errorInfo: "Vous devez être connecté pour faire ca" }
+  }
+  // check request is made by an admin
+  if (
+    context.auth.token.admin !== true &&
+    context.auth.token.email != "friarobaz@gmail.com"
+  ) {
+    return { errorInfo: "If faut être admin pour ajouter un admin" }
+  }
+
+  // get user and add admin custom claim
+  return admin
+    .auth()
+    .getUserByEmail(data.email)
+    .then((user) => {
+      targetId = user.uid
+      return admin.auth().setCustomUserClaims(user.uid, {
+        admin: true,
+      })
+    })
+    .then(() => {
+      return db.collection("users").doc(targetId).update({
+        admin: true,
+      })
+    })
+    .then(() => {
+      return {
+        message: `${data.email} est maintenant administrateur`,
+      }
+    })
+    .catch((err) => {
+      return err
+    })
+})
+
+exports.removeAdminRole = functions.https.onCall((data, context) => {
+  let targetId
+  // check user is not null
+  if (!context.auth) {
+    return { errorInfo: "Vous devez être connecté pour faire ca" }
+  }
+  // check request is made by an admin
+  if (context.auth.token.admin !== true) {
+    return { errorInfo: "If faut être admin pour supprimer un admin" }
+  }
+  if (data.email === "friarobaz@gmail.com") {
+    return { errorInfo: "Vous ne pouvez pas supprimer Jules :)" }
+  }
+  // get user and add admin custom claim
+  return admin
+    .auth()
+    .getUserByEmail(data.email)
+    .then((user) => {
+      targetId = user.uid
+      return admin.auth().setCustomUserClaims(user.uid, {
+        admin: false,
+      })
+    })
+    .then(() => {
+      return db.collection("users").doc(targetId).update({
+        admin: false,
+      })
+    })
+    .then(() => {
+      return {
+        message: `${data.email} n'est  plus administrateur`,
+      }
+    })
+    .catch((err) => {
+      return err
+    })
+})

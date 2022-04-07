@@ -65,7 +65,9 @@
   },
 ] */
 
+import { seasons } from "$utils/seasons"
 import { capitalize } from "$utils/capitalize"
+import { getAgeGroupName } from "$utils/ageGroups"
 
 export const getDayName = (day) => {
   //console.log(`Trying to read name from ${day}`)
@@ -106,4 +108,31 @@ export const isDayForAdults = (day, ageGroups) => {
   if (!day) throw "No day to check"
   const ageGroup = ageGroups[day.ageGroupIndex]
   return ageGroup.min === 18
+}
+
+export const getDayInfo = (day, season, students) => {
+  if (!day) throw "No day"
+  if (!season) throw "No season"
+  if (!students) throw "No students"
+  const subscribedStudents = students.filter(
+    (student) => student.seasons[season.name].day == getDayUrl(day)
+  )
+  const adult = season.ageGroups[day.ageGroupIndex].min === 18
+  const minYear = getMinYear(day, season.ageGroups)
+  return {
+    name: getDayName(day),
+    tooltip: adult
+      ? "Vous devez être majeur pour vous inscrire"
+      : `Année de naissance maximum : ${minYear}`,
+    ageGroupName: getAgeGroupName(season.ageGroups[day.ageGroupIndex]),
+    minAge: season.ageGroups[day.ageGroupIndex].min,
+    minYear,
+    maxAge: season.ageGroups[day.ageGroupIndex].max,
+    url: getDayUrl(day),
+    nbMaxOfStudents: day.nbMaxOfStudents,
+    subscribedStudents,
+    nbOfSubscibedStudents: subscribedStudents.length,
+    spotsLeft: day.nbMaxOfStudents - subscribedStudents.length,
+    teacher: day.teacher,
+  }
 }

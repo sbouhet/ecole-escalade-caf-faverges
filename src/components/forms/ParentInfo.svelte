@@ -1,12 +1,12 @@
 <script>
-    import {currentUser} from '$utils/stores'
     import NameForm from './NameForm.svelte'
     import { subscription } from '$utils/stores'
+    import { getAuth } from "firebase/auth"
     export let nb
 
     let role, email, tel
     if (nb===1) {
-        email = $currentUser.email
+        email = getAuth().currentUser.email
         role= 'mother'
     }
     if (nb===2) role='father'

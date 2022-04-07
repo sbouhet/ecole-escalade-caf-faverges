@@ -1,15 +1,16 @@
 <!-- routify:meta reset -->
 <script>
-    import { currentSeason, currentUser } from "$utils/stores"
+    import { currentSeason } from "$utils/stores"
     import { getDayName, getDayFromUrl} from '$utils/days'
     import Boolean from "$components/Boolean.svelte"
     import { deleteStudent } from '$utils/firestore'
     import { capitalize } from '$utils/capitalize'
     import { seasons } from '$utils/seasons'
+    import { getAuth } from "firebase/auth"
     export let students = []
     
     let admin = false
-    if($currentUser && $currentUser.email==='friarobaz@gmail.com') admin = true
+    if(getAuth().currentUser && getAuth().currentUser.email==='friarobaz@gmail.com') admin = true
 
     
     let table

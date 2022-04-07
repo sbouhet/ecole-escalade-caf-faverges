@@ -1,7 +1,8 @@
 <script>
-    import { currentSeason, currentDay, subscription, loggedin, verified, admin, currentUser, ageStatus} from '$utils/stores'
+    import { currentSeason, currentDay, subscription, ageStatus} from '$utils/stores'
     import { getDayName } from '$utils/days'
     import { seasons } from '$utils/seasons'
+    import { getAuth } from "firebase/auth"
 
 
     let proprietiesPublic
@@ -19,13 +20,10 @@
 </script>
 
 <div class="debug">
-    <span>Loggedin: {$loggedin}</span>
-    <span>Verified: {$verified}</span>
-    <span>Admin: {$admin}</span>
-    <span>User: {$currentUser}</span>
-    {#if $loggedin}
-        <span>Email: {$currentUser.email}</span>
-        <!-- <div>Id: {$currentUser.uid}</div> -->
+    <span>Loggedin: {getAuth().currentUser!==null}</span>
+    {#if getAuth().currentUser!==null}
+        <span>Email: {getAuth().currentUser.email}</span>
+        <div>Uid: {getAuth().currentUser.uid}</div>
     {/if}
     <div>
         Season :

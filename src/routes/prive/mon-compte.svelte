@@ -1,7 +1,8 @@
 <script>
      export let context //just to hide warning in console
-    import {currentUser, subscription} from '$utils/stores'
-    const user = $currentUser
+    import {subscription} from '$utils/stores'
+    import { getAuth } from "firebase/auth"
+    const user = getAuth().currentUser
     
 </script>
 

@@ -13,10 +13,10 @@
   onSnapshot,
     } from "firebase/firestore"
     import { getStudents } from '$utils/getStudents'
-    import { currentSeason, currentUser, loggedin } from '$utils/stores'
+    import { currentSeason, loggedin } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import { seasons } from '$utils/seasons'
-        import { getAuth } from "firebase/auth"
+    import { getAuth } from "firebase/auth"
 
 
     let students = []
@@ -33,6 +33,7 @@
   const getMyStudents = async()=>{
     let myStudents = []
     let currentUser = getAuth().currentUser
+    if(!currentUser) return []
     const userRef = doc(db, "users", currentUser.uid)
     const userSnap = await getDoc(userRef)
     let ids = userSnap.data().students
@@ -52,9 +53,6 @@
     const myStudents = getMyStudents()
 
 
-   /*  $:if($currentUser){
-      myStudents = students.filter(student => student.parents.some(p => p.email === $currentUser.email))
-    } */
     
     
 </script>

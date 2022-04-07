@@ -1,12 +1,12 @@
 <script>
     import { sendEmailVerification } from "firebase/auth"
-    import {currentUser} from '$utils/stores'
     import ErrorMessage from './ErrorMessage.svelte'
+    import { getAuth } from "firebase/auth"
 
     let error = null
     let emailSent = null
     let emailAddress
-    $:user = $currentUser
+    $:user = getAuth().currentUser
     $:if(user) emailAddress = user.email
     
     const actionCodeSettings = {
@@ -14,8 +14,8 @@
     handleCodeInApp: true
     }
     const handleClick = async () => {
-        console.log(`Trying to send email to ${$currentUser.email}`)
-        sendEmailVerification($currentUser, actionCodeSettings).then(()=>{
+        console.log(`Trying to send email to ${getAuth().currentUser.email}`)
+        sendEmailVerification(getAuth().currentUser, actionCodeSettings).then(()=>{
             console.log('Email sent')
             emailSent = true
         }).catch(err=>{

@@ -16,17 +16,74 @@ export default {
   "children": [
     {
       "meta": {},
-      "id": "_default_admin_svelte",
+      "id": "_default_admin",
       "name": "admin",
-      "module": () => import('../src/routes/admin.svelte'),
+      "module": () => import('../src/routes/admin/_module.svelte'),
       "file": {
-        "path": "src/routes/admin.svelte",
-        "dir": "src/routes",
-        "base": "admin.svelte",
+        "path": "src/routes/admin/_module.svelte",
+        "dir": "src/routes/admin",
+        "base": "_module.svelte",
         "ext": ".svelte",
-        "name": "admin"
+        "name": "_module"
       },
-      "children": []
+      "children": [
+        {
+          "meta": {},
+          "id": "_default_admin_copySeason_svelte",
+          "name": "copySeason",
+          "module": () => import('../src/routes/admin/copySeason.svelte'),
+          "file": {
+            "path": "src/routes/admin/copySeason.svelte",
+            "dir": "src/routes/admin",
+            "base": "copySeason.svelte",
+            "ext": ".svelte",
+            "name": "copySeason"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_admin_index_svelte",
+          "name": "index",
+          "module": () => import('../src/routes/admin/index.svelte'),
+          "file": {
+            "path": "src/routes/admin/index.svelte",
+            "dir": "src/routes/admin",
+            "base": "index.svelte",
+            "ext": ".svelte",
+            "name": "index"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_admin_manageAdmins_svelte",
+          "name": "manageAdmins",
+          "module": () => import('../src/routes/admin/manageAdmins.svelte'),
+          "file": {
+            "path": "src/routes/admin/manageAdmins.svelte",
+            "dir": "src/routes/admin",
+            "base": "manageAdmins.svelte",
+            "ext": ".svelte",
+            "name": "manageAdmins"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_admin_test_svelte",
+          "name": "test",
+          "module": () => import('../src/routes/admin/test.svelte'),
+          "file": {
+            "path": "src/routes/admin/test.svelte",
+            "dir": "src/routes/admin",
+            "base": "test.svelte",
+            "ext": ".svelte",
+            "name": "test"
+          },
+          "children": []
+        }
+      ]
     },
     {
       "meta": {},
@@ -45,14 +102,14 @@ export default {
           "meta": {
             "dynamic": true
           },
-          "id": "_default_creneaux__day__md",
+          "id": "_default_creneaux__day__svelte",
           "name": "[day]",
-          "module": () => import('../src/routes/creneaux/[day].md'),
+          "module": () => import('../src/routes/creneaux/[day].svelte'),
           "file": {
-            "path": "src/routes/creneaux/[day].md",
+            "path": "src/routes/creneaux/[day].svelte",
             "dir": "src/routes/creneaux",
-            "base": "[day].md",
-            "ext": ".md",
+            "base": "[day].svelte",
+            "ext": ".svelte",
             "name": "[day]"
           },
           "children": []
@@ -129,6 +186,20 @@ export default {
           "children": []
         }
       ]
+    },
+    {
+      "meta": {},
+      "id": "_default_recap_svelte",
+      "name": "recap",
+      "module": () => import('../src/routes/recap.svelte'),
+      "file": {
+        "path": "src/routes/recap.svelte",
+        "dir": "src/routes",
+        "base": "recap.svelte",
+        "ext": ".svelte",
+        "name": "recap"
+      },
+      "children": []
     },
     {
       "meta": {},
