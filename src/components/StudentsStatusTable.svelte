@@ -6,8 +6,9 @@
     import { deleteStudent } from '$utils/firestore'
     import { capitalize } from '$utils/capitalize'
     import { getAuth } from "firebase/auth"
-    export let students = []
     
+    export let students = []
+    export let allowDelete = false
     let admin = false
     if(getAuth().currentUser && getAuth().currentUser.email==='friarobaz@gmail.com') admin = true
     let table
@@ -22,7 +23,7 @@
         <table role="grid" bind:this={table}>
             <thead>
                 <tr>
-                    {#if admin}<th scope="col">Del</th>{/if}
+                    {#if admin && allowDelete}<th scope="col">Del</th>{/if}
                     <!-- <th scope="col">Id</th> -->
                     <th scope="col">Prénom</th>
                     <th scope="col">Nom</th>
@@ -38,7 +39,7 @@
                 {#each students as student}
                 {#if student.seasons[$currentSeason.name]}
                 <tr>
-                    {#if admin}
+                    {#if admin && allowDelete}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
                     <!-- <td>{student.id}</td> -->

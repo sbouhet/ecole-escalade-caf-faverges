@@ -37,7 +37,7 @@ export const getSeasonFromFirestore = async (time = "current") => {
 export const createNewStudent = async (student, season) => {
   if (!student) throw "no student"
   if (!season) throw "no season"
-  console.log(`Trying to subscribe ${student.firstName}`)
+  console.log(`Trying to subscribe ${student.publicInfo.firstName}`)
 
   //change student status to "préinscrit"
   student.publicInfo.seasons[season.name].status = "Pré‑inscrit(e)"

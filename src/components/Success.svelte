@@ -2,7 +2,7 @@
     import { subscription, currentDay, currentSeason } from '$utils/stores'
     import { getDayName } from '$utils/days'
     import { printName } from '$utils/printName'
-    import { seasons } from '$utils/seasons'
+    import { goto } from '@roxi/routify'
     let open = true
 
     const subscribeAnother = ()=>{
@@ -10,7 +10,7 @@
     }
 
     const backToHomePage = ()=>{
-        $subscription.publicInfo.seasons[$currentSeason.name].status = 'done'
+      $goto('/')
     }
 </script>
 

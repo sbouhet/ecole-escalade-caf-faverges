@@ -39,7 +39,7 @@
   {#await myStudents}
     Merci de patienter...
   {:then myStudents} 
-    <StudentsStatusTable students={myStudents}/>
+    <StudentsStatusTable students={myStudents} allowDelete={false}/>
   {:catch}
     <ErrorMessage error='Erreur : inscriptions non trouvées.'/>
   {/await}
@@ -47,5 +47,7 @@
 {/if}
 
 <h2>Toutes les inscriptions en cours</h2>
-<p>Cliquez sur une colone pour trier les données</p>
-<StudentsStatusTable {students}/>
+{#if students.length>0}
+  <p>Cliquez sur une colone pour trier les données</p>
+{/if}
+<StudentsStatusTable {students} allowDelete={true}/>
