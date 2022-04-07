@@ -17,6 +17,7 @@
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import { seasons } from '$utils/seasons'
     import { getAuth } from "firebase/auth"
+    import { getMyStudents } from '$utils/firestore'
 
 
     let students = []
@@ -27,33 +28,10 @@
         students.push(doc.data())
         })
         console.log(students)
-        console.log(`Found ${students.length} students for this query`)
+        console.log(`Found ${students.length} students for this season`)
     })
 
-  const getMyStudents = async()=>{
-    let myStudents = []
-    let currentUser = getAuth().currentUser
-    if(!currentUser) return []
-    const userRef = doc(db, "users", currentUser.uid)
-    const userSnap = await getDoc(userRef)
-    let ids = userSnap.data().students
-    console.log(ids)
-    for (const id of ids) {
-      const studentRef = doc(db, "students", id)
-      const studentSnap = await getDoc(studentRef)
-      myStudents.push(studentSnap.data())
-    }
-    console.log(myStudents)
-    return myStudents
-  }
-
-
-
-
-    const myStudents = getMyStudents()
-
-
-    
+  const myStudents = getMyStudents()
     
 </script>
 {#if $loggedin}
