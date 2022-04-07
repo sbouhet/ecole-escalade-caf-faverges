@@ -71,7 +71,11 @@
   <hr>
 {/if}
 
-<h2>Toutes les inscriptions en cours</h2>
+<hgroup>
+  <h2>Toutes les inscriptions en cours</h2>
+  <h5>{students.length} inscrits pour l'instant</h5>
+</hgroup>
+
 {#if students.length>0}
   <p>Cliquez sur une colone pour trier les données</p>
 {/if}
