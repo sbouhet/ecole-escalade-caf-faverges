@@ -219,18 +219,18 @@ exports.onDeleteStudentUpdateParentIds = functions.firestore
     return removeStudentIdFromParents(studentId)
   })
 
-//When a student is created in Firestore, update season document
+/* //When a student is created in Firestore, update season document
 exports.onCreateStudentUpdateSeasonDoc = functions.firestore
-  .document("students/{userId}")
+  .document("students/{studentId}")
   .onCreate((snap, context) => {
-    const user = snap.data()
+    const student = snap.data()
     const id = snap.id
     const month = parseInt(dayjs().format("M"))
     const seasonString = month === 8 ? season().next : season().current
 
     return db
       .doc(`seasons/${seasonString}`)
-      .update({ [`students.${id}`]: user })
+      .update({ [`students.${id}`]: student })
   })
 
 //When a student is updated in Firestore, update season document
@@ -266,7 +266,7 @@ exports.onDeleteStudentUpdateSeasonDoc = functions.firestore
       .catch((err) => {
         console.log(err)
       })
-  })
+  }) */
 
 //##########################################################################
 //                                TEST FUNCTIONS

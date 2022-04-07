@@ -19,11 +19,11 @@
     let selectedSeason = 'current'
 
     $:if ($currentSeason) {
-        console.log($currentSeason)
+        //console.log($currentSeason)
         $subscription = subscriptionReset($currentSeason.name)
     }
 
-    $:console.log($subscription)
+    //$:console.log($subscription)
    
  
     const allowDebug = true
@@ -53,7 +53,6 @@
       }
       
 	  })
-
 
     $: promise = getSeasonFromFirestore(selectedSeason).then(season=>{
         $currentSeason = season
