@@ -23,6 +23,7 @@
     const q = query(collection(db, "students"), where(`seasons.${seasons().current}.status`, ">", ""))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         students = []
+        dayInfo = []
         querySnapshot.forEach((studentDoc) => {
             students.push(studentDoc.data())
         })

@@ -69,11 +69,12 @@ import { seasons } from "$utils/seasons"
 import { capitalize } from "$utils/capitalize"
 import { getAgeGroupName } from "$utils/ageGroups"
 
-export const getDayName = (day) => {
+export const getDayName = (day, withEndTime = false) => {
   //console.log(`Trying to read name from ${day}`)
   if (!day) return undefined
   let weekday = capitalize(day.weekday)
-  return `${weekday} ${day.startTime}`
+  let endTimeString = withEndTime ? `‑${day.endTime}` : ""
+  return `${weekday} ${day.startTime}` + endTimeString
 }
 
 export const getDayUrl = (day) => {
@@ -120,7 +121,7 @@ export const getDayInfo = (day, season, students) => {
   const adult = season.ageGroups[day.ageGroupIndex].min === 18
   const minYear = getMinYear(day, season.ageGroups)
   return {
-    name: getDayName(day),
+    name: getDayName(day, true),
     tooltip: adult
       ? "Vous devez être majeur pour vous inscrire"
       : `Année de naissance maximum : ${minYear}`,
