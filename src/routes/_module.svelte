@@ -92,7 +92,7 @@
     
     <main class='container'>
         {#await promise}
-            waiting for season from firestore
+            Merci de patienter...
         {:then season}
             
             {#if userStoreUpToDate}

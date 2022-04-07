@@ -1,7 +1,7 @@
 import { seasons } from "$utils/seasons"
 
 export const subscriptionReset = (seasonName) => {
-  console.log("RESETTING SUBSCRIPTION")
+  //console.log("RESETTING SUBSCRIPTION")
   return {
     publicInfo: {
       firstName: null,

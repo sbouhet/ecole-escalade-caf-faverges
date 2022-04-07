@@ -71,7 +71,8 @@ exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
   functions.https.onCall((data, context) => {
     const myEmail = context.auth.token.email || null
     const uid = context.auth.uid
-    if (!email) return { errorInfo: "Aucune adresse email trouvée." }
+    if (!myEmail) return { errorInfo: "Aucune adresse email trouvée." }
+    let nbOfChildren = 0
     const privateCollectionsRef = db
       .collectionGroup("privateCol")
       .where("emails", "array-contains", myEmail)
@@ -81,6 +82,7 @@ exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
       .then((querySnapshot) => {
         let childrenIds = []
         querySnapshot.forEach((privateDoc) => {
+          nbOfChildren++
           childrenIds.push(privateDoc.ref._path.segments[1]) //student id
         })
         return childrenIds
@@ -89,6 +91,14 @@ exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
         return db.collection("users").doc(uid).update({
           students: childrenIds,
         })
+      })
+      .then(() => {
+        return {
+          message: `Found ${nbOfChildren} students with email ${myEmail}`,
+        }
+      })
+      .catch(() => {
+        return { errorInfo: `Error looking for students wit email ${myEmail}` }
       })
   })
 
@@ -208,7 +218,7 @@ exports.updateEmails = functions.firestore
     const studentId = context.params.studentId
     return db
       .doc(`students/${studentId}/privateCol/privateDoc`)
-      .update({ emails: emails })
+      .update({ emails: emailsAfter })
   })
 
 //When a student is deleted from Firestore, remove it's ID from parent users
