@@ -68,20 +68,6 @@ export default {
             "name": "manageAdmins"
           },
           "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_test_svelte",
-          "name": "test",
-          "module": () => import('../src/routes/admin/test.svelte'),
-          "file": {
-            "path": "src/routes/admin/test.svelte",
-            "dir": "src/routes/admin",
-            "base": "test.svelte",
-            "ext": ".svelte",
-            "name": "test"
-          },
-          "children": []
         }
       ]
     },

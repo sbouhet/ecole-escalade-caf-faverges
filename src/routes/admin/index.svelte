@@ -7,7 +7,6 @@
 <ul>
     <li><a href="/admin/copySeason">Copy season</a></li>
     <li><a href="/admin/manageAdmins">Manage admins</a></li>
-    <li><a href="/admin/test">test</a></li>
 </ul>
 
 
