@@ -60,12 +60,11 @@
     {/if}
     <div class="season">
         <small>
-            <select id="season" name="season" bind:value={selectedSeason}>
+            <select id="season" name="season" disabled={!admin} bind:value={selectedSeason}>
                 <option value={'last'}>{seasons().last}</option>  
                 <option value={'current'}>{seasons().current}</option>  
                 <option value={'next'}>{seasons().next}</option>  
             </select>
-            {selectedSeason}
         </small>
     </div>
     <small>
