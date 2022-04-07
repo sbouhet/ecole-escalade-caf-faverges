@@ -12,9 +12,8 @@
     import { seasons } from '$utils/seasons'
     import { db } from '$utils/firebase'
 
-    let admin = false
     let verified = false
-    let selectedSeason = 'current'
+    let admin = false
    
  
     const allowDebug = true
@@ -46,7 +45,7 @@
 	  })
 
 
-    let promise = getSeasonFromFirestore(selectedSeason).then(season=>{
+    let promise = getSeasonFromFirestore().then(season=>{
         $currentSeason = season
     }).catch(err=>{
         throw err
@@ -57,16 +56,6 @@
     {#if debug}
                 <Debug />
     {/if}
-    <div class="season">
-        <small>
-            <select id="season" name="season" bind:value={selectedSeason}>
-                <option value={'last'}>{seasons().last}</option>  
-                <option value={'current'}>{seasons().current}</option>  
-                <option value={'next'}>{seasons().next}</option>  
-            </select>
-            {selectedSeason}
-        </small>
-    </div>
     <small>
         {#if $loggedin && getAuth().currentUser}
             <div>
@@ -81,8 +70,6 @@
             <a href="/prive/mon-compte">Se connecter</a>
         {/if}
     </small>
-    
-    
     <main class='container'>
         {#await promise}
             waiting for season from firestore
@@ -117,10 +104,6 @@
 </body>
 
 <style>
-    .season{
-        position:absolute;
-        right: 0;
-    }
     footer{
         display:flex;
         flex-wrap: wrap;
