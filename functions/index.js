@@ -4,6 +4,10 @@ const admin = require("firebase-admin")
 admin.initializeApp()
 const db = admin.firestore()
 
+//##########################################################################
+//                            UTILITY FUNCTIONS
+//##########################################################################
+
 const season = () => {
   const string = (year) => {
     return `${year}-${year + 1}`
@@ -59,157 +63,36 @@ const removeStudentIdFromParents = (studentId) => {
   })
 }
 
-/* exports.randomNumber = functions.https.onRequest((request, response) => {
-  const truc = `
-  This season: ${season().current},
-  next season: ${season().next},
-  last season: ${season().last}`
-  response.send(truc)
-}) */
+//##########################################################################
+//                                CALLABLE FUNCTIONS
+//##########################################################################
 
-exports.sayHello = functions.https.onCall((data, context) => {
-  const name = data.name
-  return `Hello  ${name}`
-})
+exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
+  functions.https.onCall((data, context) => {
+    const myEmail = context.auth.token.email || null
+    const uid = context.auth.uid
+    if (!email) return { errorInfo: "Aucune adresse email trouvée." }
+    const privateCollectionsRef = db
+      .collectionGroup("privateCol")
+      .where("emails", "array-contains", myEmail)
 
-exports.test = functions.https.onCall((data, context) => {
-  const email = context.auth.token.email || null
-  const uid = context.auth.uid
-  if (!email) return
-  const privateCollectionsRef = db
-    .collectionGroup("privateCol")
-    .where("emails", "array-contains", email)
-
-  return privateCollectionsRef
-    .get()
-    .then((querySnapshot) => {
-      let childrenIds = []
-      querySnapshot.forEach((privateDoc) => {
-        childrenIds.push(privateDoc.ref._path.segments[1]) //student id
-      })
-      return childrenIds
-    })
-    .then((childrenIds) => {
-      return db.collection("users").doc(uid).update({
-        students: childrenIds,
-      })
-    })
-})
-
-exports.findChildren = functions.https.onCall((data, context) => {
-  const parentEmail = data.email
-  console.log(parentEmail)
-  var childrenRef = db
-    .collectionGroup("privateCol")
-    .where("emails", "array-contains", parentEmail)
-
-  childrenRef.get().then((querySnapshot) => {
-    let children = []
-    querySnapshot.forEach((doc) => {
-      children.push(doc.id)
-    })
-    console.log(children)
-    return children
-  })
-})
-
-exports.newAuthUser = functions.auth.user().onCreate((user) => {
-  return db.collection("users").doc(user.uid).set({
-    email: user.email,
-    id: user.uid,
-  })
-})
-
-exports.delAuthUser = functions.auth.user().onDelete((user) => {
-  return db.collection("users").doc(user.uid).delete()
-})
-
-//When user is created, updated, or deleted, update Emails array
-exports.updateEmails = functions.firestore
-  .document("students/{studentId}/privateCol/{privateDoc}")
-  .onWrite(async (change, context) => {
-    const privateData = change.after.data()
-    const emails = getEmails(privateData)
-    const studentId = context.params.studentId
-    if (!privateData) return //if deleted do nothing
-    return db
-      .doc(`students/${studentId}/privateCol/privateDoc`)
-      .update({ emails: emails })
-  })
-
-exports.delFirestoreUser = functions.firestore
-  .document("students/{studentId}")
-  .onDelete((snap, context) => {
-    const user = snap.data()
-    const studentId = snap.id
-    return removeStudentIdFromParents(studentId)
-  })
-
-/* exports.newFirestoreUser = functions.firestore
-  .document("students/{userId}")
-  .onCreate((snap, context) => {
-    const user = snap.data()
-    const id = snap.id
-    const month = parseInt(dayjs().format("M"))
-    const seasonString = month === 8 ? season().next : season().current
-
-    return db
-      .doc(`seasons/${seasonString}`)
-      .update({ [`students.${id}`]: user })
-  }) */
-
-/* exports.updateFirestoreUser = functions.firestore
-  .document("students/{userId}")
-  .onUpdate((change, context) => {
-    const user = change.after.data()
-    const id = change.after.id
-    const month = parseInt(dayjs().format("M"))
-    const seasonString = month === 8 ? season().next : season().current
-
-    return db
-      .doc(`seasons/${seasonString}`)
-      .update({ [`students.${id}`]: user })
-  }) */
-
-/* exports.delFirestoreUser = functions.firestore
-  .document("students/{userId}")
-  .onDelete((snap, context) => {
-    // Get an object representing the document prior to deletion
-    // e.g. {'name': 'Marie', 'age': 66}
-    const user = snap.data()
-    const id = snap.id
-    const month = parseInt(dayjs().format("M"))
-    const seasonString = month === 8 ? season().next : season().current
-    return db
-      .doc(`seasons/${seasonString}`)
+    return privateCollectionsRef
       .get()
-      .then((doc) => {
-        let students = doc.data().students
-        delete students[id]
-        return db.doc(`seasons/${seasonString}`).update({ students: students })
+      .then((querySnapshot) => {
+        let childrenIds = []
+        querySnapshot.forEach((privateDoc) => {
+          childrenIds.push(privateDoc.ref._path.segments[1]) //student id
+        })
+        return childrenIds
       })
-      .catch((err) => {
-        console.log(err)
+      .then((childrenIds) => {
+        return db.collection("users").doc(uid).update({
+          students: childrenIds,
+        })
       })
-  }) */
+  })
 
-/* exports.onCreateUser = functions.firestore
-  .document("users/{userId}")
-  .onCreate((snap, context) => {
-    // Get an object representing the document
-    // e.g. {'name': 'Marie', 'age': 66}
-    const newValue = snap.data()
-
-    // access a particular field as you would any JS property
-    const tetst = newValue.test
-
-    console.log(test)
-
-    return db.doc("essai/essai").set({ test: "petit" })
-
-    // perform desired operations ...
-  }) */
-
+//Add admin role
 exports.addAdminRole = functions.https.onCall((data, context) => {
   let targetId
   // check user is not null
@@ -249,6 +132,7 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
     })
 })
 
+//Remove admin role
 exports.removeAdminRole = functions.https.onCall((data, context) => {
   let targetId
   // check user is not null
@@ -286,3 +170,113 @@ exports.removeAdminRole = functions.https.onCall((data, context) => {
       return err
     })
 })
+
+//##########################################################################
+//                                TRIGGER FUNCTIONS
+//##########################################################################
+
+//****************************
+//AUTH TRIGGERS
+
+//When a new Auth user is created, create it in Firestore
+exports.newAuthUser = functions.auth.user().onCreate((user) => {
+  return db.collection("users").doc(user.uid).set({
+    email: user.email,
+    id: user.uid,
+  })
+})
+
+//When an Auth user is deleted, delete it from Firestore
+exports.delAuthUser = functions.auth.user().onDelete((user) => {
+  return db.collection("users").doc(user.uid).delete()
+})
+
+//****************************
+//FIRESTORE TRIGGERS
+
+//When student's private doc is created, updated, or deleted, update Emails array
+exports.updateEmails = functions.firestore
+  .document("students/{studentId}/privateCol/{privateDoc}")
+  .onWrite(async (change, context) => {
+    const privateData = change.after.data()
+    const emails = getEmails(privateData)
+    const studentId = context.params.studentId
+    if (!privateData) return //if deleted do nothing
+    return db
+      .doc(`students/${studentId}/privateCol/privateDoc`)
+      .update({ emails: emails })
+  })
+
+//When a student is deleted from Firestore, remove it's ID from parent users
+exports.onDeleteStudentUpdateParentIds = functions.firestore
+  .document("students/{studentId}")
+  .onDelete((snap, context) => {
+    const studentId = snap.id
+    return removeStudentIdFromParents(studentId)
+  })
+
+//When a student is created in Firestore, update season document
+exports.onCreateStudentUpdateSeasonDoc = functions.firestore
+  .document("students/{userId}")
+  .onCreate((snap, context) => {
+    const user = snap.data()
+    const id = snap.id
+    const month = parseInt(dayjs().format("M"))
+    const seasonString = month === 8 ? season().next : season().current
+
+    return db
+      .doc(`seasons/${seasonString}`)
+      .update({ [`students.${id}`]: user })
+  })
+
+//When a student is updated in Firestore, update season document
+exports.onUpdateStudentUpdateSeasonDoc = functions.firestore
+  .document("students/{userId}")
+  .onUpdate((change, context) => {
+    const user = change.after.data()
+    const id = change.after.id
+    const month = parseInt(dayjs().format("M"))
+    const seasonString = month === 8 ? season().next : season().current
+
+    return db
+      .doc(`seasons/${seasonString}`)
+      .update({ [`students.${id}`]: user })
+  })
+
+//When a student is deleted from Firestore, update season doc
+// WARNING: CAN POTENTIALLY CAUSE ISSUES IF USED A LOT AT THE SAME TIME
+exports.onDeleteStudentUpdateSeasonDoc = functions.firestore
+  .document("students/{userId}")
+  .onDelete((snap, context) => {
+    const id = snap.id
+    const month = parseInt(dayjs().format("M"))
+    const seasonString = month === 8 ? season().next : season().current
+    return db
+      .doc(`seasons/${seasonString}`)
+      .get()
+      .then((doc) => {
+        let students = doc.data().students
+        delete students[id]
+        return db.doc(`seasons/${seasonString}`).update({ students: students })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  })
+
+//##########################################################################
+//                                TEST FUNCTIONS
+//##########################################################################
+
+/* exports.randomNumber = functions.https.onRequest((request, response) => {
+  const truc = `
+  This season: ${season().current},
+  next season: ${season().next},
+  last season: ${season().last}`
+  response.send(truc)
+}) */
+
+/* exports.sayHello = functions.https.onCall((data, context) => {
+  const name = data.name
+  return `Hello  ${name}`
+}) */
