@@ -30,7 +30,7 @@ const season = () => {
 const getEmails = (studentPrivateData) => {
   let emails = []
   let data = studentPrivateData
-  if (!data) throw "no data"
+  if (!data) return []
   if (data.email) emails.push(data.email)
   if (data.parents && data.parents.length) {
     //if parents
@@ -198,10 +198,14 @@ exports.delAuthUser = functions.auth.user().onDelete((user) => {
 exports.updateEmails = functions.firestore
   .document("students/{studentId}/privateCol/{privateDoc}")
   .onWrite(async (change, context) => {
-    const privateData = change.after.data()
-    const emails = getEmails(privateData)
+    const privateDataBefore = change.before.data()
+    const privateDataAfter = change.after.data()
+    if (!privateDataAfter) return //if deleted do nothing
+    const emailsBefore = getEmails(privateDataBefore)
+    const emailsAfter = getEmails(privateDataAfter)
+    //if no changes to emails, do nothing
+    if (emailsBefore === emailsAfter) return
     const studentId = context.params.studentId
-    if (!privateData) return //if deleted do nothing
     return db
       .doc(`students/${studentId}/privateCol/privateDoc`)
       .update({ emails: emails })

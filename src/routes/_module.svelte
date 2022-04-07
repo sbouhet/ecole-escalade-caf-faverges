@@ -11,6 +11,7 @@
     import { doc, onSnapshot } from "firebase/firestore"
     import { seasons } from '$utils/seasons'
     import { db } from '$utils/firebase'
+    import ErrorMessage from '$components/ErrorMessage.svelte'
 
     let admin = false
     let verified = false
@@ -46,7 +47,7 @@
 	  })
 
 
-    let promise = getSeasonFromFirestore(selectedSeason).then(season=>{
+    $: promise = getSeasonFromFirestore(selectedSeason).then(season=>{
         $currentSeason = season
     }).catch(err=>{
         throw err
@@ -111,7 +112,7 @@
             {/if}
         
         {:catch error}
-            <p>Something went wrong: {error.message}</p>
+                <ErrorMessage {error} />
         {/await}
     </main>
 </body>

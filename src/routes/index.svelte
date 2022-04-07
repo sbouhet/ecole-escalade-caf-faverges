@@ -5,7 +5,7 @@
     import Login from '$components/forms/Login.svelte'
     import CreateAccount from '$components/CreateAccount.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
-    import { subscription, currentDay } from '$utils/stores'
+    import { subscription, currentDay, currentSeason } from '$utils/stores'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { seasons } from '$utils/seasons'
     import DaysRecapTable from '$components/DaysRecapTable.svelte'
@@ -60,7 +60,7 @@
     } */
 
 const reset = ()=>{
-    $subscription = subscriptionReset()
+    $subscription = subscriptionReset($currentSeason)
     $currentDay = null
 }
 
@@ -73,7 +73,7 @@ const reset = ()=>{
 
 <hgroup>
     <h1>École d'escalade</h1>
-    <h1>Saison {seasons().current}</h1>
+    <h1>Saison {$currentSeason.name}</h1>
 </hgroup>
 
 

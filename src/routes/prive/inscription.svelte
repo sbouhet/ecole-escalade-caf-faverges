@@ -10,27 +10,17 @@
     import Back from '$components/Back.svelte'
     import { getSeasonFromFirestore } from '$utils/firestore'
     import { seasons } from '$utils/seasons'
+    import { subscriptionReset } from '$utils/subscriptionReset'
 
     let dayUrl = $params.creneau
     if (dayUrl) {
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
     }
+    $subscription = subscriptionReset($currentSeason)
 
-/*     const updateSeasonObject = async ()=>{
-        //$currentSeason = null
-        try {
-            let firestoreSeason = await getSeasonFromFirestore("current")
-            $currentSeason = firestoreSeason
-        } catch (error) {
-            throw error
-        }
-    } */
 
-    $:if ($subscription.publicInfo.seasons[seasons().current].status === 'done') {
+    $:if ($subscription.publicInfo.seasons[$currentSeason.name].status === 'done') {
         $goto('/')  
-        /* updateSeasonObject().then(()=>{
-            $goto('/')  
-        }) */
     }
 
 </script>
@@ -38,15 +28,15 @@
 <article>
     <hgroup>
         <h1>Inscription</h1>
-        <h1>Saison {seasons().current}</h1>
+        <h1>Saison {$currentSeason.name}</h1>
     </hgroup>
-    {#if $subscription.publicInfo.seasons[seasons().current].status === 'readyToCheck'}
+    {#if $subscription.publicInfo.seasons[$currentSeason.name].status === 'readyToCheck'}
         <CheckSubscription />
-    {:else if $subscription.publicInfo.seasons[seasons().current].status === 'uploadedToFirestore'}
+    {:else if $subscription.publicInfo.seasons[$currentSeason.name].status === 'uploadedToFirestore'}
         <Success />
     {/if}
 
-    {#if $subscription.publicInfo.seasons[seasons().current].status !== 'done'}
+    {#if $subscription.publicInfo.seasons[$currentSeason.name].status !== 'done'}
         <SubscribeForm />
     {/if}
 

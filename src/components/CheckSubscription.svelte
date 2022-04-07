@@ -11,11 +11,11 @@
 
 
     const submitSubscription = () => {
-      createNewStudent($subscription, getAuth().currentUser.uid).then((answer)=>{
+      createNewStudent($subscription, $currentSeason).then((answer)=>{
         console.log(answer)
-        $subscription.publicInfo.seasons[seasons().current].status = 'uploadedToFirestore'
+        $subscription.publicInfo.seasons[$currentSeason.name].status = 'uploadedToFirestore'
       }).catch(err=>{
-        $subscription.publicInfo.seasons[seasons().current].status = 'errorUploading'
+        $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
         throw err
       })
     }
@@ -44,7 +44,7 @@
       </section>
     </div>
     <footer>
-      <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[seasons().current].status=null}>Annuler</a>
+      <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[$currentSeason.name].status=null}>Annuler</a>
       <a href="#" role="button" on:click={submitSubscription}>Confirmer l'inscription</a>
     </footer>
   </article>

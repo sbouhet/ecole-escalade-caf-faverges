@@ -5,14 +5,11 @@
     import Boolean from "$components/Boolean.svelte"
     import { deleteStudent } from '$utils/firestore'
     import { capitalize } from '$utils/capitalize'
-    import { seasons } from '$utils/seasons'
     import { getAuth } from "firebase/auth"
     export let students = []
     
     let admin = false
     if(getAuth().currentUser && getAuth().currentUser.email==='friarobaz@gmail.com') admin = true
-
-    
     let table
     $:if(table){
         new Tablesort(table)
@@ -39,6 +36,7 @@
             </thead>
             <tbody>
                 {#each students as student}
+                {#if student.seasons[$currentSeason.name]}
                 <tr>
                     {#if admin}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
@@ -49,19 +47,20 @@
                    <!--  {#if admin}
                         <td>{student.parents[0].email}</td>
                     {/if} -->
-                    <td>{getDayName(getDayFromUrl(student.seasons[seasons().current].day, $currentSeason.days))}</td>
-                    <td>{#if student.seasons[seasons().current].status==='Pré‑inscrit(e)'}
+                    <td>{getDayName(getDayFromUrl(student.seasons[$currentSeason.name].day, $currentSeason.days))}</td>
+                    <td>{#if student.seasons[$currentSeason.name].status==='Pré‑inscrit(e)'}
                         <span data-tooltip="Pré‑inscrit(e), le dossier n'est pas complet.">⌛</span>
-                    {:else if student.seasons[seasons().current].status==='Inscrit(e)'}
+                        {:else if student.seasons[$currentSeason.name].status==='Inscrit(e)'}
                         <span data-tooltip="Inscrit(e)">✅</span>
-                    {:else}
-                        {student.seasons[seasons().current].status}
-                    {/if}
+                        {:else}
+                        {student.seasons[$currentSeason.name].status}
+                        {/if}
                     </td>
                     <td><Boolean value={student.licence}/></td>
                     <td><Boolean value={student.payment}/></td>
                     <td><Boolean value={student.medicalCertificate}/></td>
                 </tr>
+                {/if}
                 {/each}
             </tbody>
         </table>

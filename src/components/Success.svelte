@@ -6,11 +6,11 @@
     let open = true
 
     const subscribeAnother = ()=>{
-        $subscription.publicInfo.seasons[seasons().current].status = null
+        $subscription.publicInfo.seasons[$currentSeason.name].status = null
     }
 
     const backToHomePage = ()=>{
-        $subscription.publicInfo.seasons[seasons().current].status = 'done'
+        $subscription.publicInfo.seasons[$currentSeason.name].status = 'done'
     }
 </script>
 

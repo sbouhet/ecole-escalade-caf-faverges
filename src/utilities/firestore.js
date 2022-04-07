@@ -18,14 +18,14 @@ import { seasons } from "./seasons"
 import { getDayUrl } from "$utils/days"
 
 export const getSeason = async (name) => {
-  const seasonsCollectionName = "seasons"
-  const docRef = doc(db, seasonsCollectionName, name)
+  const docRef = doc(db, "seasons", name)
   const docSnap = await getDoc(docRef)
 
   if (docSnap.exists()) {
     return docSnap.data()
   } else {
-    console.error(`Could not find season ${name} in ${seasonsCollectionName}`)
+    console.error(`Could not find season ${name} in seasons`)
+    throw `La saison ${name} n'existe pas dans la base de donnée.`
   }
 }
 
@@ -34,17 +34,20 @@ export const getSeasonFromFirestore = async (time = "current") => {
   return await getSeason(name)
 }
 
-export const createNewStudent = async (student, season = seasons().current) => {
+export const createNewStudent = async (student, season) => {
+  if (!student) throw "no student"
+  if (!season) throw "no season"
   console.log(`Trying to subscribe ${student.firstName}`)
 
   //change student status to "préinscrit"
-  student.publicInfo.seasons[seasons().current].status = "Pré‑inscrit(e)"
+  student.publicInfo.seasons[season.name].status = "Pré‑inscrit(e)"
 
   //write public data to student doc (students/{studentId})
   const studentRef = await addDoc(
     collection(db, "students"),
     student.publicInfo
   )
+  //Get id from newly created doc and add it to the document fields
   await updateDoc(studentRef, { id: studentRef.id })
 
   //write private data to student doc (students/{studentId}/privateCol/privateDoc)
@@ -86,7 +89,7 @@ export const copySeason = async (oldSeasonName, newSeasonName) => {
   }
 }
 
-export const getMyStudents = async () => {
+export const getMyStudents = async (season) => {
   let myStudents = []
   let currentUser = getAuth().currentUser
   if (!currentUser) return []
@@ -96,7 +99,12 @@ export const getMyStudents = async () => {
   for (const id of ids) {
     const studentRef = doc(db, "students", id)
     const studentSnap = await getDoc(studentRef)
-    myStudents.push(studentSnap.data())
+    if (
+      studentSnap.data().seasons[season.name] &&
+      studentSnap.data().seasons[season.name].status
+    ) {
+      myStudents.push(studentSnap.data())
+    }
   }
   return myStudents
 }

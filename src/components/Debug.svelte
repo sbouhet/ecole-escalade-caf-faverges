@@ -26,9 +26,9 @@
         <div>Uid: {getAuth().currentUser.uid}</div>
     {/if}
     <div>
-        Season :
+        $CurrentSeason :
         {#if $currentSeason}
-            $CurrentSeason{$currentSeason.name}
+            {$currentSeason.name}
         {/if}
     </div>
     <div>
@@ -65,8 +65,8 @@
         </ul>
     </div>
     <div>
-        seasons.season.day : {$subscription.publicInfo.seasons[seasons().current].day}<br>
-        seasons.season.status : {$subscription.publicInfo.seasons[seasons().current].status}<br>
+        seasons.season.day : {$subscription.publicInfo.seasons[$currentSeason.name].day}<br>
+        seasons.season.status : {$subscription.publicInfo.seasons[$currentSeason.name].status}<br>
     </div>
 </div>
 

@@ -18,28 +18,30 @@
     import { seasons } from '$utils/seasons'
     import { getAuth } from "firebase/auth"
     import { getMyStudents } from '$utils/firestore'
+    import ErrorMessage from '$components/ErrorMessage.svelte'
 
 
     let students = []
-    const q = query(collection(db, "students"), where(`seasons.${seasons().current}.status`, ">", ""))
+    const q = query(collection(db, "students"), where(`seasons.${$currentSeason.name}.status`, ">", ""))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         students = []
         querySnapshot.forEach((doc) => {
         students.push(doc.data())
         })
-        console.log(students)
         console.log(`Found ${students.length} students for this season`)
     })
 
-  const myStudents = getMyStudents()
+  const myStudents = getMyStudents($currentSeason)
     
 </script>
 {#if $loggedin}
   <h2>Mes inscriptions</h2>
   {#await myStudents}
-    please wait...
+    Merci de patienter...
   {:then myStudents} 
-  <StudentsStatusTable students={myStudents}/>
+    <StudentsStatusTable students={myStudents}/>
+  {:catch}
+    <ErrorMessage error='Erreur : inscriptions non trouvées.'/>
   {/await}
   <hr>
 {/if}
