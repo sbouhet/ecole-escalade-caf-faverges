@@ -2,6 +2,7 @@ import { db } from "./firebase"
 import {
   doc,
   getDoc,
+  getDocs,
   setDoc,
   addDoc,
   updateDoc,
@@ -15,7 +16,7 @@ import {
 } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
 import { seasons } from "./seasons"
-import { getDayUrl } from "$utils/days"
+import { getDayUrl, getDayFromUrl } from "$utils/days"
 
 export const getSeason = async (name) => {
   const docRef = doc(db, "seasons", name)
@@ -107,4 +108,28 @@ export const getMyStudents = async (season) => {
     }
   }
   return myStudents
+}
+
+export const getDayStudents = async (dayUrl, seasonName) => {
+  if (!dayUrl) throw "no day url"
+  if (!seasonName) throw "no season name"
+  const q = query(
+    collection(db, "students"),
+    where(`seasons.${seasonName}.day`, "==", dayUrl)
+  )
+  const dayStudents = []
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((student) => {
+    dayStudents.push(student.data())
+  })
+  return dayStudents
+}
+
+export const isDayFull = async (dayUrl, seasonName, days) => {
+  const dayStudents = await getDayStudents(dayUrl, seasonName)
+  const nbOfStudent = dayStudents.length
+  const day = getDayFromUrl(dayUrl, days)
+  const spotsLeft = day.nbMaxOfStudents - nbOfStudent
+  if (spotsLeft <= 0) return true
+  return false
 }

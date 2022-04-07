@@ -1,4 +1,4 @@
-export const DAYS = [
+/* export const DAYS = [
   {
     weekday: "lundi",
     startTime: "17h",
@@ -63,7 +63,7 @@ export const DAYS = [
     nbMaxOfStudents: 12,
     teacher: "Jelena",
   },
-]
+] */
 
 import { seasons } from "$utils/seasons"
 import { capitalize } from "$utils/capitalize"

@@ -23,7 +23,7 @@
       
     <footer>
       <a href="#" role="button" class="outline" on:click={subscribeAnother}>Inscire quelqu'un d'autre</a>
-      <a href="#" role="button" on:click={backToHomePage}>Revenir à l'accueil</a>
+      <a href="#" role="button" on:click={backToHomePage}>Terminer</a>
     </footer>
   </article>
 </dialog>

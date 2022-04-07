@@ -59,7 +59,9 @@
     {#if searching}
     <p>Recherche d'élèves inscrits avec l'email {getAuth().currentUser.email}</p>
     {:else}
-      <a href="#" on:click={findChildren}>Trouver mes enfants déjà inscrits</a>
+      <a href="#" on:click={findChildren} data-tooltip={`Chercher un inscrit avec l'email ${getAuth().currentUser.email}`}>
+        Trouver mes enfants déjà inscrits
+      </a>
     {/if}
     <ErrorMessage {error}/>
   </div>
@@ -77,7 +79,7 @@
 </hgroup>
 
 {#if students.length>0}
-  <p>Cliquez sur une colone pour trier les données</p>
+  <small>Cliquez sur une colone pour trier les données</small>
 {/if}
 <StudentsStatusTable {students} allowDelete={true}/>
 

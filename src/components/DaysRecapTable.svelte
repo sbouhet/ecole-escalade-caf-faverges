@@ -55,8 +55,8 @@
                         <td>
                             <span data-tooltip={day.tooltip}>{day.ageGroupName}</span>
                         </td>
-                        <td><b>{day.spotsLeft}</b></td>
-                        <td>{day.nbOfSubscibedStudents} / {day.nbMaxOfStudents}</td>
+                        <td><b class="{day.spotsLeft <= 0 ? 'red' : ''}">{day.spotsLeft}</b></td>
+                        <td class="{day.spotsLeft <= 0 ? 'red' : ''}">{day.nbOfSubscibedStudents} / {day.nbMaxOfStudents}</td>
                         <td>{day.teacher}</td>
                     </tr>
                 {/each}
@@ -76,5 +76,8 @@
         }
         b{
             font-size: larger;
+        }
+        .red{
+            color:red;
         }
     </style>
