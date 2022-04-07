@@ -86,32 +86,17 @@ export const copySeason = async (oldSeasonName, newSeasonName) => {
   }
 }
 
-/* export const getStudentsFromFirestoreWithUpdates = (dayUrl) => {
-   let q1, q2, q3
-  if(dayUrl){
-    q1 = "firstName"
-    q2 = ">"
-    q3 = 0
+export const getMyStudents = async () => {
+  let myStudents = []
+  let currentUser = getAuth().currentUser
+  if (!currentUser) return []
+  const userRef = doc(db, "users", currentUser.uid)
+  const userSnap = await getDoc(userRef)
+  let ids = userSnap.data().students
+  for (const id of ids) {
+    const studentRef = doc(db, "students", id)
+    const studentSnap = await getDoc(studentRef)
+    myStudents.push(studentSnap.data())
   }
-  const q = query(collection(db, "students"), where("first", "==", "CA"))
-  const q = query(collection(db, "students"))
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    const students = []
-    querySnapshot.forEach((doc) => {
-      students.push(doc.data())
-    })
-    console.log(`Found ${students.length} students for this query`)
-  })
-  return unsubscribe
-} */
-
-/* export const getStudents = async (day = null, season=seasons().current) => {
-  const docRef = doc(db, "seasons", season)
-  const docSnap = await getDoc(docRef)
-
-  if (docSnap.exists()) {
-    return docSnap.data()
-  } else {
-    console.error("Could not find season doc in 'seasons' collection")
-  }
-} */
+  return myStudents
+}

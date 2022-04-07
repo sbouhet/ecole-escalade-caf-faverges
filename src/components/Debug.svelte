@@ -28,7 +28,7 @@
     <div>
         Season :
         {#if $currentSeason}
-            {$currentSeason.name}
+            $CurrentSeason{$currentSeason.name}
         {/if}
     </div>
     <div>
