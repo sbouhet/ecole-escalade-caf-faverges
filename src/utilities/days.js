@@ -72,9 +72,10 @@ import { getAgeGroupName } from "$utils/ageGroups"
 export const getDayName = (day, withEndTime = false) => {
   //console.log(`Trying to read name from ${day}`)
   if (!day) return undefined
-  let weekday = capitalize(day.weekday)
+  let weekday = day.weekday
+  //let weekday = capitalize(day.weekday)
   let endTimeString = withEndTime ? `‑${day.endTime}` : ""
-  return `${weekday} ${day.startTime}` + endTimeString
+  return `${weekday} ${day.startTime}` + endTimeString
 }
 
 export const getDayUrl = (day) => {

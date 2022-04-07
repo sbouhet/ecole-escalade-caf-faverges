@@ -70,7 +70,7 @@
 
     <style>
         button{
-            margin:5px;
+            margin:0px;
             max-width: 200px;
             text-transform: capitalize;
         }

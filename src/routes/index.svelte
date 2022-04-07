@@ -8,6 +8,7 @@
     import { subscription, currentDay } from '$utils/stores'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { seasons } from '$utils/seasons'
+    import DaysRecapTable from '$components/DaysRecapTable.svelte'
 
 /* 
 
@@ -82,4 +83,9 @@ const reset = ()=>{
 <a href="/recap">Recap</a><br><br>
 <a href="/test">test</a><br>
 <a href="/admin">ADMIN</a>
+
+<section>
+    <DaysRecapTable />
+</section>
+
 <slot></slot> <!-- just to hide error warning in console -->
