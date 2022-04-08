@@ -6,6 +6,7 @@
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { currentSeason } from '$utils/stores'
     import { translateRole } from '$utils/translateRole'
+    import Boolean from '$components/Boolean.svelte'
     let urlId = $params.id
     const student = getStudent(urlId)
 </script>
@@ -20,19 +21,19 @@
         </hgroup>
         
         <details>
-            <summary><span>✅</span>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
+            <summary><Boolean value={true} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
         <details>
-            <summary><span>❌</span>Étape 2 : Éffectuer le paiment en ligne pour les cours.</summary>
+            <summary><Boolean value={student.public.seasons[$currentSeason.name].payment} big={true}/>Étape 2 : Éffectuer le paiment en ligne pour les cours.</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
         <details>
-            <summary><span>❌</span>Étape 3 : Prendre une licence au CAF de Faverges</summary>
+            <summary><Boolean value={student.public.seasons[$currentSeason.name].licence} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
         <details>
-            <summary><span>❌</span>Étape 4 : Transférer un certificat médical</summary>
+            <summary><Boolean value={student.public.seasons[$currentSeason.name].medicalCertificate} big={true}/>Étape 4 : Transférer un certificat médical</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
     </article>
@@ -45,9 +46,6 @@
 <style>
     summary{
         font-weight: bold;
-    }
-    span{
-        margin-right: 20px;
     }
    
 </style>

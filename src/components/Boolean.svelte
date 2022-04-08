@@ -1,11 +1,21 @@
 <script>
     export let value
+    export let big=false
 </script>
 
+
 {#if value}
-    <div class="true">☑</div>
+    {#if big}
+        <span class="true big">✅</span>
+    {:else}
+        <span class="true">☑</span>
+    {/if}
 {:else}
-    <div class="false">×</div>
+    {#if big}
+        <span class="false big">❌</span>
+    {:else}
+        <span class="false">×</span>
+    {/if}
 {/if}
 
 <style>
@@ -16,7 +26,11 @@
     .false{
         color: red;
     }
-    div{
+    span{
         font-size:x-large;
+    }
+    .big{
+        margin-right: 20px;
+        font-size:medium;
     }
 </style>

@@ -64,9 +64,9 @@ import { printName } from "$utils/printName";
                         {student.seasons[$currentSeason.name].status}
                         {/if}
                     </td>
-                    <td><Boolean value={student.licence}/></td>
-                    <td><Boolean value={student.payment}/></td>
-                    <td><Boolean value={student.medicalCertificate}/></td>
+                    <td><Boolean value={student.seasons[$currentSeason.name].licence}/></td>
+                    <td><Boolean value={student.seasons[$currentSeason.name].payment}/></td>
+                    <td><Boolean value={student.seasons[$currentSeason.name].medicalCertificate}/></td>
                 </tr>
                 {/if}
                 {/each}
