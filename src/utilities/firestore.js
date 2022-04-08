@@ -34,6 +34,20 @@ export const getSeasonFromFirestore = async (time = "current") => {
   const name = seasons()[time]
   return await getSeason(name)
 }
+export const getStudent = async (studentId) => {
+  if (!studentId) throw "no id"
+  const publicRef = doc(db, "students", studentId)
+  const publicSnap = await getDoc(publicRef)
+  const privateRef = doc(db, "students", studentId, "privateCol", "privateDoc")
+  const privateSnap = await getDoc(privateRef)
+
+  if (publicSnap.exists() && privateSnap.exists) {
+    return { public: publicSnap.data(), private: privateSnap.data() }
+  } else {
+    console.error(`Could not find student with id ${studentId}`)
+    throw `Aucune inscription trouvée pour l'ID ${studentId}`
+  }
+}
 
 export const createNewStudent = async (student, season) => {
   if (!student) throw "no student"

@@ -213,6 +213,20 @@ export default {
           },
           "children": [
             {
+              "meta": {},
+              "id": "_default_prive_mon_compte_TMP_contact_md",
+              "name": "TMP_contact",
+              "module": () => import('../src/routes/prive/mon-compte/TMP_contact.md'),
+              "file": {
+                "path": "src/routes/prive/mon-compte/TMP_contact.md",
+                "dir": "src/routes/prive/mon-compte",
+                "base": "TMP_contact.md",
+                "ext": ".md",
+                "name": "TMP_contact"
+              },
+              "children": []
+            },
+            {
               "meta": {
                 "dynamic": true
               },
