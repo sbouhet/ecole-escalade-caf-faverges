@@ -25,6 +25,7 @@ export const subscriptionReset = (season) => {
       email: null,
       dateOfBirth: null,
       parents: [{}],
+      medicalCertificateLink: null,
     },
   }
 }

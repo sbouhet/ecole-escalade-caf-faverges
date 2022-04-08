@@ -4,11 +4,17 @@
 </script>
 
 
-{#if value}
+{#if value===true}
     {#if big}
         <span class="true big">✅</span>
     {:else}
         <span class="true">☑</span>
+    {/if}
+{:else if value==='waiting'}
+    {#if big}
+        <span class="false big">⌛</span>
+    {:else}
+        <span class="false">?</span>
     {/if}
 {:else}
     {#if big}

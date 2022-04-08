@@ -18,6 +18,19 @@ import { getAuth } from "firebase/auth"
 import { seasons } from "./seasons"
 import { getDayUrl, getDayFromUrl } from "$utils/days"
 
+export const saveMedicalCertificate = async (studentId, link, seasonName) => {
+  if (!studentId) throw "no student id"
+  if (!link) throw "no link"
+  if (!seasonName) throw "no season name"
+  const privateDoc = doc(db, "students", studentId, "privateCol", "privateDoc")
+  const publicDoc = doc(db, "students", studentId)
+  await updateDoc(privateDoc, { medicalCertificateLink: link })
+  await updateDoc(publicDoc, {
+    [`seasons.${seasonName}.medicalCertificate`]: "waiting",
+  })
+  return
+}
+
 export const getSeason = async (name) => {
   const docRef = doc(db, "seasons", name)
   const docSnap = await getDoc(docRef)
