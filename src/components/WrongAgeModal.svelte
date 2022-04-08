@@ -1,17 +1,15 @@
 <script>
   export let open = true
   import { subscription, currentDay, currentSeason, ageStatus } from '$utils/stores'
-  import { getDayFromUrl, getDayName, getMinYear } from '$utils/days'
+  import { getDayName, getMinYear } from '$utils/days'
   import { getAge } from '$utils/ageGroups'
   import { capitalize } from '$utils/capitalize'
 
-  let day, url, dayName, minYear, maxAge, subYear, subAge, firstName, title, message
-  url = $subscription.publicInfo.seasons[$currentSeason.name].day || null
-  $:if (url) {
-    day = getDayFromUrl(url)
-    dayName = getDayName(day)
-    minYear = getMinYear(day, $currentSeason.ageGroups)
-    maxAge = $currentSeason.ageGroups[day.ageGroupIndex].max
+  let day, minYear, maxAge, subYear, subAge, firstName, title, message
+  $:if ($currentDay) {
+    day = getDayName($currentDay)
+    minYear = getMinYear($currentDay, $currentSeason.ageGroups)
+    maxAge = $currentSeason.ageGroups[$currentDay.ageGroupIndex].max
   }
   $:if ($subscription) {
     firstName = $subscription.publicInfo.firstName

@@ -32,7 +32,10 @@
         {/if}
     </div>
     <div>
-        
+        Selected day :
+        {#if $currentDay}
+            {getDayName($currentDay)}
+        {/if}
     </div>
     <div>
         ageStatus : {$ageStatus}<br>
