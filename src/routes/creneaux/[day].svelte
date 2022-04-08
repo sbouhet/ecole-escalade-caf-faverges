@@ -48,7 +48,7 @@
     <div>Fin des cours : <b>{info.lastDay}</b></div>
     <div>Nombre de cours : <b>{info.nbOfSessions}</b></div>
     <div>
-        Prix <span data-tooltip="Adhésion au club obligatoire pour être assuré.">(hors licence)</span> : 
+        Prix <span data-tooltip="Adhésion au club obligatoire.">(hors licence)</span> : 
         <b>{info.price}€</b>
          ({Math.floor(info.price/info.nbOfSessions*100)/100}€ par cours)
     </div>

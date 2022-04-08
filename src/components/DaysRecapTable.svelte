@@ -35,13 +35,18 @@
     })
 </script>
 
-<h3>Créneaux disponibles</h3>
+<div>
+    <strong>Créneaux disponibles</strong>
+</div>
+<small>Cliquez sur un créneau pour plus d'informations.</small>
+<br><br>
+
 <figure>
         <table role="grid">
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">Age</th>
+                    <th scope="col">Âges</th>
                     <th scope="col">Places restantes</th>
                     <th scope="col">Inscrits</th>
                     <th scope="col">Moniteur</th>

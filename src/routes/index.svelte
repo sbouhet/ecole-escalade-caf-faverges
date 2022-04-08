@@ -1,7 +1,7 @@
 <script>
       export let context //just to hide warning in console
     
-    import { subscription, currentDay, currentSeason, admin } from '$utils/stores'
+    import { currentSeason, admin, loggedin } from '$utils/stores'
 
     import DaysRecapTable from '$components/DaysRecapTable.svelte'
 
@@ -17,6 +17,13 @@
 {#if $admin}
     <a href="/admin">ADMIN</a>
 {/if}
+
+{#if $loggedin}
+    <a href="/prive/mon-compte" role="button" class="outline">Mon compte</a>
+{:else}
+    <a href="/prive/mon-compte" role="button" class="outline">Se connecter</a>
+{/if}
+<br><br>
 
 <section>
     <DaysRecapTable />
