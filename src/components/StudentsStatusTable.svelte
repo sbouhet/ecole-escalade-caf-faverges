@@ -1,6 +1,6 @@
 <!-- routify:meta reset -->
 <script>
-    import { currentSeason } from "$utils/stores"
+    import { currentSeason, admin } from "$utils/stores"
     import { getDayName, getDayFromUrl} from '$utils/days'
     import Boolean from "$components/Boolean.svelte"
     import { deleteStudent } from '$utils/firestore'
@@ -10,8 +10,7 @@
     export let students = []
     export let allowDelete = false
     export let showDay = true
-    let admin = false
-    if(getAuth().currentUser && getAuth().currentUser.email==='friarobaz@gmail.com') admin = true
+
     let table
     $:if(table){
         new Tablesort(table)
@@ -24,11 +23,11 @@
         <table role="grid" bind:this={table}>
             <thead>
                 <tr>
-                    {#if admin && allowDelete}<th scope="col">Del</th>{/if}
+                    {#if $admin && allowDelete}<th scope="col">Del</th>{/if}
                     <!-- <th scope="col">Id</th> -->
                     <th scope="col">Prénom</th>
                     <th scope="col">Nom</th>
-                    <!-- {#if admin}<th scope="col">E‑mail</th>{/if} -->
+                    <!-- {#if $admin}<th scope="col">E‑mail</th>{/if} -->
                     {#if showDay}
                         <th scope="col">Créneau</th>
                     {/if}
@@ -42,13 +41,13 @@
                 {#each students as student}
                 {#if student.seasons[$currentSeason.name]}
                 <tr>
-                    {#if admin && allowDelete}
+                    {#if $admin && allowDelete}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
                     <!-- <td>{student.id}</td> -->
                     <td>{capitalize(student.firstName)}</td>
                     <td>{student.lastName.toUpperCase()}</td>
-                   <!--  {#if admin}
+                   <!--  {#if $admin}
                         <td>{student.parents[0].email}</td>
                     {/if} -->
                     {#if showDay}
