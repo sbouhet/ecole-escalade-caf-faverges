@@ -64,13 +64,18 @@
     {#if debug}
                 <Debug />
     {/if}
+    
     <div class="season">
         <small>
-            <select id="season" name="season" disabled={!$admin} bind:value={selectedSeason}>
-                <option value={'last'}>{seasons().last}</option>  
-                <option value={'current'}>{seasons().current}</option>  
-                <option value={'next'}>{seasons().next}</option>  
-            </select>
+            {#if $admin}
+                <select id="season" name="season" bind:value={selectedSeason}>
+                    <option value={'last'}>{seasons().last}</option>  
+                    <option value={'current'}>{seasons().current}</option>  
+                    <option value={'next'}>{seasons().next}</option>  
+                </select>
+            {:else}
+                {$currentSeason.name}
+            {/if}
         </small>
     </div>
     <small>

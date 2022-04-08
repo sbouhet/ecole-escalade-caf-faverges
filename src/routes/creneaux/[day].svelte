@@ -1,4 +1,5 @@
 <script>
+    export let context
     import { db } from "$utils/firebase"
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { getDayFromUrl, getDayInfo, getDayName } from '$utils/days'
@@ -8,7 +9,7 @@
     import { subscriptionReset } from "$utils/subscriptionReset"
 
     import {params} from '@roxi/routify'
-import { seasons } from "$utils/seasons";
+    import { seasons } from "$utils/seasons";
     let dayUrl = $params.day
     let day = getDayFromUrl(dayUrl, $currentSeason.days)
     
@@ -20,7 +21,7 @@ import { seasons } from "$utils/seasons";
         querySnapshot.forEach((doc) => {
         students.push(doc.data())
         })
-        console.log(`Found ${students.length} students for ${name}`)
+        console.log(`Found ${students.length} students for ${dayUrl}`)
     })
     $: info = getDayInfo(day, $currentSeason, students)
     const reset = ()=>{
@@ -72,6 +73,7 @@ import { seasons } from "$utils/seasons";
     <ErrorMessage {error}/>
 {/if}
 
+<slot></slot>
 <style>
     h1{
         text-transform: capitalize;

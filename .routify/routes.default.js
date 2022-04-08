@@ -16,6 +16,20 @@ export default {
   "children": [
     {
       "meta": {},
+      "id": "_default_UNUSED_inscriptions_en_cours_svelte",
+      "name": "UNUSED_inscriptions-en-cours",
+      "module": () => import('../src/routes/UNUSED_inscriptions-en-cours.svelte'),
+      "file": {
+        "path": "src/routes/UNUSED_inscriptions-en-cours.svelte",
+        "dir": "src/routes",
+        "base": "UNUSED_inscriptions-en-cours.svelte",
+        "ext": ".svelte",
+        "name": "UNUSED_inscriptions-en-cours"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_admin",
       "name": "admin",
       "module": () => import('../src/routes/admin/_module.svelte'),
@@ -27,6 +41,20 @@ export default {
         "name": "_module"
       },
       "children": [
+        {
+          "meta": {},
+          "id": "_default_admin_allStudents_svelte",
+          "name": "allStudents",
+          "module": () => import('../src/routes/admin/allStudents.svelte'),
+          "file": {
+            "path": "src/routes/admin/allStudents.svelte",
+            "dir": "src/routes/admin",
+            "base": "allStudents.svelte",
+            "ext": ".svelte",
+            "name": "allStudents"
+          },
+          "children": []
+        },
         {
           "meta": {},
           "id": "_default_admin_copySeason_svelte",
@@ -146,20 +174,6 @@ export default {
     },
     {
       "meta": {},
-      "id": "_default_inscriptions_en_cours_svelte",
-      "name": "inscriptions-en-cours",
-      "module": () => import('../src/routes/inscriptions-en-cours.svelte'),
-      "file": {
-        "path": "src/routes/inscriptions-en-cours.svelte",
-        "dir": "src/routes",
-        "base": "inscriptions-en-cours.svelte",
-        "ext": ".svelte",
-        "name": "inscriptions-en-cours"
-      },
-      "children": []
-    },
-    {
-      "meta": {},
       "id": "_default_prive",
       "name": "prive",
       "module": () => import('../src/routes/prive/_module.svelte'),
@@ -173,6 +187,20 @@ export default {
       "children": [
         {
           "meta": {},
+          "id": "_default_prive_UNUSEDmon_compte_svelte",
+          "name": "UNUSEDmon-compte",
+          "module": () => import('../src/routes/prive/UNUSEDmon-compte.svelte'),
+          "file": {
+            "path": "src/routes/prive/UNUSEDmon-compte.svelte",
+            "dir": "src/routes/prive",
+            "base": "UNUSEDmon-compte.svelte",
+            "ext": ".svelte",
+            "name": "UNUSEDmon-compte"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
           "id": "_default_prive_inscription_svelte",
           "name": "inscription",
           "module": () => import('../src/routes/prive/inscription.svelte'),
@@ -182,20 +210,6 @@ export default {
             "base": "inscription.svelte",
             "ext": ".svelte",
             "name": "inscription"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_prive_mon_compte_svelte",
-          "name": "mon-compte",
-          "module": () => import('../src/routes/prive/mon-compte.svelte'),
-          "file": {
-            "path": "src/routes/prive/mon-compte.svelte",
-            "dir": "src/routes/prive",
-            "base": "mon-compte.svelte",
-            "ext": ".svelte",
-            "name": "mon-compte"
           },
           "children": []
         }

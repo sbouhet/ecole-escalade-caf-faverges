@@ -14,9 +14,6 @@
 </hgroup>
 
 
-
-<a href="/prive/mon-compte">Mon compte</a><br>
-<a href="/inscriptions-en-cours">Voir les inscriptions en cours</a><br><br>
 {#if $admin}
     <a href="/admin">ADMIN</a>
 {/if}

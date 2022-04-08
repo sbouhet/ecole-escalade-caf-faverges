@@ -13,6 +13,7 @@
     <li><a href="/admin/manageAdmins">Manage admins</a></li>
     <li><a href="/prive/inscription" on:click={reset}>Inscription</a></li>
     <li><a href="/admin/test">test</a></li>
+    <li><a href="/admin/allStudents">Tous les élèves</a></li>
 </ul>
 
 
