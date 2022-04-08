@@ -6,7 +6,7 @@
 <section>
     <h5>Enfant</h5>
     
-    <NameForm target=student/>
+    <NameForm target=student nb={null}/>
     <DateOfBirthForm />
     
 </section>
