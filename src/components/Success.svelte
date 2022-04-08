@@ -9,7 +9,7 @@
         $subscription.publicInfo.seasons[$currentSeason.name].status = null
     }
 
-    const backToHomePage = ()=>{
+    const done = ()=>{
       $subscription.publicInfo.seasons[$currentSeason.name].status = 'done'
     }
 </script>
@@ -18,12 +18,13 @@
   <article>
     <h2>Votre demande d'inscription a bien été enregistrée !</h2>
     <p><b>{printName($subscription.publicInfo)}</b> est pré‑inscrit(e) sur le créneau de {getDayName($currentDay)}</p>
+    <p>Accédez à votre compte pour connaitre les prochaines étapes.</p>
       
     
       
     <footer>
       <a href="#" role="button" class="outline" on:click={subscribeAnother}>Inscire quelqu'un d'autre</a>
-      <a href="#" role="button" on:click={backToHomePage}>Terminer</a>
+      <a href="#" role="button" on:click={done}>Terminer</a>
     </footer>
   </article>
 </dialog>

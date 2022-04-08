@@ -74,7 +74,7 @@
                     <option value={'next'}>{seasons().next}</option>  
                 </select>
             {:else if $currentSeason}
-                {$currentSeason.name}
+                {$currentSeason.name}&nbsp;
             {/if}
         </small>
     </div>

@@ -17,7 +17,7 @@
     $:status = $subscription.publicInfo.seasons[$currentSeason.name].status
     $:if (status === 'done') {
         
-        $goto('/inscriptions-en-cours')
+        $goto('/prive/mon-compte')
     }    
 </script>
 

@@ -56,9 +56,9 @@
 
 <section>
     {#if info.spotsLeft>0}
-        <a href={`/prive/inscription?creneau=${dayUrl}`} role="button" on:click={reset}>Je m'inscris</a>
+        <a href={`/prive/inscription?creneau=${dayUrl}`} role="button" on:click={reset}>Inscription</a>
     {:else}
-        <a role="button" class="secondary">Je m'inscris</a>
+        <a role="button" class="secondary">Inscription</a>
         <strong class="red">COMPLET</strong>
     {/if}
    

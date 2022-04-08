@@ -201,17 +201,48 @@ export default {
         },
         {
           "meta": {},
-          "id": "_default_prive_mon_compte_svelte",
+          "id": "_default_prive_mon_compte",
           "name": "mon-compte",
-          "module": () => import('../src/routes/prive/mon-compte.svelte'),
+          "module": false,
           "file": {
-            "path": "src/routes/prive/mon-compte.svelte",
+            "path": "src/routes/prive/mon-compte",
             "dir": "src/routes/prive",
-            "base": "mon-compte.svelte",
-            "ext": ".svelte",
+            "base": "mon-compte",
+            "ext": "",
             "name": "mon-compte"
           },
-          "children": []
+          "children": [
+            {
+              "meta": {
+                "dynamic": true
+              },
+              "id": "_default_prive_mon_compte__id__svelte",
+              "name": "[id]",
+              "module": () => import('../src/routes/prive/mon-compte/[id].svelte'),
+              "file": {
+                "path": "src/routes/prive/mon-compte/[id].svelte",
+                "dir": "src/routes/prive/mon-compte",
+                "base": "[id].svelte",
+                "ext": ".svelte",
+                "name": "[id]"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_mon_compte_index_svelte",
+              "name": "index",
+              "module": () => import('../src/routes/prive/mon-compte/index.svelte'),
+              "file": {
+                "path": "src/routes/prive/mon-compte/index.svelte",
+                "dir": "src/routes/prive/mon-compte",
+                "base": "index.svelte",
+                "ext": ".svelte",
+                "name": "index"
+              },
+              "children": []
+            }
+          ]
         }
       ]
     }

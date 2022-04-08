@@ -51,6 +51,7 @@
         {/if}
         <ErrorMessage {error}/>
     </div>
+    <p>Cliquez sur une inscription pour plus de détails.</p>
     <br>
     <StudentsStatusTable students={myStudents} allowDelete={false}/>
 {:catch}
