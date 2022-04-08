@@ -20,11 +20,11 @@
         </hgroup>
         
         <details>
-            <summary><span>✅</span>Étape 1 : Créer un compte sur le site de l'écolde d'escalade</summary>
+            <summary><span>✅</span>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
         <details>
-            <summary><span>❌</span>Étape 2 : Éffectuer le paient en ligne pour les cours.</summary>
+            <summary><span>❌</span>Étape 2 : Éffectuer le paiment en ligne pour les cours.</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
         <details>
