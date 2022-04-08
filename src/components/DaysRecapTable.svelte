@@ -51,13 +51,17 @@
             <tbody>
                 {#each dayInfo as day}
                     <tr>
-                        <th><a href="/creneaux/{day.url}"><button class="outline">{day.name}</button></a></th>
-                        <td>
+                        <th class="{day.spotsLeft <= 0 ? 'red' : ''}">
+                            <a href="/creneaux/{day.url}"><button class="outline">{day.name}</button></a>
+                        </th>
+                        <td class="{day.spotsLeft <= 0 ? 'red' : ''}">
                             <span data-tooltip={day.tooltip}>{day.ageGroupName}</span>
                         </td>
-                        <td><b class="{day.spotsLeft <= 0 ? 'red' : ''}">{day.spotsLeft}</b></td>
+                        <td class="{day.spotsLeft <= 0 ? 'red' : ''}">
+                            <b>{day.spotsLeft}</b>
+                        </td>
                         <td class="{day.spotsLeft <= 0 ? 'red' : ''}">{day.nbOfSubscibedStudents} / {day.nbMaxOfStudents}</td>
-                        <td>{day.teacher}</td>
+                        <td class="{day.spotsLeft <= 0 ? 'red' : ''}">{day.teacher}</td>
                     </tr>
                 {/each}
             </tbody>
@@ -78,6 +82,7 @@
             font-size: larger;
         }
         .red{
-            color:red;
+            /* color:red; */
+            background-color: rgba(255, 0, 0, 0.207);
         }
     </style>

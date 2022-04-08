@@ -99,6 +99,20 @@ export default {
             "name": "[day]"
           },
           "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_creneaux_index_svelte",
+          "name": "index",
+          "module": () => import('../src/routes/creneaux/index.svelte'),
+          "file": {
+            "path": "src/routes/creneaux/index.svelte",
+            "dir": "src/routes/creneaux",
+            "base": "index.svelte",
+            "ext": ".svelte",
+            "name": "index"
+          },
+          "children": []
         }
       ]
     },
@@ -172,20 +186,6 @@ export default {
           "children": []
         }
       ]
-    },
-    {
-      "meta": {},
-      "id": "_default_recap_svelte",
-      "name": "recap",
-      "module": () => import('../src/routes/recap.svelte'),
-      "file": {
-        "path": "src/routes/recap.svelte",
-        "dir": "src/routes",
-        "base": "recap.svelte",
-        "ext": ".svelte",
-        "name": "recap"
-      },
-      "children": []
     },
     {
       "meta": {},
