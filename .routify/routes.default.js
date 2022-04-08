@@ -68,6 +68,20 @@ export default {
             "name": "manageAdmins"
           },
           "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_admin_test_svelte",
+          "name": "test",
+          "module": () => import('../src/routes/admin/test.svelte'),
+          "file": {
+            "path": "src/routes/admin/test.svelte",
+            "dir": "src/routes/admin",
+            "base": "test.svelte",
+            "ext": ".svelte",
+            "name": "test"
+          },
+          "children": []
         }
       ]
     },
@@ -186,20 +200,6 @@ export default {
           "children": []
         }
       ]
-    },
-    {
-      "meta": {},
-      "id": "_default_test_svelte",
-      "name": "test",
-      "module": () => import('../src/routes/test.svelte'),
-      "file": {
-        "path": "src/routes/test.svelte",
-        "dir": "src/routes",
-        "base": "test.svelte",
-        "ext": ".svelte",
-        "name": "test"
-      },
-      "children": []
     }
   ]
 }

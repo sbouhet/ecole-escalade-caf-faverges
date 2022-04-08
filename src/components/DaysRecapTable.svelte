@@ -35,7 +35,7 @@
     })
 </script>
 
-<h1>Créneaux disponibles</h1>
+<h3>Créneaux disponibles</h3>
 <figure>
         <table role="grid">
             <thead>
