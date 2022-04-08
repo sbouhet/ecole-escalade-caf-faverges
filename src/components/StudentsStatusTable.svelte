@@ -9,6 +9,7 @@
     
     export let students = []
     export let allowDelete = false
+    export let showDay = true
     let admin = false
     if(getAuth().currentUser && getAuth().currentUser.email==='friarobaz@gmail.com') admin = true
     let table
@@ -28,7 +29,9 @@
                     <th scope="col">Prénom</th>
                     <th scope="col">Nom</th>
                     <!-- {#if admin}<th scope="col">E‑mail</th>{/if} -->
-                    <th scope="col">Créneau</th>
+                    {#if showDay}
+                        <th scope="col">Créneau</th>
+                    {/if}
                     <th scope="col">Status</th>
                     <th scope="col">Licence</th>
                     <th scope="col">Paiement</th>
@@ -48,7 +51,9 @@
                    <!--  {#if admin}
                         <td>{student.parents[0].email}</td>
                     {/if} -->
-                    <td>{getDayName(getDayFromUrl(student.seasons[$currentSeason.name].day, $currentSeason.days))}</td>
+                    {#if showDay}
+                        <td>{getDayName(getDayFromUrl(student.seasons[$currentSeason.name].day, $currentSeason.days))}</td>
+                    {/if}
                     <td>{#if student.seasons[$currentSeason.name].status==='Pré‑inscrit(e)'}
                         <span data-tooltip="Pré‑inscrit(e), le dossier n'est pas complet.">⌛</span>
                         {:else if student.seasons[$currentSeason.name].status==='Inscrit(e)'}

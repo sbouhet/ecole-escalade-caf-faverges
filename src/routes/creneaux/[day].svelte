@@ -25,7 +25,7 @@
 
 <h1>{name}</h1>
 
-<StudentsStatusTable {students}/>
+<StudentsStatusTable {students} showDay={false}/>
 
 {#if error}
     <ErrorMessage {error}/>

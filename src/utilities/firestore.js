@@ -83,6 +83,7 @@ export const copySeason = async (oldSeasonName, newSeasonName) => {
   try {
     console.log(`Copying seasons ${oldSeasonName}`)
     const oldSeason = await getSeason(oldSeasonName)
+    oldSeason.name = newSeasonName
     await setDoc(doc(db, "seasons", newSeasonName), oldSeason)
     console.log("Done")
   } catch (error) {

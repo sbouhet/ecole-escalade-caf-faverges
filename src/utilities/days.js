@@ -122,7 +122,7 @@ export const getDayInfo = (day, season, students) => {
   const adult = season.ageGroups[day.ageGroupIndex].min === 18
   const minYear = getMinYear(day, season.ageGroups)
   return {
-    name: getDayName(day, true),
+    name: getDayName(day, false),
     tooltip: adult
       ? "Vous devez être majeur pour vous inscrire"
       : `Année de naissance maximum : ${minYear}`,

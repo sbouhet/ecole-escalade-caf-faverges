@@ -53,6 +53,7 @@
   <div>
     {#if searching}
     <p>Recherche d'élèves inscrits avec l'email {getAuth().currentUser.email}</p>
+    <p>Merci de patienter...</p>
     {:else}
       <a href="#" on:click={findChildren} data-tooltip={`Chercher un inscrit avec l'email ${getAuth().currentUser.email}`}>
         Trouver mes enfants déjà inscrits
