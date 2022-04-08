@@ -6,10 +6,12 @@
     import { deleteStudent } from '$utils/firestore'
     import { capitalize } from '$utils/capitalize'
     import { getAuth } from "firebase/auth"
+import { printName } from "$utils/printName";
     
     export let students = []
     export let allowDelete = false
     export let showDay = true
+    export let myProfile = false
 
     let table
     $:if(table){
@@ -23,11 +25,12 @@
         <table role="grid" bind:this={table}>
             <thead>
                 <tr>
+                    
                     {#if $admin && allowDelete}<th scope="col">Del</th>{/if}
-                    <!-- <th scope="col">Id</th> -->
                     <th scope="col">Prénom</th>
-                    <th scope="col">Nom</th>
-                    <!-- {#if $admin}<th scope="col">E‑mail</th>{/if} -->
+                    {#if !myProfile}
+                        <th scope="col">Nom</th>
+                    {/if} 
                     {#if showDay}
                         <th scope="col">Créneau</th>
                     {/if}
@@ -44,12 +47,12 @@
                     {#if $admin && allowDelete}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
-                    <!-- <td>{student.id}</td> -->
-                    <td>{capitalize(student.firstName)}</td>
-                    <td>{student.lastName.toUpperCase()}</td>
-                   <!--  {#if $admin}
-                        <td>{student.parents[0].email}</td>
-                    {/if} -->
+                    {#if myProfile}
+                        <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.firstName)}</a></td>
+                    {:else}
+                        <td>{capitalize(student.firstName)}</td>
+                        <td>{student.lastName.toUpperCase()}</td>
+                    {/if}
                     {#if showDay}
                         <td>{getDayName(getDayFromUrl(student.seasons[$currentSeason.name].day, $currentSeason.days))}</td>
                     {/if}
@@ -83,5 +86,8 @@
 
      span{
          color: rgb(255, 255, 255);
+     }
+     td{
+         text-transform: capitalize;
      }
 </style>

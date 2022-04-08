@@ -53,7 +53,7 @@
     </div>
     <p>Cliquez sur une inscription pour plus de détails.</p>
     <br>
-    <StudentsStatusTable students={myStudents} allowDelete={false}/>
+    <StudentsStatusTable students={myStudents} allowDelete={false} myProfile={true}/>
 {:catch}
     <ErrorMessage error='Erreur : inscriptions non trouvées.'/>
 {/await}
