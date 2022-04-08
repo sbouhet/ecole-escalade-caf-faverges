@@ -11,8 +11,8 @@
 <ul>
     <li><a href="/admin/copySeason">Copy season</a></li>
     <li><a href="/admin/manageAdmins">Manage admins</a></li>
-    <a href="/prive/inscription" on:click={reset}>Inscription</a><br>
-    <a href="/admin/test">test</a><br>
+    <li><a href="/prive/inscription" on:click={reset}>Inscription</a></li>
+    <li><a href="/admin/test">test</a></li>
 </ul>
 
 
