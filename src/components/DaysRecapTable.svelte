@@ -97,4 +97,7 @@
         .green{
             color:green;
         }
+        thead th{
+            font-weight: bold;
+        }
     </style>

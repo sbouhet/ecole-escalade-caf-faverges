@@ -187,20 +187,6 @@ export default {
       "children": [
         {
           "meta": {},
-          "id": "_default_prive_UNUSEDmon_compte_svelte",
-          "name": "UNUSEDmon-compte",
-          "module": () => import('../src/routes/prive/UNUSEDmon-compte.svelte'),
-          "file": {
-            "path": "src/routes/prive/UNUSEDmon-compte.svelte",
-            "dir": "src/routes/prive",
-            "base": "UNUSEDmon-compte.svelte",
-            "ext": ".svelte",
-            "name": "UNUSEDmon-compte"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
           "id": "_default_prive_inscription_svelte",
           "name": "inscription",
           "module": () => import('../src/routes/prive/inscription.svelte'),
@@ -210,6 +196,20 @@ export default {
             "base": "inscription.svelte",
             "ext": ".svelte",
             "name": "inscription"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_prive_mon_compte_svelte",
+          "name": "mon-compte",
+          "module": () => import('../src/routes/prive/mon-compte.svelte'),
+          "file": {
+            "path": "src/routes/prive/mon-compte.svelte",
+            "dir": "src/routes/prive",
+            "base": "mon-compte.svelte",
+            "ext": ".svelte",
+            "name": "mon-compte"
           },
           "children": []
         }
