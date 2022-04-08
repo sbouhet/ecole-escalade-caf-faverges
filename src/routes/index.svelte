@@ -11,7 +11,6 @@ const reset = ()=>{
     $subscription = subscriptionReset($currentSeason.name)
 }
 
-console.log('this is INDEX')
 </script>
 
 
