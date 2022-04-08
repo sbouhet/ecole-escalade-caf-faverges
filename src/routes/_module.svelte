@@ -20,7 +20,7 @@
 
     $:if ($currentSeason) {
         //console.log($currentSeason)
-        $subscription = subscriptionReset($currentSeason.name)
+        $subscription = subscriptionReset($currentSeason)
     }
 
     //$:console.log($subscription)

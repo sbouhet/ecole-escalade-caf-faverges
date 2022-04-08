@@ -8,7 +8,7 @@
    
 
 const reset = ()=>{
-    $subscription = subscriptionReset($currentSeason.name)
+    $subscription = subscriptionReset($currentSeason)
 }
 
 </script>
