@@ -4,7 +4,7 @@
     import Back from '$components/Back.svelte'
     import { goto } from '@roxi/routify'
 
-    if(!$admin) $goto('/')
+    $:if(!$admin) $goto('/')
 </script>
 
 
