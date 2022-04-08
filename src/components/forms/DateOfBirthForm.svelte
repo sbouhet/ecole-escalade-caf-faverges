@@ -1,11 +1,14 @@
 <script>
     import {getAge, getMinYear} from '$utils/ageGroups'
+import { getDayFromUrl } from '$utils/days';
     import { currentDay, currentSeason, subscription, ageStatus } from '$utils/stores'
    
     
     let ageGroup, dateOfBirth, age, status
-    $: if ($currentDay) {
-        ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
+    let dayUrl = $subscription.publicInfo.seasons[$currentSeason.name].day
+    $: if (dayUrl) {
+        let day = getDayFromUrl(dayUrl, $currentSeason.days)
+        ageGroup = $currentSeason.ageGroups[day.ageGroupIndex]
     }
 
     $: $ageStatus = status

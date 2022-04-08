@@ -9,7 +9,6 @@
 
     $:if (selectedDay) {
         warningMessage = getWarningMessage(getMinYear(selectedDay, $currentSeason.ageGroups))
-        $currentDay = selectedDay
         $subscription.publicInfo.seasons[$currentSeason.name].day = getDayUrl(selectedDay)
     }
 

@@ -43,7 +43,7 @@
         {printName($subscription.publicInfo)}
       </h5>
       <div>Né(e) le <b>{dayjs($subscription.privateInfo.dateOfBirth).format('D MMMM YYYY')}</b> ({getAge($subscription.privateInfo.dateOfBirth, false)} ans)</div>
-      <div>Créneau choisi : <b>{getDayName($currentDay)}</b></div>
+      <div>Créneau choisi : <b>{$subscription.publicInfo.seasons[$currentSeason.name].day}</b></div>
       <br>
       <section>
         Parents :
