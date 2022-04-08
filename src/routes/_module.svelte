@@ -20,13 +20,13 @@
     let selectedSeason = 'current'
 
     $:if ($currentSeason) {
+        //reset
+        console.log("Resetting because season changed")
         $subscription = subscriptionReset($currentSeason)
-        console.log($currentDay)
-        $currentDay = getDayUrl($currentSeason.days[0])
+        $currentDay = $currentSeason.days[0]
     }
-
-    $:console.log($subscription)
-   
+   $:console.log($subscription.publicInfo.seasons)
+   $:console.log($currentDay)
  
     const allowDebug = true
     let debug = false
