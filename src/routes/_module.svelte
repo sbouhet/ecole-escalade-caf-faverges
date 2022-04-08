@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeasonFromFirestore } from '$utils/firestore'
-    import {currentDay, currentSeason, loggedin, subscription} from '$utils/stores'
+    import {currentDay, currentSeason, loggedin, subscription, admin} from '$utils/stores'
     import Debug from '$components/Debug.svelte'
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'
@@ -15,7 +15,7 @@
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { getDayUrl } from '$utils/days'
 
-    let admin = false
+    $admin = false
     let verified = false
     let selectedSeason = 'current'
 
@@ -41,13 +41,12 @@
         $loggedin = true
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
-            //console.log(res.claims.admin)
-          admin = !!res.claims.admin
+          $admin = !!res.claims.admin
           userStoreUpToDate = true
         })
       }else{
         $loggedin = false
-        admin = false
+        $admin = false
         verified = false
         userStoreUpToDate = true
       }
@@ -67,7 +66,7 @@
     {/if}
     <div class="season">
         <small>
-            <select id="season" name="season" disabled={!admin} bind:value={selectedSeason}>
+            <select id="season" name="season" disabled={!$admin} bind:value={selectedSeason}>
                 <option value={'last'}>{seasons().last}</option>  
                 <option value={'current'}>{seasons().current}</option>  
                 <option value={'next'}>{seasons().next}</option>  
@@ -79,7 +78,7 @@
             <div>
                 <span>👤 </span>
                 {getAuth().currentUser.email}
-                {#if admin}
+                {#if $admin}
                     (admin)
                 {/if}
             </div>

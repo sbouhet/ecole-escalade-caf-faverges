@@ -1,7 +1,7 @@
 <script>
       export let context //just to hide warning in console
     
-    import { subscription, currentDay, currentSeason } from '$utils/stores'
+    import { subscription, currentDay, currentSeason, admin } from '$utils/stores'
 
     import DaysRecapTable from '$components/DaysRecapTable.svelte'
 
@@ -17,7 +17,9 @@
 
 <a href="/prive/mon-compte">Mon compte</a><br>
 <a href="/inscriptions-en-cours">Voir les inscriptions en cours</a><br><br>
-<a href="/admin">ADMIN</a>
+{#if $admin}
+    <a href="/admin">ADMIN</a>
+{/if}
 
 <section>
     <DaysRecapTable />

@@ -1,13 +1,13 @@
 <script>
     export let context //prevent warnings in console
-    import {isActive} from '@roxi/routify'
+    import { admin } from '$utils/stores'
     import Back from '$components/Back.svelte'
-</script>
+    import { goto } from '@roxi/routify'
 
+    if(!$admin) $goto('/')
+</script>
 
 
 <slot></slot>
 
-
-
-        <Back path='/admin' msg='Retour à la page Admin'/>
+<Back path='/admin' msg='Retour à la page Admin'/>
