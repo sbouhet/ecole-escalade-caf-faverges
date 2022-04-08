@@ -112,6 +112,18 @@ export const isDayForAdults = (day, ageGroups) => {
   return ageGroup.min === 18
 }
 
+const getDuration = (day) => {
+  return timeStringToNumber(day.endTime) - timeStringToNumber(day.startTime)
+}
+
+const timeStringToNumber = (timeString) => {
+  const hours = parseInt(timeString.split("h")[0])
+  let minuteString = timeString.split("h")[1]
+  if (minuteString === "") minuteString = "00"
+  const minutes = parseInt(minuteString) / 60
+  return hours + minutes
+}
+
 export const getDayInfo = (day, season, students) => {
   if (!day) throw "No day"
   if (!season) throw "No season"
@@ -119,22 +131,32 @@ export const getDayInfo = (day, season, students) => {
   const subscribedStudents = students.filter(
     (student) => student.seasons[season.name].day == getDayUrl(day)
   )
-  const adult = season.ageGroups[day.ageGroupIndex].min === 18
+  const ageGroup = season.ageGroups[day.ageGroupIndex]
+  const adult = ageGroup.min === 18
   const minYear = getMinYear(day, season.ageGroups)
+  const minAge = ageGroup.min
+  const maxAge = ageGroup.max
   return {
     name: getDayName(day, false),
     tooltip: adult
       ? "Vous devez être majeur pour vous inscrire"
       : `Année de naissance maximum : ${minYear}`,
     ageGroupName: getAgeGroupName(season.ageGroups[day.ageGroupIndex]),
-    minAge: season.ageGroups[day.ageGroupIndex].min,
+    minAge,
     minYear,
-    maxAge: season.ageGroups[day.ageGroupIndex].max,
+    maxAge,
+    ages: `${minAge}‑${maxAge} ans`,
     url: getDayUrl(day),
     nbMaxOfStudents: day.nbMaxOfStudents,
     subscribedStudents,
     nbOfSubscibedStudents: subscribedStudents.length,
     spotsLeft: day.nbMaxOfStudents - subscribedStudents.length,
     teacher: day.teacher,
+    times: `${day.startTime}‑${day.endTime}`,
+    firstDay: season.firstDay,
+    lastDay: season.lastDay,
+    price: ageGroup.price,
+    nbOfSessions: season.nbOfSessions,
+    duration: getDuration(day),
   }
 }

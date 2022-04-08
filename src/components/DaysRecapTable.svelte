@@ -33,7 +33,6 @@
         dayInfo = dayInfo
         console.log(`Found ${students.length} students for this season`)
     })
-    
 </script>
 
 <h1>Créneaux disponibles</h1>
@@ -60,11 +59,15 @@
                             <span data-tooltip={day.tooltip}>{day.ageGroupName}</span>
                         </td>
                         <!-- Spots left -->
-                        <td class="{day.spotsLeft <= 0 ? 'red' : ''}">
-                            <b>{day.spotsLeft}</b>
+                        <td>
+                            {#if day.spotsLeft > 0}
+                                <b class="green">{day.spotsLeft}</b>
+                            {:else}
+                                <b class="red">COMPLET</b>
+                            {/if}
                         </td>
                         <!-- Number of subscriptions -->
-                        <td class="{day.spotsLeft <= 0 ? 'red' : ''}">
+                        <td class="{day.spotsLeft <= 0 ? 'red' : 'green'}">
                             {day.nbOfSubscibedStudents} / {day.nbMaxOfStudents}
                         </td>
                         <!-- Teacher -->
@@ -82,11 +85,6 @@
 
 
     <style>
-        button{
-            margin:0px;
-            max-width: 200px;
-            text-transform: capitalize;
-        }
         a{
             text-transform: capitalize;
         }
@@ -95,5 +93,8 @@
         }
         .red{
             color:red;
+        }
+        .green{
+            color:green;
         }
     </style>

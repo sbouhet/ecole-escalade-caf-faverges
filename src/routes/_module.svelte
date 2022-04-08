@@ -25,8 +25,6 @@
         $subscription = subscriptionReset($currentSeason)
         $currentDay = $currentSeason.days[0]
     }
-   $:console.log($subscription.publicInfo.seasons)
-   $:console.log($currentDay)
  
     const allowDebug = true
     let debug = false
