@@ -2,9 +2,10 @@
     import { db } from "$utils/firebase"
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { getDayFromUrl, getDayInfo, getDayName } from '$utils/days'
-    import { currentSeason } from '$utils/stores'
+    import { currentSeason, subscription } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/ErrorMessage.svelte'
+    import { subscriptionReset } from "$utils/subscriptionReset"
 
     import {params} from '@roxi/routify'
 import { seasons } from "$utils/seasons";
@@ -22,6 +23,9 @@ import { seasons } from "$utils/seasons";
         console.log(`Found ${students.length} students for ${name}`)
     })
     $: info = getDayInfo(day, $currentSeason, students)
+    const reset = ()=>{
+    $subscription = subscriptionReset($currentSeason)
+}
 </script>
 
 <hgroup>
@@ -51,7 +55,7 @@ import { seasons } from "$utils/seasons";
 
 <section>
     {#if info.spotsLeft>0}
-        <a href={`/prive/inscription?creneau=${dayUrl}`} role="button">Je m'inscris</a>
+        <a href={`/prive/inscription?creneau=${dayUrl}`} role="button" on:click={reset}>Je m'inscris</a>
     {:else}
         <a role="button" class="secondary">Je m'inscris</a>
         <strong class="red">COMPLET</strong>
