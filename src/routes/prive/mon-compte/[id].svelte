@@ -2,7 +2,7 @@
     export let context
     
     import {params} from '@roxi/routify'
-    import { getStudent, saveMedicalCertificate } from '$utils/firestore'
+    import { getStudent } from '$utils/firestore'
     import { printName } from '$utils/printName'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { currentSeason } from '$utils/stores'
@@ -43,7 +43,7 @@
         </hgroup>
         
         <details>
-            <summary><Boolean value={true} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
+            <summary><Boolean value={'yes'} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
         <details>

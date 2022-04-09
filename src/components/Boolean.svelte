@@ -1,38 +1,25 @@
 <script>
     export let value
     export let big=false
+    import {STATES, ICONS_BIG, ICONS_SMALL, COLORS} from '$utils/STEPS'
+    let tooltip
+    if(value==="waiting") tooltip = "En cours de validation"
 </script>
 
+{#each STATES as state, index}
+    {#if value === state}  
+        {#if big}
+            <span class="big" data-tooltip={tooltip}>{ICONS_BIG[index]}</span>
+        {:else}
+            <span class="small" style="color:{COLORS[index]}" data-tooltip={tooltip}>{ICONS_SMALL[index]}</span>
+        {/if}
+    {/if}
+{/each}
 
-{#if value===true}
-    {#if big}
-        <span class="true big">✅</span>
-    {:else}
-        <span class="true">☑</span>
-    {/if}
-{:else if value==='waiting'}
-    {#if big}
-        <span class="false big">⌛</span>
-    {:else}
-        <span class="false">?</span>
-    {/if}
-{:else}
-    {#if big}
-        <span class="false big">❌</span>
-    {:else}
-        <span class="false">×</span>
-    {/if}
-{/if}
+
 
 <style>
-    .true{
-        color: green;
-    }
-
-    .false{
-        color: red;
-    }
-    span{
+    .small{
         font-size:x-large;
     }
     .big{

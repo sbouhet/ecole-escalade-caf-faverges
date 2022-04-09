@@ -17,7 +17,13 @@ export const subscriptionReset = (season) => {
       firstName: null,
       lastName: null,
       seasons: {
-        [name]: { day, status: null },
+        [name]: {
+          day,
+          status: "no",
+          payment: "no",
+          licence: "no",
+          medicalCertificate: "no",
+        },
       },
     },
     privateInfo: {

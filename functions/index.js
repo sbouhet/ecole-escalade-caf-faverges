@@ -3,10 +3,52 @@ const functions = require("firebase-functions")
 const admin = require("firebase-admin")
 admin.initializeApp()
 const db = admin.firestore()
+const axios = require("axios").default
 
 //##########################################################################
 //                            UTILITY FUNCTIONS
 //##########################################################################
+
+const getAdminEmails = async () => {
+  console.log("Trying to get admin emails")
+  var docRef = db.collection("admin").doc("admin")
+  return docRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const adminEmails = doc.data().adminEmails
+        let formatted = []
+        for (const adminEmail of adminEmails) {
+          formatted.push({ email: adminEmail })
+        }
+        console.log(formatted)
+        return formatted
+      } else {
+        console.log("No such document!")
+      }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error)
+    })
+}
+
+const sendEmail = async (emails, subject, htmlContent, API_KEY) => {
+  await axios.post(
+    "https://api.sendinblue.com/v3/smtp/email",
+    {
+      sender: { name: "Jules", email: "friarobaz@gmail.com" },
+      to: emails,
+      subject,
+      htmlContent,
+    },
+    {
+      headers: {
+        "api-key": API_KEY,
+      },
+    }
+  )
+  return true
+}
 
 const season = () => {
   const string = (year) => {
@@ -219,6 +261,32 @@ exports.updateEmails = functions.firestore
     return db
       .doc(`students/${studentId}/privateCol/privateDoc`)
       .update({ emails: emailsAfter })
+  })
+
+//When student's private doc is updated, send email to admins
+exports.notifyAdmin = functions
+  .runWith({ secrets: ["API_KEY_SECRET"] })
+  .firestore.document("students/{studentId}/privateCol/{privateDoc}")
+  .onUpdate(async (change, context) => {
+    console.log("UPDATE DETECTED")
+    const timestampBefore = change.before.data().medicalCertificateTimestamp
+    const timestampAfter = change.after.data().medicalCertificateTimestamp
+    if (timestampBefore === timestampAfter) return
+    const API_KEY_SECRET = process.env.API_KEY_SECRET
+    const htmlContent = "HTML <b>CONTENT</b>"
+    getAdminEmails()
+      .then((adminEmails) => {
+        console.log(adminEmails)
+        sendEmail(
+          adminEmails,
+          "Nouveau certificat !",
+          htmlContent,
+          API_KEY_SECRET
+        )
+      })
+      .then(() => {
+        console.log("DONE ??")
+      })
   })
 
 //When a student is deleted from Firestore, remove it's ID from parent users

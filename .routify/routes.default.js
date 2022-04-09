@@ -99,6 +99,20 @@ export default {
         },
         {
           "meta": {},
+          "id": "_default_admin_modifyStudent_svelte",
+          "name": "modifyStudent",
+          "module": () => import('../src/routes/admin/modifyStudent.svelte'),
+          "file": {
+            "path": "src/routes/admin/modifyStudent.svelte",
+            "dir": "src/routes/admin",
+            "base": "modifyStudent.svelte",
+            "ext": ".svelte",
+            "name": "modifyStudent"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
           "id": "_default_admin_test_svelte",
           "name": "test",
           "module": () => import('../src/routes/admin/test.svelte'),

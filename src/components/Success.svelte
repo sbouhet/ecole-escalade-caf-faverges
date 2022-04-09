@@ -24,7 +24,7 @@
       
     <footer>
       <a href="#" role="button" class="outline" on:click={subscribeAnother}>Inscire quelqu'un d'autre</a>
-      <a href="#" role="button" on:click={done}>Terminer</a>
+      <a href="#" role="button" on:click={done}>Continuer</a>
     </footer>
   </article>
 </dialog>

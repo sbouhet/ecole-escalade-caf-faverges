@@ -1,0 +1,5 @@
+export const FIELDS = ["licence", "medicalCertificate", "payment"]
+export const STATES = ["yes", "waiting", "no"]
+export const ICONS_SMALL = ["✓", "?", "✗"]
+export const COLORS = ["green", "black", "red"]
+export const ICONS_BIG = ["✅", "⌛", "❌"]

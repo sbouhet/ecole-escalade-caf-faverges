@@ -3,6 +3,8 @@ http://tristen.ca/tablesort/demo/?utm_source=cdnjs&utm_medium=cdnjs_link&utm_cam
 
 Seasons run from 1st of September to 31st of August, but in August it displays next season by default
 
-
 Cloud function copies student info into seasons/{season-name}/students
 WARNING: it choses the current season no matter what season is selected on the frontend
+
+sendinblue API_KEY is stored in google secret
+https://firebase.google.com/docs/functions/config-env?hl=en

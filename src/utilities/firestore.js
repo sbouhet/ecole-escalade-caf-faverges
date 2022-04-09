@@ -18,6 +18,24 @@ import { getAuth } from "firebase/auth"
 import { seasons } from "./seasons"
 import { getDayUrl, getDayFromUrl } from "$utils/days"
 
+export const changeState = async (studentId, field, state, seasonName) => {
+  if (!studentId) throw "no id"
+  if (!field) throw "no field"
+  if (!state) throw "no state"
+  if (!seasonName) throw "no seasonName"
+  console.log(`Changing state for ${studentId}`)
+  const publicRef = doc(db, "students", studentId)
+  await updateDoc(publicRef, { [`seasons.${seasonName}.${field}`]: state })
+  return
+}
+
+export const writeTimeStamp = async (studentId) => {
+  const timestamp = dayjs().format("YYYYMMDDHHmmss")
+  const privateDoc = doc(db, "students", studentId, "privateCol", "privateDoc")
+  await updateDoc(privateDoc, { medicalCertificateTimestamp: timestamp })
+  return
+}
+
 export const saveMedicalCertificate = async (studentId, link, seasonName) => {
   if (!studentId) throw "no student id"
   if (!link) throw "no link"
@@ -68,7 +86,7 @@ export const createNewStudent = async (student, season) => {
   console.log(`Trying to subscribe ${student.publicInfo.firstName}`)
 
   //change student status to "préinscrit"
-  student.publicInfo.seasons[season.name].status = "Pré‑inscrit(e)"
+  student.publicInfo.seasons[season.name].status = "waiting"
 
   //write public data to student doc (students/{studentId})
   const studentRef = await addDoc(
