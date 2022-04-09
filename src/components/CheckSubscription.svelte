@@ -3,7 +3,7 @@
     import { getAge } from '$utils/ageGroups'
     import { getDayName, getDayUrl } from '$utils/days'
     import { translateRole } from '$utils/TRANSLATE'
-    import { createNewStudent, getSeasonFromFirestore } from '$utils/firestore'
+    import { createNewStudent } from '$utils/firestore'
     import { printName } from '$utils/printName'
     import { isDayFull } from '$utils/firestore'
     import ErrorMessage from '$components/ErrorMessage.svelte'

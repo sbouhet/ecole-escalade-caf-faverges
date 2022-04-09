@@ -1,6 +1,6 @@
 <script>
     export let context
-    import { db } from "$utils/firebase"
+    import { db } from "$utils/firebase/firebase"
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { getDayFromUrl, getDayInfo, getDayName } from '$utils/days'
     import { currentSeason, subscription } from '$utils/stores'

@@ -4,7 +4,7 @@
     import { getAgeGroupName } from '$utils/ageGroups'
     import { currentDay, currentSeason } from '$utils/stores'
     import { seasons } from '$utils/seasons'
-    import { db } from "$utils/firebase"
+    import { db } from "$utils/firebase/firebase"
     import {
   doc,
   getDoc,

@@ -1,8 +1,8 @@
 <script>
-    import { firebaseApp } from '$utils/firebase' //important, do not remove
+    import { firebaseApp } from '$utils/firebase/firebase' //important, do not remove
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
-    import { getSeasonFromFirestore } from '$utils/firestore'
+    import { getSeason } from '$firestore/season'
     import {currentDay, currentSeason, loggedin, subscription, admin} from '$utils/stores'
     import Debug from '$components/Debug.svelte'
     import Back from '$components/Back.svelte'
@@ -10,7 +10,7 @@
     import {isActive} from '@roxi/routify'
     import { doc, onSnapshot } from "firebase/firestore"
     import { seasons } from '$utils/seasons'
-    import { db } from '$utils/firebase'
+    import { db } from '$utils/firebase/firebase'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { getDayUrl } from '$utils/days'
@@ -53,7 +53,7 @@
       
 	  })
 
-    $: promise = getSeasonFromFirestore(selectedSeason).then(season=>{
+    $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
     }).catch(err=>{
         throw err

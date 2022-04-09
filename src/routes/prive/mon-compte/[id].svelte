@@ -8,7 +8,7 @@
     import { currentSeason } from '$utils/stores'
     import { translateRole, translateStatus } from '$utils/TRANSLATE'
     import Boolean from '$components/Boolean.svelte'
-    import { deleteMedicalCertificate, uploadMedicalCertificate } from '$utils/storage'
+    import { deleteMedicalCertificate} from '$utils/storage'
     let urlId = $params.id
     const student = getStudent(urlId)
     let uploading = false

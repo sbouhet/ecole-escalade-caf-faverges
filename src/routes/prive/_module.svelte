@@ -1,5 +1,5 @@
 <script>
-    import { firebaseApp } from '$utils/firebase' //important, do not remove
+    import { firebaseApp } from '$utils/firebase/firebase' //important, do not remove
     export let context //just to hide warning in console
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'

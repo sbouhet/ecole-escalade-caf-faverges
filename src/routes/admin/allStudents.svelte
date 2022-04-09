@@ -1,6 +1,6 @@
 <script>
     export let context
-    import { db } from "$utils/firebase"
+    import { db } from "$utils/firebase/firebase"
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { currentSeason, loggedin } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'

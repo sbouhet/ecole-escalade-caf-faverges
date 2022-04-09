@@ -5,7 +5,9 @@
     "baseUrl": "src",
     "paths": {
       "$utils/*": ["utilities/*"],
-      "$components/*": ["components/*"]
+      "$components/*": ["components/*"],
+      "$firestore/*": ["utilities/firebase/firestore/*"],
+      "$storage/*": ["components/firebase/storage/*"]
     }
   }
 }

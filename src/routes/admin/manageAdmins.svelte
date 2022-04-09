@@ -1,9 +1,9 @@
 <script>
     import { httpsCallable } from "firebase/functions"
-    import { functions } from '$utils/firebase'
+    import { functions } from '$utils/firebase/firebase'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import {collection,query,where,onSnapshot} from "firebase/firestore"
-    import { db } from "$utils/firebase"
+    import { db } from "$utils/firebase/firebase"
 
 
     const addAdminRole = httpsCallable(functions, 'addAdminRole');

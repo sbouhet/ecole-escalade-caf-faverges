@@ -1,5 +1,5 @@
 <script>
-    import { db } from "$utils/firebase"
+    import { db } from "$utils/firebase/firebase"
     import {
   doc,
   getDoc,
