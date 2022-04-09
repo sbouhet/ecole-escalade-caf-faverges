@@ -1,6 +1,5 @@
 <script>
     export let context
-    
     import {params} from '@roxi/routify'
     import { getStudent } from '$firestore/getStudent'
     import { printName } from '$utils/printName'
@@ -8,7 +7,8 @@
     import { currentSeason } from '$utils/stores'
     import { translateRole, translateStatus } from '$utils/TRANSLATE'
     import Boolean from '$components/Boolean.svelte'
-    import { deleteMedicalCertificate} from '$utils/storage'
+    import { uploadMedicalCertificate } from '$utils/firebase/storage'
+
     let urlId = $params.id
     const student = getStudent(urlId)
     let uploading = false

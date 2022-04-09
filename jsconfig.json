@@ -6,8 +6,7 @@
     "paths": {
       "$utils/*": ["utilities/*"],
       "$components/*": ["components/*"],
-      "$firestore/*": ["utilities/firebase/firestore/*"],
-      "$storage/*": ["components/firebase/storage/*"]
+      "$firestore/*": ["utilities/firebase/firestore/*"]
     }
   }
 }

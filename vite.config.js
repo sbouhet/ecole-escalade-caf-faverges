@@ -12,7 +12,6 @@ export default defineConfig({
       $components: path.resolve("./src/components"),
       $utils: path.resolve("./src/utilities"),
       $firestore: path.resolve("./src/utilities/firebase/firestore"),
-      $storage: path.resolve("./src/utilities/firebase/storage"),
     },
   },
 
