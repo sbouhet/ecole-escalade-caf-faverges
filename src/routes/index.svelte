@@ -15,7 +15,7 @@
 
 
 {#if $admin}
-    <a href="/admin">ADMIN</a>
+    <a href="/admin">ADMIN</a><br>
 {/if}
 
 {#if $loggedin}

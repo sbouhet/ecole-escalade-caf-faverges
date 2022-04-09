@@ -9,6 +9,7 @@ import {
   deleteDoc,
   query,
   where,
+  collection,
 } from "firebase/firestore"
 
 export const _getDoc = async (collection, docId, subCollection, subDocId) => {
@@ -23,7 +24,6 @@ export const _getDoc = async (collection, docId, subCollection, subDocId) => {
     }
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-      console.log("Document retrieved")
       return docSnap.data()
     } else {
       throw "No such document!"
@@ -33,20 +33,19 @@ export const _getDoc = async (collection, docId, subCollection, subDocId) => {
   }
 }
 
-export const _query = async (collection, field, operation, value) => {
-  if (!collection) throw "No collection"
+export const _query = async (collectionId, field, operation, value) => {
+  if (!collectionId) throw "No collection"
   if (!field) throw "No field"
   if (!operation) throw "No operation"
   if (!value) throw "No value"
   let result = []
   try {
-    const collectionRef = collection(db, collection)
+    const collectionRef = collection(db, collectionId)
     const q = query(collectionRef, where(field, operation, value))
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
       result.push(doc.data())
     })
-    console.log(`Found ${result.length} results for this query`)
     return result
   } catch (error) {
     throw error
@@ -72,7 +71,6 @@ export const _setDoc = async (
       docRef = doc(db, collection, docId)
     }
     await setDoc(docRef, document, { merge: true })
-    console.log("Document successfully written")
     return
   } catch (error) {
     throw error
@@ -80,12 +78,11 @@ export const _setDoc = async (
 }
 
 //Write document with random ID, returns the ID after creation
-export const _addDoc = async (document, collection) => {
+export const _addDoc = async (document, collectionId) => {
   if (!document) throw "No document object"
-  if (!collection) throw "No Collection"
+  if (!collectionId) throw "No Collection"
   try {
-    const docRef = await addDoc(collection(db, collection), document)
-    console.log("Document written with ID: ", docRef.id)
+    const docRef = await addDoc(collection(db, collectionId), document)
     return docRef.id
   } catch (error) {
     throw error
@@ -110,7 +107,6 @@ export const _updateDoc = async (
       docRef = doc(db, collection, docId)
     }
     await updateDoc(docRef, newValuesasObject)
-    console.log("Document successfully updated")
     return
   } catch (error) {
     throw error
@@ -133,7 +129,6 @@ export const _deleteDoc = async (
       docRef = doc(db, collection, docId)
     }
     await deleteDoc(docRef)
-    console.log("Document successfully deleted")
   } catch (error) {
     throw error
   }

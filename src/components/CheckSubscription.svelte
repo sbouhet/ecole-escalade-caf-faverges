@@ -20,8 +20,7 @@
           error=null
         }
       }).then(()=>{
-        createNewStudent($subscription, $currentSeason).then((answer)=>{
-        console.log(answer)
+        createNewStudent($subscription, $currentSeason).then(()=>{
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'uploadedToFirestore'
       }).catch(err=>{
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
