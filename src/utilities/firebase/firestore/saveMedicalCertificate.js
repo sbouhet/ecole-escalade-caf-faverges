@@ -6,18 +6,18 @@ export const saveMedicalCertificate = async (studentId, link, seasonName) => {
   if (!seasonName) throw "no season name"
   try {
     await _updateDoc(
+      {
+        [`seasons.${seasonName}.medicalCertificate`]: "waiting",
+      },
+      "students",
+      studentId
+    )
+    await _updateDoc(
       { medicalCertificateLink: link },
       "students",
       studentId,
       "privateCol",
       "privateDoc"
-    )
-    await _updateDoc(
-      {
-        [`seasons.${seasonName}.medicalCertificate`]: "waiting",
-      },
-      "student",
-      studentId
     )
     console.log("Medical certificate saved")
     return

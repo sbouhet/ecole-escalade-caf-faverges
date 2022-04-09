@@ -10,14 +10,31 @@ import { saveMedicalCertificate } from "$firestore/saveMedicalCertificate"
 import { writeTimeStamp } from "$firestore/writeTimestamp"
 
 export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
-  const storage = getStorage()
-  const path = `medicalCertificates/${seasonName}/${studentId}`
-  const storageRef = ref(storage, path)
-  await uploadBytes(storageRef, file)
-  const link = await getDownloadURL(storageRef)
-  await saveMedicalCertificate(studentId, link, seasonName)
-  await writeTimeStamp(studentId)
-  return link
+  if (!file) throw "No file"
+  if (!seasonName) throw "No seasonName"
+  if (!studentId) throw "No studentId"
+  try {
+    const storage = getStorage()
+    const path = `medicalCertificates/${seasonName}/${studentId}`
+    const storageRef = ref(storage, path)
+
+    //Upload certificate
+    await uploadBytes(storageRef, file)
+
+    //Get link
+    const link = await getDownloadURL(storageRef)
+
+    //Write link in stuent/private and change status is season/currentSeason/certificate
+    await saveMedicalCertificate(studentId, link, seasonName)
+
+    //write timestamp
+    await writeTimeStamp(studentId)
+
+    console.log("Certificate uploaded")
+    return link
+  } catch (error) {
+    console.error("Error while uploading certificate")
+  }
 }
 
 export const deleteMedicalCertificate = async (seasonName, studentId) => {

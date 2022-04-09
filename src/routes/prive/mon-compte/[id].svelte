@@ -18,6 +18,7 @@
         medicalCertificateLink = student.private.medicalCertificateLink
     } 
     const handleChange = (e)=>{
+        console.log("uploading")
         uploading = true
         const file = e.target.files[0]
         if(!file)throw 'no file' 
