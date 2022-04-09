@@ -3,9 +3,9 @@
     import { getAge } from '$utils/ageGroups'
     import { getDayName, getDayUrl } from '$utils/days'
     import { translateRole } from '$utils/TRANSLATE'
-    import { createNewStudent } from '$utils/firestore'
+    import { createNewStudent } from '$firestore/createNewStudent'
     import { printName } from '$utils/printName'
-    import { isDayFull } from '$utils/firestore'
+    import { isDayFull } from '$firestore/dayIsFull'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     let error = null
 

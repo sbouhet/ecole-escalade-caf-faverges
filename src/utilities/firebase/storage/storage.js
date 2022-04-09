@@ -6,7 +6,8 @@ import {
   deleteObject,
 } from "firebase/storage"
 
-import { saveMedicalCertificate, writeTimeStamp } from "$firestore/firestore"
+import { saveMedicalCertificate } from "$firestore/saveMedicalCertificate"
+import { writeTimeStamp } from "$firestore/writeTimestamp"
 
 export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
   const storage = getStorage()

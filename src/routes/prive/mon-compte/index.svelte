@@ -2,7 +2,7 @@
     export let context
     import { currentSeason,  } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
-    import { getMyStudents } from '$utils/firestore'
+    import { getMyStudents } from '$firestore/getMyStudents'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"

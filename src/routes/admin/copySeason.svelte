@@ -1,6 +1,6 @@
 <script>
     export let context //just to hide warning in console
-    import { copySeason } from '$utils/firestore'
+    import { copySeason } from '$firestore/copySeason'
 
     let oldSeasonName, newSeasonName
     const handleCopy = async()=>{

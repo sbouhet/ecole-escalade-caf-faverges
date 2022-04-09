@@ -1,6 +1,7 @@
 <script>
-    import { changeState, getStudent } from '$utils/firestore'
-    import {params} from '@roxi/routify'
+    import { changeState } from '$firestore/changeState'
+    import { getStudent } from '$firestore/getStudent'
+    import { params } from '@roxi/routify'
     import { printName } from '$utils/printName'
     import { currentSeason } from '$utils/stores'
     import {FIELDS, STATES} from '$utils/STEPS.js'

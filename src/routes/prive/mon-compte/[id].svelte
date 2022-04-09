@@ -2,7 +2,7 @@
     export let context
     
     import {params} from '@roxi/routify'
-    import { getStudent } from '$utils/firestore'
+    import { getStudent } from '$firestore/getStudent'
     import { printName } from '$utils/printName'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { currentSeason } from '$utils/stores'

@@ -3,7 +3,7 @@
     import { currentSeason, admin } from "$utils/stores"
     import { getDayName, getDayFromUrl} from '$utils/days'
     import Boolean from "$components/Boolean.svelte"
-    import { deleteStudent } from '$utils/firestore'
+    import { deleteStudent } from '$firestore/deleteStudent'
     import { capitalize } from '$utils/capitalize'
     import { getAuth } from "firebase/auth"
 import { printName } from "$utils/printName";
