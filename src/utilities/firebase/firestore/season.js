@@ -14,7 +14,7 @@ export const getSeasonFromFirestore = async (name) => {
 export const getSeason = async (time = "current") => {
   try {
     const name = seasons()[time]
-    return await getSeason(name)
+    return await getSeasonFromFirestore(name)
   } catch (error) {
     throw error
   }

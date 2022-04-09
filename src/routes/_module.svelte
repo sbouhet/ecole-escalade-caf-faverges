@@ -8,9 +8,7 @@
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'
     import {isActive} from '@roxi/routify'
-    import { doc, onSnapshot } from "firebase/firestore"
     import { seasons } from '$utils/seasons'
-    import { db } from '$utils/firebase/firebase'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { getDayUrl } from '$utils/days'
@@ -148,10 +146,3 @@
         margin: 5px;
     }
 </style>
-
-
-
-
-
-
-

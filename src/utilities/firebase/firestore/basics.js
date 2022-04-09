@@ -7,12 +7,8 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-  collection,
-  arrayUnion,
-  arrayRemove,
   query,
   where,
-  onSnapshot,
 } from "firebase/firestore"
 
 export const _getDoc = async (collection, docId, subCollection, subDocId) => {
