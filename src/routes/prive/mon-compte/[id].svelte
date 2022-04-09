@@ -6,7 +6,7 @@
     import { printName } from '$utils/printName'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { currentSeason } from '$utils/stores'
-    import { translateRole } from '$utils/translateRole'
+    import { translateRole, translateStatus } from '$utils/TRANSLATE'
     import Boolean from '$components/Boolean.svelte'
     import { deleteMedicalCertificate, uploadMedicalCertificate } from '$utils/storage'
     let urlId = $params.id
@@ -39,7 +39,7 @@
     <article>
         <hgroup>
             <h1>{printName(student.public)}</h1>
-            <h4>{student.public.seasons[$currentSeason.name].status}</h4>
+            <h4>{translateStatus(student.public.seasons[$currentSeason.name].status)}</h4>
         </hgroup>
         
         <details>

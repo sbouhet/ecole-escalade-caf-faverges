@@ -25,5 +25,6 @@
     .big{
         margin-right: 20px;
         font-size:medium;
+        color:white;
     }
 </style>

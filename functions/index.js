@@ -269,12 +269,15 @@ exports.notifyAdmin = functions
   .firestore.document("students/{studentId}/privateCol/{privateDoc}")
   .onUpdate(async (change, context) => {
     console.log("UPDATE DETECTED")
+    const studentId = context.params.studentId
     const timestampBefore = change.before.data().medicalCertificateTimestamp
     const timestampAfter = change.after.data().medicalCertificateTimestamp
     if (timestampBefore === timestampAfter) return
     const API_KEY_SECRET = process.env.API_KEY_SECRET
-    const htmlContent = "HTML <b>CONTENT</b>"
-    getAdminEmails()
+    const htmlContent = `
+    <a href="https://ee22.netlify.app/admin/modifyStudent?id=${studentId}" target="_new">
+    Cliquez ici pour voir le certificat</a>`
+    return getAdminEmails()
       .then((adminEmails) => {
         console.log(adminEmails)
         sendEmail(
