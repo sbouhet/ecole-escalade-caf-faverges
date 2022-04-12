@@ -7,36 +7,26 @@
     import { currentSeason } from '$utils/stores'
     import { translateRole, translateStatus } from '$utils/TRANSLATE'
     import Boolean from '$components/Boolean.svelte'
-    import { uploadMedicalCertificate } from '$utils/firebase/storage'
+    import MedicalCertificate from '$components/MedicalCertificate.svelte'
+    import { doc, onSnapshot } from "firebase/firestore";
+    import { db } from "$utils/firebase/firebase"
 
     let urlId = $params.id
-    const student = getStudent(urlId)
-    let uploading = false
-    let medicalCertificateLink = null
-    $:if(student.private && student.private.medicalCertificateLink){
-        console.log(student.private)
+    let student, medicalCertificateLink, medicalCertificateTimestamp, medicalCertificateStatus
+    const unsub = onSnapshot(doc(db, "students", urlId), async (doc) => {
+        student = await getStudent(urlId)
+        console.log(student)
+    })
+    $:if(student && student.private){
         medicalCertificateLink = student.private.medicalCertificateLink
-    } 
-    const handleChange = (e)=>{
-        console.log("uploading")
-        uploading = true
-        const file = e.target.files[0]
-        if(!file)throw 'no file' 
-        uploadMedicalCertificate(file, $currentSeason.name, urlId).then(link=>{
-            //medicalCertificateLink = link
-            const student = getStudent(urlId)
-            uploading = false
-            console.log("Done")
-        }).catch(err=>{
-            uploading = false
-            throw err
-        })
+        medicalCertificateTimestamp = student.private.medicalCertificateTimestamp
+        medicalCertificateStatus = student.public.seasons[$currentSeason.name].medicalCertificate
     }
+
+    
 </script>
 
-{#await student}
-    Recherche de l'Inscription, merci de patienter...
-{:then student}
+{#if student}
     <article>
         <hgroup>
             <h1>{printName(student.public)}</h1>
@@ -55,24 +45,9 @@
             <summary><Boolean value={student.public.seasons[$currentSeason.name].licence} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
         </details>
-        <details>
-            <summary><Boolean value={student.public.seasons[$currentSeason.name].medicalCertificate} big={true}/>Étape 4 : Transférer un certificat médical</summary>
-            {#if uploading}
-                <p>UPLOADING...</p>
-            {/if}
-            {#if student.private.medicalCertificateLink}
-                <a href={student.private.medicalCertificateLink} target="_new">Voir votre certificat médical</a>
-            {/if}
-            <form>
-                <label for="upload">Fichier à uploader</label>
-                <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
-            </form>
-        </details>
+        <MedicalCertificate link={medicalCertificateLink} timestamp={medicalCertificateTimestamp} status={medicalCertificateStatus} studentId={urlId}/>
     </article>
-{:catch error}
-    <ErrorMessage {error} />
-{/await}
-
+{/if}
 <slot></slot>
 
 <style>

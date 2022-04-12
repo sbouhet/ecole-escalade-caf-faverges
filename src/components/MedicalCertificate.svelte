@@ -1,0 +1,52 @@
+<script>
+    import Boolean from '$components/Boolean.svelte'
+    import {uploadMedicalCertificate} from '$utils/firebase/storage'
+    import {currentSeason} from '$utils/stores'
+    export let link
+    export let timestamp
+    export let status
+    export let studentId
+    
+
+    let uploading = false
+    const handleChange = (e)=>{
+        uploading = true
+        const file = e.target.files[0]
+        if(!file){
+            uploading = false
+            throw 'no file' 
+        }
+        uploadMedicalCertificate(file, $currentSeason.name, studentId).then(link=>{
+            console.log(link)
+            uploading = false
+            console.log("Done")
+        }).catch(err=>{
+            uploading = false
+            throw err
+        })
+    }
+</script>
+
+<details>
+    <summary><Boolean value={status} big={true}/>Étape 4 : Transférer un certificat médical</summary>
+    {#if uploading}
+        <p>En cours de transfert...</p>
+    {/if}
+    {#if link}
+        <a href={link} target="_new">Voir votre certificat médical</a><br>
+        <small>(Téléchargé le {timestamp})</small>
+        <br><br>
+        <p>Votre certificat a bien été transféré, un email a été envoyé à notre équipe pour qu'elle le valide.</p>
+    {/if}
+    <br>
+    <form>
+        <label for="upload">Fichier à uploader</label>
+        <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
+    </form>
+</details>
+
+<style>
+    summary{
+        font-weight: bold;
+    }
+</style>

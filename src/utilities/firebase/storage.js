@@ -7,7 +7,6 @@ import {
 } from "firebase/storage"
 
 import { saveMedicalCertificate } from "$firestore/saveMedicalCertificate"
-import { writeTimeStamp } from "$firestore/writeTimestamp"
 
 export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
   if (!file) throw "No file"
@@ -26,9 +25,6 @@ export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
 
     //Write link in stuent/private and change status is season/currentSeason/certificate
     await saveMedicalCertificate(studentId, link, seasonName)
-
-    //write timestamp
-    await writeTimeStamp(studentId)
 
     console.log("Certificate uploaded")
     return link
