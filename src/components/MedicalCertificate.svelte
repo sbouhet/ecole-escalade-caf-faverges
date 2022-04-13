@@ -2,11 +2,13 @@
     import Boolean from '$components/Boolean.svelte'
     import {uploadMedicalCertificate} from '$utils/firebase/storage'
     import {currentSeason} from '$utils/stores'
+    import { getAuth } from "firebase/auth"
     export let link
     export let timestamp
     export let status
     export let studentId
     
+    getAuth().currentUser.getIdToken(true)
 
     let uploading = false
     const handleChange = (e)=>{

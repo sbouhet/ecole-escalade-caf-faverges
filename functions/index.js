@@ -10,6 +10,11 @@ const axios = require("axios").default
 //                            UTILITY FUNCTIONS
 //##########################################################################
 
+/* const addIdToCurrentUserClaims = async (studentId) => {
+  const uid = context.auth.uid
+  return admin.auth().setCustomUserClaims(uid, { [studentId]: true })
+} */
+
 const deleteMedicalCertificate = async (studentId) => {
   const bucket = admin.storage().bucket()
   const path = `medicalCertificates/${season().current}/${studentId}`
@@ -309,6 +314,24 @@ exports.onDeleteStudentFromFirestore = functions.firestore
     return removeStudentIdFromParents(studentId).then(() => {
       return deleteMedicalCertificate(studentId)
     })
+  })
+
+//When user is updated with new student ID, update Auth user claims
+exports.updateUser = functions.firestore
+  .document("users/{userId}")
+  .onWrite(async (change, context) => {
+    const studentsBefore = change.before.data().students
+    const studentsAfter = change.after.data().students
+    const userId = context.params.userId
+    const isAdmin = change.after.data().admin
+
+    //if no changes to students, do nothing
+    if (studentsBefore === studentsAfter) return
+
+    return admin
+      .auth()
+      .setCustomUserClaims(userId, { admin: isAdmin, students: studentsAfter })
+      .then(() => {})
   })
 
 /* //When a student is created in Firestore, update season document

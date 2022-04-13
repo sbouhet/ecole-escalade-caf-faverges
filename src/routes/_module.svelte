@@ -39,6 +39,7 @@
         $loggedin = true
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
+            console.log(res.claims)
           $admin = !!res.claims.admin
           userStoreUpToDate = true
         })

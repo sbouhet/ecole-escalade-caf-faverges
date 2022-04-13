@@ -4,7 +4,7 @@
     export let msg = 'Retour'
     
     const handleClick = () => {
-        console.clear()
+        //console.clear()
         if(!path) history.back()
         $goto(path)
     }
