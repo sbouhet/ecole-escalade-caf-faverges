@@ -14,7 +14,7 @@
         const file = e.target.files[0]
         if(!file){
             uploading = false
-            throw 'no file' 
+            throw 'no file'
         }
         uploadMedicalCertificate(file, $currentSeason.name, studentId).then(link=>{
             console.log(link)

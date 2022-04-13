@@ -34,8 +34,15 @@ export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
 }
 
 export const deleteMedicalCertificate = async (seasonName, studentId) => {
-  const storage = getStorage()
-  const path = `medicalCertificates/${seasonName}/${studentId}`
-  const storageRef = ref(storage, path)
-  await deleteObject(storageRef)
+  if (!seasonName) throw "No season name"
+  if (!studentId) throw "No student ID"
+  try {
+    const storage = getStorage()
+    const path = `medicalCertificates/${seasonName}/${studentId}`
+    const storageRef = ref(storage, path)
+    await deleteObject(storageRef)
+  } catch (error) {
+    console.error("Error deleting certificate")
+    throw error
+  }
 }

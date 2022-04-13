@@ -4,10 +4,17 @@ const admin = require("firebase-admin")
 admin.initializeApp()
 const db = admin.firestore()
 const axios = require("axios").default
+//const storage = require("@google-cloud/storage")()
 
 //##########################################################################
 //                            UTILITY FUNCTIONS
 //##########################################################################
+
+const deleteMedicalCertificate = async (studentId) => {
+  const bucket = admin.storage().bucket()
+  const path = `medicalCertificates/${season().current}/${studentId}`
+  return bucket.file(path).delete()
+}
 
 const getAdminEmails = async () => {
   console.log("Trying to get admin emails")
@@ -263,7 +270,7 @@ exports.updateEmails = functions.firestore
       .update({ emails: emailsAfter })
   })
 
-//When student's private doc is updated, send email to admins
+//When student's private doc is updated, send email to admins if it's a new medical certificate
 exports.notifyAdmin = functions
   .runWith({ secrets: ["API_KEY_SECRET"] })
   .firestore.document("students/{studentId}/privateCol/{privateDoc}")
@@ -292,12 +299,16 @@ exports.notifyAdmin = functions
       })
   })
 
-//When a student is deleted from Firestore, remove it's ID from parent users
-exports.onDeleteStudentUpdateParentIds = functions.firestore
+//When a student is deleted from Firestore, remove it's ID from parent users and delete medical certificate
+exports.onDeleteStudentFromFirestore = functions.firestore
   .document("students/{studentId}")
   .onDelete((snap, context) => {
     const studentId = snap.id
-    return removeStudentIdFromParents(studentId)
+    //TODO remove medical certificate from storage
+
+    return removeStudentIdFromParents(studentId).then(() => {
+      return deleteMedicalCertificate(studentId)
+    })
   })
 
 /* //When a student is created in Firestore, update season document
