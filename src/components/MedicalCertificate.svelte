@@ -38,13 +38,19 @@
         <a href={link} target="_new">Voir votre certificat médical</a><br>
         <small>(Téléchargé le {timestamp})</small>
         <br><br>
+    {/if}
+    {#if status === 'yes'}
+        <p>Votre certificat médical a été validé par notre équipe !</p>
+    {:else if status ==='waiting'}
         <p>Votre certificat a bien été transféré, un email a été envoyé à notre équipe pour qu'elle le valide.</p>
     {/if}
     <br>
-    <form>
-        <label for="upload">Fichier à uploader</label>
-        <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
-    </form>
+    {#if status !== 'yes'}
+        <form>
+            <label for="upload">Fichier à uploader</label>
+            <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
+        </form>
+    {/if}
 </details>
 
 <style>
