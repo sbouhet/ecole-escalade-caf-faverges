@@ -83,8 +83,7 @@
             <a href="/prive/mon-compte">Se connecter</a>
         {/if}
     </small>
-    
-    
+
     <main class='container'>
         {#await promise}
             Merci de patienter...
@@ -99,13 +98,6 @@
                         <Back path='/' msg='Accueil'/>
                     </div>
                     {/if}
-
-                   <!--  {#if getAuth().currentUser!==null}
-                        <div>
-                            <Logout />
-                        </div>
-                    {/if} -->
-
                 </footer>
                 
             {:else} 
