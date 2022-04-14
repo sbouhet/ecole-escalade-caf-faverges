@@ -1,10 +1,11 @@
 import { getSeasonFromFirestore } from "$firestore/season"
 import { _setDoc } from "$firestore/basics"
+import { BError } from "berror"
 
 export const copySeason = async (oldSeasonName, newSeasonName) => {
-  if (!oldSeasonName) throw "No old season name"
-  if (!newSeasonName) throw "No new season name"
   try {
+    if (!oldSeasonName) throw "No old season name"
+    if (!newSeasonName) throw "No new season name"
     console.log(`Copying season ${oldSeasonName}`)
 
     //Get old season
@@ -19,7 +20,6 @@ export const copySeason = async (oldSeasonName, newSeasonName) => {
     console.log("Done")
     return
   } catch (error) {
-    console.error("Could not copy season")
-    throw error
+    throw new BError("function copySeason not working", error).log()
   }
 }

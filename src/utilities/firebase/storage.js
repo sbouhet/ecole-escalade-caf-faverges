@@ -7,12 +7,13 @@ import {
 } from "firebase/storage"
 
 import { saveMedicalCertificate } from "$firestore/saveMedicalCertificate"
+import { BError } from "berror"
 
 export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
-  if (!file) throw "No file"
-  if (!seasonName) throw "No seasonName"
-  if (!studentId) throw "No studentId"
   try {
+    if (!file) throw "No file"
+    if (!seasonName) throw "No seasonName"
+    if (!studentId) throw "No studentId"
     const storage = getStorage()
     const path = `medicalCertificates/${seasonName}/${studentId}`
     const storageRef = ref(storage, path)
@@ -29,20 +30,25 @@ export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
     console.log("Certificate uploaded")
     return link
   } catch (error) {
-    console.error("Error while uploading certificate")
+    throw new BError(
+      "function uploadMedicalCertificate not working",
+      error
+    ).log()
   }
 }
 
 export const deleteMedicalCertificate = async (seasonName, studentId) => {
-  if (!seasonName) throw "No season name"
-  if (!studentId) throw "No student ID"
   try {
+    if (!seasonName) throw "No season name"
+    if (!studentId) throw "No student ID"
     const storage = getStorage()
     const path = `medicalCertificates/${seasonName}/${studentId}`
     const storageRef = ref(storage, path)
     await deleteObject(storageRef)
   } catch (error) {
-    console.error("Error deleting certificate")
-    throw error
+    throw new BError(
+      "function deleteMedicalCertificate not working",
+      error
+    ).log()
   }
 }

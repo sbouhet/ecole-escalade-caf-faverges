@@ -1,10 +1,11 @@
 import { _getDoc } from "$firestore/basics"
 import { getAuth } from "firebase/auth"
+import { BError } from "berror"
 
 export const getMyStudents = async (season) => {
-  if (!season) throw "No season"
-  let myStudents = []
   try {
+    if (!season) throw "No season"
+    let myStudents = []
     //Get current user
     let currentUser = getAuth().currentUser
 
@@ -34,7 +35,6 @@ export const getMyStudents = async (season) => {
     console.log(`Found ${myStudents.length} student for ${currentUser.email}`)
     return myStudents
   } catch (error) {
-    console.error("Could not get my students")
-    throw error
+    throw new BError("function getMyStudents not working", error).log()
   }
 }

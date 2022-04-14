@@ -65,98 +65,146 @@
   },
 ] */
 
-import { seasons } from "$utils/seasons"
-import { capitalize } from "$utils/capitalize"
 import { getAgeGroupName } from "$utils/ageGroups"
+import { BError } from "berror"
 
 export const getDayName = (day, withEndTime = false) => {
-  //console.log(`Trying to read name from ${day}`)
-  if (!day) return undefined
-  let weekday = day.weekday
-  //let weekday = capitalize(day.weekday)
-  let endTimeString = withEndTime ? `‑${day.endTime}` : ""
-  return `${weekday} ${day.startTime}` + endTimeString
+  try {
+    if (!day) throw "No day"
+    let weekday = day.weekday
+    let endTimeString = withEndTime ? `‑${day.endTime}` : ""
+    return `${weekday} ${day.startTime}` + endTimeString
+  } catch (error) {
+    throw new BError("function getDayName not working", error)
+  }
 }
 
 export const getDayUrl = (day) => {
-  return `${day.weekday}-${day.startTime}`
+  try {
+    if (!day) throw "No day"
+    return `${day.weekday}-${day.startTime}`
+  } catch (error) {
+    throw new BError("function getDayUrl not working", error)
+  }
 }
 
 export const getWarningMessage = (minYear) => {
-  let currentYear = dayjs().year()
-  const minAge = currentYear - minYear
-  if (minAge >= 18) return "Ce créneaux est reservé aux adultes."
-  return `Ce créneau est reservé aux enfants nés en ${
-    currentYear - minAge
-  } ou avant.`
+  try {
+    if (!minYear) throw "No minYear"
+    let currentYear = dayjs().year()
+    const minAge = currentYear - minYear
+    if (minAge >= 18) return "Ce créneaux est reservé aux adultes."
+    return `Ce créneau est reservé aux enfants nés en ${
+      currentYear - minAge
+    } ou avant.`
+  } catch (error) {
+    throw new BError("function getWarningMessage not working", error)
+  }
 }
 
 export const getMinYear = (day, ageGroups) => {
-  let currentYear = dayjs().year()
-  const ageGroup = ageGroups[day.ageGroupIndex]
-  const minAge = ageGroup.min
-  return currentYear - minAge
+  try {
+    if (!day) throw "No day"
+    if (!ageGroups) throw "No ageGroups"
+    let currentYear = dayjs().year()
+    const ageGroup = ageGroups[day.ageGroupIndex]
+    const minAge = ageGroup.min
+    return currentYear - minAge
+  } catch (error) {
+    throw new BError("function days/getMinYear not working", error)
+  }
 }
 
 export const getDayFromUrl = (url, days) => {
-  return days.filter((day) => getDayUrl(day) === url)[0]
+  try {
+    if (!url) throw "No url"
+    if (!days) throw "No days"
+    return days.filter((day) => getDayUrl(day) === url)[0]
+  } catch (error) {
+    throw new BError("function getDayFromUrl not working", error)
+  }
 }
 
 export const getDayFromName = (name, days) => {
-  return days.filter((day) => getDayName(day) === name)[0]
+  try {
+    if (!name) throw "No name"
+    if (!days) throw "No days"
+    return days.filter((day) => getDayName(day) === name)[0]
+  } catch (error) {
+    throw new BError("function getDayFromName not working", error)
+  }
 }
 
 export const isDayForAdults = (day, ageGroups) => {
-  if (!day) throw "No day to check"
-  const ageGroup = ageGroups[day.ageGroupIndex]
-  return ageGroup.min === 18
+  try {
+    if (!day) throw "No day"
+    if (!ageGroups) throw "No ageGroups"
+    const ageGroup = ageGroups[day.ageGroupIndex]
+    return ageGroup.min === 18
+  } catch (error) {
+    throw new BError("function isDayForAdults not working", error)
+  }
 }
 
 const getDuration = (day) => {
-  return timeStringToNumber(day.endTime) - timeStringToNumber(day.startTime)
+  try {
+    if (!day) throw "No day"
+    return timeStringToNumber(day.endTime) - timeStringToNumber(day.startTime)
+  } catch (error) {
+    throw new BError("function getDuration not working", error)
+  }
 }
 
 const timeStringToNumber = (timeString) => {
-  const hours = parseInt(timeString.split("h")[0])
-  let minuteString = timeString.split("h")[1]
-  if (minuteString === "") minuteString = "00"
-  const minutes = parseInt(minuteString) / 60
-  return hours + minutes
+  try {
+    if (!timeString) throw "No timestring"
+    const hours = parseInt(timeString.split("h")[0])
+    let minuteString = timeString.split("h")[1]
+    if (minuteString === "") minuteString = "00"
+    const minutes = parseInt(minuteString) / 60
+    return hours + minutes
+  } catch (error) {
+    throw new BError("function timeStringToNumber not working", error)
+  }
 }
 
 export const getDayInfo = (day, season, students) => {
-  if (!day) throw "No day"
-  if (!season) throw "No season"
-  if (!students) throw "No students"
-  const subscribedStudents = students.filter(
-    (student) => student.seasons[season.name].day == getDayUrl(day)
-  )
-  const ageGroup = season.ageGroups[day.ageGroupIndex]
-  const adult = ageGroup.min === 18
-  const minYear = getMinYear(day, season.ageGroups)
-  const minAge = ageGroup.min
-  const maxAge = ageGroup.max
-  return {
-    name: getDayName(day, false),
-    tooltip: adult
-      ? "Vous devez être majeur pour vous inscrire"
-      : `Année de naissance maximum : ${minYear}`,
-    ageGroupName: getAgeGroupName(season.ageGroups[day.ageGroupIndex]),
-    minAge,
-    minYear,
-    maxAge,
-    ages: `${minAge}‑${maxAge} ans`,
-    url: getDayUrl(day),
-    nbMaxOfStudents: day.nbMaxOfStudents,
-    subscribedStudents,
-    nbOfSubscibedStudents: subscribedStudents.length,
-    spotsLeft: day.nbMaxOfStudents - subscribedStudents.length,
-    teacher: day.teacher,
-    times: `${day.startTime}‑${day.endTime}`,
-    firstDay: season.firstDay,
-    lastDay: season.lastDay,
-    price: ageGroup.price,
-    nbOfSessions: season.nbOfSessions,
-    duration: getDuration(day),
+  try {
+    if (!day) throw "No day"
+    if (!season) throw "No season"
+    if (!students) throw "No students"
+    const subscribedStudents = students.filter(
+      (student) => student.seasons[season.name].day == getDayUrl(day)
+    )
+    const ageGroup = season.ageGroups[day.ageGroupIndex]
+    const adult = ageGroup.min === 18
+    const minYear = getMinYear(day, season.ageGroups)
+    const minAge = ageGroup.min
+    const maxAge = ageGroup.max
+    return {
+      name: getDayName(day, false),
+      tooltip: adult
+        ? "Vous devez être majeur pour vous inscrire"
+        : `Année de naissance maximum : ${minYear}`,
+      ageGroupName: getAgeGroupName(season.ageGroups[day.ageGroupIndex]),
+      minAge,
+      minYear,
+      maxAge,
+      ages: `${minAge}‑${maxAge} ans`,
+      url: getDayUrl(day),
+      nbMaxOfStudents: day.nbMaxOfStudents,
+      subscribedStudents,
+      nbOfSubscibedStudents: subscribedStudents.length,
+      spotsLeft: day.nbMaxOfStudents - subscribedStudents.length,
+      teacher: day.teacher,
+      times: `${day.startTime}‑${day.endTime}`,
+      firstDay: season.firstDay,
+      lastDay: season.lastDay,
+      price: ageGroup.price,
+      nbOfSessions: season.nbOfSessions,
+      duration: getDuration(day),
+    }
+  } catch (error) {
+    throw new BError("function getDayInfo not working", error)
   }
 }

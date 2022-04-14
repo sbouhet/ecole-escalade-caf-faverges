@@ -1,8 +1,9 @@
 import { _updateDoc } from "$firestore/basics"
+import { BError } from "berror"
 
 export const writeTimeStamp = async (studentId) => {
-  if (!studentId) throw "No student ID"
   try {
+    if (!studentId) throw "No student ID"
     const timestamp = dayjs().format("D MMMM YYYY à HH:mm")
     await _updateDoc(
       { medicalCertificateTimestamp: timestamp },
@@ -14,7 +15,6 @@ export const writeTimeStamp = async (studentId) => {
     console.log("Timestamp written")
     return
   } catch (error) {
-    console.error("Error writing timestamp")
-    throw error
+    throw new BError("function writeTimeStamp not working", error).log()
   }
 }

@@ -1,8 +1,9 @@
 import { _getDoc } from "$firestore/basics"
+import { BError } from "berror"
 
 export const getStudent = async (studentId) => {
-  if (!studentId) throw "No id"
   try {
+    if (!studentId) throw "No id"
     const publicData = await _getDoc("students", studentId)
     const privateData = await _getDoc(
       "students",
@@ -14,6 +15,6 @@ export const getStudent = async (studentId) => {
     return { public: publicData, private: privateData }
   } catch (error) {
     console.error(`Could not find student with id ${studentId}`)
-    throw error
+    throw new BError("function getStudent not working", error).log()
   }
 }

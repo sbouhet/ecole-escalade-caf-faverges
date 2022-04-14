@@ -1,18 +1,24 @@
-export const seasons = () => {
-  const string = (year) => {
-    return `${year}-${year + 1}`
-  }
-  const seasonObject = (year) => {
-    return {
-      current: string(year),
-      last: string(year - 1),
-      next: string(year + 1),
-    }
-  }
-  const currentMonth = parseInt(dayjs().format("M"))
-  const septemberOrLater = currentMonth > 8
-  const thisYear = parseInt(dayjs().format("YYYY"))
+import { BError } from "berror"
 
-  if (septemberOrLater) return seasonObject(thisYear)
-  return seasonObject(thisYear - 1)
+export const seasons = () => {
+  try {
+    const string = (year) => {
+      return `${year}-${year + 1}`
+    }
+    const seasonObject = (year) => {
+      return {
+        current: string(year),
+        last: string(year - 1),
+        next: string(year + 1),
+      }
+    }
+    const currentMonth = parseInt(dayjs().format("M"))
+    const septemberOrLater = currentMonth > 8
+    const thisYear = parseInt(dayjs().format("YYYY"))
+
+    if (septemberOrLater) return seasonObject(thisYear)
+    return seasonObject(thisYear - 1)
+  } catch (error) {
+    throw new BError("function seasons not working", error)
+  }
 }

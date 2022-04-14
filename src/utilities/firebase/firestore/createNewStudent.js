@@ -1,11 +1,12 @@
 import { _addDoc, _updateDoc, _setDoc } from "$firestore/basics"
 import { arrayUnion } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
+import { BError } from "berror"
 
 export const createNewStudent = async (student, season) => {
-  if (!student) throw "no student"
-  if (!season) throw "no season"
   try {
+    if (!student) throw "no student"
+    if (!season) throw "no season"
     console.log(`Trying to subscribe ${student.publicInfo.firstName}`)
 
     //change student status to "préinscrit"
@@ -39,7 +40,6 @@ export const createNewStudent = async (student, season) => {
     console.log("Document written with ID: ", studentId)
     return
   } catch (error) {
-    console.error("Could not create student")
-    throw error
+    throw new BError("function createNewStudent not working", error).log()
   }
 }

@@ -1,11 +1,12 @@
 import { _updateDoc } from "$firestore/basics"
 import { writeTimeStamp } from "$firestore/writeTimestamp"
+import { BError } from "berror"
 
 export const saveMedicalCertificate = async (studentId, link, seasonName) => {
-  if (!studentId) throw "no student id"
-  if (!link) throw "no link"
-  if (!seasonName) throw "no season name"
   try {
+    if (!studentId) throw "no student id"
+    if (!link) throw "no link"
+    if (!seasonName) throw "no season name"
     await _updateDoc(
       { medicalCertificateLink: link },
       "students",
@@ -27,6 +28,6 @@ export const saveMedicalCertificate = async (studentId, link, seasonName) => {
     console.log("Medical certificate saved")
     return
   } catch (error) {
-    throw error
+    throw new BError("function saveMedicalCerificate not working", error).log()
   }
 }

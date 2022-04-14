@@ -1,8 +1,9 @@
 import { _deleteDoc } from "$firestore/basics"
+import { BError } from "berror"
 
 export const deleteStudent = async (studentId) => {
-  if (!studentId) throw "No student ID"
   try {
+    if (!studentId) throw "No student ID"
     let result = window.confirm(
       "Êtes vous sûr de vouloir supprimer cet élève ? Cette action est irreversible."
     )
@@ -13,7 +14,6 @@ export const deleteStudent = async (studentId) => {
     console.log("Doc deleted")
     return
   } catch (error) {
-    console.log("Could not delete student")
-    throw error
+    throw new BError("function deleteStudent not working", error).log()
   }
 }
