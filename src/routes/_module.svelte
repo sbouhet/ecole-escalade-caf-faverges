@@ -4,7 +4,6 @@
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeason } from '$firestore/season'
     import {currentDay, currentSeason, loggedin, subscription, admin} from '$utils/stores'
-    import Debug from '$components/Debug.svelte'
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'
     import {isActive} from '@roxi/routify'
@@ -16,18 +15,13 @@
     $admin = false
     let verified = false
     let selectedSeason = 'current'
+    let error = null
 
     $:if ($currentSeason) {
         //console.log("Resetting because season changed")
         $subscription = subscriptionReset($currentSeason)
         $currentDay = $currentSeason.days[0]
     }
- 
-    const allowDebug = true
-    let debug = false
-    document.addEventListener('keydown', e=>{
-        if (e.key==="Dead" && allowDebug) debug = !debug}
-    )
     
     let userStoreUpToDate = false
 
@@ -40,6 +34,8 @@
         usr.getIdTokenResult().then(res => {
             //console.log(res.claims)
           $admin = !!res.claims.admin
+          //TEST
+          $admin = true
           userStoreUpToDate = true
         })
       }else{
@@ -54,15 +50,12 @@
     $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
     }).catch(err=>{
+        error = `Aucune donnée pour cette saison.`
         throw new BError("Could not get season", err).log()
     })
 </script>
 
 <body>
-    {#if debug}
-                <Debug />
-    {/if}
-    
     <div class="season">
         <small>
             {#if $admin}
@@ -118,9 +111,11 @@
             {:else} 
                 Waiting for user store update
             {/if}
-        
+            {#if error}
+                <ErrorMessage {error}/>
+            {/if}
         {:catch error}
-                <ErrorMessage {error} />
+                <ErrorMessage error="Aucune donnée pour cette saison."/>
         {/await}
     </main>
 </body>
