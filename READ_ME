@@ -8,3 +8,9 @@ WARNING: it choses the current season no matter what season is selected on the f
 
 sendinblue API_KEY is stored in google secret
 https://firebase.google.com/docs/functions/config-env?hl=en
+
+Name of secrets:
+
+SENDINBLUE_API_KEY_SECRET
+HELLOASSO_ID
+HELLOASSO_PASSWORD
