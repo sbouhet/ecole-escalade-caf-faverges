@@ -11,7 +11,7 @@
     import { seasons } from '$utils/seasons'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from '$utils/subscriptionReset'
-    import { getDayUrl } from '$utils/days'
+    import { BError } from "berror"
 
     $admin = false
     let verified = false
@@ -55,7 +55,7 @@
     $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
     }).catch(err=>{
-        throw err
+        throw new BError("Could not get season", err).log()
     })
 </script>
 

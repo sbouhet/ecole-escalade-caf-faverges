@@ -19,6 +19,6 @@ export const seasons = () => {
     if (septemberOrLater) return seasonObject(thisYear)
     return seasonObject(thisYear - 1)
   } catch (error) {
-    throw new BError("function seasons not working", error)
+    throw new BError("function seasons not working", error).log()
   }
 }

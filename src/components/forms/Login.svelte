@@ -3,6 +3,7 @@
     import EmailForm from "./EmailForm.svelte"
     import PasswordForm from "./PasswordForm.svelte"
     import ErrorMessage from "../ErrorMessage.svelte"
+    import { BError } from "berror"
 
     const auth = getAuth();
     let email, password
@@ -22,7 +23,7 @@
         })
         .catch((err) => {
             error = err
-            throw err
+            throw new BError("Could not signin", err).log()
         });
     }  
 </script>

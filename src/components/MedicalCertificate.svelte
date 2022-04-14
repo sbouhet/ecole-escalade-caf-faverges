@@ -3,6 +3,7 @@
     import {uploadMedicalCertificate} from '$utils/firebase/storage'
     import {currentSeason} from '$utils/stores'
     import { getAuth } from "firebase/auth"
+    import { BError } from "berror"
     export let link
     export let timestamp
     export let status
@@ -16,7 +17,7 @@
         const file = e.target.files[0]
         if(!file){
             uploading = false
-            throw 'no file'
+            throw new BError("No file").log()
         }
         uploadMedicalCertificate(file, $currentSeason.name, studentId).then(link=>{
             console.log(link)
@@ -24,7 +25,7 @@
             console.log("Done")
         }).catch(err=>{
             uploading = false
-            throw err
+            throw new BError("Could not upload certificate", err).log()
         })
     }
 </script>

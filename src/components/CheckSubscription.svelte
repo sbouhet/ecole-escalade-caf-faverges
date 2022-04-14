@@ -7,6 +7,7 @@
     import { printName } from '$utils/printName'
     import { isDayFull } from '$firestore/dayIsFull'
     import ErrorMessage from '$components/ErrorMessage.svelte'
+    import { BError } from "berror"
     let error = null
 
     const submitSubscription =  () => {
@@ -15,7 +16,7 @@
       isDayFull(dayUrl, $currentSeason.name, $currentSeason.days).then(dayIsFull=>{
         if(dayIsFull){
           error = "Il n'y a plus de place sur ce créneaux."
-          throw 'Day is full'
+          throw new BError("Day is full").log()
         }else{
           error=null
         }
@@ -24,13 +25,13 @@
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'uploadedToFirestore'
       }).catch(err=>{
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
-        throw err
+        throw new BError("Error creating new student", err).log()
+      })
+      }).catch(err=>{
+        $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
+        throw new BError("Error creating new student", err).log()
       })
 
-      })
-
-
-      
     }
 </script>
 
