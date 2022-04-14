@@ -16,20 +16,6 @@ export default {
   "children": [
     {
       "meta": {},
-      "id": "_default_UNUSED_inscriptions_en_cours_svelte",
-      "name": "UNUSED_inscriptions-en-cours",
-      "module": () => import('../src/routes/UNUSED_inscriptions-en-cours.svelte'),
-      "file": {
-        "path": "src/routes/UNUSED_inscriptions-en-cours.svelte",
-        "dir": "src/routes",
-        "base": "UNUSED_inscriptions-en-cours.svelte",
-        "ext": ".svelte",
-        "name": "UNUSED_inscriptions-en-cours"
-      },
-      "children": []
-    },
-    {
-      "meta": {},
       "id": "_default_admin",
       "name": "admin",
       "module": () => import('../src/routes/admin/_module.svelte'),

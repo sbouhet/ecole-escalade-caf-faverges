@@ -50,7 +50,6 @@
     $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
     }).catch(err=>{
-        error = `Aucune donnée pour cette saison.`
         throw new BError("Could not get season", err).log()
     })
 </script>
@@ -102,9 +101,6 @@
                 
             {:else} 
                 Waiting for user store update
-            {/if}
-            {#if error}
-                <ErrorMessage {error}/>
             {/if}
         {:catch error}
                 <ErrorMessage error="Aucune donnée pour cette saison."/>
