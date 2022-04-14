@@ -309,7 +309,6 @@ exports.onDeleteStudentFromFirestore = functions.firestore
   .document("students/{studentId}")
   .onDelete((snap, context) => {
     const studentId = snap.id
-    //TODO remove medical certificate from storage
 
     return removeStudentIdFromParents(studentId).then(() => {
       return deleteMedicalCertificate(studentId)
