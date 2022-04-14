@@ -11,7 +11,7 @@ export const getDayStudents = async (dayUrl, seasonName) => {
       "==",
       dayUrl
     )
-    console.log(`Found ${dayStudents.length} stuents for ${dayUrl}`)
+    //console.log(`Found ${dayStudents.length} stuents for ${dayUrl}`)
     return dayStudents
   } catch (error) {
     console.error(`Error getting students for ${dayUrl}`)

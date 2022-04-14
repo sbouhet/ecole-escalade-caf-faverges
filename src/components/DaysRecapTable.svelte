@@ -31,7 +31,7 @@
             dayInfo.push(getDayInfo(day, $currentSeason, students))
         }
         dayInfo = dayInfo
-        console.log(`Found ${students.length} students for this season`)
+        //console.log(`Found ${students.length} students for this season`)
     })
 </script>
 

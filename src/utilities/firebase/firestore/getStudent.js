@@ -11,7 +11,7 @@ export const getStudent = async (studentId) => {
       "privateCol",
       "privateDoc"
     )
-    console.log("Found student")
+    //console.log("Found student")
     return { public: publicData, private: privateData }
   } catch (error) {
     console.error(`Could not find student with id ${studentId}`)

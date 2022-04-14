@@ -7,7 +7,7 @@ export const createNewStudent = async (student, season) => {
   try {
     if (!student) throw "no student"
     if (!season) throw "no season"
-    console.log(`Trying to subscribe ${student.publicInfo.firstName}`)
+    //console.log(`Trying to subscribe ${student.publicInfo.firstName}`)
 
     //change student status to "préinscrit"
     student.publicInfo.seasons[season.name].status = "waiting"
@@ -37,7 +37,7 @@ export const createNewStudent = async (student, season) => {
       userId
     )
 
-    console.log("Document written with ID: ", studentId)
+    //console.log("Document written with ID: ", studentId)
     return
   } catch (error) {
     throw new BError("function createNewStudent not working", error).log()

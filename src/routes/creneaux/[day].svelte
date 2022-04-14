@@ -21,7 +21,7 @@
         querySnapshot.forEach((doc) => {
         students.push(doc.data())
         })
-        console.log(`Found ${students.length} students for ${dayUrl}`)
+        //console.log(`Found ${students.length} students for ${dayUrl}`)
     })
     $: info = getDayInfo(day, $currentSeason, students)
     const reset = ()=>{

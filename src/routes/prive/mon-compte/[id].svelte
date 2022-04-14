@@ -15,13 +15,13 @@
     let student, medicalCertificateLink, medicalCertificateTimestamp, medicalCertificateStatus
     const unsub = onSnapshot(doc(db, "students", urlId), async (doc) => {
         student = await getStudent(urlId)
-        console.log("Public document changed")
-        console.log(student)
+        //console.log("Public document changed")
+        //console.log(student)
     })
     const unsubPrivate = onSnapshot(doc(db, "students", urlId, "privateCol", "privateDoc"), async (doc) => {
         student = await getStudent(urlId)
-        console.log("Private document changed")
-        console.log(student)
+        //console.log("Private document changed")
+        //console.log(student)
     })
     $:if(student && student.private){
         medicalCertificateLink = student.private.medicalCertificateLink

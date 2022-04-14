@@ -32,7 +32,7 @@ export const getMyStudents = async (season) => {
         myStudents.push(studentDoc)
       }
     }
-    console.log(`Found ${myStudents.length} student for ${currentUser.email}`)
+    //console.log(`Found ${myStudents.length} student for ${currentUser.email}`)
     return myStudents
   } catch (error) {
     throw new BError("function getMyStudents not working", error).log()

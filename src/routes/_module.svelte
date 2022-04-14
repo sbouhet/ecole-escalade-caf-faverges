@@ -18,8 +18,7 @@
     let selectedSeason = 'current'
 
     $:if ($currentSeason) {
-        //reset
-        console.log("Resetting because season changed")
+        //console.log("Resetting because season changed")
         $subscription = subscriptionReset($currentSeason)
         $currentDay = $currentSeason.days[0]
     }
@@ -39,7 +38,7 @@
         $loggedin = true
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
-            console.log(res.claims)
+            //console.log(res.claims)
           $admin = !!res.claims.admin
           userStoreUpToDate = true
         })

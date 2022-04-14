@@ -17,7 +17,7 @@
         querySnapshot.forEach((doc) => {
         students.push(doc.data())
         })
-        console.log(`Found ${students.length} students for this season`)
+        //console.log(`Found ${students.length} students for this season`)
     })
 
   let myStudents = getMyStudents($currentSeason)
