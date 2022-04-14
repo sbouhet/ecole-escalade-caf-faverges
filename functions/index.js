@@ -277,7 +277,7 @@ exports.updateEmails = functions.firestore
 
 //When student's private doc is updated, send email to admins if it's a new medical certificate
 exports.notifyAdmin = functions
-  .runWith({ secrets: ["API_KEY_SECRET"] })
+  .runWith({ secrets: ["SENDINBLUE_API_KEY_SECRET"] })
   .firestore.document("students/{studentId}/privateCol/{privateDoc}")
   .onUpdate(async (change, context) => {
     console.log("UPDATE DETECTED")
@@ -285,7 +285,7 @@ exports.notifyAdmin = functions
     const timestampBefore = change.before.data().medicalCertificateTimestamp
     const timestampAfter = change.after.data().medicalCertificateTimestamp
     if (timestampBefore === timestampAfter) return
-    const API_KEY_SECRET = process.env.API_KEY_SECRET
+    const SENDINBLUE_API_KEY_SECRET = process.env.SENDINBLUE_API_KEY_SECRET
     const htmlContent = `
     <a href="https://ee22.netlify.app/admin/modifyStudent?id=${studentId}" target="_new">
     Cliquez ici pour voir le certificat</a>`
@@ -296,7 +296,7 @@ exports.notifyAdmin = functions
           adminEmails,
           "Nouveau certificat !",
           htmlContent,
-          API_KEY_SECRET
+          SENDINBLUE_API_KEY_SECRET
         )
       })
       .then(() => {
