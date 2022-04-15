@@ -50,7 +50,7 @@
     $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
     }).catch(err=>{
-        throw new BError("Could not get season", err).log()
+        throw new BError("Could not get season", err)
     })
 </script>
 

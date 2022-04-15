@@ -28,6 +28,6 @@ export const saveMedicalCertificate = async (studentId, link, seasonName) => {
     console.log("Medical certificate saved")
     return
   } catch (error) {
-    throw new BError("function saveMedicalCerificate not working", error).log()
+    throw new BError("function saveMedicalCerificate not working", error)
   }
 }

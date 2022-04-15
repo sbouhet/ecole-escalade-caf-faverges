@@ -10,7 +10,7 @@
             error = null
         } catch (err) {
             error = err
-            throw new BError("Logout not working", err).log()
+            throw new BError("Logout not working", err)
         }
     }
 </script>

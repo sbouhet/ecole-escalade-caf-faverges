@@ -20,6 +20,6 @@ export const copySeason = async (oldSeasonName, newSeasonName) => {
     console.log("Done")
     return
   } catch (error) {
-    throw new BError("function copySeason not working", error).log()
+    throw new BError("function copySeason not working", error)
   }
 }

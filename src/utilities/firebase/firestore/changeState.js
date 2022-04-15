@@ -15,6 +15,6 @@ export const changeState = async (studentId, field, state, seasonName) => {
     )
     return
   } catch (error) {
-    throw new BError("function _changeState not working", error).log()
+    throw new BError("function _changeState not working", error)
   }
 }

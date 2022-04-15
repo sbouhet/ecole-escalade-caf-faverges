@@ -15,6 +15,6 @@ export const getDayStudents = async (dayUrl, seasonName) => {
     return dayStudents
   } catch (error) {
     console.error(`Error getting students for ${dayUrl}`)
-    throw new BError("function getDayStudents not working", error).log()
+    throw new BError("function getDayStudents not working", error)
   }
 }

@@ -23,7 +23,7 @@
         })
         .catch((err) => {
             error = err
-            throw new BError("Could not signin", err).log()
+            throw new BError("Could not signin", err)
         });
     }  
 </script>

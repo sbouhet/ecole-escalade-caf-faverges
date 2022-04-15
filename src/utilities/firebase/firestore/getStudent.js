@@ -15,6 +15,6 @@ export const getStudent = async (studentId) => {
     return { public: publicData, private: privateData }
   } catch (error) {
     console.error(`Could not find student with id ${studentId}`)
-    throw new BError("function getStudent not working", error).log()
+    throw new BError("function getStudent not working", error)
   }
 }

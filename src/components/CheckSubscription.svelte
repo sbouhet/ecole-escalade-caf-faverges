@@ -16,7 +16,7 @@
       isDayFull(dayUrl, $currentSeason.name, $currentSeason.days).then(dayIsFull=>{
         if(dayIsFull){
           error = "Il n'y a plus de place sur ce créneaux."
-          throw new BError("Day is full").log()
+          throw new BError("Day is full")
         }else{
           error=null
         }
@@ -25,11 +25,11 @@
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'uploadedToFirestore'
       }).catch(err=>{
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
-        throw new BError("Error creating new student", err).log()
+        throw new BError("Error creating new student", err)
       })
       }).catch(err=>{
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
-        throw new BError("Error creating new student", err).log()
+        throw new BError("Error creating new student", err)
       })
 
     }

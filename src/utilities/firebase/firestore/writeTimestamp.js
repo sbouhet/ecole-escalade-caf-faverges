@@ -15,6 +15,6 @@ export const writeTimeStamp = async (studentId) => {
     console.log("Timestamp written")
     return
   } catch (error) {
-    throw new BError("function writeTimeStamp not working", error).log()
+    throw new BError("function writeTimeStamp not working", error)
   }
 }

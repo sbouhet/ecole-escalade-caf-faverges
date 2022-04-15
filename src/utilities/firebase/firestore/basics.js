@@ -28,10 +28,10 @@ export const _getDoc = async (collection, docId, subCollection, subDocId) => {
     if (docSnap.exists()) {
       return docSnap.data()
     } else {
-      throw new BError("No such document").log()
+      throw new BError("No such document")
     }
   } catch (error) {
-    throw new BError("function _getDoc not working", error).log()
+    throw new BError("function _getDoc not working", error)
   }
 }
 
@@ -50,7 +50,7 @@ export const _query = async (collectionId, field, operation, value) => {
     })
     return result
   } catch (error) {
-    throw new BError("function _query not working", error).log()
+    throw new BError("function _query not working", error)
   }
 }
 
@@ -75,7 +75,7 @@ export const _setDoc = async (
     await setDoc(docRef, document, { merge: true })
     return
   } catch (error) {
-    throw new BError("function _setDoc not working", error).log()
+    throw new BError("function _setDoc not working", error)
   }
 }
 
@@ -87,7 +87,7 @@ export const _addDoc = async (document, collectionId) => {
     const docRef = await addDoc(collection(db, collectionId), document)
     return docRef.id
   } catch (error) {
-    throw new BError("function _addDoc not working", error).log()
+    throw new BError("function _addDoc not working", error)
   }
 }
 
@@ -111,7 +111,7 @@ export const _updateDoc = async (
     await updateDoc(docRef, newValuesasObject)
     return
   } catch (error) {
-    throw new BError("function _updateDoc not working", error).log()
+    throw new BError("function _updateDoc not working", error)
   }
 }
 
@@ -132,6 +132,6 @@ export const _deleteDoc = async (
     }
     await deleteDoc(docRef)
   } catch (error) {
-    throw new BError("function _deleteDoc not working", error).log()
+    throw new BError("function _deleteDoc not working", error)
   }
 }

@@ -36,6 +36,6 @@ export const subscriptionReset = (season) => {
       },
     }
   } catch (error) {
-    throw new BError("function subscriptionReset not working", error).log()
+    throw new BError("function subscriptionReset not working", error)
   }
 }

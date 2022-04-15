@@ -40,6 +40,6 @@ export const createNewStudent = async (student, season) => {
     //console.log("Document written with ID: ", studentId)
     return
   } catch (error) {
-    throw new BError("function createNewStudent not working", error).log()
+    throw new BError("function createNewStudent not working", error)
   }
 }

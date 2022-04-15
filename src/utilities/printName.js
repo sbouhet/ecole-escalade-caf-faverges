@@ -10,6 +10,6 @@ export const printName = (obj) => {
     let lastName = obj.lastName.toUpperCase()
     return `${firstName} ${lastName}`
   } catch (error) {
-    throw new BError("function printName not working", error).log()
+    throw new BError("function printName not working", error)
   }
 }

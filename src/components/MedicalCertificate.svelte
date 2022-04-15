@@ -17,7 +17,7 @@
         const file = e.target.files[0]
         if(!file){
             uploading = false
-            throw new BError("No file").log()
+            throw new BError("No file")
         }
         uploadMedicalCertificate(file, $currentSeason.name, studentId).then(link=>{
             console.log(link)
@@ -25,7 +25,7 @@
             console.log("Done")
         }).catch(err=>{
             uploading = false
-            throw new BError("Could not upload certificate", err).log()
+            throw new BError("Could not upload certificate", err)
         })
     }
 </script>

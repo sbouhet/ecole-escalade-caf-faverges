@@ -14,6 +14,6 @@ export const deleteStudent = async (studentId) => {
     console.log("Doc deleted")
     return
   } catch (error) {
-    throw new BError("function deleteStudent not working", error).log()
+    throw new BError("function deleteStudent not working", error)
   }
 }
