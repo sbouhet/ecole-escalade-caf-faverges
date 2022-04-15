@@ -1,4 +1,4 @@
-var dayjs = require("dayjs")
+let dayjs = require("dayjs")
 const functions = require("firebase-functions")
 const admin = require("firebase-admin")
 admin.initializeApp()
@@ -29,11 +29,7 @@ const getNewTokens = async (id, password) => {
       client_secret: password,
     }),
   })
-  console.log(response)
-  return {
-    access_token: response.access_token,
-    refresh_token: response.refresh_token,
-  }
+  return response.data
 }
 
 const refreshToken = async (id, refresh_token) => {
@@ -56,17 +52,37 @@ const refreshToken = async (id, refresh_token) => {
   return {
     access_token: response.data.access_token,
     refresh_token: response.data.refresh_token,
+    duration: response.data.expires_in,
   }
+}
+
+const initFirestoreToken = async (id, password) => {
+  const tokens = await getNewTokens(id, password)
+  return db
+    .collection("admin")
+    .doc("helloAssoTokens")
+    .set({
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token,
+      timestamp: dayjs().valueOf(),
+      duration: tokens.expires_in,
+      expiration: dayjs().add(tokens.expires_in, "seconds").valueOf(),
+    })
 }
 
 const updateFirestoreTokens = async (id) => {
   const oldTokens = await getTokensFromFirestore()
   const newTokens = await refreshToken(id, oldTokens.refresh_token)
-  return db.collection("admin").doc("helloAssoTokens").update({
-    access_token: newTokens.access_token,
-    refresh_token: newTokens.refresh_token,
-    timestamp: dayjs(),
-  })
+  return db
+    .collection("admin")
+    .doc("helloAssoTokens")
+    .update({
+      access_token: newTokens.access_token,
+      refresh_token: newTokens.refresh_token,
+      timestamp: dayjs().valueOf(),
+      duration: newTokens.duration,
+      expiration: dayjs().add(newTokens.duration, "seconds").valueOf(),
+    })
 }
 
 const getTokensFromFirestore = async () => {
@@ -78,6 +94,7 @@ const getTokensFromFirestore = async () => {
         return {
           access_token: doc.data().access_token,
           refresh_token: doc.data().refresh_token,
+          expiration: doc.data().expiration,
         }
       } else {
         console.log("No such document!")
@@ -496,11 +513,14 @@ exports.test4 = functions
     const HELLOASSO_ID = process.env.HELLOASSO_ID
     const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
 
-    /* const oldTokens = await getTokensFromFirestore()
-    console.log(oldTokens)
-    const newTokens = await refreshToken(HELLOASSO_ID, oldTokens.refresh_token)
-    console.log(newTokens) */
-    const test = await updateFirestoreTokens(HELLOASSO_ID)
+    const x = await initFirestoreToken(HELLOASSO_ID, HELLOASSO_PASSWORD)
+    //const oldTokens = await getTokensFromFirestore()
+    //console.log(oldTokens)
+    //const timeLeft = oldTokens.expiration - dayjs().valueOf()
+    //console.log(`Il reste ${timeLeft} secondes pour utiliser ce token`)
+    //const newTokens = await refreshToken(HELLOASSO_ID, oldTokens.refresh_token)
+    //console.log(newTokens)
+    //const test = await updateFirestoreTokens(HELLOASSO_ID)
   })
 
 //When student's private doc is created, updated, or deleted, update Emails array
@@ -642,3 +662,12 @@ exports.onDeleteStudentUpdateSeasonDoc = functions.firestore
   const name = data.name
   return `Hello  ${name}`
 }) */
+
+exports.helloAssoCallback = functions.https.onRequest(
+  async (request, response) => {
+    response.set("Access-Control-Allow-Origin", "*")
+
+    console.log(JSON.stringify(request.body))
+    response.send({ body: request.body })
+  }
+)
