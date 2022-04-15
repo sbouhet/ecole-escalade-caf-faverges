@@ -15,6 +15,79 @@ const axios = require("axios").default
   return admin.auth().setCustomUserClaims(uid, { [studentId]: true })
 } */
 
+const getNewTokens = async (id, password) => {
+  const response = await axios({
+    url: "https://api.helloasso.com/oauth2/token",
+    method: "post",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    // This will urlencode the data correctly:
+    data: new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: id,
+      client_secret: password,
+    }),
+  })
+  console.log(response)
+  return {
+    access_token: response.access_token,
+    refresh_token: response.refresh_token,
+  }
+}
+
+const refreshToken = async (id, refresh_token) => {
+  console.log("REFRESHING TOKENS")
+  console.log(id)
+  console.log(refresh_token)
+  const response = await axios({
+    url: "https://api.helloasso.com/oauth2/token",
+    method: "post",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    // This will urlencode the data correctly:
+    data: new URLSearchParams({
+      client_id: id,
+      refresh_token: refresh_token,
+      grant_type: "refresh_token",
+    }),
+  })
+  return {
+    access_token: response.data.access_token,
+    refresh_token: response.data.refresh_token,
+  }
+}
+
+const updateFirestoreTokens = async (id) => {
+  const oldTokens = await getTokensFromFirestore()
+  const newTokens = await refreshToken(id, oldTokens.refresh_token)
+  return db.collection("admin").doc("helloAssoTokens").update({
+    access_token: newTokens.access_token,
+    refresh_token: newTokens.refresh_token,
+    timestamp: dayjs(),
+  })
+}
+
+const getTokensFromFirestore = async () => {
+  var docRef = db.collection("admin").doc("helloAssoTokens")
+  return docRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return {
+          access_token: doc.data().access_token,
+          refresh_token: doc.data().refresh_token,
+        }
+      } else {
+        console.log("No such document!")
+      }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error)
+    })
+}
+
 const deleteMedicalCertificate = async (studentId) => {
   const bucket = admin.storage().bucket()
   const path = `medicalCertificates/${season().current}/${studentId}`
@@ -120,6 +193,32 @@ const removeStudentIdFromParents = (studentId) => {
 //##########################################################################
 //                                CALLABLE FUNCTIONS
 //##########################################################################
+
+exports.getPayments = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .https.onCall(async (data, context) => {
+    const HELLOASSO_ID = process.env.HELLOASSO_ID
+    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
+    const myEmail = context.auth.token.email || null
+    const uid = context.auth.uid
+    if (context.auth.token.admin !== true) {
+      return { errorInfo: "If faut être admin pour voir les paiments" }
+    }
+
+    const tokens = await getTokensFromFirestore()
+    const access_token = tokens.access_token
+    const refresh_token = tokens.refresh_token
+
+    const response = await axios({
+      url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/payments",
+      method: "get",
+      headers: {
+        authorization: `Bearer ${access_token}`,
+      },
+    })
+    console.log(`Response code : ${response.code}`)
+    return response.data
+  })
 
 exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
   functions.https.onCall((data, context) => {
@@ -258,6 +357,152 @@ exports.delAuthUser = functions.auth.user().onDelete((user) => {
 //****************************
 //FIRESTORE TRIGGERS
 
+//test
+exports.test1 = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .firestore.document("admin/admin")
+  .onWrite(async (change, context) => {
+    const HELLOASSO_ID = process.env.HELLOASSO_ID
+    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
+    console.log("Test 1111111")
+
+    const response = await axios({
+      url: "https://api.helloasso.com/oauth2/token",
+      method: "post",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      // This will urlencode the data correctly:
+      data: new URLSearchParams({
+        grant_type: "client_credentials",
+        client_id: HELLOASSO_ID,
+        client_secret: HELLOASSO_PASSWORD,
+      }),
+    })
+    console.log(response)
+  })
+
+//test2
+exports.test2 = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .firestore.document("admin/admin2")
+  .onWrite(async (change, context) => {
+    console.log("Test 22222222")
+    const HELLOASSO_ID = process.env.HELLOASSO_ID
+    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
+
+    const tokens = await getTokensFromFirestore()
+
+    axios({
+      url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/payments",
+      method: "get",
+      headers: {
+        authorization: `Bearer ${tokens.access_token}`,
+      },
+    })
+      .then((response) => {
+        //console.log(response.data)
+      })
+      .catch((error) => {
+        //console.log(error.response.data.message)
+        updateFirestoreTokens(HELLOASSO_ID).then(() => {
+          getTokensFromFirestore().then((newTokens) => {
+            axios({
+              url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/payments",
+              method: "get",
+              headers: {
+                authorization: `Bearer ${newTokens.access_token}`,
+              },
+            }).then((response) => {
+              //console.log(response)
+              return response.data
+            })
+          })
+        })
+      })
+  })
+
+//test3
+exports.test3 = functions.firestore
+  .document("admin/admin3")
+  .onWrite(async (change, context) => {
+    console.log("333333333")
+
+    const response = await axios({
+      url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/checkout-intents",
+      method: "post",
+      headers: {
+        authorization:
+          "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwZGEzYTI1MjNmYjc0MTBlOWU3MDA2YjVmZThiNWJlOCIsImNwcyI6WyJBY2Nlc3NQdWJsaWNEYXRhIiwiQWNjZXNzVHJhbnNhY3Rpb25zIl0sInVycyI6Ik9yZ2FuaXphdGlvbkFkbWluIiwibmJmIjoxNjUwMDEzMjkzLCJleHAiOjE2NTAwMTUwOTMsImlzcyI6Imh0dHBzOi8vYXBpLmhlbGxvYXNzby5jb20iLCJhdWQiOiIwMWE2OWNlNDRkZWM0ZGMwYTQ1YTI2NjVhNDE0ZDc1NiJ9.plEUH7snRMWlp3mCNB-mLFUiJavkBHbhmURi4QibtU0fAAPD3F0UnStB05YTMcDh1dJevJ9tlgHUzvXbAbGMqxsg1M0ODuiHt_6tO-S7h7I7-3wt-VW2_v5yHPRyPhi4Gj6ueWXOU85UqMfoVyc2FtUFBVpy41udv74cWo3JXRCmZ9b513KhgJd0nUFZv1PVpLng_FSUp9giQS20_mragZBc6GlxV-Vu7CajHPL2zuwEAX9HjECNX9nF2WTHLFavMHqmBsSjuTAWbdKbsh_x43c1pSo6WX9g3MWliDFXbBzHK8xZFJfhq_njcuHfSqUggHchJNnG1ryFZgs9q_L3DA",
+      },
+
+      // This will urlencode the data correctly:
+      data: new URLSearchParams({
+        totalAmount: 7000,
+        initialAmount: 3000,
+        itemName: "Adhesion Football",
+        backUrl: "https://www.partnertest.com/back.php",
+        errorUrl: "https://www.partnertest.com/error.php",
+        returnUrl: "https://www.partnertest.com/return.php",
+        containsDonation: true,
+        terms: [
+          {
+            amount: 2000,
+            date: "2021-03-25",
+          },
+          {
+            amount: 2000,
+            date: "2021-04-25",
+          },
+        ],
+        payer: {
+          firstName: "John",
+          lastName: "Doe",
+          email: "john.doe@test.com",
+          dateOfBirth: "1986-07-06",
+          address: "23 rue du palmier",
+          city: "Paris",
+          zipCode: "75000",
+          country: "FRA",
+          companyName: "HelloAsso",
+        },
+        metadata: {
+          reference: 12345,
+          libelle: "Adhesion Football",
+          userId: 98765,
+          produits: [
+            {
+              id: 56,
+              count: 1,
+            },
+            {
+              id: 78,
+              count: 3,
+            },
+          ],
+        },
+        trackingParameter: "101",
+      }),
+    })
+    console.log(response)
+  })
+
+//test4
+exports.test4 = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .firestore.document("admin/admin4")
+  .onWrite(async (change, context) => {
+    console.log("Test 44444444")
+    const HELLOASSO_ID = process.env.HELLOASSO_ID
+    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
+
+    /* const oldTokens = await getTokensFromFirestore()
+    console.log(oldTokens)
+    const newTokens = await refreshToken(HELLOASSO_ID, oldTokens.refresh_token)
+    console.log(newTokens) */
+    const test = await updateFirestoreTokens(HELLOASSO_ID)
+  })
+
 //When student's private doc is created, updated, or deleted, update Emails array
 exports.updateEmails = functions.firestore
   .document("students/{studentId}/privateCol/{privateDoc}")
@@ -291,7 +536,6 @@ exports.notifyAdmin = functions
     Cliquez ici pour voir le certificat</a>`
     return getAdminEmails()
       .then((adminEmails) => {
-        console.log(adminEmails)
         sendEmail(
           adminEmails,
           "Nouveau certificat !",

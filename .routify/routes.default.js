@@ -99,6 +99,20 @@ export default {
         },
         {
           "meta": {},
+          "id": "_default_admin_payments_svelte",
+          "name": "payments",
+          "module": () => import('../src/routes/admin/payments.svelte'),
+          "file": {
+            "path": "src/routes/admin/payments.svelte",
+            "dir": "src/routes/admin",
+            "base": "payments.svelte",
+            "ext": ".svelte",
+            "name": "payments"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
           "id": "_default_admin_test_svelte",
           "name": "test",
           "module": () => import('../src/routes/admin/test.svelte'),
