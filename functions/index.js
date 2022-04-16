@@ -240,32 +240,19 @@ const getItemsFromHelloAsso = async (id, password, slug) => {
   return items
 }
 
-const getUsersFromItems = (items) => {
-  //const response = await getItemsFromHelloAsso(id, password, slug)
-  //const items = response.data
-  //console.log(items)
-  /*  return db.collection("admin").doc("test").set({
-    test: items,
-  }) */
+const filterItems = (items, firstName, lastName) => {
+  if (!items) throw "No items"
+  if (!firstName) throw "No firstName"
+  if (!lastName) throw "No lastName"
+  firstName = normalize(firstName)
+  lastName = normalize(lastName)
 
-  const users = items.map((item) => {
-    let firstName = normalize(item.user.firstName)
-    let lastName = normalize(item.user.lastName)
-    return `${firstName}_${lastName}`
-  })
-  return users
-}
-
-const isUserInHelloAsso = (firstName, lastName, users) => {
-  try {
-    if (!firstName) throw "No first name"
-    if (!lastName) throw "No last name"
-    const normalized = `${normalize(firstName)}_${normalize(lastName)}`
-    //const users = await getUsersFromHelloAsso(id, password, slug)
-    return users.includes(normalized)
-  } catch (error) {
-    throw error
-  }
+  const filtered = items.filter(
+    (item) =>
+      normalize(item.user.firstName) === firstName &&
+      normalize(item.user.lastName) === lastName
+  )
+  return filtered
 }
 
 //##########################################################################
@@ -278,23 +265,35 @@ exports.checkPayment = functions
   .https.onCall(async (data, context) => {
     const HELLOASSO_ID = process.env.HELLOASSO_ID
     const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
-    const response = await getItemsFromHelloAsso(
+    const items = await getItemsFromHelloAsso(
       HELLOASSO_ID,
       HELLOASSO_PASSWORD,
       data.slug
     )
-    const users = getUsersFromItems(response)
-    const result = isUserInHelloAsso(data.firstName, data.lastName, users)
+    const filtered = filterItems(items, data.firstName, data.lastName)
+    //const users = getUsersFromItems(items)
+    //const result = isUserInHelloAsso(data.firstName, data.lastName, users)
     let status
-    result ? (status = "yes") : (status = "no")
+    let paymentId = null
+
+    if (filtered.length === 1) {
+      status = "yes"
+      paymentId = filtered[0].id
+    } else if (filtered.length > 1) {
+      status = "waiting"
+    } else {
+      status = "no"
+    }
+
     return db
       .collection("students")
       .doc(data.id)
       .update({
         [`seasons.${data.seasonName}.payment`]: status,
+        [`seasons.${data.seasonName}.paymentId`]: paymentId,
       })
       .then(() => {
-        return status
+        return filtered
       })
   })
 
