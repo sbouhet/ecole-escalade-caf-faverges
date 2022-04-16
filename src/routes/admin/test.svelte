@@ -1,23 +1,17 @@
 <script>
     import { db } from "$utils/firebase/firebase"
     import {
-  doc,
+
   getDoc,
-  setDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  collectionGroup,
-  collection,
-  query,
-  where,
-  onSnapshot,
+
     } from "firebase/firestore"
     import { getApp } from "firebase/app";
     import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions"
     import { currentSeason } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import { seasons } from '$utils/seasons'
+import { normalize } from "$utils/normalize"
+import {isUserInHelloAsso} from '$utils/helloAsso'
 
     const functions = getFunctions(getApp())
     //connectFunctionsEmulator(functions, "localhost", 5001);
@@ -72,6 +66,13 @@ const handleClick = () => {
             console.log(result.data)
     })        
 }
+
+const handleItems = async ()=>{
+  
+  console.log("searching")
+  const result = await isUserInHelloAsso("juldés", "marçhand")
+  console.log(result)
+}
         
 </script>
 
@@ -83,4 +84,5 @@ const handleClick = () => {
 <button on:click={getEmails}>Get emails</button>
 <button on:click={handelGetChildren}>Get children</button>
 <button on:click={handleClick}>Hello</button>
+<button on:click={handleItems}>getItemsFromHelloAsso</button>
 

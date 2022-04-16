@@ -15,7 +15,7 @@
     <li><a href="/admin/test">test</a></li>
     <li><a href="/admin/allStudents">Tous les élèves</a></li>
     <li><a href="/admin/modifyStudent">Modifier eleve</a></li>
-    <li><a href="/admin/payments">Voir les paiments</a></li>
+    <li><a href="/admin/payments">Voir les paiements</a></li>
 </ul>
 
 

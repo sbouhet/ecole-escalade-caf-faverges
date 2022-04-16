@@ -8,11 +8,13 @@ export const getSeasonFromFirestore = async (name) => {
     return await _getDoc("seasons", name)
   } catch (error) {
     //console.error(`Could not find season ${name} in seasons`)
-    const e = new BError(
+    /* const e = new BError(
       `Could not find season ${name} in seasons`,
       error
-    ).log()
-    throw new BError("function getSeasonFromFirestore not working", error)
+    ).log() */
+    throw new BError("function getSeasonFromFirestore not working", error, {
+      name,
+    })
   }
 }
 

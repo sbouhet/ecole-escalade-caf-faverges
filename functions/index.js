@@ -15,6 +15,18 @@ const axios = require("axios").default
   return admin.auth().setCustomUserClaims(uid, { [studentId]: true })
 } */
 
+const normalize = (string) => {
+  try {
+    if (!string) throw "No string"
+    return string
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toUpperCase()
+  } catch (error) {
+    throw error
+  }
+}
+
 const getNewTokens = async (id, password) => {
   const response = await axios({
     url: "https://api.helloasso.com/oauth2/token",
@@ -207,9 +219,84 @@ const removeStudentIdFromParents = (studentId) => {
   })
 }
 
+const getItemsFromHelloAsso = async (id, password, slug) => {
+  let url
+  if (slug) {
+    url = `https://api.helloasso.com/v5/organizations/caf-de-faverges/forms/Membership/${slug}/items?pageSize=100`
+  } else {
+    url =
+      "https://api.helloasso.com/v5/organizations/caf-de-faverges/items?pageSize=100"
+  }
+
+  const tokens = await getNewTokens(id, password)
+  const response = await axios({
+    url,
+    method: "get",
+    headers: {
+      authorization: `Bearer ${tokens.access_token}`,
+    },
+  })
+  let items = response.data.data
+  return items
+}
+
+const getUsersFromItems = (items) => {
+  //const response = await getItemsFromHelloAsso(id, password, slug)
+  //const items = response.data
+  //console.log(items)
+  /*  return db.collection("admin").doc("test").set({
+    test: items,
+  }) */
+
+  const users = items.map((item) => {
+    let firstName = normalize(item.user.firstName)
+    let lastName = normalize(item.user.lastName)
+    return `${firstName}_${lastName}`
+  })
+  return users
+}
+
+const isUserInHelloAsso = (firstName, lastName, users) => {
+  try {
+    if (!firstName) throw "No first name"
+    if (!lastName) throw "No last name"
+    const normalized = `${normalize(firstName)}_${normalize(lastName)}`
+    //const users = await getUsersFromHelloAsso(id, password, slug)
+    return users.includes(normalized)
+  } catch (error) {
+    throw error
+  }
+}
+
 //##########################################################################
 //                                CALLABLE FUNCTIONS
 //##########################################################################
+
+//Get items from hello asso API
+exports.checkPayment = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .https.onCall(async (data, context) => {
+    const HELLOASSO_ID = process.env.HELLOASSO_ID
+    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
+    const response = await getItemsFromHelloAsso(
+      HELLOASSO_ID,
+      HELLOASSO_PASSWORD,
+      data.slug
+    )
+    const users = getUsersFromItems(response)
+    const result = isUserInHelloAsso(data.firstName, data.lastName, users)
+    let status
+    result ? (status = "yes") : (status = "no")
+    return db
+      .collection("students")
+      .doc(data.id)
+      .update({
+        [`seasons.${data.seasonName}.payment`]: status,
+      })
+      .then(() => {
+        return status
+      })
+  })
 
 exports.getPayments = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
@@ -219,7 +306,7 @@ exports.getPayments = functions
     const myEmail = context.auth.token.email || null
     const uid = context.auth.uid
     if (context.auth.token.admin !== true) {
-      return { errorInfo: "If faut être admin pour voir les paiments" }
+      return { errorInfo: "If faut être admin pour voir les paiements" }
     }
 
     const tokens = await getTokensFromFirestore()
@@ -439,71 +526,6 @@ exports.test2 = functions
       })
   })
 
-//test3
-exports.test3 = functions.firestore
-  .document("admin/admin3")
-  .onWrite(async (change, context) => {
-    console.log("333333333")
-
-    const response = await axios({
-      url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/checkout-intents",
-      method: "post",
-      headers: {
-        authorization:
-          "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwZGEzYTI1MjNmYjc0MTBlOWU3MDA2YjVmZThiNWJlOCIsImNwcyI6WyJBY2Nlc3NQdWJsaWNEYXRhIiwiQWNjZXNzVHJhbnNhY3Rpb25zIl0sInVycyI6Ik9yZ2FuaXphdGlvbkFkbWluIiwibmJmIjoxNjUwMDEzMjkzLCJleHAiOjE2NTAwMTUwOTMsImlzcyI6Imh0dHBzOi8vYXBpLmhlbGxvYXNzby5jb20iLCJhdWQiOiIwMWE2OWNlNDRkZWM0ZGMwYTQ1YTI2NjVhNDE0ZDc1NiJ9.plEUH7snRMWlp3mCNB-mLFUiJavkBHbhmURi4QibtU0fAAPD3F0UnStB05YTMcDh1dJevJ9tlgHUzvXbAbGMqxsg1M0ODuiHt_6tO-S7h7I7-3wt-VW2_v5yHPRyPhi4Gj6ueWXOU85UqMfoVyc2FtUFBVpy41udv74cWo3JXRCmZ9b513KhgJd0nUFZv1PVpLng_FSUp9giQS20_mragZBc6GlxV-Vu7CajHPL2zuwEAX9HjECNX9nF2WTHLFavMHqmBsSjuTAWbdKbsh_x43c1pSo6WX9g3MWliDFXbBzHK8xZFJfhq_njcuHfSqUggHchJNnG1ryFZgs9q_L3DA",
-      },
-
-      // This will urlencode the data correctly:
-      data: new URLSearchParams({
-        totalAmount: 7000,
-        initialAmount: 3000,
-        itemName: "Adhesion Football",
-        backUrl: "https://www.partnertest.com/back.php",
-        errorUrl: "https://www.partnertest.com/error.php",
-        returnUrl: "https://www.partnertest.com/return.php",
-        containsDonation: true,
-        terms: [
-          {
-            amount: 2000,
-            date: "2021-03-25",
-          },
-          {
-            amount: 2000,
-            date: "2021-04-25",
-          },
-        ],
-        payer: {
-          firstName: "John",
-          lastName: "Doe",
-          email: "john.doe@test.com",
-          dateOfBirth: "1986-07-06",
-          address: "23 rue du palmier",
-          city: "Paris",
-          zipCode: "75000",
-          country: "FRA",
-          companyName: "HelloAsso",
-        },
-        metadata: {
-          reference: 12345,
-          libelle: "Adhesion Football",
-          userId: 98765,
-          produits: [
-            {
-              id: 56,
-              count: 1,
-            },
-            {
-              id: 78,
-              count: 3,
-            },
-          ],
-        },
-        trackingParameter: "101",
-      }),
-    })
-    console.log(response)
-  })
-
 //test4
 exports.test4 = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
@@ -663,11 +685,20 @@ exports.onDeleteStudentUpdateSeasonDoc = functions.firestore
   return `Hello  ${name}`
 }) */
 
-exports.helloAssoCallback = functions.https.onRequest(
+/* exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
     response.set("Access-Control-Allow-Origin", "*")
-
     console.log(JSON.stringify(request.body))
-    response.send({ body: request.body })
+    if (request.body.eventType !== "Order") return
+    const items = request.body.data.items
+    let docRef
+    for (const item of items) {
+      console.log(item)
+      if (!item.id) return
+      docRef = db.collection("orders").doc(item.id.toString())
+      await docRef.set(item)
+    }
+    return
+    //response.send({ body: request.body })
   }
-)
+) */

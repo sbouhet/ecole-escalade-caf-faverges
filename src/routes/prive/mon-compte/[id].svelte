@@ -8,11 +8,13 @@
     import { translateRole, translateStatus } from '$utils/TRANSLATE'
     import Boolean from '$components/Boolean.svelte'
     import MedicalCertificate from '$components/MedicalCertificate.svelte'
+    import HelloAsso from '$components/HelloAsso.svelte'
     import { doc, onSnapshot } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
+    import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
 
     let urlId = $params.id
-    let student, medicalCertificateLink, medicalCertificateTimestamp, medicalCertificateStatus
+    let student, medicalCertificateLink, medicalCertificateTimestamp, medicalCertificateStatus, firstName, lastName, paymentStatus, slug
     const unsub = onSnapshot(doc(db, "students", urlId), async (doc) => {
         student = await getStudent(urlId)
         //console.log("Public document changed")
@@ -23,10 +25,14 @@
         //console.log("Private document changed")
         //console.log(student)
     })
-    $:if(student && student.private){
+    $:if(student && student.private &&student.public){
         medicalCertificateLink = student.private.medicalCertificateLink
         medicalCertificateTimestamp = student.private.medicalCertificateTimestamp
         medicalCertificateStatus = student.public.seasons[$currentSeason.name].medicalCertificate
+        paymentStatus = student.public.seasons[$currentSeason.name].payment
+        firstName = student.public.firstName
+        lastName = student.public.lastName
+        slug = getAgeGroupFromDayUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days, $currentSeason.ageGroups).slug
     }
 
     
@@ -38,15 +44,14 @@
             <h1>{printName(student.public)}</h1>
             <h4>{translateStatus(student.public.seasons[$currentSeason.name].status)}</h4>
         </hgroup>
+        <small>Cliquez sur chaque étape pour plus de détails.</small>
+        <br><br>
         
         <details>
             <summary><Boolean value={'yes'} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
-            <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
+            <p style="color:green">Votre compte a bien été créé, bravo !</p>
         </details>
-        <details>
-            <summary><Boolean value={student.public.seasons[$currentSeason.name].payment} big={true}/>Étape 2 : Éffectuer le paiment en ligne pour les cours.</summary>
-            <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
-        </details>
+        <HelloAsso {student}/>
         <details>
             <summary><Boolean value={student.public.seasons[$currentSeason.name].licence} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges</summary>
             <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>

@@ -41,7 +41,7 @@
         <br><br>
     {/if}
     {#if status === 'yes'}
-        <p>Votre certificat médical a été validé par notre équipe !</p>
+        <p style="color:green">Votre certificat médical a été validé par notre équipe !</p>
     {:else if status ==='waiting'}
         <p>Votre certificat a bien été transféré, un email a été envoyé à notre équipe pour qu'elle le valide.</p>
     {/if}

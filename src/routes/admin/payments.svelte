@@ -11,7 +11,7 @@
     run()
 </script>
 
-<h1>Paiments</h1>
+<h1>Paiements</h1>
 
 <!-- {#await payments}
     merci de patienter... 

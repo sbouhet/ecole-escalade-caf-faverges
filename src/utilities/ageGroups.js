@@ -1,12 +1,5 @@
-/* export const ageGroups = [
-  { min: 6, max: 7 },
-  { min: 8, max: 10 },
-  { min: 11, max: 13 },
-  { min: 14, max: 17 },
-  { min: 18 },
-] */
-
 import { BError } from "berror"
+import { getDayFromUrl } from "$utils/days"
 
 export const getAgeGroupName = (ageGroup) => {
   try {
@@ -41,5 +34,17 @@ export const getMinYear = (ageGroup) => {
     return currentYear - minAge
   } catch (error) {
     throw new BError("function ageGRoups/getMinYear not working", error)
+  }
+}
+
+export const getAgeGroupFromDayUrl = (dayUrl, days, ageGroups) => {
+  try {
+    if (!dayUrl) throw "No dayUrl"
+    if (!days) throw "No days"
+    if (!ageGroups) throw "No ageGroups"
+    const day = getDayFromUrl(dayUrl, days)
+    return ageGroups[day.ageGroupIndex]
+  } catch (error) {
+    throw new BError("function getAgeGroupFromDayUrl not working", error)
   }
 }

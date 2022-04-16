@@ -124,6 +124,20 @@ export default {
             "name": "test"
           },
           "children": []
+        },
+        {
+          "meta": {},
+          "id": "_default_admin_test2_svelte",
+          "name": "test2",
+          "module": () => import('../src/routes/admin/test2.svelte'),
+          "file": {
+            "path": "src/routes/admin/test2.svelte",
+            "dir": "src/routes/admin",
+            "base": "test2.svelte",
+            "ext": ".svelte",
+            "name": "test2"
+          },
+          "children": []
         }
       ]
     },
