@@ -1,13 +1,10 @@
 <script>
-import { normalize } from "$utils/normalize";
-
-
     import { currentSeason } from "$utils/stores"
     import { getAgeGroupFromDayUrl } from "$utils/ageGroups"
     import Boolean from '$components/Boolean.svelte'
-    export let student
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
+    export let student
     const functions = getFunctions(getApp())
     const checkPayment = httpsCallable(functions, "checkPayment")
 
@@ -23,11 +20,14 @@ import { normalize } from "$utils/normalize";
 
     let link = `https://www.helloasso.com/associations/caf-de-faverges/adhesions/${slug}`
     let result = false
+    let loading = false
 
     const handleClick = async ()=>{
-        console.log("working")
+        if(loading)return
+        loading = true
         //const users = await getUsersFromHelloAsso()
         result = await checkPayment({firstName, lastName, slug, id, seasonName:$currentSeason.name})
+        loading = false
         console.log(result)
     }
 </script>
@@ -49,7 +49,13 @@ import { normalize } from "$utils/normalize";
             <br>
             <p>Vous avez payé ? cliquez sur le bouton ci-dessous pour vérifier la transaction et valider cette étape.</p>
             
-            <a href="#" role="button" class="outline" on:click={handleClick}>Vérifier la transaction</a>
+            <a href="#" role="button" class="outline" on:click={handleClick}>
+                {#if !loading}
+                    Vérifier la transaction
+                {:else}
+                    Merci de patienter...
+                {/if}
+            </a>
     {:else if status === "waiting"}
             Plusieurs transactions trouvées avec le même nom, contactez notre équipe : caf.faverges.ffcam@gmail.com
     {:else if status === "yes"}
