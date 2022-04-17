@@ -33,7 +33,7 @@
 <details>
     <summary><Boolean value={status} big={true}/>Étape 4 : Transférer un certificat médical</summary>
     {#if uploading}
-        <p>En cours de transfert...</p>
+        <p aria-busy="true">En cours de transfert...</p>
     {/if}
     {#if link}
         <a href={link} target="_new">Voir votre certificat médical</a><br>

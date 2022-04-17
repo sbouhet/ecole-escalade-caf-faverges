@@ -49,7 +49,7 @@
             <br>
             <p>Vous avez payé ? cliquez sur le bouton ci-dessous pour vérifier la transaction et valider cette étape.</p>
             
-            <a href="#" role="button" class="outline" on:click={handleClick}>
+            <a href="#" role="button" class="outline" aria-busy={loading} on:click={handleClick}>
                 {#if !loading}
                     Vérifier la transaction
                 {:else}

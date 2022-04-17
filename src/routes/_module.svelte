@@ -11,6 +11,7 @@
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from "berror"
+    import FatalError from '$components/FatalError.svelte'
 
     $admin = false
     let verified = false
@@ -49,6 +50,7 @@
 
     $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
+        error = null
     }).catch(err=>{
         new BError("Could not get season", err).log()
     })
@@ -89,7 +91,12 @@
         {:then season}
             
             {#if userStoreUpToDate}
-                <slot></slot>
+                {#if !error}
+                    <slot></slot>
+                {:else}
+                    <ErrorMessage {error}/>
+                    <FatalError {error}/>
+                {/if}
 
                 <footer>
                     {#if !$isActive('/')}
@@ -102,8 +109,6 @@
             {:else} 
                 Waiting for user store update
             {/if}
-        {:catch error}
-                <ErrorMessage error="Aucune donnée pour cette saison."/>
         {/await}
     </main>
 </body>
