@@ -52,7 +52,9 @@
         $currentSeason = season
         error = null
     }).catch(err=>{
-        new BError("Could not get season", err).log()
+        const e = new BError("File routes/_module.svelte => Could not get season", err)
+        error = e
+        e.log()
     })
 </script>
 
@@ -87,7 +89,9 @@
 
     <main class='container'>
         {#await promise}
-            Merci de patienter...
+            <p aria-busy="true">
+                Merci de patienter...
+            </p>
         {:then season}
             
             {#if userStoreUpToDate}

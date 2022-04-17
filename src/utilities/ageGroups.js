@@ -7,7 +7,7 @@ export const getAgeGroupName = (ageGroup) => {
     if (ageGroup.min === 18) return "Adultes"
     return `${ageGroup.min}‑${ageGroup.max} ans`
   } catch (error) {
-    throw new BError("function getAgeGroupName not working", error)
+    throw new BError("Function $utils/ageGroups => getAgeGroupName()", error)
   }
 }
 
@@ -22,7 +22,7 @@ export const getAge = (dateOfBirth, keepOneDecimal = true) => {
     const roundedAge = Math.round(age * 10) / 10
     return roundedAge
   } catch (error) {
-    throw new BError("function getAge not working", error)
+    throw new BError("Function $utils/ageGroups => getAge()", error)
   }
 }
 
@@ -33,7 +33,7 @@ export const getMinYear = (ageGroup) => {
     const minAge = ageGroup.min
     return currentYear - minAge
   } catch (error) {
-    throw new BError("function ageGRoups/getMinYear not working", error)
+    throw new BError("Function $utils/ageGroups => getMinYear()", error)
   }
 }
 
@@ -45,6 +45,9 @@ export const getAgeGroupFromDayUrl = (dayUrl, days, ageGroups) => {
     const day = getDayFromUrl(dayUrl, days)
     return ageGroups[day.ageGroupIndex]
   } catch (error) {
-    throw new BError("function getAgeGroupFromDayUrl not working", error)
+    throw new BError(
+      "Function $utils/ageGroups => getAgeGroupFromDayUrl()",
+      error
+    )
   }
 }

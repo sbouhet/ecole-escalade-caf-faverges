@@ -14,6 +14,9 @@ export const deleteStudent = async (studentId) => {
     console.log("Doc deleted")
     return
   } catch (error) {
-    throw new BError("function deleteStudent not working", error)
+    throw new BError(
+      "Function $firestore/deleteStudent => deleteStudent()",
+      error
+    )
   }
 }

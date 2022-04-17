@@ -12,7 +12,7 @@ export const translateRole = (english) => {
         return "Autre"
     }
   } catch (error) {
-    throw new BError("function translateRole not working", error)
+    throw new BError("Function $utils/TRANSLATE => translateRole()", error)
   }
 }
 
@@ -28,6 +28,6 @@ export const translateStatus = (english) => {
         return "Pré‑inscrit(e)"
     }
   } catch (error) {
-    throw new BError("function translateStatus not working", error)
+    throw new BError("Function $utils/TRANSLATE => translateStatus()", error)
   }
 }

@@ -40,6 +40,9 @@ export const createNewStudent = async (student, season) => {
     //console.log("Document written with ID: ", studentId)
     return
   } catch (error) {
-    throw new BError("function createNewStudent not working", error)
+    throw new BError(
+      "Function $firestore/createNewStudent => createNewStudent()",
+      error
+    )
   }
 }

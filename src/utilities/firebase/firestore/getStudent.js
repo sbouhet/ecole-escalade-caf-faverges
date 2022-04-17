@@ -14,7 +14,6 @@ export const getStudent = async (studentId) => {
     //console.log("Found student")
     return { public: publicData, private: privateData }
   } catch (error) {
-    console.error(`Could not find student with id ${studentId}`)
-    throw new BError("function getStudent not working", error)
+    throw new BError("Function $firestore/getStudent => getStudent()", error)
   }
 }

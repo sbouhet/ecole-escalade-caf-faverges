@@ -17,6 +17,7 @@
         "berror": "^1.1.1",
         "firebase": "^9.6.10",
         "firebase-tools": "^1.2.0",
+        "roarr": "^7.11.0",
         "soap": "^0.43.0"
     }
 }

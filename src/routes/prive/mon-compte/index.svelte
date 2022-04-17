@@ -38,12 +38,14 @@
 
 <h2>Mes inscriptions</h2>
 {#await myStudents}
-    Merci de patienter...
+<p aria-busy="true">
+  Merci de patienter...
+</p>
 {:then myStudents} 
     <div>
         {#if searching}
         <p>Recherche d'élèves inscrits avec l'email {getAuth().currentUser.email}</p>
-        <p>Merci de patienter...</p>
+        <p aria-busy="true">Merci de patienter...</p>
         {:else}
         <a href="#" on:click={findChildren} data-tooltip={`Chercher un inscrit avec l'email ${getAuth().currentUser.email}`}>
             Trouver mes enfants déjà inscrits

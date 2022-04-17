@@ -10,7 +10,9 @@
 </script>
 
 {#await student}
+<p aria-busy="true">
     Merci de patienter...
+</p>
 {:then student} 
     <h1>{printName(student.public)}</h1>
     <div><a href={student.private.medicalCertificateLink} target="_new">Certificat médical</a></div>
