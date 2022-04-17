@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeason } from '$firestore/season'
-    import {currentDay, currentSeason, loggedin, subscription, admin} from '$utils/stores'
+    import {currentDay, currentSeason, loggedin, subscription, admin, error, fatal} from '$utils/stores'
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'
     import {isActive} from '@roxi/routify'
@@ -11,12 +11,11 @@
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from "berror"
-    import FatalError from '$components/FatalError.svelte'
+    import ErrorModal from '$components/ErrorModal.svelte'
 
     $admin = false
     let verified = false
     let selectedSeason = 'current'
-    let error = null
 
     $:if ($currentSeason) {
         //console.log("Resetting because season changed")
@@ -45,76 +44,74 @@
         verified = false
         userStoreUpToDate = true
       }
-      
 	  })
 
     $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
-        error = null
     }).catch(err=>{
-        const e = new BError("File routes/_module.svelte => Could not get season", err)
-        error = e
+        const e = new BError("routes/_module.svelte => Could not get season", err)
         e.log()
+        throw e
+        $error = e
+        $fatal = true
     })
 </script>
 
 <body>
-    <div class="season">
+    {#if !$error}
+        <div class="season">
+            <small>
+                {#if $admin}
+                    <select id="season" name="season" bind:value={selectedSeason}>
+                        <option value={'last'}>{seasons().last}</option>  
+                        <option value={'current'}>{seasons().current}</option>  
+                        <option value={'next'}>{seasons().next}</option>  
+                    </select>
+                {:else if $currentSeason}
+                    {$currentSeason.name}&nbsp;
+                {/if}
+            </small>
+        </div>
         <small>
-            {#if $admin}
-                <select id="season" name="season" bind:value={selectedSeason}>
-                    <option value={'last'}>{seasons().last}</option>  
-                    <option value={'current'}>{seasons().current}</option>  
-                    <option value={'next'}>{seasons().next}</option>  
-                </select>
-            {:else if $currentSeason}
-                {$currentSeason.name}&nbsp;
+            {#if $loggedin && getAuth().currentUser}
+                <div>
+                    <span>👤 </span>
+                    {getAuth().currentUser.email}
+                    {#if $admin}
+                        (admin)
+                    {/if}
+                </div>
+                <Logout tiny={true} />
+            {:else}
+                <a href="/prive/mon-compte">Se connecter</a>
             {/if}
         </small>
-    </div>
-    <small>
-        {#if $loggedin && getAuth().currentUser}
-            <div>
-                <span>👤 </span>
-                {getAuth().currentUser.email}
-                {#if $admin}
-                    (admin)
-                {/if}
-            </div>
-            <Logout tiny={true} />
-        {:else}
-            <a href="/prive/mon-compte">Se connecter</a>
-        {/if}
-    </small>
 
-    <main class='container'>
-        {#await promise}
-            <p aria-busy="true">
-                Merci de patienter...
-            </p>
-        {:then season}
-            
-            {#if userStoreUpToDate}
-                {#if !error}
-                    <slot></slot>
-                {:else}
-                    <ErrorMessage {error}/>
-                    <FatalError {error}/>
+        <main class='container'>
+            {#await promise}
+                <p aria-busy="true">
+                    Merci de patienter...
+                </p>
+            {:then season}
+                {#if userStoreUpToDate}
+                        <slot></slot>
+                    <footer>
+                        {#if !$isActive('/')}
+                        <div>
+                            <Back path='/' msg='Accueil'/>
+                        </div>
+                        {/if}
+                    </footer>
+                {:else} 
+                    <p aria-busy="true">Waiting for user store update</p>
                 {/if}
-
-                <footer>
-                    {#if !$isActive('/')}
-                    <div>
-                        <Back path='/' msg='Accueil'/>
-                    </div>
-                    {/if}
-                </footer>
-                
-            {:else} 
-                Waiting for user store update
-            {/if}
-        {/await}
-    </main>
+            {:catch err}
+                <ErrorMessage error="Cette saison n'existe pas encore."/>
+            {/await}
+        </main>
+    {:else}
+        <ErrorModal />
+    {/if}
 </body>
 
 <style>

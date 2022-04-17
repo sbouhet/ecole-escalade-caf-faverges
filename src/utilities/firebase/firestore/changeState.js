@@ -15,6 +15,6 @@ export const changeState = async (studentId, field, state, seasonName) => {
     )
     return
   } catch (error) {
-    throw new BError("Function $firestore/changeState => changeState()", error)
+    throw new BError("$firestore/changeState => changeState()", error)
   }
 }

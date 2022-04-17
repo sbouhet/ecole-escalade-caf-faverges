@@ -19,6 +19,6 @@ export const seasons = () => {
     if (septemberOrLater) return seasonObject(thisYear)
     return seasonObject(thisYear - 1)
   } catch (error) {
-    throw new BError("Function $utils/seasons => seasons()", error)
+    throw new BError("$utils/seasons => seasons()", error)
   }
 }

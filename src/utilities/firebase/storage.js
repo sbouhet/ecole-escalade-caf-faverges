@@ -31,7 +31,7 @@ export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
     return link
   } catch (error) {
     throw new BError(
-      "Function $utils/firebase/storage => uploadMedicalCertificate()",
+      "$utils/firebase/storage => uploadMedicalCertificate()",
       error
     )
   }
@@ -47,7 +47,7 @@ export const deleteMedicalCertificate = async (seasonName, studentId) => {
     await deleteObject(storageRef)
   } catch (error) {
     throw new BError(
-      "Function $utils/firebase/storage => deleteMedicalCertificate()",
+      "$utils/firebase/storage => deleteMedicalCertificate()",
       error
     )
   }

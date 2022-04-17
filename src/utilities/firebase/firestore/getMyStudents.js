@@ -35,9 +35,6 @@ export const getMyStudents = async (season) => {
     //console.log(`Found ${myStudents.length} student for ${currentUser.email}`)
     return myStudents
   } catch (error) {
-    throw new BError(
-      "Function $firestore/getMyStudents => getMyStudents()",
-      error
-    )
+    throw new BError("$firestore/getMyStudents => getMyStudents()", error)
   }
 }

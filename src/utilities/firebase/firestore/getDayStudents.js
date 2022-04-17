@@ -15,9 +15,6 @@ export const getDayStudents = async (dayUrl, seasonName) => {
     return dayStudents
   } catch (error) {
     console.error(`Error getting students for ${dayUrl}`)
-    throw new BError(
-      "Function $firestore/getDayStudents => getDayStudents()",
-      error
-    )
+    throw new BError("$firestore/getDayStudents => getDayStudents()", error)
   }
 }

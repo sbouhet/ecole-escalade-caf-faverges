@@ -29,7 +29,7 @@ export const saveMedicalCertificate = async (studentId, link, seasonName) => {
     return
   } catch (error) {
     throw new BError(
-      "Function $firestore/saveMedicalCertificate => saveMedicalCertificate()",
+      "$firestore/saveMedicalCertificate => saveMedicalCertificate()",
       error
     )
   }

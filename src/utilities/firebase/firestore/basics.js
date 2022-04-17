@@ -43,7 +43,7 @@ export const _getDoc = async (collection, docId, subCollection, subDocId) => {
       }
     }
   } catch (error) {
-    throw new BError("Function $firestore/basics => _getDoc()", error)
+    throw new BError("$firestore/basics => _getDoc()", error)
   }
 }
 
@@ -62,7 +62,7 @@ export const _query = async (collectionId, field, operation, value) => {
     })
     return result
   } catch (error) {
-    throw new BError("Function $firestore/basics => _query()", error)
+    throw new BError("$firestore/basics => _query()", error)
   }
 }
 
@@ -87,7 +87,7 @@ export const _setDoc = async (
     await setDoc(docRef, document, { merge: true })
     return
   } catch (error) {
-    throw new BError("Function $firestore/basics => _setDoc()", error)
+    throw new BError("$firestore/basics => _setDoc()", error)
   }
 }
 
@@ -99,7 +99,7 @@ export const _addDoc = async (document, collectionId) => {
     const docRef = await addDoc(collection(db, collectionId), document)
     return docRef.id
   } catch (error) {
-    throw new BError("Function $firestore/basics => _addDoc()", error)
+    throw new BError("$firestore/basics => _addDoc()", error)
   }
 }
 
@@ -123,7 +123,7 @@ export const _updateDoc = async (
     await updateDoc(docRef, newValuesasObject)
     return
   } catch (error) {
-    throw new BError("Function $firestore/basics => _updateDoc()", error)
+    throw new BError("$firestore/basics => _updateDoc()", error)
   }
 }
 
@@ -144,6 +144,6 @@ export const _deleteDoc = async (
     }
     await deleteDoc(docRef)
   } catch (error) {
-    throw new BError("Function $firestore/basics => _deleteDoc()", error)
+    throw new BError("$firestore/basics => _deleteDoc()", error)
   }
 }

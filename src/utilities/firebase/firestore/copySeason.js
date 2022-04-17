@@ -20,6 +20,6 @@ export const copySeason = async (oldSeasonName, newSeasonName) => {
     console.log("Done")
     return
   } catch (error) {
-    throw new BError("Function $firestore/copySeason => copySeason()", error)
+    throw new BError("$firestore/copySeason => copySeason()", error)
   }
 }

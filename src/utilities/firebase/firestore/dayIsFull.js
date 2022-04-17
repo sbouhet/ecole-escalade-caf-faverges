@@ -15,6 +15,6 @@ export const isDayFull = async (dayUrl, seasonName, days) => {
     return false
   } catch (error) {
     console.error(`Error while trying to see if ${dayUrl} is full`)
-    throw new BError("Function $firestore/dayIsFull => isDayFull()", error)
+    throw new BError("$firestore/dayIsFull => isDayFull()", error)
   }
 }

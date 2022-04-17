@@ -8,7 +8,7 @@ export const getDayName = (day, withEndTime = false) => {
     let endTimeString = withEndTime ? `‑${day.endTime}` : ""
     return `${weekday} ${day.startTime}` + endTimeString
   } catch (error) {
-    throw new BError("Function $utils/days => getDayName()", error)
+    throw new BError("$utils/days => getDayName()", error)
   }
 }
 
@@ -17,7 +17,7 @@ export const getDayUrl = (day) => {
     if (!day) throw "No day"
     return `${day.weekday}-${day.startTime}`
   } catch (error) {
-    throw new BError("Function $utils/days => getDayUrl()", error)
+    throw new BError("$utils/days => getDayUrl()", error)
   }
 }
 
@@ -31,7 +31,7 @@ export const getWarningMessage = (minYear) => {
       currentYear - minAge
     } ou avant.`
   } catch (error) {
-    throw new BError("Function $utils/days => getWarningMessage()", error)
+    throw new BError("$utils/days => getWarningMessage()", error)
   }
 }
 
@@ -44,7 +44,7 @@ export const getMinYear = (day, ageGroups) => {
     const minAge = ageGroup.min
     return currentYear - minAge
   } catch (error) {
-    throw new BError("Function $utils/days => getMinYear()", error)
+    throw new BError("$utils/days => getMinYear()", error)
   }
 }
 
@@ -54,7 +54,7 @@ export const getDayFromUrl = (url, days) => {
     if (!days) throw "No days"
     return days.filter((day) => getDayUrl(day) === url)[0]
   } catch (error) {
-    throw new BError("Function $utils/days => getDayFromUrl()", error)
+    throw new BError("$utils/days => getDayFromUrl()", error)
   }
 }
 
@@ -64,7 +64,7 @@ export const getDayFromName = (name, days) => {
     if (!days) throw "No days"
     return days.filter((day) => getDayName(day) === name)[0]
   } catch (error) {
-    throw new BError("Function $utils/days => getDayFromName()", error)
+    throw new BError("$utils/days => getDayFromName()", error)
   }
 }
 
@@ -75,7 +75,7 @@ export const isDayForAdults = (day, ageGroups) => {
     const ageGroup = ageGroups[day.ageGroupIndex]
     return ageGroup.min === 18
   } catch (error) {
-    throw new BError("Function $utils/days => isDayForAdults()", error)
+    throw new BError("$utils/days => isDayForAdults()", error)
   }
 }
 
@@ -84,7 +84,7 @@ const getDuration = (day) => {
     if (!day) throw "No day"
     return timeStringToNumber(day.endTime) - timeStringToNumber(day.startTime)
   } catch (error) {
-    throw new BError("Function $utils/days => getDuration()", error)
+    throw new BError("$utils/days => getDuration()", error)
   }
 }
 
@@ -97,7 +97,7 @@ const timeStringToNumber = (timeString) => {
     const minutes = parseInt(minuteString) / 60
     return hours + minutes
   } catch (error) {
-    throw new BError("Function $utils/days => timeStringToNumber()", error)
+    throw new BError("$utils/days => timeStringToNumber()", error)
   }
 }
 
@@ -138,6 +138,6 @@ export const getDayInfo = (day, season, students) => {
       duration: getDuration(day),
     }
   } catch (error) {
-    throw new BError("Function $utils/days => getDayInfo()", error)
+    throw new BError("$utils/days => getDayInfo()", error)
   }
 }

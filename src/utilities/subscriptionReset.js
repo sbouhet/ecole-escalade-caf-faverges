@@ -36,9 +36,6 @@ export const subscriptionReset = (season) => {
       },
     }
   } catch (error) {
-    throw new BError(
-      "Function $utils/subscriptionReset => subscriptionReset()",
-      error
-    )
+    throw new BError("$utils/subscriptionReset => subscriptionReset()", error)
   }
 }

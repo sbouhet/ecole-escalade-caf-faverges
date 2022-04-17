@@ -15,9 +15,6 @@ export const writeTimeStamp = async (studentId) => {
     console.log("Timestamp written")
     return
   } catch (error) {
-    throw new BError(
-      "Function $firestore/writeTimeStamp => writeTimeStamp()",
-      error
-    )
+    throw new BError("$firestore/writeTimeStamp => writeTimeStamp()", error)
   }
 }

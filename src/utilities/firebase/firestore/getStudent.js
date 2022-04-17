@@ -14,6 +14,6 @@ export const getStudent = async (studentId) => {
     //console.log("Found student")
     return { public: publicData, private: privateData }
   } catch (error) {
-    throw new BError("Function $firestore/getStudent => getStudent()", error)
+    throw new BError("$firestore/getStudent => getStudent()", error)
   }
 }
