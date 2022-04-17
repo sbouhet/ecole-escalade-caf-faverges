@@ -9,28 +9,21 @@
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { BError } from "berror"
     let full = false
+    let loading = false
 
-    const submitSubscription =  () => {
-
-      const dayUrl = $subscription.publicInfo.seasons[$currentSeason.name].day
-      isDayFull(dayUrl, $currentSeason.name, $currentSeason.days).then(dayIsFull=>{
-        if(dayIsFull){
-          full = true
-          throw "Day is full"
-        }else{
-          full=false
-        }
-      }).then(()=>{
-        createNewStudent($subscription, $currentSeason).then(()=>{
+    const submitSubscription =  async () => {
+      try {
+        loading = true
+        const dayUrl = $subscription.publicInfo.seasons[$currentSeason.name].day
+        full = await isDayFull(dayUrl, $currentSeason.name, $currentSeason.days)
+        if(full) throw "Day is full"
+        const s = await createNewStudent($subscription, $currentSeason)
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'uploadedToFirestore'
-      }).catch(err=>{
-        //$subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
-        throw new BError("Error creating new student", err)
-      })
-      }).catch(err=>{
-        //$subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
-        throw new BError("Error creating new student", err)
-      })
+        loading = false
+      } catch (err) {
+        loading = false
+        throw new BError("Error creating new student", err).log()
+      }
     }
 </script>
 
@@ -65,7 +58,11 @@
     {:else}
       <footer>
         <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[$currentSeason.name].status=null}>Annuler</a>
-        <a href="#" role="button" on:click={submitSubscription}>Confirmer l'inscription</a>
+        {#if loading}
+          <a href="#" role="button"  aria-busy={true}>Merci de patienter...</a>
+        {:else}
+          <a href="#" role="button" on:click={submitSubscription}>Confirmer l'inscription</a>
+        {/if}
       </footer>
     {/if}
     

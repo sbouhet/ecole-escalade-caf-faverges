@@ -17,3 +17,6 @@ HELLOASSO_PASSWORD
 
 diagram:
 https://app.diagrams.net/#G1xTqQhJ53n40iB_sXoDVDf5nqxyqV193I
+
+sleep Sleep
+await new Promise(r => setTimeout(r, 4000));
