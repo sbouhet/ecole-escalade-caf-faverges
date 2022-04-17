@@ -8,30 +8,29 @@
     import { isDayFull } from '$firestore/dayIsFull'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { BError } from "berror"
-    let error = null
+    let full = false
 
     const submitSubscription =  () => {
 
       const dayUrl = $subscription.publicInfo.seasons[$currentSeason.name].day
       isDayFull(dayUrl, $currentSeason.name, $currentSeason.days).then(dayIsFull=>{
         if(dayIsFull){
-          error = "Il n'y a plus de place sur ce créneaux."
-          throw new BError("Day is full")
+          full = true
+          throw "Day is full"
         }else{
-          error=null
+          full=false
         }
       }).then(()=>{
         createNewStudent($subscription, $currentSeason).then(()=>{
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'uploadedToFirestore'
       }).catch(err=>{
-        $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
+        //$subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
         throw new BError("Error creating new student", err)
       })
       }).catch(err=>{
-        $subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
+        //$subscription.publicInfo.seasons[$currentSeason.name].status = 'errorUploading'
         throw new BError("Error creating new student", err)
       })
-
     }
 </script>
 
@@ -57,13 +56,18 @@
         {/each}
       </section>
     </div>
-    {#if error}
-      <ErrorMessage {error} />
+    {#if full}
+      <ErrorMessage error="Il n'y a plus de place sur ce créneau" />
+      <footer>
+        <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[$currentSeason.name].status=null}>Annuler</a>
+        <a href="/" role="button">Choisir un autre créneau</a>
+      </footer>
+    {:else}
+      <footer>
+        <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[$currentSeason.name].status=null}>Annuler</a>
+        <a href="#" role="button" on:click={submitSubscription}>Confirmer l'inscription</a>
+      </footer>
     {/if}
-    <footer>
-      <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[$currentSeason.name].status=null}>Annuler</a>
-      <a href="#" role="button" on:click={submitSubscription}>Confirmer l'inscription</a>
-    </footer>
     
   </article>
 </dialog>
