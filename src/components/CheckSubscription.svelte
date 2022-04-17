@@ -52,7 +52,6 @@
     {#if full}
       <ErrorMessage error="Il n'y a plus de place sur ce créneau" />
       <footer>
-        <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[$currentSeason.name].status=null}>Annuler</a>
         <a href="/" role="button">Choisir un autre créneau</a>
       </footer>
     {:else}
