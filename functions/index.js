@@ -4,8 +4,7 @@ const admin = require("firebase-admin")
 admin.initializeApp()
 const db = admin.firestore()
 const axios = require("axios").default
-//const storage = require("@google-cloud/storage")()
-
+const soap = require("soap")
 //##########################################################################
 //                            UTILITY FUNCTIONS
 //##########################################################################
@@ -14,6 +13,58 @@ const axios = require("axios").default
   const uid = context.auth.uid
   return admin.auth().setCustomUserClaims(uid, { [studentId]: true })
 } */
+
+const getClient = async () => {
+  var url = "https://extranet-clubalpin.com/app/soap/extranet_pro.wsdl"
+  return new Promise((resolve, reject) => {
+    soap.createClient(url, (err, client) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(client)
+    })
+  })
+}
+
+const getAuth = async (client, soapId, soapPassword) => {
+  return new Promise((resolve, reject) => {
+    client.auth(null, (err, result) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve({
+        ...result,
+        utilisateur: soapId,
+        motdepasse: soapPassword,
+      })
+    })
+  })
+}
+
+const getUsers = async (client, auth, clubId = 7421) => {
+  return new Promise((resolve, reject) => {
+    client.extractionAdherents(
+      { connect: auth, idclub: clubId },
+      (err, result) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(result.extractionAdherentsReturn.collection.item)
+      }
+    )
+  })
+}
+
+const getSoapUser = async (client, auth, id) => {
+  return new Promise((resolve, reject) => {
+    client.verifierUnAdherent({ connect: auth, id: id }, (err, result) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(result)
+    })
+  })
+}
 
 const normalize = (string) => {
   try {
@@ -255,46 +306,33 @@ const filterItems = (items, firstName, lastName) => {
   return filtered
 }
 
+const formatSoapUser = (soapUser) => {
+  console.log(soapUser)
+  const usr = soapUser.verifierUnAdherentReturn
+  console.log(usr)
+  return {
+    exists: usr.existe.$value === 1,
+    signupDate: usr.inscription.$value,
+    lastName: usr.nom.$value,
+    firstName: usr.prenom.$value,
+  }
+}
+
 //##########################################################################
 //                                CALLABLE FUNCTIONS
 //##########################################################################
 
-//Get items from hello asso API
-exports.checkPayment = functions
-  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+exports.getUser = functions
+  .runWith({ secrets: ["SOAP_ID", "SOAP_PASSWORD"] })
   .https.onCall(async (data, context) => {
-    const HELLOASSO_ID = process.env.HELLOASSO_ID
-    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
-    const items = await getItemsFromHelloAsso(
-      HELLOASSO_ID,
-      HELLOASSO_PASSWORD,
-      data.slug
-    )
-    const filtered = filterItems(items, data.firstName, data.lastName)
-    //const users = getUsersFromItems(items)
-    //const result = isUserInHelloAsso(data.firstName, data.lastName, users)
-    let status
-    let paymentId = null
-
-    if (filtered.length === 1) {
-      status = "yes"
-      paymentId = filtered[0].id
-    } else if (filtered.length > 1) {
-      status = "waiting"
-    } else {
-      status = "no"
-    }
-
-    return db
-      .collection("students")
-      .doc(data.id)
-      .update({
-        [`seasons.${data.seasonName}.payment`]: status,
-        [`seasons.${data.seasonName}.paymentId`]: paymentId,
-      })
-      .then(() => {
-        return filtered
-      })
+    const SOAP_ID = process.env.SOAP_ID
+    const SOAP_PASSWORD = process.env.SOAP_PASSWORD
+    const client = await getClient()
+    const auth = await getAuth(client, SOAP_ID, SOAP_PASSWORD)
+    const id = data.id
+    const user = await getSoapUser(client, auth, id)
+    const formatted = formatSoapUser(user)
+    return formatted
   })
 
 exports.getPayments = functions
