@@ -335,6 +335,43 @@ exports.getUser = functions
     return formatted
   })
 
+exports.checkPayment = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .https.onCall(async (data, context) => {
+    const HELLOASSO_ID = process.env.HELLOASSO_ID
+    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
+    const items = await getItemsFromHelloAsso(
+      HELLOASSO_ID,
+      HELLOASSO_PASSWORD,
+      data.slug
+    )
+    const filtered = filterItems(items, data.firstName, data.lastName)
+    //const users = getUsersFromItems(items)
+    //const result = isUserInHelloAsso(data.firstName, data.lastName, users)
+    let status
+    let paymentId = null
+
+    if (filtered.length === 1) {
+      status = "yes"
+      paymentId = filtered[0].id
+    } else if (filtered.length > 1) {
+      status = "waiting"
+    } else {
+      status = "no"
+    }
+
+    return db
+      .collection("students")
+      .doc(data.id)
+      .update({
+        [`seasons.${data.seasonName}.payment`]: status,
+        [`seasons.${data.seasonName}.paymentId`]: paymentId,
+      })
+      .then(() => {
+        return filtered
+      })
+  })
+
 exports.getPayments = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
   .https.onCall(async (data, context) => {
