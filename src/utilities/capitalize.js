@@ -5,6 +5,8 @@ export const capitalize = (string) => {
     if (!string) throw "No string"
     return string.charAt(0).toUpperCase() + string.slice(1)
   } catch (error) {
-    throw new BError("$utils/capitalize => capitalize()", error)
+    const e = new BError("$utils/capitalize => capitalize()", error)
+    e.log()
+    return "??????"
   }
 }

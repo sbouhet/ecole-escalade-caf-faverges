@@ -1,13 +1,16 @@
 <script>
     import Logo from '$components/Logo.svelte'
     import {error, fatal} from '$utils/stores'
+    export let myError, myFatal
+    if(myError) $error = myError
+    if(myFatal) $fatal = myFatal
     console.log($error)
     let errorLines = []
     if($error) errorLines = $error.toString().split(':')
 
     const handleClick = ()=>{
         if($fatal){
-            location.reload()
+            location.replace('/')
         }else{
             $fatal = false
             $error = null

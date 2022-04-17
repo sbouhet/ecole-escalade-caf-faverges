@@ -27,7 +27,7 @@ export const getAuth = async (client) => {
   })
 }
 
-export const getUsers = async (client, auth, clubId) => {
+export const getUsers = async (client, auth, clubId = 7421) => {
   return new Promise((resolve, reject) => {
     client.extractionAdherents(
       { connect: auth, idclub: clubId },

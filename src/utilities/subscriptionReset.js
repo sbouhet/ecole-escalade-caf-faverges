@@ -33,6 +33,7 @@ export const subscriptionReset = (season) => {
         dateOfBirth: null,
         parents: [{}],
         medicalCertificateLink: null,
+        medicalCertificateTimestamp: null,
       },
     }
   } catch (error) {

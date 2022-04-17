@@ -17,7 +17,8 @@
     "berror": "^1.1.1",
     "dayjs": "^1.11.0",
     "firebase-admin": "^10.0.2",
-    "firebase-functions": "^3.20.0"
+    "firebase-functions": "^3.20.0",
+    "soap": "^0.43.0"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.2.0"

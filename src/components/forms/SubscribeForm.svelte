@@ -23,6 +23,7 @@
         }
         $subscription.publicInfo.seasons[$currentSeason.name].status = 'readyToCheck'
     }
+    $:console.log($subscription)
 </script>
 
 <WrongAgeModal bind:open={openErrorModal}/>

@@ -50,6 +50,7 @@ const getEmails = (studentPrivateData)=>{
 const findChildren = httpsCallable(functions, 'findChildren')
 const sayHello = httpsCallable(functions, 'sayHello')
 const test = httpsCallable(functions, 'test')
+const getUser = httpsCallable(functions, 'getUser')
 
 let docRefs = []
 const handelGetChildren = () => {
@@ -73,6 +74,12 @@ const handleItems = async ()=>{
   const result = await isUserInHelloAsso("juldés", "marçhand")
   console.log(result)
 }
+const handleGetUser = async ()=>{
+  console.log("searching")
+  const result = await getUser({id: '742120209004'})
+  const user = result.data
+  console.log(user)
+}
         
 </script>
 
@@ -85,4 +92,5 @@ const handleItems = async ()=>{
 <button on:click={handelGetChildren}>Get children</button>
 <button on:click={handleClick}>Hello</button>
 <button on:click={handleItems}>getItemsFromHelloAsso</button>
+<button on:click={handleGetUser}>getUser from SOAP</button>
 
