@@ -5,6 +5,7 @@ admin.initializeApp()
 const db = admin.firestore()
 const axios = require("axios").default
 const soap = require("soap")
+const BError = require("berror")
 //##########################################################################
 //                            UTILITY FUNCTIONS
 //##########################################################################
@@ -26,7 +27,9 @@ const getClient = async () => {
   })
 }
 
-const getAuth = async (client, soapId, soapPassword) => {
+const getAuth = async (client) => {
+  const SOAP_ID = process.env.SOAP_ID
+  const SOAP_PASSWORD = process.env.SOAP_PASSWORD
   return new Promise((resolve, reject) => {
     client.auth(null, (err, result) => {
       if (err) {
@@ -34,8 +37,8 @@ const getAuth = async (client, soapId, soapPassword) => {
       }
       resolve({
         ...result,
-        utilisateur: soapId,
-        motdepasse: soapPassword,
+        utilisateur: SOAP_ID,
+        motdepasse: SOAP_PASSWORD,
       })
     })
   })
@@ -197,6 +200,24 @@ const getAdminEmails = async () => {
     })
 }
 
+const getTimeLimit = async () => {
+  console.log("Trying to get time limit from firestore")
+  var docRef = db.collection("admin").doc("admin")
+  return docRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const timeLimit = doc.data().timeLimitForLicence
+        return timeLimit
+      } else {
+        console.log("No such document!")
+      }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error)
+    })
+}
+
 const sendEmail = async (emails, subject, htmlContent, API_KEY) => {
   await axios.post(
     "https://api.sendinblue.com/v3/smtp/email",
@@ -318,21 +339,82 @@ const formatSoapUser = (soapUser) => {
   }
 }
 
+const getFormattedSoapUser = async (userId) => {
+  try {
+    const client = await getClient()
+    const auth = await getAuth(client)
+    const user = await getSoapUser(client, auth, userId)
+    const formatted = formatSoapUser(user)
+    return formatted
+  } catch (error) {
+    throw "Utilisateur non trouvé sur la base de donnée du CAF"
+  }
+}
+
+const getStudentFromFirestore = async (studentId) => {
+  try {
+    const doc = await db.doc(`students/${studentId}`).get()
+    const student = doc.data()
+    return student
+  } catch (error) {
+    throw "Utilisateur non trouvé dans Firestore"
+  }
+}
+
+const checkConformity = async (soapUser, student) => {
+    if (normalize(soapUser.firstName) !== normalize(student.firstName))
+      throw "Les prénoms sont différents."
+    if (normalize(soapUser.lastName) !== normalize(student.lastName))
+      throw "Les noms sont différents."
+    const dateDifference = dayjs().diff(soapUser.signupDate, "day")
+    const timeLimit = await getTimeLimit()
+    if (dateDifference > timeLimit)
+      throw `Cette licence a été prise il y a plus de ${timeLimit} jours.`
+    return {dateDifference, timeLimit}
+}
+
+const linkStudentWithLicence = async (studentId, licenceNb, seasonName) => {
+  try {
+    const x = await db
+      .collection("students")
+      .doc(studentId)
+      .update({
+        [`seasons.${seasonName}.licence`]: "yes",
+        [`seasons.${seasonName}.licenceNb`]: licenceNb,
+      })
+  } catch (error) {
+    throw "Impossible de mettre à jour l'utilisateur"
+  }
+}
+
 //##########################################################################
 //                                CALLABLE FUNCTIONS
 //##########################################################################
 
-exports.getUser = functions
+exports.checkLicence = functions
   .runWith({ secrets: ["SOAP_ID", "SOAP_PASSWORD"] })
   .https.onCall(async (data, context) => {
-    const SOAP_ID = process.env.SOAP_ID
-    const SOAP_PASSWORD = process.env.SOAP_PASSWORD
-    const client = await getClient()
-    const auth = await getAuth(client, SOAP_ID, SOAP_PASSWORD)
-    const id = data.id
-    const user = await getSoapUser(client, auth, id)
-    const formatted = formatSoapUser(user)
-    return formatted
+    try {
+      const soapUser = await getFormattedSoapUser(data.licenceNb)
+      const firestoreStudent = await getStudentFromFirestore(data.studentId)
+      const {dateDifference, timeLimit} = await checkConformity(soapUser, firestoreStudent)
+      const x = await linkStudentWithLicence(
+        firestoreStudent.id,
+        data.licenceNb,
+        data.seasonName
+      )
+      return {
+        statusCode: 200,
+        message:"Succès !",
+        body: {soapUser, dateDifference, timeLimit}
+      }
+    } catch (error) {
+      return {
+        statusCode: 409,
+        message:error,
+        body: null,
+      }
+    }
   })
 
 exports.checkPayment = functions

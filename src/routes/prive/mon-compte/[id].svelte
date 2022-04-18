@@ -9,6 +9,7 @@
     import Boolean from '$components/Boolean.svelte'
     import MedicalCertificate from '$components/MedicalCertificate.svelte'
     import HelloAsso from '$components/HelloAsso.svelte'
+    import Soap from '$components/Soap.svelte'
     import { doc, onSnapshot } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
@@ -49,13 +50,10 @@
         
         <details>
             <summary><Boolean value={'yes'} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
-            <p style="color:green">Votre compte a bien été créé, bravo !</p>
+            <p style="color:green">Votre compte a bien été créé !</p>
         </details>
         <HelloAsso {student}/>
-        <details>
-            <summary><Boolean value={student.public.seasons[$currentSeason.name].licence} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges</summary>
-            <p>Si vous êtes ici, c'est que vous avez déjà réussi cette étape. Bravo !</p>
-        </details>
+        <Soap {student}/>
         <MedicalCertificate link={medicalCertificateLink} timestamp={medicalCertificateTimestamp} status={medicalCertificateStatus} studentId={urlId}/>
     </article>
 {/if}

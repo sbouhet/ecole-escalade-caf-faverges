@@ -24,5 +24,6 @@ sleep Sleep
 await new Promise(r => setTimeout(r, 4000));
 
 userID Jules: 742120190080
+userId Didier Fambon: 742120060039
 userID pas à jour: 742120209004
 clubID Faverges: 7421
