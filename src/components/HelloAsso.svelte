@@ -4,6 +4,7 @@
     import Boolean from '$components/Boolean.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
+    import ErrorMessage from '$components/ErrorMessage.svelte'
     export let student
     const functions = getFunctions(getApp())
     const checkPayment = httpsCallable(functions, "checkPayment")
@@ -17,13 +18,13 @@
     //FOR TESTING REMOVE TODO
     const slug = "test"
     $:price = ageGroup.price
-
     let link = `https://www.helloasso.com/associations/caf-de-faverges/adhesions/${slug}`
-    let result = false
+    let result
     let loading = false
 
     const handleClick = async ()=>{
         if(loading)return
+        result = null
         loading = true
         //const users = await getUsersFromHelloAsso()
         result = await checkPayment({firstName, lastName, slug, id, seasonName:$currentSeason.name})
@@ -55,7 +56,10 @@
                 {:else}
                     Merci de patienter...
                 {/if}
-            </a>
+            </a><br><br>
+            {#if result && result.data.statusCode===409}
+                <ErrorMessage error="Aucun paiement trouvé"/>
+            {/if}
     {:else if status === "waiting"}
             Plusieurs transactions trouvées avec le même nom, contactez notre équipe : caf.faverges.ffcam@gmail.com
     {:else if status === "yes"}

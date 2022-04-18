@@ -1,6 +1,6 @@
 <script>
     import { currentSeason } from '$utils/stores'
-    import { normalize } from '$utils/normalize'
+    import LicenceInstructions from '$components/LicenceInstructions.svelte'
     import Boolean from '$components/Boolean.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
@@ -35,22 +35,27 @@
 </script>
 
 <details>
-    <summary><Boolean value={status} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges</summary>
+    <summary>
+        <Boolean value={status} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges
+    </summary>
     {#if status==="no"}
-        <p>Pour prendre une licence cliquez sur ce lien :</p>
-        <input type="text" bind:value={input}>
-        {#if loading}
-            <a href="#" role="button" aria-busy="true">Merci de patienter...</a>
-        {:else}
-            <a href="#" on:click={handleClick} role="button">Verifier la licence</a>
-        {/if}
-        <br><br>
-        {#if success}
-            YOUPPI
-        {/if}
-        {#if error}
-            <ErrorMessage {error} />
-        {/if}
+
+        <LicenceInstructions />
+        <div>
+            <input type="text" bind:value={input}>
+            {#if loading}
+                <a href="#" role="button" aria-busy="true">Merci de patienter...</a>
+            {:else}
+                <a href="#" on:click={handleClick} role="button">Verifier la licence</a>
+            {/if}
+            <br><br>
+            {#if success}
+                YOUPPI
+            {/if}
+            {#if error}
+                <ErrorMessage {error} />
+            {/if}
+        </div>
     {:else if status === "waiting"}
         <ErrorMessage error="Une erreur est survenue, contactez notre équipe : caf.faverges.ffcam@gmail.com" />
     {:else if status === "yes"}

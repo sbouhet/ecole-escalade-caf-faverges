@@ -9,7 +9,7 @@
     import Boolean from '$components/Boolean.svelte'
     import MedicalCertificate from '$components/MedicalCertificate.svelte'
     import HelloAsso from '$components/HelloAsso.svelte'
-    import Soap from '$components/Soap.svelte'
+    import Licence from '$components/Licence.svelte'
     import { doc, onSnapshot } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
@@ -53,7 +53,7 @@
             <p style="color:green">Votre compte a bien été créé !</p>
         </details>
         <HelloAsso {student}/>
-        <Soap {student}/>
+        <Licence {student}/>
         <MedicalCertificate link={medicalCertificateLink} timestamp={medicalCertificateTimestamp} status={medicalCertificateStatus} studentId={urlId}/>
     </article>
 {/if}

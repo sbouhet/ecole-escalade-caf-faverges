@@ -16,6 +16,13 @@
 {:then student} 
     <h1>{printName(student.public)}</h1>
     <div><a href={student.private.medicalCertificateLink} target="_new">Certificat médical</a></div>
+    <br>
+    <br>
+    {#each student.public.seasons[$currentSeason.name].receipts as receipt, index}
+        <div><a href={receipt} target="_new">Recu {index+1}</a></div>
+    {/each}
+    <br>
+    <br>
     {#each FIELDS as field}
         <section>
             <h5>{field}</h5>

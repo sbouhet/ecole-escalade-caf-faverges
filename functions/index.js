@@ -81,7 +81,9 @@ const normalize = (string) => {
   }
 }
 
-const getNewTokens = async (id, password) => {
+const getNewTokens = async () => {
+  const HELLOASSO_ID = process.env.HELLOASSO_ID
+  const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
   const response = await axios({
     url: "https://api.helloasso.com/oauth2/token",
     method: "post",
@@ -91,8 +93,8 @@ const getNewTokens = async (id, password) => {
     // This will urlencode the data correctly:
     data: new URLSearchParams({
       grant_type: "client_credentials",
-      client_id: id,
-      client_secret: password,
+      client_id: HELLOASSO_ID,
+      client_secret: HELLOASSO_PASSWORD,
     }),
   })
   return response.data
@@ -291,7 +293,7 @@ const removeStudentIdFromParents = (studentId) => {
   })
 }
 
-const getItemsFromHelloAsso = async (id, password, slug) => {
+const getItemsFromHelloAsso = async (slug, token) => {
   let url
   if (slug) {
     url = `https://api.helloasso.com/v5/organizations/caf-de-faverges/forms/Membership/${slug}/items?pageSize=100`
@@ -299,17 +301,32 @@ const getItemsFromHelloAsso = async (id, password, slug) => {
     url =
       "https://api.helloasso.com/v5/organizations/caf-de-faverges/items?pageSize=100"
   }
-
-  const tokens = await getNewTokens(id, password)
   const response = await axios({
     url,
     method: "get",
     headers: {
-      authorization: `Bearer ${tokens.access_token}`,
+      authorization: `Bearer ${token}`,
     },
   })
   let items = response.data.data
   return items
+}
+
+const getReceipts = async (token, userPayments, slug) => {
+  let url = `https://api.helloasso.com/v5/organizations/caf-de-faverges/forms/Membership/${slug}/payments?pageSize=100`
+  
+  const response = await axios({
+    url,
+    method: "get",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  })
+  const allPayments = response.data.data
+  const ids = userPayments.map(x=>x.id)
+  const filtered = allPayments.filter(x=>ids.includes(x.id))
+  const receipts = filtered.map(x=>x.paymentReceiptUrl)
+  return receipts
 }
 
 const filterItems = (items, firstName, lastName) => {
@@ -420,45 +437,44 @@ exports.checkLicence = functions
 exports.checkPayment = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
   .https.onCall(async (data, context) => {
-    const HELLOASSO_ID = process.env.HELLOASSO_ID
-    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
-    const items = await getItemsFromHelloAsso(
-      HELLOASSO_ID,
-      HELLOASSO_PASSWORD,
-      data.slug
-    )
+    const tokens = await getNewTokens()
+    const items = await getItemsFromHelloAsso(data.slug, tokens.access_token)
     const filtered = filterItems(items, data.firstName, data.lastName)
-    //const users = getUsersFromItems(items)
-    //const result = isUserInHelloAsso(data.firstName, data.lastName, users)
     let status
-    let paymentId = null
+    let helloAssoId = null
+    let payments = []
 
     if (filtered.length === 1) {
       status = "yes"
-      paymentId = filtered[0].id
+      helloAssoId = filtered[0].id
+      payments = filtered[0].payments
     } else if (filtered.length > 1) {
       status = "waiting"
     } else {
       status = "no"
     }
-
-    return db
+    const receipts = await getReceipts(tokens.access_token, payments, data.slug)
+    const x = await db
       .collection("students")
       .doc(data.id)
       .update({
         [`seasons.${data.seasonName}.payment`]: status,
-        [`seasons.${data.seasonName}.paymentId`]: paymentId,
+        [`seasons.${data.seasonName}.helloAssoId`]: helloAssoId,
+        //[`seasons.${data.seasonName}.payments`]: payments,
+        [`seasons.${data.seasonName}.receipts`]: receipts,
       })
-      .then(() => {
-        return filtered
-      })
-  })
+    if(status!=="yes")return {statusCode: 409}
+    
+    return {
+      statusCode: 200,
+      message:"Succès !",
+      body: {filtered, receipts}
+    }
+})
 
 exports.getPayments = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
   .https.onCall(async (data, context) => {
-    const HELLOASSO_ID = process.env.HELLOASSO_ID
-    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
     const myEmail = context.auth.token.email || null
     const uid = context.auth.uid
     if (context.auth.token.admin !== true) {
@@ -616,90 +632,6 @@ exports.delAuthUser = functions.auth.user().onDelete((user) => {
 
 //****************************
 //FIRESTORE TRIGGERS
-
-//test
-exports.test1 = functions
-  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
-  .firestore.document("admin/admin")
-  .onWrite(async (change, context) => {
-    const HELLOASSO_ID = process.env.HELLOASSO_ID
-    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
-    console.log("Test 1111111")
-
-    const response = await axios({
-      url: "https://api.helloasso.com/oauth2/token",
-      method: "post",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      // This will urlencode the data correctly:
-      data: new URLSearchParams({
-        grant_type: "client_credentials",
-        client_id: HELLOASSO_ID,
-        client_secret: HELLOASSO_PASSWORD,
-      }),
-    })
-    console.log(response)
-  })
-
-//test2
-exports.test2 = functions
-  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
-  .firestore.document("admin/admin2")
-  .onWrite(async (change, context) => {
-    console.log("Test 22222222")
-    const HELLOASSO_ID = process.env.HELLOASSO_ID
-    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
-
-    const tokens = await getTokensFromFirestore()
-
-    axios({
-      url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/payments",
-      method: "get",
-      headers: {
-        authorization: `Bearer ${tokens.access_token}`,
-      },
-    })
-      .then((response) => {
-        //console.log(response.data)
-      })
-      .catch((error) => {
-        //console.log(error.response.data.message)
-        updateFirestoreTokens(HELLOASSO_ID).then(() => {
-          getTokensFromFirestore().then((newTokens) => {
-            axios({
-              url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/payments",
-              method: "get",
-              headers: {
-                authorization: `Bearer ${newTokens.access_token}`,
-              },
-            }).then((response) => {
-              //console.log(response)
-              return response.data
-            })
-          })
-        })
-      })
-  })
-
-//test4
-exports.test4 = functions
-  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
-  .firestore.document("admin/admin4")
-  .onWrite(async (change, context) => {
-    console.log("Test 44444444")
-    const HELLOASSO_ID = process.env.HELLOASSO_ID
-    const HELLOASSO_PASSWORD = process.env.HELLOASSO_PASSWORD
-
-    const x = await initFirestoreToken(HELLOASSO_ID, HELLOASSO_PASSWORD)
-    //const oldTokens = await getTokensFromFirestore()
-    //console.log(oldTokens)
-    //const timeLeft = oldTokens.expiration - dayjs().valueOf()
-    //console.log(`Il reste ${timeLeft} secondes pour utiliser ce token`)
-    //const newTokens = await refreshToken(HELLOASSO_ID, oldTokens.refresh_token)
-    //console.log(newTokens)
-    //const test = await updateFirestoreTokens(HELLOASSO_ID)
-  })
 
 //When student's private doc is created, updated, or deleted, update Emails array
 exports.updateEmails = functions.firestore
