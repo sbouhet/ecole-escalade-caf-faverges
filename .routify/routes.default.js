@@ -28,6 +28,22 @@ export default {
       },
       "children": [
         {
+          "meta": {
+            "dynamic": true
+          },
+          "id": "_default_admin__id__svelte",
+          "name": "[id]",
+          "module": () => import('../src/routes/admin/[id].svelte'),
+          "file": {
+            "path": "src/routes/admin/[id].svelte",
+            "dir": "src/routes/admin",
+            "base": "[id].svelte",
+            "ext": ".svelte",
+            "name": "[id]"
+          },
+          "children": []
+        },
+        {
           "meta": {},
           "id": "_default_admin_allStudents_svelte",
           "name": "allStudents",

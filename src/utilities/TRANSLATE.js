@@ -21,11 +21,11 @@ export const translateStatus = (english) => {
     if (!english) throw "No english"
     switch (english) {
       case "yes":
-        return "Inscrit(e)"
+        return "Inscrit·e"
       case "No":
-        return "Pas inscrit(e)"
+        return "Pas inscrit·e"
       case "waiting":
-        return "Pré‑inscrit(e)"
+        return "Pré‑inscrit·e"
     }
   } catch (error) {
     throw new BError("$utils/TRANSLATE => translateStatus()", error)

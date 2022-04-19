@@ -36,21 +36,23 @@
 <details>
     <summary><Boolean value={status} big={true}/>Étape 2 : Éffectuer le paiement en ligne pour les cours</summary>
     {#if status === "no"}
-        <p>
+        <div class="card">
+            <div>
             Pour éffectuer le paiement des cours d'escalade, vous devez passer par la plateforme <b>HelloAsso</b>.
-            Cliquez sur le lien ci-dessous pour accéder à la plateforme et revenez sur cette page une fois le paiement effectué.</p>
-            
+            Cliquez sur le lien ci-dessous pour accéder à la plateforme et revenez sur cette page une fois le paiement effectué.</div>
+            <br>
             <strong>
                 Attention à bien indiquer le nom de l'élève pour qui vous faites le paiement.<br>
             </strong>
+        </div>
             <br>
-            <a href={link} target="_new" style="font-size:x-large">Cliquez ici pour payer {price}€</a>
+            <a href={link} target="_new" style="font-size:large">Cliquez ici pour payer {price}€</a>
             <small>&nbsp;(Paiement en 3 fois disponible)</small>
             <br>
             <br>
-            <p>Vous avez payé ? cliquez sur le bouton ci-dessous pour vérifier la transaction et valider cette étape.</p>
-            
-            <a href="#" role="button" class="outline" aria-busy={loading} on:click={handleClick}>
+            <div>Vous avez payé ? Cliquez sur le bouton ci-dessous pour vérifier la transaction et valider cette étape.</div>
+            <br>
+            <a href="#" role="button" aria-busy={loading} on:click={handleClick}>
                 {#if !loading}
                     Vérifier la transaction
                 {:else}
@@ -71,5 +73,10 @@
 <style>
     summary{
         font-weight:bold;
+    }
+    .card{
+        background-color: rgba(0, 0, 0, 0.05);
+        border-left: 6px solid #1F95C1;
+        padding: 20px;
     }
 </style>

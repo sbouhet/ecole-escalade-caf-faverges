@@ -10,6 +10,7 @@ import { printName } from "$utils/printName";
     
     export let students = []
     export let allowDelete = false
+    export let links = false
     export let showDay = true
     export let myProfile = false
 
@@ -49,6 +50,9 @@ import { printName } from "$utils/printName";
                     {/if}
                     {#if myProfile}
                         <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.firstName)}</a></td>
+                    {:else if links}
+                        <td><a href={`/admin/${student.id}`}>{capitalize(student.firstName)}</a></td>
+                        <td>{student.lastName.toUpperCase()}</td>
                     {:else}
                         <td>{capitalize(student.firstName)}</td>
                         <td>{student.lastName.toUpperCase()}</td>
@@ -62,9 +66,9 @@ import { printName } from "$utils/printName";
                         </td>
                     {/if}
                     <td>{#if student.seasons[$currentSeason.name].status==='waiting'}
-                        <span data-tooltip="Pré‑inscrit(e), le dossier n'est pas complet.">⌛</span>
+                        <span data-tooltip="Pré‑inscrit·e, le dossier n'est pas complet.">⌛</span>
                         {:else if student.seasons[$currentSeason.name].status==='yes'}
-                        <span data-tooltip="Inscrit(e)">✅</span>
+                        <span data-tooltip="Inscrit·e">✅</span>
                         {:else}
                         {student.seasons[$currentSeason.name].status}
                         {/if}

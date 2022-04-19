@@ -12,11 +12,12 @@
     let error = null
     let error2 = null
     let msg = ' '
+    let mod = true
 
     const handleAdd = () => {
         msg = 'Merci de patientez...'
         error = null
-        addAdminRole({ email: email }).then(result => {
+        addAdminRole({ email, mod }).then(result => {
             msg = ''
             console.log(result.data);
             if(result.data.errorInfo) {
@@ -38,7 +39,7 @@
     const handleRemove = () => {
         msg = 'Merci de patientez...'
         error = null
-        removeAdminRole({ email: email }).then(result => {
+        removeAdminRole({ email, mod }).then(result => {
             msg = ''
             console.log(result.data);
             if(result.data.errorInfo) {
@@ -60,7 +61,9 @@
 
 
     let admins = []
+    let mods = []
     const q = query(collection(db, "users"), where("admin", "==", true))
+    const r = query(collection(db, "users"), where("mod", "==", true))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         admins = []
         querySnapshot.forEach((userDoc) => {
@@ -69,12 +72,29 @@
         console.log(admins)
         console.log(`Found ${admins.length} admins`)
     })
+    const unsubscribe2 = onSnapshot(r, (querySnapshot) => {
+        mods = []
+        querySnapshot.forEach((userDoc) => {
+        mods.push(userDoc.data())
+        })
+        console.log(mods)
+        console.log(`Found ${mods.length} mods`)
+    })
   
 </script>
 <section>
     <input type="text" bind:value={email}>
+    <label for="switch">
+    <input type="checkbox" id="switch" name="switch" role="switch" bind:checked={mod}>
+    Modérateur
+  </label>
+  {#if mod}
+      <button on:click={handleAdd}>MAKE MOD</button>
+    <button on:click={handleRemove}>REMOVE MOD</button>
+  {:else}
     <button on:click={handleAdd}>MAKE ADMIN</button>
     <button on:click={handleRemove}>REMOVE ADMIN</button>
+  {/if}
     {#if msg}
         <div>{msg}</div>  
     {/if}
@@ -87,6 +107,12 @@
     <ul>
         {#each admins as admin}
             <li>{admin.email}</li>
+        {/each}
+    </ul>
+    <h4>Modérateurs:</h4>
+    <ul>
+        {#each mods as mod}
+            <li>{mod.email}</li>
         {/each}
     </ul>
 </section>

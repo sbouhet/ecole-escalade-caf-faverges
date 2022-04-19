@@ -5,10 +5,11 @@
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
     import ErrorMessage from '$components/ErrorMessage.svelte'
+    import HowToFindLicence from '$components/HowToFindLicence.svelte'
     export let student
     const functions = getFunctions(getApp())
     const checkLicence = httpsCallable(functions, "checkLicence")
-    let input, error, success
+    let error, success, input, modalOpen
     let loading = false
     $:id = student.public.id
     $:status = student.public.seasons[$currentSeason.name].licence
@@ -39,16 +40,24 @@
         <Boolean value={status} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges
     </summary>
     {#if status==="no"}
-
         <LicenceInstructions />
+        <HowToFindLicence bind:open={modalOpen}/>
         <div>
-            <input type="text" bind:value={input}>
-            {#if loading}
-                <a href="#" role="button" aria-busy="true">Merci de patienter...</a>
-            {:else}
-                <a href="#" on:click={handleClick} role="button">Verifier la licence</a>
-            {/if}
-            <br><br>
+            <p>
+                Vous avez pris une licence ? Indiquez votre numéro de licence ci-dessous puis
+                cliquez sur le boutton pour valider cette étape.
+            </p>
+            <a href="#" on:click={()=>modalOpen=true}><small>Comment trouver mon numéro de licence ?</small></a>
+            <div class="grid">
+                <input type="text" bind:value={input} placeholder="Votre numéro de licence">
+                <div>
+                    {#if loading}
+                        <a href="#" role="button" aria-busy="true">Merci de patienter...</a>
+                    {:else}
+                        <a href="#" on:click={handleClick} role="button">Verifier la licence</a>
+                    {/if}
+                </div>
+            </div>
             {#if success}
                 YOUPPI
             {/if}

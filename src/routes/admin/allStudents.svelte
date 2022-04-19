@@ -29,6 +29,6 @@
 {#if students.length>0}
   <small>Cliquez sur une colone pour trier les données</small>
 {/if}
-<StudentsStatusTable {students} allowDelete={true}/>
+<StudentsStatusTable {students} allowDelete={true} links={true}/>
 
 <slot></slot>

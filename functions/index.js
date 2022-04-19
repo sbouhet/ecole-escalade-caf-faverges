@@ -314,7 +314,7 @@ const getItemsFromHelloAsso = async (slug, token) => {
 
 const getReceipts = async (token, userPayments, slug) => {
   let url = `https://api.helloasso.com/v5/organizations/caf-de-faverges/forms/Membership/${slug}/payments?pageSize=100`
-  
+
   const response = await axios({
     url,
     method: "get",
@@ -323,9 +323,9 @@ const getReceipts = async (token, userPayments, slug) => {
     },
   })
   const allPayments = response.data.data
-  const ids = userPayments.map(x=>x.id)
-  const filtered = allPayments.filter(x=>ids.includes(x.id))
-  const receipts = filtered.map(x=>x.paymentReceiptUrl)
+  const ids = userPayments.map((x) => x.id)
+  const filtered = allPayments.filter((x) => ids.includes(x.id))
+  const receipts = filtered.map((x) => x.paymentReceiptUrl)
   return receipts
 }
 
@@ -379,15 +379,15 @@ const getStudentFromFirestore = async (studentId) => {
 }
 
 const checkConformity = async (soapUser, student) => {
-    if (normalize(soapUser.firstName) !== normalize(student.firstName))
-      throw "Les prénoms sont différents."
-    if (normalize(soapUser.lastName) !== normalize(student.lastName))
-      throw "Les noms sont différents."
-    const dateDifference = dayjs().diff(soapUser.signupDate, "day")
-    const timeLimit = await getTimeLimit()
-    if (dateDifference > timeLimit)
-      throw `Cette licence a été prise il y a plus de ${timeLimit} jours.`
-    return {dateDifference, timeLimit}
+  if (normalize(soapUser.firstName) !== normalize(student.firstName))
+    throw "Les prénoms sont différents."
+  if (normalize(soapUser.lastName) !== normalize(student.lastName))
+    throw "Les noms sont différents."
+  const dateDifference = dayjs().diff(soapUser.signupDate, "day")
+  const timeLimit = await getTimeLimit()
+  if (dateDifference > timeLimit)
+    throw `Cette licence a été prise il y a plus de ${timeLimit} jours.`
+  return { dateDifference, timeLimit }
 }
 
 const linkStudentWithLicence = async (studentId, licenceNb, seasonName) => {
@@ -414,7 +414,10 @@ exports.checkLicence = functions
     try {
       const soapUser = await getFormattedSoapUser(data.licenceNb)
       const firestoreStudent = await getStudentFromFirestore(data.studentId)
-      const {dateDifference, timeLimit} = await checkConformity(soapUser, firestoreStudent)
+      const { dateDifference, timeLimit } = await checkConformity(
+        soapUser,
+        firestoreStudent
+      )
       const x = await linkStudentWithLicence(
         firestoreStudent.id,
         data.licenceNb,
@@ -422,13 +425,13 @@ exports.checkLicence = functions
       )
       return {
         statusCode: 200,
-        message:"Succès !",
-        body: {soapUser, dateDifference, timeLimit}
+        message: "Succès !",
+        body: { soapUser, dateDifference, timeLimit },
       }
     } catch (error) {
       return {
         statusCode: 409,
-        message:error,
+        message: error,
         body: null,
       }
     }
@@ -463,14 +466,14 @@ exports.checkPayment = functions
         //[`seasons.${data.seasonName}.payments`]: payments,
         [`seasons.${data.seasonName}.receipts`]: receipts,
       })
-    if(status!=="yes")return {statusCode: 409}
-    
+    if (status !== "yes") return { statusCode: 409 }
+
     return {
       statusCode: 200,
-      message:"Succès !",
-      body: {filtered, receipts}
+      message: "Succès !",
+      body: { filtered, receipts },
     }
-})
+  })
 
 exports.getPayments = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
@@ -552,18 +555,28 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
     .getUserByEmail(data.email)
     .then((user) => {
       targetId = user.uid
+      if (data.mod) {
+        return admin.auth().setCustomUserClaims(user.uid, {
+          mod: true,
+        })
+      }
       return admin.auth().setCustomUserClaims(user.uid, {
         admin: true,
       })
     })
     .then(() => {
+      if (data.mod) {
+        return db.collection("users").doc(targetId).update({
+          mod: true,
+        })
+      }
       return db.collection("users").doc(targetId).update({
         admin: true,
       })
     })
     .then(() => {
       return {
-        message: `${data.email} est maintenant administrateur`,
+        message: `${data.email} est maintenant administrateur (ou mod)`,
       }
     })
     .catch((err) => {
@@ -591,18 +604,28 @@ exports.removeAdminRole = functions.https.onCall((data, context) => {
     .getUserByEmail(data.email)
     .then((user) => {
       targetId = user.uid
+      if (data.mod) {
+        return admin.auth().setCustomUserClaims(user.uid, {
+          mod: false,
+        })
+      }
       return admin.auth().setCustomUserClaims(user.uid, {
         admin: false,
       })
     })
     .then(() => {
+      if (data.mod) {
+        return db.collection("users").doc(targetId).update({
+          mod: false,
+        })
+      }
       return db.collection("users").doc(targetId).update({
         admin: false,
       })
     })
     .then(() => {
       return {
-        message: `${data.email} n'est  plus administrateur`,
+        message: `${data.email} n'est  plus administrateur (ou mod)`,
       }
     })
     .catch((err) => {
