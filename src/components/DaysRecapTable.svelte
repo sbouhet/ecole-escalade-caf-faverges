@@ -6,12 +6,6 @@
     import { seasons } from '$utils/seasons'
     import { db } from "$utils/firebase/firebase"
     import {
-  doc,
-  getDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  collectionGroup,
   collection,
   query,
   where,

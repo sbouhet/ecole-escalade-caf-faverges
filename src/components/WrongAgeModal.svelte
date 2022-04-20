@@ -39,7 +39,7 @@
     <footer>
       <a href="#"
         role="button"
-        class="outline secondary"
+        class="outline contrast"
         on:click={()=>open=false}>
         J'ai compris
       </a>
