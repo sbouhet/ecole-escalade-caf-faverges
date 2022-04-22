@@ -19,6 +19,7 @@ const getFormattedSoapUser = require("./lib/soap/getFormattedSoapUser")
 const checkConformity = require("./lib/soap/checkConformity")
 const linkStudentWithLicence = require("./lib/firebase/firestore/linkStudentWithLicence")
 const basics = require("./lib/firebase/firestore/basics")
+const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
 
 /* const addIdToCurrentUserClaims = async (studentId) => {
   const uid = context.auth.uid
@@ -32,22 +33,6 @@ exports.test = functions.firestore
     /*  await admin.auth().setCustomUserClaims("4axktEVXriP8jnDal9KqABJSSp52", null)
     await admin.auth().setCustomUserClaims("XvjCydDEbtfhB0nAPrnhiVhTHBC3", null) */
   })
-
-const changeCustomClaims = async (user, field, value) => {
-  try {
-    if (!user) throw "No user"
-    if (!field) throw "No field"
-    if (value == null) throw "No value"
-
-    const oldClaims = user.customClaims
-    const newClaims = { ...oldClaims, [field]: value }
-    const response = await admin.auth().setCustomUserClaims(user.uid, newClaims)
-    console.log(response)
-    return "Changed custom claims successfully"
-  } catch (error) {
-    throw new Error("Could not change custome claims", error)
-  }
-}
 
 //##########################################################################
 //                                CALLABLE FUNCTIONS
@@ -179,7 +164,7 @@ exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
       })
   })
 
-//change admin or mod role
+//change mod / admin status
 exports.changeModStatus = functions.https.onCall(async (data, context) => {
   console.log(data)
   try {
