@@ -14,6 +14,7 @@ export const getMyStudents = async (season) => {
     //If no user, return empty array
     if (!email) return []
 
+    //query all student with this email
     const students = query(
       collectionGroup(db, "privateCol"),
       where("emails", "array-contains", "email")
