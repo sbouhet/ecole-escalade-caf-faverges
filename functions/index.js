@@ -29,8 +29,8 @@ exports.test = functions.firestore
   .document("test/{test}")
   .onWrite(async (change, context) => {
     console.log("TEST STARTING")
-    await admin.auth().setCustomUserClaims("4axktEVXriP8jnDal9KqABJSSp52", null)
-    await admin.auth().setCustomUserClaims("XvjCydDEbtfhB0nAPrnhiVhTHBC3", null)
+    /*  await admin.auth().setCustomUserClaims("4axktEVXriP8jnDal9KqABJSSp52", null)
+    await admin.auth().setCustomUserClaims("XvjCydDEbtfhB0nAPrnhiVhTHBC3", null) */
   })
 
 const changeCustomClaims = async (user, field, value) => {
@@ -228,101 +228,6 @@ exports.changeModStatus = functions.https.onCall(async (data, context) => {
   }
 })
 
-//Add admin role
-exports.addAdminRole = functions.https.onCall((data, context) => {
-  // check user is not null
-  if (!context.auth) {
-    return { errorInfo: "Vous devez être connecté pour faire ca" }
-  }
-  // check request is made by an admin
-  if (
-    context.auth.token.admin !== true &&
-    context.auth.token.email != "friarobaz@gmail.com"
-  ) {
-    return { errorInfo: "If faut être admin pour ajouter un admin" }
-  }
-
-  // get user and add admin custom claim
-  return admin
-    .auth()
-    .getUserByEmail(data.email)
-    .then((user) => {
-      const oldClaims = user.customClaims
-      const newClaims = { ...oldClaims, mod: true }
-      targetId = user.uid
-
-      console.log(
-        `changing custom claims to ${data.mod ? "mod" : "admin"}>true`
-      )
-      return admin.auth().setCustomUserClaims(user.uid, newClaims)
-    })
-    .then(() => {
-      return db
-        .collection("users")
-        .doc(targetId)
-        .update({
-          [data.mod ? "mod" : "admin"]: true,
-        })
-    })
-    .then(() => {
-      return {
-        message: `${data.email} est maintenant ${data.mod ? "mod" : "admin"}`,
-      }
-    })
-    .catch((err) => {
-      return err
-    })
-})
-
-//Remove admin role
-exports.removeAdminRole = functions.https.onCall((data, context) => {
-  let targetId
-  // check user is not null
-  if (!context.auth) {
-    return { errorInfo: "Vous devez être connecté pour faire ca" }
-  }
-  // check request is made by an admin
-  if (context.auth.token.admin !== true) {
-    return { errorInfo: "If faut être admin pour supprimer un admin" }
-  }
-  if (data.email === "friarobaz@gmail.com") {
-    return { errorInfo: "Vous ne pouvez pas supprimer Jules :)" }
-  }
-  // get user and add admin custom claim
-  return admin
-    .auth()
-    .getUserByEmail(data.email)
-    .then((user) => {
-      targetId = user.uid
-      if (data.mod) {
-        return admin.auth().setCustomUserClaims(user.uid, {
-          mod: false,
-        })
-      }
-      return admin.auth().setCustomUserClaims(user.uid, {
-        admin: false,
-      })
-    })
-    .then(() => {
-      if (data.mod) {
-        return db.collection("users").doc(targetId).update({
-          mod: false,
-        })
-      }
-      return db.collection("users").doc(targetId).update({
-        admin: false,
-      })
-    })
-    .then(() => {
-      return {
-        message: `${data.email} n'est  plus administrateur (ou mod)`,
-      }
-    })
-    .catch((err) => {
-      return err
-    })
-})
-
 //##########################################################################
 //                                TRIGGER FUNCTIONS
 //##########################################################################
@@ -406,18 +311,24 @@ exports.onDeleteStudentFromFirestore = functions.firestore
 exports.updateUser = functions.firestore
   .document("users/{userId}")
   .onWrite(async (change, context) => {
+    //Get student list before change
     const studentsBefore = change.before.data().students
-    const studentsAfter = change.after.data().students
-    const userId = context.params.userId
-    const isAdmin = change.after.data().admin
 
-    //if no changes to students, do nothing
+    //Get student list after change
+    const studentsAfter = change.after.data().students
+
+    //Get user ID
+    const userId = context.params.userId
+
+    //If no changes to students, do nothing
     if (studentsBefore === studentsAfter) return
 
-    return admin
-      .auth()
-      .setCustomUserClaims(userId, { admin: isAdmin, students: studentsAfter })
-      .then(() => {})
+    //Get auth user from user ID
+    const user = await admin.auth().getUser(userId)
+
+    //Update custom claims with new list of students
+    const response = await changeCustomClaims(user, "students", studentsAfter)
+    console.log(response)
   })
 
 /* //When a student is created in Firestore, update season document
