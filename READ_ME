@@ -27,3 +27,7 @@ userID Jules: 742120190080
 userId Didier Fambon: 742120060039
 userID pas à jour: 742120209004
 clubID Faverges: 7421
+
+refresh user claims
+import { getAuth } from "firebase/auth"
+getAuth().currentUser.getIdToken(true)

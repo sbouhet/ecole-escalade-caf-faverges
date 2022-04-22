@@ -20,6 +20,8 @@ const checkConformity = require("./lib/soap/checkConformity")
 const linkStudentWithLicence = require("./lib/firebase/firestore/linkStudentWithLicence")
 const basics = require("./lib/firebase/firestore/basics")
 const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
+const createNewStudent = require("./lib/firebase/firestore/createNewStudent")
+const deleteAllCustomClaims = require("./lib/firebase/auth/deleteAllCustomClaims")
 
 /* const addIdToCurrentUserClaims = async (studentId) => {
   const uid = context.auth.uid
@@ -37,6 +39,49 @@ exports.test = functions.firestore
 //##########################################################################
 //                                CALLABLE FUNCTIONS
 //##########################################################################
+
+exports.deleteClaims = functions.https.onCall(async (data, context) => {
+  try {
+    if (!context.auth.token.admin) throw "C'est pas la fête"
+    const response = deleteAllCustomClaims(data.userId)
+    return {
+      statusCode: 200,
+      message: "Succès !",
+      body: response,
+    }
+  } catch (error) {
+    return {
+      statusCode: 409,
+      message: error,
+      body: null,
+    }
+  }
+})
+
+exports.createStudent = functions.https.onCall(async (data, context) => {
+  try {
+    if (!context.auth) throw "Vous devez être connecté pour faire ca"
+    if (!data.student) throw "Pas d'élève à créer (data.student)"
+
+    //Get ID from user that is making the call
+    const parentId = context.auth.uid
+
+    //Create new student etc
+    const response = await createNewStudent(data.student, parentId)
+
+    return {
+      statusCode: 200,
+      message: "Succès !",
+      body: response,
+    }
+  } catch (error) {
+    return {
+      statusCode: 409,
+      message: error,
+      body: null,
+    }
+  }
+})
 
 exports.checkLicence = functions
   .runWith({ secrets: ["SOAP_ID", "SOAP_PASSWORD"] })
@@ -281,7 +326,7 @@ exports.notifyAdmin = functions
       })
   })
 
-//When a student is deleted from Firestore, remove it's ID from parent users and delete medical certificate
+/* //When a student is deleted from Firestore, remove it's ID from parent users and delete medical certificate
 exports.onDeleteStudentFromFirestore = functions.firestore
   .document("students/{studentId}")
   .onDelete((snap, context) => {
@@ -290,9 +335,9 @@ exports.onDeleteStudentFromFirestore = functions.firestore
     return removeStudentIdFromParents(studentId).then(() => {
       return deleteMedicalCertificate(studentId)
     })
-  })
+  }) */
 
-//When user is updated with new student ID, update Auth user claims
+/* //When user is updated with new student ID, update Auth user claims
 exports.updateUser = functions.firestore
   .document("users/{userId}")
   .onWrite(async (change, context) => {
@@ -314,7 +359,7 @@ exports.updateUser = functions.firestore
     //Update custom claims with new list of students
     const response = await changeCustomClaims(user, "students", studentsAfter)
     console.log(response)
-  })
+  }) */
 
 /* //When a student is created in Firestore, update season document
 exports.onCreateStudentUpdateSeasonDoc = functions.firestore

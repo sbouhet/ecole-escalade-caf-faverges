@@ -51,6 +51,7 @@ const findChildren = httpsCallable(functions, 'findChildren')
 const sayHello = httpsCallable(functions, 'sayHello')
 const test = httpsCallable(functions, 'test')
 const getUser = httpsCallable(functions, 'getUser')
+const deleteClaims = httpsCallable(functions, 'deleteClaims')
 
 let docRefs = []
 const handelGetChildren = () => {
@@ -80,7 +81,11 @@ const handleGetUser = async ()=>{
   const user = result.data
   console.log(user)
 }
-        
+ const handleDeleteClaims = async ()=>{
+  console.log("searching")
+  const result = await deleteClaims({userId: 'userIdamettreici'})
+  console.log(result)
+}       
 </script>
 
 {#if privateData}
@@ -93,4 +98,5 @@ const handleGetUser = async ()=>{
 <button on:click={handleClick}>Hello</button>
 <button on:click={handleItems}>getItemsFromHelloAsso</button>
 <button on:click={handleGetUser}>getUser from SOAP</button>
+<button on:click={handleDeleteClaims}>Delete claims</button>
 
