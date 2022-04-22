@@ -1,6 +1,5 @@
 const admin = require("firebase-admin")
-admin.initializeApp()
-const season = require("../season")
+const season = require("../../season")
 
 module.exports = async (studentId) => {
   const bucket = admin.storage().bucket()

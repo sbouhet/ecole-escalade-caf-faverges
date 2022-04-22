@@ -1,5 +1,4 @@
 const admin = require("firebase-admin")
-admin.initializeApp()
 const db = admin.firestore()
 
 exports._getDoc = async (collection, docId, subCollection, subDocId) => {
@@ -14,11 +13,14 @@ exports._getDoc = async (collection, docId, subCollection, subDocId) => {
   return docRef
     .get()
     .then((doc) => {
-      if (!doc.exists) throw "No such document!"
-      return doc.data
+      if (!doc.exists) throw "Pas de document"
+      return doc.data()
     })
     .catch((error) => {
-      console.log("Error getting document:", error)
+      console.log(error)
+      if (subDocId)
+        throw `Document introuvable ${collection}/${docId}/${subCollection}/${subDocId}`
+      throw `Document introuvable ${collection}/${docId}`
     })
 }
 
@@ -38,7 +40,12 @@ exports._updateDoc = async (
         .collection(subCollection)
         .doc(subDocId)
     await docRef.update(object)
+    if (subDocId)
+      return `Document mis à jour ${collection}/${docId}/${subCollection}/${subDocId}`
+    return `Document mis à jour ${collection}/${docId}`
   } catch (error) {
-    throw "Could not update doc"
+    if (subDocId)
+      throw `Impossible de mettre à jour le document ${collection}/${docId}/${subCollection}/${subDocId}`
+    throw `Impossible de mettre à jour le document ${collection}/${docId}`
   }
 }

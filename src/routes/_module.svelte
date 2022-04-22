@@ -32,7 +32,7 @@
         $loggedin = true
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
-            //console.log(res.claims)
+            console.log(res.claims)
           $admin = !!res.claims.admin
           //TEST
           $admin = true

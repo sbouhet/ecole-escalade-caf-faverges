@@ -1,21 +1,13 @@
-const admin = require("firebase-admin")
-admin.initializeApp()
-const db = admin.firestore()
+const basics = require("./basics")
 
 module.exports = async () => {
-  console.log("Trying to get time limit from firestore")
-  var docRef = db.collection("admin").doc("admin")
-  return docRef
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        const timeLimit = doc.data().timeLimitForLicence
-        return timeLimit
-      } else {
-        console.log("No such document!")
-      }
-    })
-    .catch((error) => {
-      console.log("Error getting document:", error)
-    })
+  try {
+    console.log("Trying to find time limit in firestore")
+    const adminDoc = await basics._getDoc("admin", "admin")
+    console.log("Found time limit")
+    console.log(adminDoc)
+    return adminDoc.timeLimitForLicence
+  } catch (error) {
+    throw new Error("Could not get time limit", error)
+  }
 }

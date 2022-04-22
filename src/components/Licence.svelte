@@ -9,7 +9,7 @@
     export let student
     const functions = getFunctions(getApp())
     const checkLicence = httpsCallable(functions, "checkLicence")
-    let error, success, input, modalOpen
+    let error, input, modalOpen
     let loading = false
     $:id = student.public.id
     $:status = student.public.seasons[$currentSeason.name].licence
@@ -19,19 +19,16 @@
             loading = true
             error = null
             const response = await checkLicence({licenceNb: input, studentId:id, seasonName:$currentSeason.name})
+            console.log(response)
             if(response.data.statusCode!==200){
                 error=response.data.message
-            }else{
-                success=true
             }
-            
             loading = false
         } catch (err) {
             console.error(err)
             error="Une erreur est survenue."
             loading= false
         }
-     
     }
 </script>
 
@@ -58,9 +55,7 @@
                     {/if}
                 </div>
             </div>
-            {#if success}
-                YOUPPI
-            {/if}
+            <br>
             {#if error}
                 <ErrorMessage {error} />
             {/if}

@@ -1,4 +1,5 @@
 <script>
+    import { getAuth } from "firebase/auth"
     import { httpsCallable } from "firebase/functions"
     import { functions } from '$utils/firebase/firebase'
     import ErrorMessage from '$components/ErrorMessage.svelte'
@@ -6,58 +7,36 @@
     import { db } from "$utils/firebase/firebase"
 
 
-    const addAdminRole = httpsCallable(functions, 'addAdminRole');
     const removeAdminRole = httpsCallable(functions, 'removeAdminRole');
+    const changeModStatus = httpsCallable(functions, 'changeModStatus');
     let email = ''
     let error = null
     let error2 = null
     let msg = ' '
-    let mod = true
+    let modChecked = true
+    $:field = modChecked ? "mod": "admin"
+    let value = true
 
-    const handleAdd = () => {
+    const handleClick = () => {
         msg = 'Merci de patientez...'
         error = null
-        addAdminRole({ email, mod }).then(result => {
+        changeModStatus({ email, field, value }).then(result => {
             msg = ''
             console.log(result.data);
-            if(result.data.errorInfo) {
-              error = result.data.errorInfo
-            }else if (result.data.message){
+            if(result.data.statusCode !== 200) {
+              error = result.data.message
+            }else{
              msg = result.data.message
              console.log(result.data.message)
-            }else{
-                console.error('unexpected answer from function')
-                msg = 'Erreur : contactez un administrateur'
-                console.log(result.data)
             }
+            getAuth().currentUser.getIdToken(true)
         }).catch(err=>{
             msg = ''
             error2 = err
             console.error(err)
         })
     }
-    const handleRemove = () => {
-        msg = 'Merci de patientez...'
-        error = null
-        removeAdminRole({ email, mod }).then(result => {
-            msg = ''
-            console.log(result.data);
-            if(result.data.errorInfo) {
-                error = result.data.errorInfo
-            }else if(result.data.message){
-                msg = result.data.message
-                console.log(result.data.message)
-            }else{
-                console.error('unexpected answer from function')
-                msg = 'Erreur : contactez un administrateur'
-                console.log(result.data)
-            }
-        }).catch(err=>{
-            msg = ''
-            error2 = err
-            console.error(err)
-        })
-    }
+   
 
 
     let admins = []
@@ -85,16 +64,15 @@
 <section>
     <input type="text" bind:value={email}>
     <label for="switch">
-    <input type="checkbox" id="switch" name="switch" role="switch" bind:checked={mod}>
+    <input type="checkbox" id="switch" name="switch" role="switch" bind:checked={modChecked}>
     Modérateur
   </label>
-  {#if mod}
-      <button on:click={handleAdd}>MAKE MOD</button>
-    <button on:click={handleRemove}>REMOVE MOD</button>
-  {:else}
-    <button on:click={handleAdd}>MAKE ADMIN</button>
-    <button on:click={handleRemove}>REMOVE ADMIN</button>
-  {/if}
+  <label for="switch">
+    <input type="checkbox" id="switch" name="switch" role="switch" bind:checked={value}>
+    Valeur : {value}
+  </label>
+  <button on:click={handleClick}>{field} : {value}</button>
+
     {#if msg}
         <div>{msg}</div>  
     {/if}

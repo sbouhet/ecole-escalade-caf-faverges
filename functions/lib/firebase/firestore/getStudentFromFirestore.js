@@ -1,13 +1,12 @@
-const admin = require("firebase-admin")
-admin.initializeApp()
-const db = admin.firestore()
+const basics = require("./basics")
 
 module.exports = async (studentId) => {
   try {
-    const doc = await db.doc(`students/${studentId}`).get()
-    const student = doc.data()
+    console.log("Trying to find student in firestore")
+    const student = await basics._getDoc("students", studentId)
+    console.log("Found student in firestore")
     return student
   } catch (error) {
-    throw "Utilisateur non trouvé dans Firestore"
+    throw new Error("Utilisateur non trouvé dans Firestore", error)
   }
 }

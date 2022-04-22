@@ -4,32 +4,21 @@ const admin = require("firebase-admin")
 admin.initializeApp()
 const db = admin.firestore()
 const axios = require("axios").default
-//const soap = require("soap")
 const BError = require("berror")
-const getClient = require("./lib/soap/getClient")
-const getAuth = require("./lib/soap/getAuth")
-//const getSoapUser = require("./lib/soap/getSoapUser")
-//const normalize = require("./lib/normalize")
 const getNewTokens = require("./lib/helloAsso/getNewTokens")
-//const refreshToken = require("./lib/helloAsso/refreshToken")
 const deleteMedicalCertificate = require("./lib/firebase/storage/deleteMedicalCertificate")
 const getStudentFromFirestore = require("./lib/firebase/firestore/getStudentFromFirestore")
 const getAdminEmails = require("./lib/firebase/firestore/getAdminEmails")
-//const getTimeLimit = require("./lib/firebase/firestore/getTimeLimit")
 const getEmails = require("./lib/firebase/firestore/getEmails")
 const removeStudentIdFromParents = require("./lib/firebase/firestore/removeStudentIdFromParents")
 const sendEmail = require("./lib/sendinblue/sendEmail")
-//const season = require("./lib/season")
 const getItemsFromHelloAsso = require("./lib/helloAsso/getItems")
 const getReceipts = require("./lib/helloAsso/getReceipts")
 const filterItems = require("./lib/helloAsso/filterItems")
 const getFormattedSoapUser = require("./lib/soap/getFormattedSoapUser")
 const checkConformity = require("./lib/soap/checkConformity")
 const linkStudentWithLicence = require("./lib/firebase/firestore/linkStudentWithLicence")
-
-//##########################################################################
-//                            UTILITY FUNCTIONS
-//##########################################################################
+const basics = require("./lib/firebase/firestore/basics")
 
 /* const addIdToCurrentUserClaims = async (studentId) => {
   const uid = context.auth.uid
@@ -40,10 +29,25 @@ exports.test = functions.firestore
   .document("test/{test}")
   .onWrite(async (change, context) => {
     console.log("TEST STARTING")
-    test()
-    const client = await getClient()
-    console.log(getAuth(client))
+    await admin.auth().setCustomUserClaims("4axktEVXriP8jnDal9KqABJSSp52", null)
+    await admin.auth().setCustomUserClaims("XvjCydDEbtfhB0nAPrnhiVhTHBC3", null)
   })
+
+const changeCustomClaims = async (user, field, value) => {
+  try {
+    if (!user) throw "No user"
+    if (!field) throw "No field"
+    if (value == null) throw "No value"
+
+    const oldClaims = user.customClaims
+    const newClaims = { ...oldClaims, [field]: value }
+    const response = await admin.auth().setCustomUserClaims(user.uid, newClaims)
+    console.log(response)
+    return "Changed custom claims successfully"
+  } catch (error) {
+    throw new Error("Could not change custome claims", error)
+  }
+}
 
 //##########################################################################
 //                                CALLABLE FUNCTIONS
@@ -175,9 +179,57 @@ exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
       })
   })
 
+//change admin or mod role
+exports.changeModStatus = functions.https.onCall(async (data, context) => {
+  console.log(data)
+  try {
+    // check user is not null
+    if (!context.auth) throw "Vous devez être connecté pour faire ca"
+
+    // check request is made by an admin
+    if (
+      context.auth.token.admin !== true &&
+      context.auth.token.email != "friarobaz@gmail.com"
+    ) {
+      throw "If faut être admin pour faire ca"
+    }
+    // check if all parameters are present
+    if (!data.email) throw "Pas d'email"
+    if (!data.field) throw "Pas de champ (mod ou admin)"
+    if (data.value == null) throw "Pas de valeur (true ou false)"
+
+    //get auth user from email data
+    const user = await admin.auth().getUserByEmail(data.email)
+
+    //change custom claims on auth user
+    const response = await changeCustomClaims(user, data.field, data.value)
+    console.log(response)
+
+    //change role in firestore
+    const response2 = await basics._updateDoc(
+      { [data.field]: data.value },
+      "users",
+      user.uid
+    )
+    console.log(response2)
+
+    return {
+      statusCode: 200,
+      message: "Succès !",
+      body: { user, response, response2 },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      statusCode: 409,
+      message: error,
+      body: null,
+    }
+  }
+})
+
 //Add admin role
 exports.addAdminRole = functions.https.onCall((data, context) => {
-  let targetId
   // check user is not null
   if (!context.auth) {
     return { errorInfo: "Vous devez être connecté pour faire ca" }
@@ -195,29 +247,26 @@ exports.addAdminRole = functions.https.onCall((data, context) => {
     .auth()
     .getUserByEmail(data.email)
     .then((user) => {
+      const oldClaims = user.customClaims
+      const newClaims = { ...oldClaims, mod: true }
       targetId = user.uid
-      if (data.mod) {
-        return admin.auth().setCustomUserClaims(user.uid, {
-          mod: true,
-        })
-      }
-      return admin.auth().setCustomUserClaims(user.uid, {
-        admin: true,
-      })
+
+      console.log(
+        `changing custom claims to ${data.mod ? "mod" : "admin"}>true`
+      )
+      return admin.auth().setCustomUserClaims(user.uid, newClaims)
     })
     .then(() => {
-      if (data.mod) {
-        return db.collection("users").doc(targetId).update({
-          mod: true,
+      return db
+        .collection("users")
+        .doc(targetId)
+        .update({
+          [data.mod ? "mod" : "admin"]: true,
         })
-      }
-      return db.collection("users").doc(targetId).update({
-        admin: true,
-      })
     })
     .then(() => {
       return {
-        message: `${data.email} est maintenant administrateur (ou mod)`,
+        message: `${data.email} est maintenant ${data.mod ? "mod" : "admin"}`,
       }
     })
     .catch((err) => {

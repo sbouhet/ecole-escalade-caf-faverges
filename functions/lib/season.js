@@ -1,3 +1,5 @@
+const dayjs = require("dayjs")
+
 module.exports = () => {
   const string = (year) => {
     return `${year}-${year + 1}`
