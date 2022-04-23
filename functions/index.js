@@ -1,4 +1,5 @@
 let dayjs = require("dayjs")
+require("dayjs/locale/fr")
 const functions = require("firebase-functions")
 const admin = require("firebase-admin")
 admin.initializeApp()
@@ -8,10 +9,7 @@ const BError = require("berror")
 const getNewTokens = require("./lib/helloAsso/getNewTokens")
 const deleteMedicalCertificate = require("./lib/firebase/storage/deleteMedicalCertificate")
 const getStudentFromFirestore = require("./lib/firebase/firestore/getStudentFromFirestore")
-const getAdminEmails = require("./lib/firebase/firestore/getAdminEmails")
 const getEmails = require("./lib/firebase/firestore/getEmails")
-const removeStudentIdFromParents = require("./lib/firebase/firestore/removeStudentIdFromParents")
-const sendEmail = require("./lib/sendinblue/sendEmail")
 const getItemsFromHelloAsso = require("./lib/helloAsso/getItems")
 const getReceipts = require("./lib/helloAsso/getReceipts")
 const filterItems = require("./lib/helloAsso/filterItems")
@@ -23,6 +21,8 @@ const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
 const createNewStudent = require("./lib/firebase/firestore/createNewStudent")
 const deleteAllCustomClaims = require("./lib/firebase/auth/deleteAllCustomClaims")
 const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
+const season = require("./lib/season")
+const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
 
 /* const addIdToCurrentUserClaims = async (studentId) => {
   const uid = context.auth.uid
@@ -37,9 +37,38 @@ exports.test = functions.firestore
     await admin.auth().setCustomUserClaims("XvjCydDEbtfhB0nAPrnhiVhTHBC3", null) */
   })
 
-//##########################################################################
+//##############################################################################################
+//##############################################################################################
+//##############################################################################################
 //                                CALLABLE FUNCTIONS
-//##########################################################################
+//##############################################################################################
+//##############################################################################################
+//##############################################################################################
+
+/* exports.newMedicalCertificate = functions.https.onCall(
+  async (data, context) => {
+    try {
+      const link = uploadMedicalCertificate(
+        data.file,
+        data.seasonName,
+        data.studentId,
+        data.emails
+      )
+      console.log(link)
+      return {
+        statusCode: 200,
+        message: `Succès !  élèves trouvés`,
+        body: { link },
+      }
+    } catch (error) {
+      return {
+        statusCode: 409,
+        message: error,
+        body: null,
+      }
+    }
+  }
+) */
 
 exports.getMyStudents = functions.https.onCall(async (data, context) => {
   try {
@@ -280,9 +309,44 @@ exports.changeModStatus = functions.https.onCall(async (data, context) => {
   }
 })
 
-//##########################################################################
+//####################################################################################################
+//####################################################################################################
+//####################################################################################################
 //                                TRIGGER FUNCTIONS
-//##########################################################################
+//####################################################################################################
+//####################################################################################################
+//####################################################################################################
+
+//****************************
+//STORAGE TRIGGERS
+
+//When a new medical certificate is uploaded
+exports.onNewCertificate = functions
+  .runWith({ secrets: ["SENDINBLUE_API_KEY_SECRET"] })
+  .storage.object()
+  .onFinalize(async (object) => {
+    try {
+      console.log(JSON.stringify(object))
+      const nameArray = object.name.split("/")
+      const id = nameArray[nameArray.length - 1]
+      const seasonName = nameArray[nameArray.length - 2]
+
+      const response = await basics._updateDoc(
+        {
+          [`seasons.${seasonName}.medicalCertificate`]: "waiting",
+        },
+        "students",
+        id
+      )
+      console.log(response)
+
+      const response2 = await sendNewCertificateEmail(id)
+      console.log(response2)
+      console.log("All done")
+    } catch (error) {
+      console.log(error)
+    }
+  })
 
 //****************************
 //AUTH TRIGGERS
@@ -321,7 +385,7 @@ exports.updateEmails = functions.firestore
   })
 
 //When student's private doc is updated, send email to admins if it's a new medical certificate
-exports.notifyAdmin = functions
+/* exports.notifyAdmin = functions
   .runWith({ secrets: ["SENDINBLUE_API_KEY_SECRET"] })
   .firestore.document("students/{studentId}/privateCol/{privateDoc}")
   .onUpdate(async (change, context) => {
@@ -346,7 +410,7 @@ exports.notifyAdmin = functions
       .then(() => {
         console.log("DONE ??")
       })
-  })
+  }) */
 
 /* //When a student is deleted from Firestore, remove it's ID from parent users and delete medical certificate
 exports.onDeleteStudentFromFirestore = functions.firestore

@@ -3,23 +3,25 @@
     import {uploadMedicalCertificate} from '$utils/firebase/storage'
     import {currentSeason} from '$utils/stores'
     import { getAuth } from "firebase/auth"
+    import { getFunctions, httpsCallable } from "firebase/functions"
+    import { getApp } from "firebase/app"
     import { BError } from "berror"
+    import { getStudent } from '$utils/firebase/firestore/getStudent'
     export let link
     export let timestamp
     export let status
     export let studentId
     
-    getAuth().currentUser.getIdToken(true)
-
     let uploading = false
-    const handleChange = (e)=>{
+    const handleChange = async (e)=>{
         uploading = true
         const file = e.target.files[0]
         if(!file){
             uploading = false
             throw new BError("No file")
         }
-        uploadMedicalCertificate(file, $currentSeason.name, studentId).then(link=>{
+       
+        uploadMedicalCertificate(file, $currentSeason.name, studentId, getAuth().currentUser.uid).then(link=>{
             console.log(link)
             uploading = false
             console.log("Done")

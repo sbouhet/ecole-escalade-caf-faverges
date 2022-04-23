@@ -1,6 +1,7 @@
 import {
   getStorage,
   ref,
+  updateMetadata,
   getDownloadURL,
   uploadBytes,
   deleteObject,
@@ -9,7 +10,12 @@ import {
 import { saveMedicalCertificate } from "$firestore/saveMedicalCertificate"
 import { BError } from "berror"
 
-export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
+export const uploadMedicalCertificate = async (
+  file,
+  seasonName,
+  studentId,
+  userId
+) => {
   try {
     if (!file) throw "No file"
     if (!seasonName) throw "No seasonName"
@@ -21,6 +27,10 @@ export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
     //Upload certificate
     await uploadBytes(storageRef, file)
 
+    //Write metadata
+    const customMetadata = { parentId: userId }
+    await updateMetadata(storageRef, { customMetadata })
+
     //Get link
     const link = await getDownloadURL(storageRef)
 
@@ -28,7 +38,7 @@ export const uploadMedicalCertificate = async (file, seasonName, studentId) => {
     await saveMedicalCertificate(studentId, link, seasonName)
 
     console.log("Certificate uploaded")
-    return link
+    return
   } catch (error) {
     throw new BError(
       "$utils/firebase/storage => uploadMedicalCertificate()",
