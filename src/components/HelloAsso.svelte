@@ -16,20 +16,25 @@
     $:ageGroup = getAgeGroupFromDayUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days, $currentSeason.ageGroups)
     //$:slug = ageGroup.slug
     //FOR TESTING REMOVE TODO
-    const slug = "test"
+    const slug = "testgratuit"
     $:price = ageGroup.price
     let link = `https://www.helloasso.com/associations/caf-de-faverges/adhesions/${slug}`
     let result
     let loading = false
 
     const handleClick = async ()=>{
-        if(loading)return
-        result = null
-        loading = true
-        //const users = await getUsersFromHelloAsso()
-        result = await checkPayment({firstName, lastName, slug, id, seasonName:$currentSeason.name})
-        loading = false
-        console.log(result)
+        try {
+            if(loading)return
+            result = null
+            loading = true
+            //const users = await getUsersFromHelloAsso()
+            result = await checkPayment({firstName, lastName, slug, id, seasonName:$currentSeason.name})
+            loading = false
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+            loading = false
+        }
     }
 </script>
 
