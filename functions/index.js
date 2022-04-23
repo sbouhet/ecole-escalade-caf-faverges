@@ -22,6 +22,7 @@ const basics = require("./lib/firebase/firestore/basics")
 const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
 const createNewStudent = require("./lib/firebase/firestore/createNewStudent")
 const deleteAllCustomClaims = require("./lib/firebase/auth/deleteAllCustomClaims")
+const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
 
 /* const addIdToCurrentUserClaims = async (studentId) => {
   const uid = context.auth.uid
@@ -39,6 +40,27 @@ exports.test = functions.firestore
 //##########################################################################
 //                                CALLABLE FUNCTIONS
 //##########################################################################
+
+exports.getMyStudents = functions.https.onCall(async (data, context) => {
+  try {
+    if (!context.auth) throw "Il faut être inscrit pour faire ca"
+
+    const myStudents = await getStudentsByEmail(context.auth.token.email)
+    console.log("MYSTUDENTS : ", myStudents)
+    return {
+      statusCode: 200,
+      message: `Succès !  élèves trouvés`,
+      body: { myStudents },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      statusCode: 409,
+      message: error,
+      body: null,
+    }
+  }
+})
 
 exports.deleteClaims = functions.https.onCall(async (data, context) => {
   try {

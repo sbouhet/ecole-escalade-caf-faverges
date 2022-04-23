@@ -1,15 +1,28 @@
 <script>
     export let context
     import { currentSeason,  } from '$utils/stores'
-    import { getMyStudents } from '$firestore/getMyStudents'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/ErrorMessage.svelte'
 
     let error = null
-  
-  let myStudents = getMyStudents($currentSeason)
+  const getMyStudents = httpsCallable(getFunctions(), 'getMyStudents')
+  let myStudents = []
+  const run = async()=>{
+    let response = await getMyStudents()
+    console.log(response)
+    if (response.data.statusCode === 200) {
+      myStudents = response.data.body.myStudents
+    } else {
+      console.log("Une erreur est survenu")
+      console.log(response)
+      error = response.data.message
+      return
+    }
+  }
+  run()
+
   let searching = false
 
   const findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
