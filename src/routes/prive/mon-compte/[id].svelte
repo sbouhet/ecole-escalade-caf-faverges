@@ -14,15 +14,24 @@
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
 
+    let error
     let urlId = $params.id
     let student, medicalCertificateLink, medicalCertificateTimestamp, medicalCertificateStatus, firstName, lastName, paymentStatus, slug
     const unsub = onSnapshot(doc(db, "students", urlId), async (doc) => {
-        student = await getStudent(urlId)
+        try {
+            student = await getStudent(urlId)
+        } catch (err) {
+            error = err
+        }
         //console.log("Public document changed")
         //console.log(student)
     })
     const unsubPrivate = onSnapshot(doc(db, "students", urlId, "privateCol", "privateDoc"), async (doc) => {
-        student = await getStudent(urlId)
+        try {
+            student = await getStudent(urlId)
+        } catch (err) {
+            error = err
+        }
         //console.log("Private document changed")
         //console.log(student)
     })
@@ -38,7 +47,7 @@
 
     
 </script>
-
+<ErrorMessage {error} modal={true}/>
 {#if student}
     <article>
         <hgroup>

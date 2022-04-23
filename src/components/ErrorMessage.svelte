@@ -1,6 +1,14 @@
 <script>
+    import { BError } from "berror"
+    import {error as storeError, fatal} from '$utils/stores'
     export let error = null
+    export let modal = false
 
+    $:if(modal){
+        $storeError = error
+        $fatal = true
+    }
+    
     const translateError = (errorCode) => {
         if (!errorCode) return
         const english = ["auth/missing-email", "auth/invalid-email", "auth/user-not-found", "auth/internal-error", "auth/wrong-password", "auth/too-many-requests", "auth/email-already-in-use", "permission-denied", "auth/weak-password"]

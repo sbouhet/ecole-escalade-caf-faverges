@@ -21,9 +21,6 @@
 <dialog open>
   <article>
     <h3>Ooops un problème est survenu !</h3>
-    <p>
-      Veuillez contacter notre équipe : <b>caf.faverges.ffcam@gmail.com</b>
-    </p>
     
     {#if errorLines.length>1}
         <div class="console">
@@ -58,6 +55,9 @@
             {/if}
         </div>
     {/if}
+    <p>
+      Veuillez contacter notre équipe : <b>caf.faverges.ffcam@gmail.com</b>
+    </p>
 
     <footer>
         <a href="#" role="button" on:click={handleClick} class="contrast">Confirmer</a>
