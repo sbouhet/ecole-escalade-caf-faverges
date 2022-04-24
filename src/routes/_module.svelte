@@ -59,7 +59,7 @@ import Login from '$components/forms/Login.svelte';
         $loggedin = true
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
-            console.log(res.claims)
+            //console.log(res.claims)
           $admin = !!res.claims.admin
           //TEST
           $admin = true
@@ -85,6 +85,7 @@ import Login from '$components/forms/Login.svelte';
     })
     const pushNotification = async (change)=>{
         const student = change.doc.data()
+        if(change.type==="modified") return
         const text = `Student ${change.type} : ${printName(student)}`
         console.log(text)
         notifications = [...notifications, text]

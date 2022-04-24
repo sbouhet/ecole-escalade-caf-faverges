@@ -12,12 +12,12 @@ module.exports = async (email) => {
       .where("emails", "array-contains", email)
 
     const snapshot = await privateCollectionsRef.get()
-    console.log("DDDDD")
     let ids = []
     snapshot.forEach(async (privateDoc) => {
       const id = privateDoc.ref._path.segments[1]
       ids.push(id) //student id
     })
+    return ids
 
     let students = []
     for (const id of ids) {

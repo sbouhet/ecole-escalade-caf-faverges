@@ -70,16 +70,15 @@ exports.test = functions.firestore
   }
 ) */
 
-exports.getMyStudents = functions.https.onCall(async (data, context) => {
+exports.getMyIds = functions.https.onCall(async (data, context) => {
   try {
     if (!context.auth) throw "Il faut être inscrit pour faire ca"
 
-    const myStudents = await getStudentsByEmail(context.auth.token.email)
-    console.log("MYSTUDENTS : ", myStudents)
+    const myIds = await getStudentsByEmail(context.auth.token.email)
     return {
       statusCode: 200,
       message: `Succès !  élèves trouvés`,
-      body: { myStudents },
+      body: { myIds },
     }
   } catch (error) {
     console.log(error)
