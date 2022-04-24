@@ -24,7 +24,6 @@ export const subscriptionReset = (season) => {
             payment: "no",
             licence: "no",
             medicalCertificate: "no",
-            receipts: [],
             licenceNb: null,
             helloAssoId: null,
           },
@@ -37,6 +36,7 @@ export const subscriptionReset = (season) => {
         parents: [{}],
         medicalCertificateLink: null,
         medicalCertificateTimestamp: null,
+        receipts: [],
       },
     }
   } catch (error) {

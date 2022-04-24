@@ -16,7 +16,7 @@
     $:ageGroup = getAgeGroupFromDayUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days, $currentSeason.ageGroups)
     //$:slug = ageGroup.slug
     //FOR TESTING REMOVE TODO
-    const slug = "testgratuit"
+    const slug = "test"
     $:price = ageGroup.price
     let link = `https://www.helloasso.com/associations/caf-de-faverges/adhesions/${slug}`
     let result

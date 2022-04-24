@@ -183,16 +183,29 @@ exports.checkPayment = functions
       status = "no"
     }
     const receipts = await getReceipts(tokens.access_token, payments, data.slug)
-    const x = await db
-      .collection("students")
-      .doc(data.id)
-      .update({
+
+    //Update public doc
+    const response = basics._updateDoc(
+      {
         [`seasons.${data.seasonName}.payment`]: status,
-        [`seasons.${data.seasonName}.helloAssoId`]: helloAssoId,
-        //[`seasons.${data.seasonName}.payments`]: payments,
-        [`seasons.${data.seasonName}.receipts`]: receipts,
-      })
-    if (status !== "yes") return { statusCode: 409 }
+      },
+      "students",
+      data.id
+    )
+    console.log(response)
+
+    //Update private doc
+    const response2 = await basics._updateDoc(
+      { receipts, helloAssoId },
+      "students",
+      data.id,
+      "privateCol",
+      "privateDoc"
+    )
+    console.log(response2)
+
+    if (status !== "yes")
+      return { statusCode: 409, message: "Une erreur est survenue", body: null }
 
     return {
       statusCode: 200,

@@ -56,18 +56,20 @@
         <div>medicalCertificate : {season.medicalCertificate}</div>
         <div>payment : {season.payment}</div>
         <div>status : {season.status}</div>
-        <div>receipts : 
-           {#if season.receipts}    
-            {#each season.receipts as receipts}
-            <div><a href="{receipts}" target="_new">Cliquer ici</a></div>
-            {/each}
-           {/if}
-      </div>
     </details>
+    {/each}   
 
     <h3>Private</h3>
 
       
+        <div>receipts : 
+            {#if student.private.receipts}    
+                {#each student.private.receipts as receipts}
+                <div><a href="{receipts}" target="_new">Cliquer ici</a></div>
+                {/each}
+            {/if}
+        </div>
+        <div>helloAssoId : {student.private.helloAssoId}</div>
         <div>dateOfBirth : {student.private.dateOfBirth}</div>
         <div>email : {student.private.email}</div>
         <div>tel : {student.private.tel}</div>
@@ -88,7 +90,6 @@
        
         
 
-  {/each}   
        
 
 {/if}
