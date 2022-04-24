@@ -31,3 +31,5 @@ clubID Faverges: 7421
 refresh user claims
 import { getAuth } from "firebase/auth"
 getAuth().currentUser.getIdToken(true)
+
+Primary color: #1095C1

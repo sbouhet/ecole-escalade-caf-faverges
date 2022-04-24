@@ -66,7 +66,7 @@ import { printName } from "$utils/printName";
                         </td>
                     {/if}
                     <td>{#if student.seasons[$currentSeason.name].status==='waiting'}
-                        <span data-tooltip="Pré‑inscrit·e, le dossier n'est pas complet.">⌛</span>
+                        <span data-tooltip="Pré‑inscrit·e, en cours de validation.">⌛</span>
                         {:else if student.seasons[$currentSeason.name].status==='yes'}
                         <span data-tooltip="Inscrit·e">✅</span>
                         {:else}

@@ -3,7 +3,7 @@
     import { db } from "$utils/firebase/firebase"
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { getDayFromUrl, getDayInfo, getDayName } from '$utils/days'
-    import { currentSeason, subscription } from '$utils/stores'
+    import { currentSeason, subscription, students } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from "$utils/subscriptionReset"
@@ -13,17 +13,12 @@
     let dayUrl = $params.day
     let day = getDayFromUrl(dayUrl, $currentSeason.days)
     
-    let students = []
+    let dayStudents = []
+    $:dayStudents = $students.filter(x=>x.seasons[$currentSeason.name].day===dayUrl)
+    //$:dayStudents = $students
     let error = null
-    const q = query(collection(db, "students"), where(`seasons.${$currentSeason.name}.day`, "==", dayUrl))
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        students = []
-        querySnapshot.forEach((doc) => {
-        students.push(doc.data())
-        })
-        //console.log(`Found ${students.length} students for ${dayUrl}`)
-    })
-    $: info = getDayInfo(day, $currentSeason, students)
+   
+    $: info = getDayInfo(day, $currentSeason, dayStudents)
     const reset = ()=>{
     $subscription = subscriptionReset($currentSeason)
 }
@@ -31,7 +26,7 @@
 
 <hgroup>
     <h1>{info.name}</h1>
-    <h4>{students.length} inscrits pour l'instant</h4>
+    <h4>{dayStudents.length} inscrits pour l'instant</h4>
 </hgroup>
 
 <section>
@@ -66,7 +61,7 @@
 </section>
 <progress value={info.nbOfSubscibedStudents} max={info.nbMaxOfStudents}></progress>
 <section>
-    <StudentsStatusTable {students} showDay={false}/>
+    <StudentsStatusTable students={dayStudents} showDay={false}/>
 </section>
 
 {#if error}

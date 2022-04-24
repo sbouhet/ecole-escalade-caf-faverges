@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeason } from '$firestore/season'
-    import {currentDay, currentSeason, loggedin, subscription, admin, error, fatal} from '$utils/stores'
+    import {currentDay, currentSeason, loggedin, subscription, admin, error, fatal, students} from '$utils/stores'
     import Back from '$components/Back.svelte'
     import Logout from '$components/Logout.svelte'
     import {isActive} from '@roxi/routify'
@@ -12,15 +12,42 @@
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from "berror"
     import ErrorModal from '$components/ErrorModal.svelte'
+    import { collection, query, where, onSnapshot } from "firebase/firestore"
+    import { db } from "$utils/firebase/firebase"
+    import { printName } from '$utils/printName'
+import Login from '$components/forms/Login.svelte';
+
+    
 
     $admin = false
     let verified = false
     let selectedSeason = 'current'
+    let notifications = []
+
+    $:console.log($students)
 
     $:if ($currentSeason) {
-        //console.log("Resetting because season changed")
+        //Reset subscription because season has changed
         $subscription = subscriptionReset($currentSeason)
         $currentDay = $currentSeason.days[0]
+
+        //Get students from selected season
+        const q = query(collection(db, "students"), where(`seasons.${$currentSeason.name}.status`, ">", ""))
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            if(snapshot.docChanges().length===1) pushNotification(snapshot.docChanges()[0])
+        /* snapshot.docChanges().forEach((change) => {
+            pushNotification(change)
+        })//end of change function */
+        const studentsArray = [];
+        snapshot.forEach((doc) => {
+            studentsArray.push(doc.data())
+        })
+        $students = studentsArray
+        },(err) => {
+            console.log(err)
+            $error = err
+        })
     }
     
     let userStoreUpToDate = false
@@ -48,6 +75,7 @@
 
     $: promise = getSeason(selectedSeason).then(season=>{
         $currentSeason = season
+        
     }).catch(err=>{
         const e = new BError("routes/_module.svelte => Could not get season", err)
         e.log()
@@ -55,9 +83,26 @@
         $error = e
         $fatal = true
     })
+    const pushNotification = async (change)=>{
+        const student = change.doc.data()
+        const text = `Student ${change.type} : ${printName(student)}`
+        console.log(text)
+        notifications = [...notifications, text]
+    }
+   
+
+    const removeNotification=(e)=>{
+        notifications.splice(e.target.id,1)
+        notifications = notifications
+    }
 </script>
 
 <body>
+    <div class="notifications">
+            {#each notifications as notif, index}
+                <div class="notif" on:click={removeNotification} id={index}>{notif}</div>
+            {/each}
+    </div>
     {#if !$error}
         <div class="season">
             <small>
@@ -115,6 +160,28 @@
 </body>
 
 <style>
+    @keyframes example {
+        0% {right:-300px;}
+        100%{right:0px}
+}
+
+    .notifications{
+        color: #1095C1;
+        font-size: smaller;
+        text-align: right;
+        position:absolute;
+        right: 0;
+        top: 60px;
+    }
+    .notif{
+        position: relative;
+        animation-name: example;
+        animation-duration: 0.5s;
+        padding: 15px;
+        margin: 5px;
+        background: rgb(237, 236, 237);
+        border-radius: 30px;
+    }
     .season{
         position:absolute;
         right: 0;

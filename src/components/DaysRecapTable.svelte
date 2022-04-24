@@ -2,7 +2,7 @@
     import Back from '$components/Back.svelte'
     import { getDayName, getDayUrl, getMinYear, getDayInfo } from '$utils/days'
     import { getAgeGroupName } from '$utils/ageGroups'
-    import { currentDay, currentSeason } from '$utils/stores'
+    import { currentDay, currentSeason, students } from '$utils/stores'
     import { seasons } from '$utils/seasons'
     import { db } from "$utils/firebase/firebase"
     import {
@@ -12,7 +12,7 @@
   onSnapshot,
     } from "firebase/firestore"
 
-    let students = []
+    /* let students = []
     let dayInfo = []
     const q = query(collection(db, "students"), where(`seasons.${$currentSeason.name}.status`, ">", ""))
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -26,7 +26,14 @@
         }
         dayInfo = dayInfo
         //console.log(`Found ${students.length} students for this season`)
-    })
+    }) */
+    let dayInfo = []
+    $:if(true){
+        for (const day of $currentSeason.days) {
+            dayInfo.push(getDayInfo(day, $currentSeason, $students))
+        }
+    }
+
 </script>
 
 <div>
