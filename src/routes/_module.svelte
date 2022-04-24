@@ -36,9 +36,11 @@ import Login from '$components/forms/Login.svelte';
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
             if(snapshot.docChanges().length===1) pushNotification(snapshot.docChanges()[0])
-        /* snapshot.docChanges().forEach((change) => {
-            pushNotification(change)
-        })//end of change function */
+            
+            /* snapshot.docChanges().forEach((change) => {
+                pushNotification(change)
+            })//end of change function */
+
         const studentsArray = [];
         snapshot.forEach((doc) => {
             studentsArray.push(doc.data())
@@ -99,11 +101,13 @@ import Login from '$components/forms/Login.svelte';
 </script>
 
 <body>
-    <div class="notifications">
-            {#each notifications as notif, index}
-                <div class="notif" on:click={removeNotification} id={index}>{notif}</div>
-            {/each}
-    </div>
+    {#if $admin}    
+        <div class="notifications">
+                {#each notifications as notif, index}
+                    <div class="notif" on:click={removeNotification} id={index}>{notif}</div>
+                {/each}
+        </div>
+    {/if}
     {#if !$error}
         <div class="season">
             <small>
@@ -162,9 +166,27 @@ import Login from '$components/forms/Login.svelte';
 
 <style>
     @keyframes example {
-        0% {right:-300px;}
-        100%{right:0px}
-}
+        0% {
+            right:-300px;
+        }
+        100%{
+            right:0px;
+        }
+    }
+    @keyframes test {
+        0% {
+            background-position: 0% 50%;
+            border-radius: 30px;
+        }
+        50%{
+            background-position: 100% 50%;
+            border-radius: 0px;
+        }
+        100%{
+            background-position: 0% 50%;
+            border-radius: 30px;
+        }
+    }
 
     .notifications{
         color: #1095C1;
@@ -176,11 +198,13 @@ import Login from '$components/forms/Login.svelte';
     }
     .notif{
         position: relative;
-        animation-name: example;
-        animation-duration: 0.5s;
+        animation: example 0.5s, test 4s ease infinite;
         padding: 15px;
         margin: 5px;
+        color:white;
         background: rgb(237, 236, 237);
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
         border-radius: 30px;
     }
     .season{
@@ -202,4 +226,5 @@ import Login from '$components/forms/Login.svelte';
     span{
         margin: 5px;
     }
+
 </style>
