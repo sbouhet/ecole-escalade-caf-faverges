@@ -19,6 +19,11 @@
     $:if(table){
         new Tablesort(table)
     }
+
+    const handleClick = (id)=>{
+        if(!myProfile)return
+        $goto("/prive/mon-compte/[id]", {id})
+    }
 </script>
 
 
@@ -45,7 +50,7 @@
             <tbody>
                 {#each students as student}
                 {#if student.seasons[$currentSeason.name]}
-                <tr on:click={$goto("/prive/mon-compte/[id]", {id:student.id})}>
+                <tr on:click={()=>handleClick(student.id)} class={myProfile?'':'noPointer'}>
                     {#if $admin && allowDelete}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
@@ -99,5 +104,8 @@
      }
      .day{
          text-transform: capitalize;
+     }
+     .noPointer:hover{
+        cursor: default;
      }
 </style>

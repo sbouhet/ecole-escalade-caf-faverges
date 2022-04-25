@@ -13,6 +13,7 @@
     import { doc, onSnapshot } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
+    import { goto } from '@roxi/routify'
 
     let error
     let urlId = $params.id
