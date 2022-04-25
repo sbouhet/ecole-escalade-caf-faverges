@@ -41,7 +41,7 @@ import Login from '$components/forms/Login.svelte';
                 pushNotification(change)
             })//end of change function */
 
-        const studentsArray = [];
+        const studentsArray = []
         snapshot.forEach((doc) => {
             studentsArray.push(doc.data())
         })
@@ -49,6 +49,7 @@ import Login from '$components/forms/Login.svelte';
         },(err) => {
             console.log(err)
             $error = err
+            $fatal=true
         })
     }
     
@@ -161,6 +162,7 @@ import Login from '$components/forms/Login.svelte';
         </main>
     {:else}
         <ErrorModal />
+       <ErrorMessage error={$error}/>
     {/if}
 </body>
 
