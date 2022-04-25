@@ -1,39 +1,17 @@
 <script>
-    import Back from '$components/Back.svelte'
-    import { getDayName, getDayUrl, getMinYear, getDayInfo } from '$utils/days'
-    import { getAgeGroupName } from '$utils/ageGroups'
-    import { currentDay, currentSeason, students } from '$utils/stores'
-    import { seasons } from '$utils/seasons'
-    import { db } from "$utils/firebase/firebase"
-    import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-    } from "firebase/firestore"
+    import { getDayInfo } from '$utils/days'
+    import { currentSeason, students } from '$utils/stores'
+    import Tooltip from '$components/Tooltip.svelte'
 
-    /* let students = []
-    let dayInfo = []
-    const q = query(collection(db, "students"), where(`seasons.${$currentSeason.name}.status`, ">", ""))
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        students = []
-        dayInfo = []
-        querySnapshot.forEach((studentDoc) => {
-            students.push(studentDoc.data())
-        })
+    let days = []
+
+    //Get information on days
+    $:if($currentSeason && $students){
         for (const day of $currentSeason.days) {
-            dayInfo.push(getDayInfo(day, $currentSeason, students))
-        }
-        dayInfo = dayInfo
-        //console.log(`Found ${students.length} students for this season`)
-    }) */
-    let dayInfo = []
-    $:if(true){
-        for (const day of $currentSeason.days) {
-            dayInfo.push(getDayInfo(day, $currentSeason, $students))
+            days.push(getDayInfo(day, $currentSeason, $students))
         }
     }
-
+   
 </script>
 
 <div>
@@ -45,7 +23,7 @@
 <figure>
         <table role="grid">
             <thead>
-                <tr>
+                <tr class="test">
                     <th scope="col"></th>
                     <th scope="col">Âges</th>
                     <th scope="col">Places restantes</th>
@@ -54,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                {#each dayInfo as day}
+                {#each days as day}
                     <tr>
                         <!-- Name -->
                         <th>
@@ -74,7 +52,9 @@
                         </td>
                         <!-- Number of subscriptions -->
                         <td class="{day.spotsLeft <= 0 ? 'red' : 'green'}">
-                            {day.nbOfSubscibedStudents} / {day.nbMaxOfStudents}
+                            <Tooltip list={day.studentList}>
+                                 {day.nbOfSubscibedStudents} / {day.nbMaxOfStudents}
+                            </Tooltip>
                         </td>
                         <!-- Teacher -->
                         <td>
@@ -90,20 +70,24 @@
 <slot></slot>
 
 
-    <style>
-        a{
-            text-transform: capitalize;
-        }
-        b{
-            font-size: larger;
-        }
-        .red{
-            color:red;
-        }
-        .green{
-            color:green;
-        }
-        thead th{
-            font-weight: bold;
-        }
-    </style>
+<style>
+    a{
+        text-transform: capitalize;
+    }
+    b{
+        font-size: larger;
+    }
+    .red{
+        color:red;
+    }
+    .green{
+        color:green;
+    }
+    thead th{
+        font-weight: bold;
+    }
+
+    td{
+        text-align: center;
+    }
+</style>

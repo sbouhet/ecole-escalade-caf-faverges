@@ -33,3 +33,4 @@ import { getAuth } from "firebase/auth"
 getAuth().currentUser.getIdToken(true)
 
 Primary color: #1095C1
+var(--primary)

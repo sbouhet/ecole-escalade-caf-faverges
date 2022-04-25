@@ -191,7 +191,6 @@ import Login from '$components/forms/Login.svelte';
     }
 
     .notifications{
-        color: #1095C1;
         font-size: smaller;
         text-align: right;
         position:absolute;

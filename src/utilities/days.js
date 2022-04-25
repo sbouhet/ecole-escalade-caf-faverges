@@ -1,5 +1,6 @@
 import { getAgeGroupName } from "$utils/ageGroups"
 import { BError } from "berror"
+import { printName } from "$utils/printName"
 
 export const getDayName = (day, withEndTime = false) => {
   try {
@@ -109,6 +110,7 @@ export const getDayInfo = (day, season, students) => {
     const subscribedStudents = students.filter(
       (student) => student.seasons[season.name].day == getDayUrl(day)
     )
+    const studentList = subscribedStudents.map((x) => printName(x))
     const ageGroup = season.ageGroups[day.ageGroupIndex]
     const adult = ageGroup.min === 18
     const minYear = getMinYear(day, season.ageGroups)
@@ -136,6 +138,7 @@ export const getDayInfo = (day, season, students) => {
       price: ageGroup.price,
       nbOfSessions: season.nbOfSessions,
       duration: getDuration(day),
+      studentList,
     }
   } catch (error) {
     throw new BError("$utils/days => getDayInfo()", error)
