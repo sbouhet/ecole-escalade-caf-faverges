@@ -26,6 +26,7 @@
         <h1>Inscription</h1>
         <h1>Saison {$currentSeason.name}</h1>
     </hgroup>
+    
     {#if status === 'readyToCheck'}
         <CheckSubscription />
     {:else if status === 'uploadedToFirestore'}
