@@ -38,7 +38,7 @@
 	.tooltip {
 		box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
 		background: var(--contrast);
-		border-radius: 5px;
+		border-radius: var(--border-radius);
 		padding: 5px;
 		position: absolute;
 		color: var(--contrast-inverse);

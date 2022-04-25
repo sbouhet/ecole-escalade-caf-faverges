@@ -2,6 +2,7 @@
     import { getDayInfo } from '$utils/days'
     import { currentSeason, students } from '$utils/stores'
     import Tooltip from '$components/Tooltip.svelte'
+    import { goto } from '@roxi/routify'
 
     let days = []
 
@@ -23,7 +24,7 @@
 <figure>
         <table role="grid">
             <thead>
-                <tr class="test">
+                <tr>
                     <th scope="col"></th>
                     <th scope="col">Âges</th>
                     <th scope="col">Places restantes</th>
@@ -33,7 +34,7 @@
             </thead>
             <tbody>
                 {#each days as day}
-                    <tr>
+                    <tr on:click={$goto("/creneaux/[day]", {day:day.url})}>
                         <!-- Name -->
                         <th>
                             <a href="/creneaux/{day.url}"  class="outline">{day.name}</a>
@@ -89,5 +90,15 @@
 
     td{
         text-align: center;
+    }
+    tr:hover{
+        background-color: var(--myColor);
+        cursor: pointer;
+    }
+    [data-theme=light] {
+    --myColor: red;
+    }
+    [data-theme=dark] {
+    --myColor: green;
     }
 </style>
