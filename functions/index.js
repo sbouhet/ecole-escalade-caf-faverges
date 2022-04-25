@@ -424,16 +424,17 @@ exports.updateEmails = functions.firestore
       })
   }) */
 
-/* //When a student is deleted from Firestore, remove it's ID from parent users and delete medical certificate
+//When a student is deleted from Firestore,  delete medical certificate
 exports.onDeleteStudentFromFirestore = functions.firestore
   .document("students/{studentId}")
-  .onDelete((snap, context) => {
+  .onDelete(async (snap, context) => {
     const studentId = snap.id
-
-    return removeStudentIdFromParents(studentId).then(() => {
-      return deleteMedicalCertificate(studentId)
-    })
-  }) */
+    try {
+      await deleteMedicalCertificate(studentId)
+    } catch (error) {
+      console.log(error)
+    }
+  })
 
 /* //When user is updated with new student ID, update Auth user claims
 exports.updateUser = functions.firestore
