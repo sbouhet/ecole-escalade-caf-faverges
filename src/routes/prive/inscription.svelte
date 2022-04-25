@@ -3,22 +3,30 @@
     import SubscribeForm from '$components/forms/SubscribeForm.svelte'
     import CheckSubscription from '$components/CheckSubscription.svelte'
     import {params} from '@roxi/routify'
-    import { currentSeason, currentDay, subscription } from '$utils/stores'
+    import { currentSeason, currentDay, subscription, subscriptionStatus } from '$utils/stores'
     import { getDayFromUrl } from '$utils/days'
     import Success from '$components/Success.svelte'
     import { goto } from '@roxi/routify'
     import { subscriptionReset } from '$utils/subscriptionReset'
 
+    //get day from url
     let dayUrl = $params.creneau
-    let status
+
+    //if there a day URL, set $currentDay
     if (dayUrl) {
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
     }
-    $:status = $subscription.publicInfo.seasons[$currentSeason.name].status
-    $:if (status === 'done') {
-        
-        $goto('/prive/mon-compte')
-    }    
+
+    //If status is NULL, reset subscription
+    $:if(!$subscriptionStatus) $subscription = subscriptionReset()
+    
+
+    //If status is DONE, redirect to mon-compte
+    $:if ($subscriptionStatus === 'done') $goto('/prive/mon-compte')
+    
+    
+    /* let status
+    $:status = $subscription.publicInfo.seasons[$currentSeason.name].status */
 </script>
 
 <article>
@@ -26,10 +34,10 @@
         <h1>Inscription</h1>
         <h1>Saison {$currentSeason.name}</h1>
     </hgroup>
-    
-    {#if status === 'readyToCheck'}
+
+    {#if $subscriptionStatus === 'readyToCheck'}
         <CheckSubscription />
-    {:else if status === 'uploadedToFirestore'}
+    {:else if $subscriptionStatus === 'uploadedToFirestore'}
         <Success />
     {/if}
 

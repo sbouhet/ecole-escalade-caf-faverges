@@ -1,14 +1,12 @@
 <script>
     import { firebaseApp } from '$utils/firebase/firebase' //important, do not remove
     export let context //just to hide warning in console
-    import Back from '$components/Back.svelte'
-    import Logout from '$components/Logout.svelte'
     import Login from '$components/forms/Login.svelte'
     import VerifyEmail from '$components/VerifyEmail.svelte'
     import CreateAccount from '$components/CreateAccount.svelte' 
     import {isActive} from '@roxi/routify'
     import { getAuth } from "firebase/auth"
-import { loggedin } from '$utils/stores';
+    import { loggedin } from '$utils/stores';
     
     let showCreateAccount = $isActive('/prive/inscription')
 </script>
