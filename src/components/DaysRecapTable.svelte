@@ -34,7 +34,7 @@
             </thead>
             <tbody>
                 {#each days as day}
-                    <tr on:click={$goto("/creneaux/[day]", {day:day.url})}>
+                    <tr on:click={$goto("/creneaux/[day]", {day:day.url})} class="row">
                         <!-- Name -->
                         <th>
                             <a href="/creneaux/{day.url}"  class="outline">{day.name}</a>
@@ -91,14 +91,12 @@
     td{
         text-align: center;
     }
-    tr:hover{
-        background-color: var(--myColor);
+    .row{
+        border-left: 10px solid transparent;
+    }
+    .row:hover{
+        border-left: 10px solid var(--primary);
+
         cursor: pointer;
-    }
-    [data-theme=light] {
-    --myColor: red;
-    }
-    [data-theme=dark] {
-    --myColor: green;
     }
 </style>
