@@ -17,9 +17,9 @@ export const getAge = (dateOfBirth, keepOneDecimal = true) => {
     const birthday = dayjs(dateOfBirth, "YYYY-MM-DD")
     const today = dayjs()
     const age = today.diff(birthday, "year", true)
-    if (!keepOneDecimal) return Math.round(age)
+    if (!keepOneDecimal) return Math.floor(age)
     //keep one decimal
-    const roundedAge = Math.round(age * 10) / 10
+    const roundedAge = Math.floor(age * 10) / 10
     return roundedAge
   } catch (error) {
     throw new BError("$utils/ageGroups => getAge()", error).log()

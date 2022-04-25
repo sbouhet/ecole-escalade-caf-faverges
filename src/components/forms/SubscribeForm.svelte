@@ -1,51 +1,37 @@
 <script>
     import AdultSubscriptionForm from "./AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./ChildSubscriptionForm.svelte"
-    import DayForm from "./DayForm.svelte"
-    import { currentSeason, currentDay, subscription, ageStatus } from '$utils/stores'
+    import { currentSeason, currentDay, subscriptionStatus } from '$utils/stores'
     import { getDayName, isDayForAdults } from '$utils/days'
-    import WrongAgeModal from '$components/WrongAgeModal.svelte'
-    import { seasons } from '$utils/seasons'
+    import { getAgeGroupName,  } from '$utils/ageGroups'
+    import YearWarning from "./YearWarning.svelte"
 
-    let adult, lockedDay
-    let openErrorModal = false
-    export let day
+    const day = $currentDay
+    const ageGroup = $currentSeason.ageGroups[day.ageGroupIndex]
+    const adult = isDayForAdults(day, $currentSeason.ageGroups)
 
-    if($currentDay) lockedDay = $currentDay
-    $:if($currentDay) adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
-    
 
     const handleSubmit = () => {
-        if (openErrorModal) return
-        if ($ageStatus!=='ok') {
-            console.error('age does not match day')
-            openErrorModal = true
-            return
-        }
-        $subscription.publicInfo.seasons[$currentSeason.name].status = 'readyToCheck'
+        $subscriptionStatus = 'readyToCheck'
     }
-    $:console.log($subscription)
 </script>
 
-<WrongAgeModal bind:open={openErrorModal}/>
 
 <form on:submit|preventDefault={handleSubmit}>
+
     <hgroup>
-        {#if !day}
-            <h1>Inscription</h1>
-        {:else}
-            <h1>{getDayName(day)}</h1>
-        {/if}
+        <h1>{getDayName(day)}</h1>
         <h1>Saison {$currentSeason.name}</h1>
     </hgroup>
-    {#if !day}
-        <DayForm />
-    {/if}
+    {getAgeGroupName(ageGroup)}
+    <YearWarning />
+
     {#if adult}
         <AdultSubscriptionForm />
     {:else}
         <ChildSubscriptionForm />
     {/if}
+
     <button>Valider</button>
 </form>
 

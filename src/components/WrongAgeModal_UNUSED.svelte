@@ -43,11 +43,6 @@
         on:click={()=>open=false}>
         J'ai compris
       </a>
-      <!-- <a href="#confirm"
-        role="button"
-        on:click={()=>open=false}>
-        Confirm
-      </a> -->
     </footer>
   </article>
 </dialog>

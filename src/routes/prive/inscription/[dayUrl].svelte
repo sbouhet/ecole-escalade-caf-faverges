@@ -1,6 +1,7 @@
 <script>
     /* -------------------------------------------------------------------
     This page tries to find a day object based on url and $currentSeason
+    Stores it in $currentDay
     Then it displays differents components based on the value of $subscriptionStatus
 
     status is NULL    >    reset $subsrciption and show <SubscribeForm>
@@ -12,7 +13,7 @@
     import SubscribeForm from '$components/forms/SubscribeForm.svelte'
     import CheckSubscription from '$components/CheckSubscription.svelte'
     import {params} from '@roxi/routify'
-    import { currentSeason, subscription, subscriptionStatus, error, fatal } from '$utils/stores'
+    import { currentSeason, subscription, subscriptionStatus, error, fatal, currentDay } from '$utils/stores'
     import { getDayFromUrl } from '$utils/days'
     import Success from '$components/Success.svelte'
     import { goto } from '@roxi/routify'
@@ -23,9 +24,8 @@
     let dayUrl = $params.dayUrl
 
     //Try to find corresponding day in current season
-    let day
     try {
-        day = getDayFromUrl(dayUrl, $currentSeason.days)
+        $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
     } catch (err) {
         const e = new BError(`Could not find day with url ${dayUrl}`, err, {days:$currentSeason.days})
         e.log()
@@ -49,7 +49,7 @@
     {:else if $subscriptionStatus === 'uploadedToFirestore'}
         <Success />
     {:else}
-        <SubscribeForm {day}/>
+        <SubscribeForm />
         <!-- day should never be undefined, otherwise error is thrown above -->
     {/if}
 

@@ -22,7 +22,7 @@ export const getDayUrl = (day) => {
   }
 }
 
-export const getWarningMessage = (minYear) => {
+/* export const getWarningMessage = (minYear) => {
   try {
     if (!minYear) throw "No minYear"
     let currentYear = dayjs().year()
@@ -34,7 +34,7 @@ export const getWarningMessage = (minYear) => {
   } catch (error) {
     throw new BError("$utils/days => getWarningMessage()", error)
   }
-}
+} */
 
 export const getMinYear = (day, ageGroups) => {
   try {

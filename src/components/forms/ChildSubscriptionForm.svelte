@@ -19,7 +19,7 @@
 
     <ChildInfo />
     {#each Array(nbOfParents) as _, i}
-    <ParentInfo nb={i+1} />
+        <ParentInfo nb={i+1} />
     {/each}
     <div>
 

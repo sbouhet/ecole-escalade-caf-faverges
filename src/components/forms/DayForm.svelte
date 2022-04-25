@@ -1,5 +1,5 @@
 <script>
-    import {getDayName, getDayUrl, getWarningMessage, getMinYear} from '$utils/days'
+    import {getDayName, getDayUrl} from '$utils/days'
     import { currentSeason, currentDay, subscription } from '$utils/stores'
     import { seasons } from '$utils/seasons'
     import {params} from '@roxi/routify'
@@ -7,10 +7,10 @@
     export let lockedDay
     let warningMessage
 
-    $:if ($currentDay) {
+ /*    $:if ($currentDay) {
         warningMessage = getWarningMessage(getMinYear($currentDay, $currentSeason.ageGroups))
         $subscription.publicInfo.seasons[$currentSeason.name].day = getDayUrl($currentDay)
-    }
+    } */
 
     if (lockedDay) {
         $currentDay = lockedDay
