@@ -1,18 +1,13 @@
 <script>
-      export let context //just to hide warning in console
-    
+    export let context //just to hide warning in console
     import { currentSeason, admin, loggedin } from '$utils/stores'
-
     import DaysRecapTable from '$components/DaysRecapTable.svelte'
-
 </script>
-
 
 <hgroup>
     <h1>École d'escalade</h1>
     <h1>Saison {$currentSeason.name}</h1>
 </hgroup>
-
 
 {#if $admin}
     <a href="/admin">ADMIN</a><br>
