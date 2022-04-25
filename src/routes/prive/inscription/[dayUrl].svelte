@@ -50,6 +50,7 @@
         <Success />
     {:else}
         <SubscribeForm {day}/>
+        <!-- day should never be undefined, otherwise error is thrown above -->
     {/if}
 
 </article>
