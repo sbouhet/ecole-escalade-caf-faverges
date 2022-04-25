@@ -231,15 +231,46 @@ export default {
       "children": [
         {
           "meta": {},
-          "id": "_default_prive_inscription_svelte",
+          "id": "_default_prive_inscription",
           "name": "inscription",
-          "module": () => import('../src/routes/prive/inscription.svelte'),
+          "module": false,
           "file": {
-            "path": "src/routes/prive/inscription.svelte",
+            "path": "src/routes/prive/inscription",
             "dir": "src/routes/prive",
-            "base": "inscription.svelte",
-            "ext": ".svelte",
+            "base": "inscription",
+            "ext": "",
             "name": "inscription"
+          },
+          "children": [
+            {
+              "meta": {
+                "dynamic": true
+              },
+              "id": "_default_prive_inscription__dayUrl__svelte",
+              "name": "[dayUrl]",
+              "module": () => import('../src/routes/prive/inscription/[dayUrl].svelte'),
+              "file": {
+                "path": "src/routes/prive/inscription/[dayUrl].svelte",
+                "dir": "src/routes/prive/inscription",
+                "base": "[dayUrl].svelte",
+                "ext": ".svelte",
+                "name": "[dayUrl]"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "meta": {},
+          "id": "_default_prive_inscription_UNUSED_svelte",
+          "name": "inscription_UNUSED",
+          "module": () => import('../src/routes/prive/inscription_UNUSED.svelte'),
+          "file": {
+            "path": "src/routes/prive/inscription_UNUSED.svelte",
+            "dir": "src/routes/prive",
+            "base": "inscription_UNUSED.svelte",
+            "ext": ".svelte",
+            "name": "inscription_UNUSED"
           },
           "children": []
         },

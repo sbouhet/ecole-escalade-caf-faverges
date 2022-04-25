@@ -3,12 +3,13 @@
     import ChildSubscriptionForm from "./ChildSubscriptionForm.svelte"
     import DayForm from "./DayForm.svelte"
     import { currentSeason, currentDay, subscription, ageStatus } from '$utils/stores'
-    import { isDayForAdults } from '$utils/days'
+    import { getDayName, isDayForAdults } from '$utils/days'
     import WrongAgeModal from '$components/WrongAgeModal.svelte'
     import { seasons } from '$utils/seasons'
 
     let adult, lockedDay
     let openErrorModal = false
+    export let day
 
     if($currentDay) lockedDay = $currentDay
     $:if($currentDay) adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
@@ -29,7 +30,17 @@
 <WrongAgeModal bind:open={openErrorModal}/>
 
 <form on:submit|preventDefault={handleSubmit}>
-    <DayForm {lockedDay}/> 
+    <hgroup>
+        {#if !day}
+            <h1>Inscription</h1>
+        {:else}
+            <h1>{getDayName(day)}</h1>
+        {/if}
+        <h1>Saison {$currentSeason.name}</h1>
+    </hgroup>
+    {#if !day}
+        <DayForm />
+    {/if}
     {#if adult}
         <AdultSubscriptionForm />
     {:else}
@@ -37,3 +48,9 @@
     {/if}
     <button>Valider</button>
 </form>
+
+<style>
+    h1{
+        text-transform: capitalize;
+    }
+</style>

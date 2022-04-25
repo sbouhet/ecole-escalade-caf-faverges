@@ -7,8 +7,7 @@
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from "$utils/subscriptionReset"
-
-    import {params} from '@roxi/routify'
+    import {goto, params} from '@roxi/routify'
     import { seasons } from "$utils/seasons";
     let dayUrl = $params.day
     let day = getDayFromUrl(dayUrl, $currentSeason.days)
@@ -51,7 +50,7 @@
 
 <section>
     {#if info.spotsLeft>0}
-        <a href={`/prive/inscription?creneau=${dayUrl}`} role="button" on:click={reset}>Inscription</a>
+        <div role="button" on:click={$goto("/prive/inscription/[dayUrl]", {dayUrl})}>Inscription</div>
     {:else}
         <a role="button" class="secondary">Inscription</a>
         <strong class="red">COMPLET</strong>

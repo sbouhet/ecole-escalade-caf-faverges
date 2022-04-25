@@ -53,7 +53,10 @@ export const getDayFromUrl = (url, days) => {
   try {
     if (!url) throw "No url"
     if (!days) throw "No days"
-    return days.filter((day) => getDayUrl(day) === url)[0]
+    const filtered = days.filter((day) => getDayUrl(day) === url)
+    if (filtered.length === 1) return filtered[0]
+    if (filtered.length > 1) throw new Error("Too many matches for this url")
+    if (filtered.length < 1) throw new Error("No matches for this url")
   } catch (error) {
     throw new BError("$utils/days => getDayFromUrl()", error)
   }
