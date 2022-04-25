@@ -7,14 +7,14 @@ export const getAgeGroupName = (ageGroup) => {
     if (ageGroup.min === 18) return "Adultes"
     return `${ageGroup.min}‑${ageGroup.max} ans`
   } catch (error) {
-    throw new BError("$utils/ageGroups => getAgeGroupName()", error)
+    throw new BError("$utils/ageGroups => getAgeGroupName()", error).log()
   }
 }
 
 export const getAge = (dateOfBirth, keepOneDecimal = true) => {
   try {
     if (!dateOfBirth) throw "No date of birth"
-    const birthday = dayjs(dateOfBirth, "DD/MM/YYYY")
+    const birthday = dayjs(dateOfBirth, "YYYY-MM-DD")
     const today = dayjs()
     const age = today.diff(birthday, "year", true)
     if (!keepOneDecimal) return Math.round(age)
@@ -22,7 +22,7 @@ export const getAge = (dateOfBirth, keepOneDecimal = true) => {
     const roundedAge = Math.round(age * 10) / 10
     return roundedAge
   } catch (error) {
-    throw new BError("$utils/ageGroups => getAge()", error)
+    throw new BError("$utils/ageGroups => getAge()", error).log()
   }
 }
 
@@ -33,7 +33,7 @@ export const getMinYear = (ageGroup) => {
     const minAge = ageGroup.min
     return currentYear - minAge
   } catch (error) {
-    throw new BError("$utils/ageGroups => getMinYear()", error)
+    throw new BError("$utils/ageGroups => getMinYear()", error).log()
   }
 }
 

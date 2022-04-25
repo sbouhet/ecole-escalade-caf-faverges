@@ -3,7 +3,7 @@
     import { currentDay, currentSeason, subscription, ageStatus } from '$utils/stores'
    
     
-    let ageGroup, dateOfBirth, age, status
+    let ageGroup, dateOfBirth, age, status, invalid
     $: if ($currentDay) {
         ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
     }
@@ -11,22 +11,30 @@
     $: $ageStatus = status
     
     $: if (dateOfBirth) {
+        console.log(dateOfBirth)
         let year = parseInt(dateOfBirth.split('-')[0])
         if (year>1900) {
             age = getAge(dateOfBirth, false)
+            console.log(age)
             if (ageGroup) {
                 if (year > getMinYear(ageGroup)) {
                     status = 'tooYoung'
+                    invalid = true
                 }else if(age > ageGroup.max) {
                     status = 'tooOld'
+                    invalid = true
                 }else{
                     status = 'ok'
+                    invalid = false
                 }
             }
         }
-        
     $subscription.privateInfo.dateOfBirth = dateOfBirth
-        
+    }else{
+        $subscription.privateInfo.dateOfBirth = null
+        age= null
+        status = null
+        invalid = null
     }
 </script>
 
@@ -34,9 +42,9 @@
     
     <div>
         <label for="dateOfBirth">Date de naissance</label>
-        <input type="date" required bind:value={dateOfBirth}>
+        <input type="date" required bind:value={dateOfBirth} aria-invalid={invalid}>
     </div>
-    {#if dateOfBirth && status && age && ageGroup}
+    
         {#if status==='ok'}
             <div class='green'>
                 <span>✓</span>
@@ -53,7 +61,7 @@
                 <small>Votre enfant a {age} ans, il est trop agé pour ce groupe.</small>
             </div>
         {/if}
-    {/if}
+    
     
 
 <style>
