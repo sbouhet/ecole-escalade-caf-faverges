@@ -1,0 +1,15 @@
+thead th {
+  font-weight: bold;
+}
+
+td {
+  text-align: center;
+}
+tbody tr {
+  border-left: 10px solid transparent;
+}
+tbody tr:hover {
+  border-left: 10px solid var(--primary);
+
+  cursor: pointer;
+}

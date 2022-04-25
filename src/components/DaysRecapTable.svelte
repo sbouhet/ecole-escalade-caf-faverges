@@ -84,19 +84,5 @@
     .green{
         color:green;
     }
-    thead th{
-        font-weight: bold;
-    }
 
-    td{
-        text-align: center;
-    }
-    .row{
-        border-left: 10px solid transparent;
-    }
-    .row:hover{
-        border-left: 10px solid var(--primary);
-
-        cursor: pointer;
-    }
 </style>
