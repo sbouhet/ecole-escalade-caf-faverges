@@ -8,6 +8,7 @@
 
     //Get information on days
     $:if($currentSeason && $students){
+        days = []
         for (const day of $currentSeason.days) {
             days.push(getDayInfo(day, $currentSeason, $students))
         }

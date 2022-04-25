@@ -5,8 +5,9 @@
     import Boolean from "$components/Boolean.svelte"
     import { deleteStudent } from '$firestore/deleteStudent'
     import { capitalize } from '$utils/capitalize'
+    import { goto } from '@roxi/routify'
     import { getAuth } from "firebase/auth"
-import { printName } from "$utils/printName";
+    import { printName } from "$utils/printName";
     
     export let students = []
     export let allowDelete = false
@@ -44,7 +45,7 @@ import { printName } from "$utils/printName";
             <tbody>
                 {#each students as student}
                 {#if student.seasons[$currentSeason.name]}
-                <tr>
+                <tr on:click={$goto("/prive/mon-compte/[id]", {id:student.id})}>
                     {#if $admin && allowDelete}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
