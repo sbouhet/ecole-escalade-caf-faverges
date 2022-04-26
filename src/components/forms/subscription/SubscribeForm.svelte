@@ -3,7 +3,7 @@
     import ChildSubscriptionForm from "./child/ChildSubscriptionForm.svelte"
     import { currentSeason, currentDay, subscriptionStatus } from '$utils/stores'
     import { getDayName, isDayForAdults } from '$utils/days'
-    import YearWarning from "../YearWarning.svelte"
+    import YearWarning from "../../YearWarning.svelte"
 
     const day = $currentDay
     const adult = isDayForAdults(day, $currentSeason.ageGroups)
