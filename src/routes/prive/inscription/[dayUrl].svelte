@@ -19,7 +19,7 @@
     import { goto } from '@roxi/routify'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from 'berror'
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
 
     //get day from url
     let dayUrl = $params.dayUrl

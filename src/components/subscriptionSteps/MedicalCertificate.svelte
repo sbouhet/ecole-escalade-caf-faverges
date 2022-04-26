@@ -1,5 +1,5 @@
 <script>
-    import Boolean from '$components/Boolean.svelte'
+    import Boolean from '$components/htmlElements/Boolean.svelte'
     import {uploadMedicalCertificate} from '$utils/firebase/storage'
     import {currentSeason} from '$utils/stores'
     import { getAuth } from "firebase/auth"

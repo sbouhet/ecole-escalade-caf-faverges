@@ -8,7 +8,7 @@
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { printName } from '$utils/printName'
     import { isDayFull } from '$firestore/dayIsFull'
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { BError } from "berror"
     import { getAuth } from "firebase/auth"
     const functions = getFunctions(getApp())

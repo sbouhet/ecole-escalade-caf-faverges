@@ -4,11 +4,11 @@
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeason } from '$firestore/season'
     import {currentDay, currentSeason, loggedin, subscription, admin, error, fatal, students} from '$utils/stores'
-    import Back from '$components/Back.svelte'
+    import Back from '$components/htmlElements/Back.svelte'
     import Logout from '$components/Logout.svelte'
     import {isActive} from '@roxi/routify'
     import { seasons } from '$utils/seasons'
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from "berror"
     import ErrorModal from '$components/modals/ErrorModal.svelte'

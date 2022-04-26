@@ -2,7 +2,7 @@
     import { getAuth } from "firebase/auth"
     import { httpsCallable } from "firebase/functions"
     import { functions } from '$utils/firebase/firebase'
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
 

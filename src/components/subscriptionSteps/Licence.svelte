@@ -1,10 +1,10 @@
 <script>
     import { currentSeason } from '$utils/stores'
     import LicenceInstructions from '$components/subscriptionSteps/LicenceInstructions.svelte'
-    import Boolean from '$components/Boolean.svelte'
+    import Boolean from '$components/htmlElements/Boolean.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import HowToFindLicence from '$components/modals/HowToFindLicence.svelte'
     export let student
     const functions = getFunctions(getApp())

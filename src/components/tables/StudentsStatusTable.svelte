@@ -2,7 +2,7 @@
 <script>
     import { currentSeason, admin } from "$utils/stores"
     import { getDayName, getDayFromUrl} from '$utils/days'
-    import Boolean from "$components/Boolean.svelte"
+    import Boolean from "$components/htmlElements/Boolean.svelte"
     import { deleteStudent } from '$firestore/deleteStudent'
     import { capitalize } from '$utils/capitalize'
     import { goto } from '@roxi/routify'

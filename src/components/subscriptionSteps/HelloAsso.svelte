@@ -1,10 +1,10 @@
 <script>
     import { currentSeason } from "$utils/stores"
     import { getAgeGroupFromDayUrl } from "$utils/ageGroups"
-    import Boolean from '$components/Boolean.svelte'
+    import Boolean from '$components/htmlElements/Boolean.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     export let student
     const functions = getFunctions(getApp())
     const checkPayment = httpsCallable(functions, "checkPayment")

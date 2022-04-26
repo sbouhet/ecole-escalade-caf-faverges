@@ -4,7 +4,7 @@
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"
     import StudentsStatusTable from '$components/tables/StudentsStatusTable.svelte'
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
 
     let error = null
     const getMyIds = httpsCallable(getFunctions(), 'getMyIds')

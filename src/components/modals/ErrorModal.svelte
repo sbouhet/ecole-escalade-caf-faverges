@@ -1,5 +1,5 @@
 <script>
-    import Logo from '$components/Logo.svelte'
+    import Logo from '$components/htmlElements/Logo.svelte'
     import {error, fatal} from '$utils/stores'
     export let myError, myFatal
     if(myError) $error = myError

@@ -4,7 +4,7 @@
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { currentSeason, loggedin } from '$utils/stores'
     import StudentsStatusTable from '$components/tables/StudentsStatusTable.svelte'
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"
 

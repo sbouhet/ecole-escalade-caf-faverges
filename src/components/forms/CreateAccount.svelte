@@ -1,6 +1,6 @@
 <script>
     import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
-    import ErrorMessage from "../ErrorMessage.svelte"
+    import ErrorMessage from "../htmlElements/ErrorMessage.svelte"
 
     const auth = getAuth();
     let email

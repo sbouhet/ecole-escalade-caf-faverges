@@ -1,7 +1,7 @@
 <script>
     import { getDayInfo } from '$utils/days'
     import { currentSeason, students } from '$utils/stores'
-    import Tooltip from '$components/Tooltip.svelte'
+    import Tooltip from '$components/htmlElements/Tooltip.svelte'
     import { goto } from '@roxi/routify'
 
     let days = []

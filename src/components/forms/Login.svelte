@@ -2,7 +2,7 @@
     import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 //    import EmailForm from "./EmailForm.svelte"
   //  import PasswordForm from "./PasswordForm.svelte"
-    import ErrorMessage from "../ErrorMessage.svelte"
+    import ErrorMessage from "../htmlElements/ErrorMessage.svelte"
     import { BError } from "berror"
 
     const auth = getAuth();

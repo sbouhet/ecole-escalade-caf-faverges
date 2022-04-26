@@ -3,10 +3,10 @@
     import {params} from '@roxi/routify'
     import { getStudent } from '$firestore/getStudent'
     import { printName } from '$utils/printName'
-    import ErrorMessage from '$components/ErrorMessage.svelte'
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { currentSeason } from '$utils/stores'
     import { translateRole, translateStatus } from '$utils/TRANSLATE'
-    import Boolean from '$components/Boolean.svelte'
+    import Boolean from '$components/htmlElements/Boolean.svelte'
     import { doc, onSnapshot } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupFromDayUrl } from '$utils/ageGroups'

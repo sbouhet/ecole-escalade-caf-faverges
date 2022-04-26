@@ -1,7 +1,7 @@
 <script>
     export let context //prevent warnings in console
     import { admin } from '$utils/stores'
-    import Back from '$components/Back.svelte'
+    import Back from '$components/htmlElements/Back.svelte'
     import { goto } from '@roxi/routify'
 
     $:if(!$admin) $goto('/')
