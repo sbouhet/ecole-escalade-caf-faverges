@@ -23,7 +23,7 @@
         <h1>{getDayName(day)}</h1>
         <h1>Saison {$currentSeason.name}</h1>
     </hgroup>
-    {getAgeGroupName(ageGroup)}
+    
     <YearWarning />
 
     {#if adult}
