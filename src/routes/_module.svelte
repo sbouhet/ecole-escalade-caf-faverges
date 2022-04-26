@@ -11,7 +11,7 @@
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from "berror"
-    import ErrorModal from '$components/ErrorModal.svelte'
+    import ErrorModal from '$components/modals/ErrorModal.svelte'
     import { collection, query, where, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import { printName } from '$utils/printName'
