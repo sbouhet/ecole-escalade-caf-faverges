@@ -1,6 +1,12 @@
 <script>
+    /*-----------------------------------------------------------------------------------------
+    This components asks for date of birth and checks it
+    It has a mim and max date values
+    MIN > the student must be a certain age at the time of subscription
+    MAX > the year of their birthday must not be higher than a value (minYear)
+    -------------------------------------------------------------------------------------------*/
     import {getAge, getMinYear} from '$utils/ageGroups'
-    import { currentDay, currentSeason, subscription, ageStatus } from '$utils/stores'
+    import { currentDay, currentSeason, subscription } from '$utils/stores'
    
     let dateOfBirth, age, status, invalid, year
     const ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
@@ -8,45 +14,53 @@
     const ageMax = ageGroup.max
     const dateMax = `${minYear}-12-12`
     const dateMin = dayjs().subtract(ageMax+1, 'year').format("YYYY-MM-DD")
-    let dif
-
     
     const updateStatus = ()=>{
-        dif = dayjs(dateMin).diff(dayjs(dateOfBirth))
 
+        // Get year
+        year = parseInt(dateOfBirth.split('-')[0])
+
+        // If user is not done writing the date, do not display age warning
         if(year<1900){
             status = null
             invalid = null
             return
         }
+
+        // Get age (without decimal)
+        age = getAge(dateOfBirth, false)
+
+        // How much older than the limit a student is
+        // If it's positive, student is too old
+        let dif = dayjs(dateMin).diff(dayjs(dateOfBirth))
+
+        // If student is too young, display warning
         if (year > minYear) {
             status = 'tooYoung'
             invalid = true
-
-        }else if(dif>0) {
+        }
+        // If student is too old, display warning
+        else if (dif >= 0) {
             status = 'tooOld'
             invalid = true
-
-        }else{
+        }
+        // If student is right age, display success and update subscription
+        else{
             status = 'ok'
             invalid = false
+
+            // Update subscription
+            $subscription.privateInfo.dateOfBirth = dateOfBirth
         }
     }
 
     // When user writes date of birth
     $: if(dateOfBirth) {
 
-        // Get year
-        year = parseInt(dateOfBirth.split('-')[0])
-        
-        // Get age
-        age = getAge(dateOfBirth)
-
-        // Update status
+        // Update status + age + subscription
         updateStatus()
-
-        // Update subscription
-        $subscription.privateInfo.dateOfBirth = dateOfBirth
+        
+    // If no date input (or incomplete) remove warning
     }else{
         invalid = null
         status = null
@@ -61,12 +75,12 @@
     {#if status==='ok'}
         <div class='green'>
             <span>✓</span>
-            <small>Votre enfant peut s'inscrire sur ce créneau.</small>
+            <small>Votre enfant a {age} ans, il peut s'inscrire sur ce créneau.</small>
         </div>
     {:else if status === 'tooYoung'}
         <div class="red">
             <span>✕</span>
-            <small>Votre enfant est né après {getMinYear(ageGroup)}, il est trop jeune pour ce groupe.</small>
+            <small>Votre enfant est né après {minYear}, il est trop jeune pour ce groupe.</small>
         </div>
     {:else if status === 'tooOld'}
         <div class="red">
