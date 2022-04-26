@@ -1,5 +1,5 @@
 <script>
-    import NameForm from './NameForm.svelte'
+    import NameForm from '../../NameForm.svelte'
     import DateOfBirthForm from './DateOfBirthForm.svelte'
     import {subscription} from '$utils/stores'
 

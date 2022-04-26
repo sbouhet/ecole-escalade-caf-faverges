@@ -1,5 +1,5 @@
 <script>
-    import NameForm from './NameForm.svelte'
+    import NameForm from '../../NameForm.svelte'
     import { subscription } from '$utils/stores'
     import { getAuth } from "firebase/auth"
     export let nb

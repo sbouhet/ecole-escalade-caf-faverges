@@ -11,7 +11,7 @@
 </script>
 
 <label for="password">Mot de passe</label>
-    <input type="password" id="password" bind:value={password} required on:focus={handleFocus} class:default={!focus}/>
+<input type="password" id="password" bind:value={password} required on:focus={handleFocus} class:default={!focus}/>
 
 
 <style>

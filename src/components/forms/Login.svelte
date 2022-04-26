@@ -1,7 +1,7 @@
 <script>
     import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
-    import EmailForm from "./EmailForm.svelte"
-    import PasswordForm from "./PasswordForm.svelte"
+//    import EmailForm from "./EmailForm.svelte"
+  //  import PasswordForm from "./PasswordForm.svelte"
     import ErrorMessage from "../ErrorMessage.svelte"
     import { BError } from "berror"
 
@@ -30,8 +30,13 @@
 
 <form>
     <h1>Se connecter</h1>
-    <EmailForm bind:email={email}/>
-    <PasswordForm bind:password={password}/>
+    <!-- <EmailForm bind:email={email}/> -->
+    <!-- <PasswordForm bind:password={password}/> -->
+    <label for="email">Adresse email</label>
+    <input type="email" id="email" name="email" placeholder="Adresse email"  bind:value={email} required>
+
+    <label for="password">Mot de passe</label>
+    <input type="password" id="password" bind:value={password} required />
     
     <br>
     <button on:click|preventDefault={handleClick}>Se connecter</button>

@@ -1,8 +1,6 @@
 <script>
     import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
-    import EmailForm from "./forms/EmailForm.svelte"
-    import PasswordForm from "./forms/PasswordForm.svelte"
-    import ErrorMessage from "./ErrorMessage.svelte"
+    import ErrorMessage from "../ErrorMessage.svelte"
 
     const auth = getAuth();
     let email
@@ -17,11 +15,7 @@
     
     const handleClick = async () => {
         console.log(`trying to create user : ${email}`)
-        /* if (password != password2) {
-            console.error('Passwords are different')
-            error = 'Erreur : Les mots de passes sont différents'
-            return
-        } */
+
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
             console.log(`Made new user`)
@@ -38,9 +32,13 @@
 
 <form>
     <h1>Créer un compte</h1>
-    <EmailForm bind:email={email}/>
-    <PasswordForm bind:password={password}/>
-    <!-- <PasswordForm bind:password={password2}/> -->
+    <label for="email">Adresse email</label>
+    <input type="email" id="email" name="email" placeholder="Adresse email" bind:value={email} required>
+    
+    <label for="password">Mot de passe</label>
+    <input type="password" id="password" bind:value={password} required/>
+
+   
     <br>
     <button on:click|preventDefault={handleClick}>Créer un compte</button>
     

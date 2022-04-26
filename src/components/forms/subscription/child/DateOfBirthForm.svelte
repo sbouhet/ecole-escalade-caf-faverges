@@ -6,7 +6,7 @@
     MAX > the year of their birthday must not be higher than a value (minYear)
     -------------------------------------------------------------------------------------------*/
     import {getAge, getMinYear} from '$utils/ageGroups'
-    import { currentDay, currentSeason, subscription } from '$utils/stores'
+    import { currentDay, currentSeason } from '$utils/stores'
    
     export let dateOfBirth
     let age, status, invalid, year

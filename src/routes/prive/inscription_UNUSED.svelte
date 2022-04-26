@@ -1,6 +1,6 @@
 <script>
     export let context //just to hide warning in console
-    import SubscribeForm from '$components/forms/SubscribeForm.svelte'
+    import SubscribeForm from '$components/forms/subscription/SubscribeForm.svelte'
     import CheckSubscription from '$components/CheckSubscription.svelte'
     import {params} from '@roxi/routify'
     import { currentSeason, currentDay, subscription, subscriptionStatus, error, fatal } from '$utils/stores'

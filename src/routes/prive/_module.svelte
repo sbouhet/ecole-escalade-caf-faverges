@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import Login from '$components/forms/Login.svelte'
     import VerifyEmail from '$components/VerifyEmail.svelte'
-    import CreateAccount from '$components/CreateAccount.svelte' 
+    import CreateAccount from '$components/forms/CreateAccount.svelte' 
     import {isActive} from '@roxi/routify'
     import { getAuth } from "firebase/auth"
     import { loggedin } from '$utils/stores';
