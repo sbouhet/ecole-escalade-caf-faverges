@@ -15,7 +15,7 @@
     import {params} from '@roxi/routify'
     import { currentSeason, subscription, subscriptionStatus, error, fatal, currentDay } from '$utils/stores'
     import { getDayFromUrl } from '$utils/days'
-    import Success from '$components/Success.svelte'
+    import Success from '$components/modals/Success.svelte'
     import { goto } from '@roxi/routify'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from 'berror'
