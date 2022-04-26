@@ -1,5 +1,5 @@
 <script>
-    import HelloAsso from '$components/HelloAsso.svelte'
+    import HelloAsso from '$components/subscriptionSteps/HelloAsso.svelte'
 </script>
 
 <HelloAsso />
