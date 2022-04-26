@@ -58,10 +58,11 @@
     {#if $subscriptionStatus === 'readyToCheck'}
         <CheckSubscription />
     {:else if $subscriptionStatus === 'uploadedToFirestore'}
-        <Success />    
+        <Success />  
+    {:else}
+        <SubscribeForm />
     {/if}
     
-    <SubscribeForm />
 
 </article>
 

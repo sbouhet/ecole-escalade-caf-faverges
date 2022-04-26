@@ -69,7 +69,7 @@
         </footer>
       {:else}
         <footer>
-          <a href="#" role="button" class="secondary" on:click={()=>$subscriptionStatus="working"}>Annuler</a>
+          <a href="#" role="button" class="secondary" on:click={()=>$subscriptionStatus=null}>Annuler</a>
           {#if loading}
             <a href="#" role="button"  aria-busy={true}>Merci de patienter...</a>
           {:else}
