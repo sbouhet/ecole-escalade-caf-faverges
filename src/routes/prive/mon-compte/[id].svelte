@@ -9,7 +9,7 @@
     import Boolean from '$components/Boolean.svelte'
     import MedicalCertificate from '$components/subscriptionSteps/MedicalCertificate.svelte'
     import HelloAsso from '$components/subscriptionSteps/HelloAsso.svelte'
-    import Licence from '$components/Licence.svelte'
+    import Licence from '$components/subscriptionSteps/Licence.svelte'
     import { doc, onSnapshot } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
