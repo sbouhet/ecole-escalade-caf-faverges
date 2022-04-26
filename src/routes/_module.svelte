@@ -5,7 +5,7 @@
     import { getSeason } from '$firestore/season'
     import {currentDay, currentSeason, loggedin, subscription, admin, error, fatal, students} from '$utils/stores'
     import Back from '$components/htmlElements/Back.svelte'
-    import Logout from '$components/Logout.svelte'
+    import Logout from '$components/htmlElements/Logout.svelte'
     import {isActive} from '@roxi/routify'
     import { seasons } from '$utils/seasons'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
