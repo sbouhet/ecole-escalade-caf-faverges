@@ -1,7 +1,7 @@
 <script>
     export let context //just to hide warning in console
     import { currentSeason, admin, loggedin } from '$utils/stores'
-    import DaysRecapTable from '$components/DaysRecapTable.svelte'
+    import DaysRecapTable from '$components/tables/DaysRecapTable.svelte'
 </script>
 
 <hgroup>

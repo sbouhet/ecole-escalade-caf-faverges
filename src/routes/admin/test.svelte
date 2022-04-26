@@ -8,7 +8,7 @@
     import { getApp } from "firebase/app";
     import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions"
     import { currentSeason } from '$utils/stores'
-    import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
+    import StudentsStatusTable from '$components/tables/StudentsStatusTable.svelte'
     import { seasons } from '$utils/seasons'
 import { normalize } from "$utils/normalize"
 import {isUserInHelloAsso} from '$utils/helloAsso'

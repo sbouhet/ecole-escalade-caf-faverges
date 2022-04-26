@@ -3,7 +3,7 @@
     import { currentSeason, students,  } from '$utils/stores'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"
-    import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
+    import StudentsStatusTable from '$components/tables/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/ErrorMessage.svelte'
 
     let error = null

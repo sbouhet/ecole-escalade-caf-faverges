@@ -4,7 +4,7 @@
     import {collection,query,where,onSnapshot} from "firebase/firestore"
     import { getDayFromUrl, getDayInfo, getDayName } from '$utils/days'
     import { currentSeason, subscription, students } from '$utils/stores'
-    import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
+    import StudentsStatusTable from '$components/tables/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/ErrorMessage.svelte'
     import {goto, params} from '@roxi/routify'
     import { seasons } from "$utils/seasons";
