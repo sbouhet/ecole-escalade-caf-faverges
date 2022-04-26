@@ -3,6 +3,7 @@ import { getDayUrl } from "$utils/days"
 import { BError } from "berror"
 
 export const subscriptionReset = (season) => {
+  console.log("RESETTING")
   try {
     if (!season) throw "No season"
     let name, day
@@ -11,7 +12,7 @@ export const subscriptionReset = (season) => {
       day = "default"
     } else {
       name = season.name
-      day = getDayUrl(season.days[0])
+      day = null
     }
     return {
       publicInfo: {

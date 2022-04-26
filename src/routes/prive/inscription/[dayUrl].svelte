@@ -19,6 +19,7 @@
     import { goto } from '@roxi/routify'
     import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from 'berror'
+    import ErrorMessage from '$components/ErrorMessage.svelte'
 
     //get day from url
     let dayUrl = $params.dayUrl
@@ -26,16 +27,26 @@
     //Try to find corresponding day in current season
     try {
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
-    } catch (err) {
+
+        // Write day URL in subscription
+        $subscription.publicInfo.seasons[$currentSeason.name].day = dayUrl
+
+        } catch (err) {
         const e = new BError(`Could not find day with url ${dayUrl}`, err, {days:$currentSeason.days})
         e.log()
         $error = e
         $fatal = true
     }
 
-    //If status is NULL, reset subscription
-    $:if(!$subscriptionStatus) $subscription = subscriptionReset($currentSeason)
-    
+ /*    //If status is NULL, reset subscription and change status to WORKING
+    $:if(!$subscriptionStatus){
+        //$subscription = subscriptionReset($currentSeason)
+
+        // Write day URL in subscription
+        //$subscription.publicInfo.seasons[$currentSeason.name].day = dayUrl
+
+        //$subscriptionStatus = "working"
+    }    */ 
 
     //If status is DONE, redirect to mon-compte
     $:if ($subscriptionStatus === 'done') $goto('/prive/mon-compte')
@@ -47,11 +58,10 @@
     {#if $subscriptionStatus === 'readyToCheck'}
         <CheckSubscription />
     {:else if $subscriptionStatus === 'uploadedToFirestore'}
-        <Success />
-    {:else}
-        <SubscribeForm />
-        <!-- day should never be undefined, otherwise error is thrown above -->
+        <Success />    
     {/if}
+    
+    <SubscribeForm />
 
 </article>
 

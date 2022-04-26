@@ -1,15 +1,5 @@
 <script>
-    export let target, nb
-    import { subscription } from '$utils/stores'
-    let firstName, lastName
-
-    $:if (target==='student') {
-        if (firstName) $subscription.publicInfo.firstName = firstName.toLowerCase()
-        if (lastName) $subscription.publicInfo.lastName = lastName.toLowerCase()
-    }else if(target==='parent'){
-        if (firstName) $subscription.privateInfo.parents[nb-1].firstName = firstName.toLowerCase()
-        if (lastName) $subscription.privateInfo.parents[nb-1].lastName = lastName.toLowerCase()
-    }
+    export let firstName, lastName
 </script>
 
 <div class="grid">

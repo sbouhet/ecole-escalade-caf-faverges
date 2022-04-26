@@ -7,7 +7,6 @@
     import YearWarning from "./YearWarning.svelte"
 
     const day = $currentDay
-    const ageGroup = $currentSeason.ageGroups[day.ageGroupIndex]
     const adult = isDayForAdults(day, $currentSeason.ageGroups)
 
 

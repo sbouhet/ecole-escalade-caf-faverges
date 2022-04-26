@@ -4,24 +4,40 @@
     import { getAuth } from "firebase/auth"
     export let nb
 
-    let role, email, tel
-    if (nb===1) {
-        email = getAuth().currentUser.email
-        role= 'mother'
-    }
-    if (nb===2) role='father'
+    let firstName, lastName, role, email, tel
+
+    // First parent has user email 
+    if (nb===1) email = getAuth().currentUser.email
     
-    $subscription.privateInfo.parents[nb-1] = {}
-    $:$subscription.privateInfo.parents[nb-1].role = role
-    $:$subscription.privateInfo.parents[nb-1].email = email
-    $:$subscription.privateInfo.parents[nb-1].tel = tel
+    // Persistent data, in case user leaves the page and comes back
+    // If the forms are empty, fill inputs with $subscription data
+    if(!firstName) firstName = $subscription.privateInfo.parents[nb-1].firstName
+    if(!lastName) lastName = $subscription.privateInfo.parents[nb-1].lastName
+    if(!role) role = $subscription.privateInfo.parents[nb-1].role
+    if(!email) email = $subscription.privateInfo.parents[nb-1].email
+    if(!tel) tel = $subscription.privateInfo.parents[nb-1].tel
+    
+    // Sync $subscription store when data in written in form
+    $:if(firstName) $subscription.privateInfo.parents[nb-1].firstName = firstName
+    $:if(lastName) $subscription.privateInfo.parents[nb-1].lastName = lastName
+    $:if(role) $subscription.privateInfo.parents[nb-1].role = role
+    $:if(email) $subscription.privateInfo.parents[nb-1].email = email
+    $:if(tel) $subscription.privateInfo.parents[nb-1].tel = tel
+
+    //Default roles
+    if(!role){
+        //First parent is mother
+        if(nb===1) role = 'mother'
+        //Second parent is father
+        if(nb===2) role = 'father'
+    }
 
 </script>
 
  <section>
     <h5>Parent {nb}</h5>
     
-    <NameForm target=parent {nb}/>
+    <NameForm bind:firstName bind:lastName/>
      
     <label for="relationship">Affiliation</label>
     <select id="relationship" required bind:value={role}>

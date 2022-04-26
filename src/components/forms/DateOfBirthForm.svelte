@@ -8,12 +8,14 @@
     import {getAge, getMinYear} from '$utils/ageGroups'
     import { currentDay, currentSeason, subscription } from '$utils/stores'
    
-    let dateOfBirth, age, status, invalid, year
+    export let dateOfBirth
+    let age, status, invalid, year
     const ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
     const minYear = getMinYear(ageGroup)
     const ageMax = ageGroup.max
     const dateMax = `${minYear}-12-12`
     const dateMin = dayjs().subtract(ageMax+1, 'year').format("YYYY-MM-DD")
+
     
     const updateStatus = ()=>{
 
@@ -48,9 +50,6 @@
         else{
             status = 'ok'
             invalid = false
-
-            // Update subscription
-            $subscription.privateInfo.dateOfBirth = dateOfBirth
         }
     }
 

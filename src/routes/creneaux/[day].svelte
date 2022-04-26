@@ -6,7 +6,6 @@
     import { currentSeason, subscription, students } from '$utils/stores'
     import StudentsStatusTable from '$components/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/ErrorMessage.svelte'
-    import { subscriptionReset } from "$utils/subscriptionReset"
     import {goto, params} from '@roxi/routify'
     import { seasons } from "$utils/seasons";
     let dayUrl = $params.day
@@ -18,9 +17,7 @@
     let error = null
    
     $: info = getDayInfo(day, $currentSeason, dayStudents)
-    const reset = ()=>{
-    $subscription = subscriptionReset($currentSeason)
-}
+    
 </script>
 
 <hgroup>

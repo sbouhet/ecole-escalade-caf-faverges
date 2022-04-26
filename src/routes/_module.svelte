@@ -15,7 +15,6 @@
     import { collection, query, where, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import { printName } from '$utils/printName'
-import Login from '$components/forms/Login.svelte';
 
     
 
@@ -24,7 +23,7 @@ import Login from '$components/forms/Login.svelte';
     let selectedSeason = 'current'
     let notifications = []
 
-    $:console.log($students)
+    $:console.log($subscription)
 
     $:if ($currentSeason) {
         //Reset subscription because season has changed

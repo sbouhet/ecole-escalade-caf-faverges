@@ -1,5 +1,5 @@
 <script>
-    import { subscription, currentDay, currentSeason, error, fatal } from '$utils/stores'
+    import { subscription, currentDay, currentSeason, error, fatal, subscriptionStatus} from '$utils/stores'
     import { getAge } from '$utils/ageGroups'
     import { getDayName, getDayUrl } from '$utils/days'
     import { translateRole } from '$utils/TRANSLATE'
@@ -69,7 +69,7 @@
         </footer>
       {:else}
         <footer>
-          <a href="#" role="button" class="secondary" on:click={()=>$subscription.publicInfo.seasons[$currentSeason.name].status=null}>Annuler</a>
+          <a href="#" role="button" class="secondary" on:click={()=>$subscriptionStatus="working"}>Annuler</a>
           {#if loading}
             <a href="#" role="button"  aria-busy={true}>Merci de patienter...</a>
           {:else}
