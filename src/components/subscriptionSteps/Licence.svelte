@@ -1,6 +1,6 @@
 <script>
     import { currentSeason } from '$utils/stores'
-    import LicenceInstructions from '$components/modals/LicenceInstructions.svelte'
+    import LicenceInstructions from '$components/subscriptionSteps/LicenceInstructions.svelte'
     import Boolean from '$components/Boolean.svelte'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
