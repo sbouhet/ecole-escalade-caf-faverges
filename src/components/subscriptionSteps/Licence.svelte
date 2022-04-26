@@ -5,7 +5,7 @@
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
     import ErrorMessage from '$components/ErrorMessage.svelte'
-    import HowToFindLicence from '$components/HowToFindLicence.svelte'
+    import HowToFindLicence from '$components/modals/HowToFindLicence.svelte'
     export let student
     const functions = getFunctions(getApp())
     const checkLicence = httpsCallable(functions, "checkLicence")
