@@ -262,20 +262,6 @@ export default {
         },
         {
           "meta": {},
-          "id": "_default_prive_inscription_UNUSED_svelte",
-          "name": "inscription_UNUSED",
-          "module": () => import('../src/routes/prive/inscription_UNUSED.svelte'),
-          "file": {
-            "path": "src/routes/prive/inscription_UNUSED.svelte",
-            "dir": "src/routes/prive",
-            "base": "inscription_UNUSED.svelte",
-            "ext": ".svelte",
-            "name": "inscription_UNUSED"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
           "id": "_default_prive_mon_compte",
           "name": "mon-compte",
           "module": false,
