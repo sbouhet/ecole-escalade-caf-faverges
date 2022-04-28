@@ -26,7 +26,7 @@ export const _getDoc = async (collection, docId, subCollection, subDocId) => {
     }
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-      return docSnap.data()
+      return docSnap
     } else {
       if (subDocId) {
         throw new BError(

@@ -48,40 +48,40 @@
                 </tr>
             </thead>
             <tbody>
-                {#each students as student}
-                {#if student.seasons[$currentSeason.name]}
+                {#each students as student (student.id)}
+                {#if student.data().seasons[$currentSeason.name]}
                 <tr on:click={()=>handleClick(student.id)} class={myProfile?'':'noPointer'}>
                     {#if $admin && allowDelete}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
                     {#if myProfile}
-                        <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.firstName)}</a></td>
+                        <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName)}</a></td>
                     {:else if links}
-                        <td><a href={`/admin/${student.id}`}>{capitalize(student.firstName)}</a></td>
-                        <td>{student.lastName.toUpperCase()}</td>
+                        <td><a href={`/admin/${student.id}`}>{capitalize(student.data().firstName)}</a></td>
+                        <td>{student.data().lastName.toUpperCase()}</td>
                     {:else}
-                        <td>{capitalize(student.firstName)}</td>
-                        <td>{student.lastName.toUpperCase()}</td>
+                        <td>{capitalize(student.data().firstName)}</td>
+                        <td>{student.data().lastName.toUpperCase()}</td>
                     {/if}
                     {#if showDay}
                     
                         <td>
                             <div class="day">
-                                {getDayName(getDayFromUrl(student.seasons[$currentSeason.name].day, $currentSeason.days))}
+                                {getDayName(getDayFromUrl(student.data().seasons[$currentSeason.name].day, $currentSeason.days))}
                             </div>
                         </td>
                     {/if}
-                    <td>{#if student.seasons[$currentSeason.name].status==='waiting'}
+                    <td>{#if student.data().seasons[$currentSeason.name].status==='waiting'}
                         <span data-tooltip="Pré‑inscrit·e, en cours de validation.">⌛</span>
-                        {:else if student.seasons[$currentSeason.name].status==='yes'}
+                        {:else if student.data().seasons[$currentSeason.name].status==='yes'}
                         <span data-tooltip="Inscrit·e">✅</span>
                         {:else}
-                        {student.seasons[$currentSeason.name].status}
+                        {student.data().seasons[$currentSeason.name].status}
                         {/if}
                     </td>
-                    <td><Boolean value={student.seasons[$currentSeason.name].licence}/></td>
-                    <td><Boolean value={student.seasons[$currentSeason.name].payment}/></td>
-                    <td><Boolean value={student.seasons[$currentSeason.name].medicalCertificate}/></td>
+                    <td><Boolean value={student.data().seasons[$currentSeason.name].licence}/></td>
+                    <td><Boolean value={student.data().seasons[$currentSeason.name].payment}/></td>
+                    <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate}/></td>
                 </tr>
                 {/if}
                 {/each}

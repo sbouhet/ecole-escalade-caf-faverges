@@ -113,7 +113,7 @@ export const getDayInfo = (day, season, students) => {
     const subscribedStudents = students.filter(
       (student) => student.data().seasons[season.name].day == getDayUrl(day)
     )
-    const studentList = subscribedStudents.map((x) => printName(x))
+    const studentList = subscribedStudents.map((x) => printName(x.data()))
     const ageGroup = season.ageGroups[day.ageGroupIndex]
     const adult = ageGroup.min === 18
     const minYear = getMinYear(day, season.ageGroups)

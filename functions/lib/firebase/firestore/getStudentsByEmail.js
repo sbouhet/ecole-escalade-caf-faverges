@@ -18,13 +18,6 @@ module.exports = async (email) => {
       ids.push(id) //student id
     })
     return ids
-
-    let students = []
-    for (const id of ids) {
-      const student = await basics._getDoc("students", id)
-      students.push(student)
-    }
-    return students
   } catch (error) {
     console.log(error)
     throw new Error(

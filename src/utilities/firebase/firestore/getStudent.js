@@ -12,7 +12,7 @@ export const getStudent = async (studentId) => {
       "privateDoc"
     )
     //console.log("Found student")
-    return { public: publicData, private: privateData }
+    return { public: publicData.data(), private: privateData.data() }
   } catch (error) {
     throw new BError("$firestore/getStudent => getStudent()", error)
   }

@@ -5,7 +5,8 @@ import { BError } from "berror"
 export const getSeasonFromFirestore = async (name) => {
   try {
     if (!name) throw "No name"
-    return await _getDoc("seasons", name)
+    const doc = await _getDoc("seasons", name)
+    return doc.data()
   } catch (error) {
     throw new BError("$firestore/season => getSeasonFromFirestore()", error, {
       name,

@@ -4,7 +4,7 @@ module.exports = async () => {
   try {
     const adminDoc = await basics._getDoc("admin", "admin")
     formatted = []
-    for (const adminEmail of adminDoc.adminEmails) {
+    for (const adminEmail of adminDoc.data().adminEmails) {
       formatted.push({ email: adminEmail })
     }
     return formatted
