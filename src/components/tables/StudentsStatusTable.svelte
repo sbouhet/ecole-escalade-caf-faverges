@@ -10,6 +10,7 @@
     import { printName } from "$utils/printName";
     
     export let students = []
+    console.log("STUDEZNTS:", students)
     export let allowDelete = false
     export let links = false
     export let showDay = true
@@ -48,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                {#each students as student (student.id)}
+                {#each students as student}
                 {#if student.data().seasons[$currentSeason.name]}
                 <tr on:click={()=>handleClick(student.id)} class={myProfile?'':'noPointer'}>
                     {#if $admin && allowDelete}

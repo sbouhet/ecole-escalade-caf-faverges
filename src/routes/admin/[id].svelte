@@ -41,7 +41,7 @@
   
     <hgroup>
         <h1>{printName(student.public)}</h1>
-        <h5>{student.public.id}</h5>
+        <h5>{student.id}</h5>
     </hgroup>
     <br><br>
 
@@ -74,7 +74,11 @@
         <div>email : {student.private.email}</div>
         <div>tel : {student.private.tel}</div>
         <div>emails : {student.private.emails}</div>
-        <div>medicalCertificateLink : <a href="{student.private.medicalCertificateLink}" target="_new">Cliquer ici</a></div>
+        <div>medicalCertificateLink : 
+            {#if student.private.medicalCertificateLink}
+                <a href="{student.private.medicalCertificateLink}" target="_new">Cliquer ici</a>
+            {/if}
+        </div>
         <div>medicalCertificateTimestamp : {student.private.medicalCertificateTimestamp}</div>
         <hr>
         <div>parents :
