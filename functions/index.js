@@ -18,10 +18,8 @@ const checkConformity = require("./lib/soap/checkConformity")
 const linkStudentWithLicence = require("./lib/firebase/firestore/linkStudentWithLicence")
 const basics = require("./lib/firebase/firestore/basics")
 const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
-const createNewStudent = require("./lib/firebase/firestore/createNewStudent")
 const deleteAllCustomClaims = require("./lib/firebase/auth/deleteAllCustomClaims")
 const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
-const season = require("./lib/season")
 const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
 
 /* const addIdToCurrentUserClaims = async (studentId) => {
@@ -44,31 +42,6 @@ exports.test = functions.firestore
 //##############################################################################################
 //##############################################################################################
 //##############################################################################################
-
-/* exports.newMedicalCertificate = functions.https.onCall(
-  async (data, context) => {
-    try {
-      const link = uploadMedicalCertificate(
-        data.file,
-        data.seasonName,
-        data.studentId,
-        data.emails
-      )
-      console.log(link)
-      return {
-        statusCode: 200,
-        message: `Succès !  élèves trouvés`,
-        body: { link },
-      }
-    } catch (error) {
-      return {
-        statusCode: 409,
-        message: error,
-        body: null,
-      }
-    }
-  }
-) */
 
 exports.getMyIds = functions.https.onCall(async (data, context) => {
   try {
@@ -94,31 +67,6 @@ exports.deleteClaims = functions.https.onCall(async (data, context) => {
   try {
     if (!context.auth.token.admin) throw "C'est pas la fête"
     const response = deleteAllCustomClaims(data.userId)
-    return {
-      statusCode: 200,
-      message: "Succès !",
-      body: response,
-    }
-  } catch (error) {
-    return {
-      statusCode: 409,
-      message: error,
-      body: null,
-    }
-  }
-})
-
-exports.createStudent = functions.https.onCall(async (data, context) => {
-  try {
-    if (!context.auth) throw "Vous devez être connecté pour faire ca"
-    if (!data.student) throw "Pas d'élève à créer (data.student)"
-
-    //Get ID from user that is making the call
-    const parentId = context.auth.uid
-
-    //Create new student etc
-    const response = await createNewStudent(data.student, parentId)
-
     return {
       statusCode: 200,
       message: "Succès !",
@@ -235,41 +183,6 @@ exports.getPayments = functions
     })
     console.log(`Response code : ${response.code}`)
     return response.data
-  })
-
-exports.findStudentsWithMyEmailAndAddTheirIdsToMyUserDoc =
-  functions.https.onCall((data, context) => {
-    const myEmail = context.auth.token.email || null
-    const uid = context.auth.uid
-    if (!myEmail) return { errorInfo: "Aucune adresse email trouvée." }
-    let nbOfChildren = 0
-    const privateCollectionsRef = db
-      .collectionGroup("privateCol")
-      .where("emails", "array-contains", myEmail)
-
-    return privateCollectionsRef
-      .get()
-      .then((querySnapshot) => {
-        let childrenIds = []
-        querySnapshot.forEach((privateDoc) => {
-          nbOfChildren++
-          childrenIds.push(privateDoc.ref._path.segments[1]) //student id
-        })
-        return childrenIds
-      })
-      .then((childrenIds) => {
-        return db.collection("users").doc(uid).update({
-          students: childrenIds,
-        })
-      })
-      .then(() => {
-        return {
-          message: `Found ${nbOfChildren} students with email ${myEmail}`,
-        }
-      })
-      .catch(() => {
-        return { errorInfo: `Error looking for students wit email ${myEmail}` }
-      })
   })
 
 //change mod / admin status
@@ -396,34 +309,6 @@ exports.updateEmails = functions.firestore
       .update({ emails: emailsAfter })
   })
 
-//When student's private doc is updated, send email to admins if it's a new medical certificate
-/* exports.notifyAdmin = functions
-  .runWith({ secrets: ["SENDINBLUE_API_KEY_SECRET"] })
-  .firestore.document("students/{studentId}/privateCol/{privateDoc}")
-  .onUpdate(async (change, context) => {
-    console.log("UPDATE DETECTED")
-    const studentId = context.params.studentId
-    const timestampBefore = change.before.data().medicalCertificateTimestamp
-    const timestampAfter = change.after.data().medicalCertificateTimestamp
-    if (timestampBefore === timestampAfter) return
-    const SENDINBLUE_API_KEY_SECRET = process.env.SENDINBLUE_API_KEY_SECRET
-    const htmlContent = `
-    <a href="https://ee22.netlify.app/admin/modifyStudent?id=${studentId}" target="_new">
-    Cliquez ici pour voir le certificat</a>`
-    return getAdminEmails()
-      .then((adminEmails) => {
-        sendEmail(
-          adminEmails,
-          "Nouveau certificat !",
-          htmlContent,
-          SENDINBLUE_API_KEY_SECRET
-        )
-      })
-      .then(() => {
-        console.log("DONE ??")
-      })
-  }) */
-
 //When a student is deleted from Firestore,  delete medical certificate
 exports.onDeleteStudentFromFirestore = functions.firestore
   .document("students/{studentId}")
@@ -435,79 +320,6 @@ exports.onDeleteStudentFromFirestore = functions.firestore
       console.log(error)
     }
   })
-
-/* //When user is updated with new student ID, update Auth user claims
-exports.updateUser = functions.firestore
-  .document("users/{userId}")
-  .onWrite(async (change, context) => {
-    //Get student list before change
-    const studentsBefore = change.before.data().students
-
-    //Get student list after change
-    const studentsAfter = change.after.data().students
-
-    //Get user ID
-    const userId = context.params.userId
-
-    //If no changes to students, do nothing
-    if (studentsBefore === studentsAfter) return
-
-    //Get auth user from user ID
-    const user = await admin.auth().getUser(userId)
-
-    //Update custom claims with new list of students
-    const response = await changeCustomClaims(user, "students", studentsAfter)
-    console.log(response)
-  }) */
-
-/* //When a student is created in Firestore, update season document
-exports.onCreateStudentUpdateSeasonDoc = functions.firestore
-  .document("students/{studentId}")
-  .onCreate((snap, context) => {
-    const student = snap.data()
-    const id = snap.id
-    const month = parseInt(dayjs().format("M"))
-    const seasonString = month === 8 ? season().next : season().current
-
-    return db
-      .doc(`seasons/${seasonString}`)
-      .update({ [`students.${id}`]: student })
-  })
-
-//When a student is updated in Firestore, update season document
-exports.onUpdateStudentUpdateSeasonDoc = functions.firestore
-  .document("students/{userId}")
-  .onUpdate((change, context) => {
-    const user = change.after.data()
-    const id = change.after.id
-    const month = parseInt(dayjs().format("M"))
-    const seasonString = month === 8 ? season().next : season().current
-
-    return db
-      .doc(`seasons/${seasonString}`)
-      .update({ [`students.${id}`]: user })
-  })
-
-//When a student is deleted from Firestore, update season doc
-// WARNING: CAN POTENTIALLY CAUSE ISSUES IF USED A LOT AT THE SAME TIME
-exports.onDeleteStudentUpdateSeasonDoc = functions.firestore
-  .document("students/{userId}")
-  .onDelete((snap, context) => {
-    const id = snap.id
-    const month = parseInt(dayjs().format("M"))
-    const seasonString = month === 8 ? season().next : season().current
-    return db
-      .doc(`seasons/${seasonString}`)
-      .get()
-      .then((doc) => {
-        let students = doc.data().students
-        delete students[id]
-        return db.doc(`seasons/${seasonString}`).update({ students: students })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }) */
 
 //##########################################################################
 //                                TEST FUNCTIONS
