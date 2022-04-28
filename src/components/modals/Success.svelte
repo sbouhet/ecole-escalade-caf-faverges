@@ -1,16 +1,20 @@
 <script>
-    import { subscription, currentDay, currentSeason } from '$utils/stores'
+    import { subscription, currentDay, currentSeason, subscriptionStatus } from '$utils/stores'
     import { getDayName } from '$utils/days'
     import { printName } from '$utils/printName'
     import { goto } from '@roxi/routify'
+    import { subscriptionReset } from '$utils/subscriptionReset'
+    
     let open = true
 
     const subscribeAnother = ()=>{
-        $subscription.publicInfo.seasons[$currentSeason.name].status = null
+        $subscriptionStatus = null
     }
 
     const done = ()=>{
-      $subscription.publicInfo.seasons[$currentSeason.name].status = 'done'
+      $subscription = subscriptionReset($currentSeason)
+      $subscriptionStatus = null
+      $goto('/prive/mon-compte')
     }
 </script>
 
@@ -23,8 +27,8 @@
     
       
     <footer>
-      <a href="#" role="button" class="outline" on:click={subscribeAnother}>Inscire quelqu'un d'autre</a>
-      <a href="#" role="button" on:click={done}>Continuer</a>
+      <div role="button" class="outline" on:click={subscribeAnother}>Inscire quelqu'un d'autre</div>
+      <div role="button" on:click={done}>Continuer</div>
     </footer>
   </article>
 </dialog>

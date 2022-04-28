@@ -3,9 +3,7 @@
     This page tries to find a day object based on url and $currentSeason
     Stores it in $currentDay
     Then it displays differents components based on the value of $subscriptionStatus
-
-    status is NULL    >    reset $subsrciption and show <SubscribeForm>
-    status is DONE    >    redirect to mon-compte
+   
     status is READY TO CHECK    >    show <CheckSubscription>
     status is UPLOADED TO FIRESTORE    >    show <Success>
     -------------------------------------------------------------------  */
@@ -17,7 +15,6 @@
     import { getDayFromUrl } from '$utils/days'
     import Success from '$components/modals/Success.svelte'
     import { goto } from '@roxi/routify'
-    import { subscriptionReset } from '$utils/subscriptionReset'
     import { BError } from 'berror'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
 
@@ -37,19 +34,6 @@
         $error = e
         $fatal = true
     }
-
- /*    //If status is NULL, reset subscription and change status to WORKING
-    $:if(!$subscriptionStatus){
-        //$subscription = subscriptionReset($currentSeason)
-
-        // Write day URL in subscription
-        //$subscription.publicInfo.seasons[$currentSeason.name].day = dayUrl
-
-        //$subscriptionStatus = "working"
-    }    */ 
-
-    //If status is DONE, redirect to mon-compte
-    $:if ($subscriptionStatus === 'done') $goto('/prive/mon-compte')
     
 </script>
 
