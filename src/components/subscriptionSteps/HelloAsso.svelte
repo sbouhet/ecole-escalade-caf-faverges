@@ -9,7 +9,7 @@
     const functions = getFunctions(getApp())
     const checkPayment = httpsCallable(functions, "checkPayment")
 
-    $:id = student.public.id
+    $:id = student.id
     $:firstName = student.public.firstName
     $:lastName = student.public.lastName
     $:status = student.public.seasons[$currentSeason.name].payment

@@ -22,10 +22,6 @@ const deleteAllCustomClaims = require("./lib/firebase/auth/deleteAllCustomClaims
 const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
 const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
 
-/* const addIdToCurrentUserClaims = async (studentId) => {
-  const uid = context.auth.uid
-  return admin.auth().setCustomUserClaims(uid, { [studentId]: true })
-} */
 //test
 exports.test = functions.firestore
   .document("test/{test}")
@@ -89,7 +85,7 @@ exports.checkLicence = functions
       const firestoreStudent = await getStudentFromFirestore(data.studentId)
       const { dateDifference, timeLimit } = await checkConformity(
         soapUser,
-        firestoreStudent
+        firestoreStudent.data()
       )
       const x = await linkStudentWithLicence(
         firestoreStudent.id,

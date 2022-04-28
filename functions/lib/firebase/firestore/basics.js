@@ -14,7 +14,7 @@ exports._getDoc = async (collection, docId, subCollection, subDocId) => {
     .get()
     .then((doc) => {
       if (!doc.exists) throw "Pas de document"
-      return doc.data()
+      return doc
     })
     .catch((error) => {
       console.log(error)

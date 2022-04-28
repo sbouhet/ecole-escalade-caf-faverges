@@ -11,7 +11,7 @@
     const checkLicence = httpsCallable(functions, "checkLicence")
     let error, input, modalOpen
     let loading = false
-    $:id = student.public.id
+    $:id = student.id
     $:status = student.public.seasons[$currentSeason.name].licence
     
     const handleClick = async ()=>{
