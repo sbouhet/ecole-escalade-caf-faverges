@@ -42,7 +42,7 @@
 
         const studentsArray = []
         snapshot.forEach((doc) => {
-            studentsArray.push(doc.data())
+            studentsArray.push(doc)
         })
         $students = studentsArray
         },(err) => {

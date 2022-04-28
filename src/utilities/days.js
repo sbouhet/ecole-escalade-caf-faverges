@@ -111,7 +111,7 @@ export const getDayInfo = (day, season, students) => {
     if (!season) throw "No season"
     if (!students) throw "No students"
     const subscribedStudents = students.filter(
-      (student) => student.seasons[season.name].day == getDayUrl(day)
+      (student) => student.data().seasons[season.name].day == getDayUrl(day)
     )
     const studentList = subscribedStudents.map((x) => printName(x))
     const ageGroup = season.ageGroups[day.ageGroupIndex]
