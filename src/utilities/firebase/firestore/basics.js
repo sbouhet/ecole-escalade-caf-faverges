@@ -58,7 +58,7 @@ export const _query = async (collectionId, field, operation, value) => {
     const q = query(collectionRef, where(field, operation, value))
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
-      result.push(doc.data())
+      result.push(doc)
     })
     return result
   } catch (error) {
