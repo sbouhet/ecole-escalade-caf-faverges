@@ -32,11 +32,7 @@ exports.test = functions.firestore
   })
 
 //##############################################################################################
-//##############################################################################################
-//##############################################################################################
 //                                CALLABLE FUNCTIONS
-//##############################################################################################
-//##############################################################################################
 //##############################################################################################
 
 exports.getMyIds = functions.https.onCall(async (data, context) => {
@@ -230,44 +226,42 @@ exports.changeModStatus = functions.https.onCall(async (data, context) => {
   }
 })
 
-//####################################################################################################
-//####################################################################################################
+//Medical certificate
+exports.sendEmailAndChangeStatus = functions
+  .runWith({ secrets: ["SENDINBLUE_API_KEY_SECRET"] })
+  .https.onCall(async (data, context) => {
+    try {
+      console.log(data)
+      if (!data.seasonName) throw "No seasonName"
+      if (!data.id) throw "No id"
+
+      //Send email to admins
+      await sendNewCertificateEmail(data.id)
+
+      //Update student status
+      await basics._updateDoc(
+        { [`seasons.${data.seasonName}.medicalCertificate`]: "waiting" },
+        "students",
+        data.id
+      )
+
+      return {
+        statusCode: 200,
+        message: "Succès !",
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        statusCode: 409,
+        message: error,
+        body: "Could not send email and update student doc",
+      }
+    }
+  })
+
 //####################################################################################################
 //                                TRIGGER FUNCTIONS
 //####################################################################################################
-//####################################################################################################
-//####################################################################################################
-
-//****************************
-//STORAGE TRIGGERS
-
-//When a new medical certificate is uploaded
-exports.onNewCertificate = functions
-  .runWith({ secrets: ["SENDINBLUE_API_KEY_SECRET"] })
-  .storage.object()
-  .onFinalize(async (object) => {
-    try {
-      console.log(JSON.stringify(object))
-      const nameArray = object.name.split("/")
-      const id = nameArray[nameArray.length - 1]
-      const seasonName = nameArray[nameArray.length - 2]
-
-      const response = await basics._updateDoc(
-        {
-          [`seasons.${seasonName}.medicalCertificate`]: "waiting",
-        },
-        "students",
-        id
-      )
-      console.log(response)
-
-      const response2 = await sendNewCertificateEmail(id)
-      console.log(response2)
-      console.log("All done")
-    } catch (error) {
-      console.log(error)
-    }
-  })
 
 //****************************
 //AUTH TRIGGERS

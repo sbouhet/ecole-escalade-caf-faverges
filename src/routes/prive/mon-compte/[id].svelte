@@ -24,8 +24,6 @@
         } catch (err) {
             error = err
         }
-        //console.log("Public document changed")
-        //console.log(student)
     })
     const unsubPrivate = onSnapshot(doc(db, "students", urlId, "privateCol", "privateDoc"), async (doc) => {
         try {
@@ -33,18 +31,7 @@
         } catch (err) {
             error = err
         }
-        //console.log("Private document changed")
-        //console.log(student)
     })
-    $:if(student && student.private &&student.public){
-        medicalCertificateLink = student.private.medicalCertificateLink
-        medicalCertificateTimestamp = student.private.medicalCertificateTimestamp
-        medicalCertificateStatus = student.public.seasons[$currentSeason.name].medicalCertificate
-        paymentStatus = student.public.seasons[$currentSeason.name].payment
-        firstName = student.public.firstName
-        lastName = student.public.lastName
-        slug = getAgeGroupFromDayUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days, $currentSeason.ageGroups).slug
-    }
 
     
 </script>
@@ -64,14 +51,7 @@
         </details>
         <HelloAsso {student}/>
         <Licence {student}/>
-        <MedicalCertificate link={medicalCertificateLink} timestamp={medicalCertificateTimestamp} status={medicalCertificateStatus} studentId={urlId}/>
+        <MedicalCertificate  {student}/>
     </article>
 {/if}
 <slot></slot>
-
-<style>
-    summary{
-        font-weight: bold;
-    }
-   
-</style>

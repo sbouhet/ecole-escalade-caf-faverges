@@ -6,8 +6,7 @@ import {
   uploadBytes,
   deleteObject,
 } from "firebase/storage"
-
-import { saveMedicalCertificate } from "$firestore/saveMedicalCertificate"
+import { _updateDoc } from "$utils/firebase/firestore/basics"
 import { BError } from "berror"
 
 export const uploadMedicalCertificate = async (
@@ -20,6 +19,7 @@ export const uploadMedicalCertificate = async (
     if (!file) throw "No file"
     if (!seasonName) throw "No seasonName"
     if (!studentId) throw "No studentId"
+    if (!userId) throw "No userId"
     const storage = getStorage()
     const path = `medicalCertificates/${seasonName}/${studentId}`
     const storageRef = ref(storage, path)
@@ -34,11 +34,19 @@ export const uploadMedicalCertificate = async (
     //Get link
     const link = await getDownloadURL(storageRef)
 
-    //Write link in stuent/private and change status is season/currentSeason/certificate
-    await saveMedicalCertificate(studentId, link, seasonName)
+    //Create timestamp
+    const timestamp = dayjs().format("D MMMM YYYY à HH:mm")
 
-    console.log("Certificate uploaded")
-    return
+    //Update student private doc with link and timestamp
+    await _updateDoc(
+      { medicalCertificateLink: link, medicalCertificateTimestamp: timestamp },
+      "students",
+      studentId,
+      "privateCol",
+      "privateDoc"
+    )
+
+    return link
   } catch (error) {
     throw new BError(
       "$utils/firebase/storage => uploadMedicalCertificate()",

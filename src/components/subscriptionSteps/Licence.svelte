@@ -66,9 +66,3 @@
         <div style="color:green">Votre licence est à jour !</div>
     {/if}
 </details>
-
-<style>
-    summary{
-        font-weight: bold;
-    }
-</style>

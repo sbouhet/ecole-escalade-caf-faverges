@@ -13,3 +13,6 @@ tbody tr:hover {
 
   cursor: pointer;
 }
+summary {
+  font-weight: bold;
+}

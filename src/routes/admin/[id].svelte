@@ -98,9 +98,3 @@
 
 {/if}
 <slot></slot>
-
-<style>
-    summary{
-        font-weight: bold;
-    }
-</style>
