@@ -22,9 +22,7 @@
         const dayUrl = $subscription.publicInfo.seasons[$currentSeason.name].day
         full = await isDayFull(dayUrl, $currentSeason.name, $currentSeason.days)
         if(full) return
-        //$subscription.publicInfo.seasons[$currentSeason.name].status = "waiting"
         const response = await createNewStudent($subscription, $currentSeason)
-        //getAuth().currentUser.getIdToken(true)
         console.log(response)
         $subscriptionStatus = 'uploadedToFirestore'
         loading = false
