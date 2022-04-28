@@ -10,7 +10,6 @@
     import { printName } from "$utils/printName";
     
     export let students = []
-    console.log("STUDEZNTS:", students)
     export let allowDelete = false
     export let links = false
     export let showDay = true
