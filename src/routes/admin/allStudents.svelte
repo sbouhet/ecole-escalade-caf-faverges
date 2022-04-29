@@ -20,6 +20,6 @@
   <small>Cliquez sur une colone pour trier les données</small>
 {/if}
 <br>
-<StudentsStatusTable students={$students} allowDelete={true} links={true}/>
+<StudentsStatusTable students={$students} allowDelete={true} links={true} timestamp={true}/>
 
 <slot></slot>

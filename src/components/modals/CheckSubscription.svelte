@@ -20,8 +20,7 @@
         if(full) return
         const timestamp = dayjs().unix()
         $subscription.publicInfo.seasons[$currentSeason.name].timestamp = timestamp
-        const response = await createNewStudent($subscription, $currentSeason)
-        console.log(response)
+        await createNewStudent($subscription, $currentSeason)
         $subscriptionStatus = 'uploadedToFirestore'
         loading = false
       } catch (err) {

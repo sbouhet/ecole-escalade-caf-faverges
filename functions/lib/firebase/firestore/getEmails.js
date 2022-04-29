@@ -1,6 +1,6 @@
 module.exports = (studentPrivateData) => {
   try {
-    if (!studentPrivateData) throw "No studentPrivateData"
+    if (!studentPrivateData) return []
     let emails = []
     let data = studentPrivateData
     if (!data) return []

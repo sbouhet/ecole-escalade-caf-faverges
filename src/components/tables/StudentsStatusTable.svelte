@@ -14,6 +14,7 @@
     export let links = false
     export let showDay = true
     export let myProfile = false
+    export let timestamp = false
 
     let table
     $:if(table){
@@ -34,6 +35,7 @@
                 <tr>
                     
                     {#if $admin && allowDelete}<th scope="col">Del</th>{/if}
+                    {#if timestamp}<th scope="col">Timestamp</th>{/if}
                     <th scope="col">Prénom</th>
                     {#if !myProfile}
                         <th scope="col">Nom</th>
@@ -53,6 +55,9 @@
                 <tr on:click={()=>handleClick(student.id)} class={myProfile?'':'noPointer'}>
                     {#if $admin && allowDelete}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
+                    {/if}
+                    {#if timestamp}
+                        <td>{student.data().seasons[$currentSeason.name].timestamp}</td>
                     {/if}
                     {#if myProfile}
                         <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName)}</a></td>
