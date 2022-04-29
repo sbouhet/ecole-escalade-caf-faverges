@@ -3,8 +3,10 @@
     import { subscription } from '$utils/stores'
     import { getAuth } from "firebase/auth"
 
-    let firstName, lastName, tel, accidentTel, confirmed
+    let firstName, lastName, tel, accidentTel
     export let ageConfirmed
+
+    $:console.log(ageConfirmed)
     $:email = getAuth().currentUser.email
     
     // Persistent data, in case user leaves the page and comes back
@@ -12,7 +14,7 @@
     if(!firstName) firstName = $subscription.publicInfo.firstName
     if(!lastName) lastName = $subscription.publicInfo.lastName
     if(!tel) tel = $subscription.privateInfo.tel
-    if(!accidentTel) tel = $subscription.privateInfo.accidentTel
+    if(!accidentTel) accidentTel = $subscription.privateInfo.accidentTel
     
     // Sync $subscription store when data in written in form
     $:if(firstName) $subscription.publicInfo.firstName = firstName

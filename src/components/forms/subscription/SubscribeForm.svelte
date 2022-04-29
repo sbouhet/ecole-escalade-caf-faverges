@@ -8,7 +8,7 @@
     $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
     $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
     
-    let ageConfirmed = adult ? false : true
+    $:ageConfirmed = adult ? false : true
 
     const handleSubmit = () => {
         $subscriptionStatus = 'readyToCheck'
