@@ -39,7 +39,6 @@
     {#if $subscription && $subscription.publicInfo && $subscription.privateInfo}
       <h2>Vérifiez vos informations</h2>
       <div>
-
         <!-- Name -->
         <h5>
           {printName($subscription.publicInfo)}

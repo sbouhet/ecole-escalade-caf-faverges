@@ -3,7 +3,8 @@
     import { subscription } from '$utils/stores'
     import { getAuth } from "firebase/auth"
 
-    let firstName, lastName, tel, accidentTel
+    let firstName, lastName, tel, accidentTel, confirmed
+    export let ageConfirmed
     $:email = getAuth().currentUser.email
     
     // Persistent data, in case user leaves the page and comes back
@@ -34,4 +35,9 @@
 
     <label for="phoneNumber">Téléphone de la personne à prévenir en cas d'accident</label>
     <input type="tel" id="tel" name="tel" required bind:value={accidentTel}>
+
+    <fieldset>
+    <label for="switch">Je suis majeur</label>
+    <input type="checkbox" id="switch" name="switch" role="switch" bind:checked={ageConfirmed}>
+    </fieldset>
 </section>

@@ -14,7 +14,6 @@
     import { currentSeason, subscription, subscriptionStatus, error, fatal, currentDay } from '$utils/stores'
     import { getDayFromUrl } from '$utils/days'
     import Success from '$components/modals/Success.svelte'
-    import { goto } from '@roxi/routify'
     import { BError } from 'berror'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
 

@@ -128,7 +128,7 @@ export const getDayInfo = (day, season, students) => {
       minAge,
       minYear,
       maxAge,
-      ages: `${minAge}‑${maxAge} ans`,
+      ages: maxAge ? `${minAge}‑${maxAge} ans` : "adultes",
       url: getDayUrl(day),
       nbMaxOfStudents: day.nbMaxOfStudents,
       subscribedStudents,

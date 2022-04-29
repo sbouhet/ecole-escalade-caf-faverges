@@ -7,6 +7,8 @@
 
     $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
     $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
+    
+    let ageConfirmed = adult ? false : true
 
     const handleSubmit = () => {
         $subscriptionStatus = 'readyToCheck'
@@ -24,16 +26,20 @@
     <YearWarning />
 
     {#if adult}
-        <AdultSubscriptionForm />
+        <AdultSubscriptionForm bind:ageConfirmed/>
     {:else}
         <ChildSubscriptionForm />
     {/if}
 
-    <button>Valider</button>
+    <button disabled={!ageConfirmed}>Valider</button>
 </form>
 
 <style>
     h1{
         text-transform: capitalize;
+    }
+
+    button{
+        max-width: 250px;
     }
 </style>
