@@ -33,7 +33,6 @@
         <table role="grid" bind:this={table}>
             <thead>
                 <tr>
-                    
                     {#if $admin && allowDelete}<th scope="col">Del</th>{/if}
                     {#if timestamp}<th scope="col">Timestamp</th>{/if}
                     <th scope="col">Prénom</th>
@@ -43,7 +42,8 @@
                     {#if showDay}
                         <th scope="col">Créneau</th>
                     {/if}
-                    <th scope="col">Status</th>
+                    <!-- <th scope="col">Status</th> -->
+                    <th scope="col">Compte</th>
                     <th scope="col">Licence</th>
                     <th scope="col">Paiement</th>
                     <th scope="col">Certificat médical</th>
@@ -69,21 +69,22 @@
                         <td>{student.data().lastName.toUpperCase()}</td>
                     {/if}
                     {#if showDay}
-                    
                         <td>
                             <div class="day">
                                 {getDayName(getDayFromUrl(student.data().seasons[$currentSeason.name].day, $currentSeason.days))}
                             </div>
                         </td>
                     {/if}
-                    <td>{#if student.data().seasons[$currentSeason.name].status==='waiting'}
+                  <!--   <td>{#if student.data().seasons[$currentSeason.name].status==='waiting'}
                         <span data-tooltip="Pré‑inscrit·e, en cours de validation.">⌛</span>
                         {:else if student.data().seasons[$currentSeason.name].status==='yes'}
                         <span data-tooltip="Inscrit·e">✅</span>
                         {:else}
                         {student.data().seasons[$currentSeason.name].status}
                         {/if}
-                    </td>
+                    </td> -->
+                    <!-- <td><Boolean value={student.data().seasons[$currentSeason.name].status}/></td> -->
+                    <td><Boolean value=yes/></td>
                     <td><Boolean value={student.data().seasons[$currentSeason.name].licence}/></td>
                     <td><Boolean value={student.data().seasons[$currentSeason.name].payment}/></td>
                     <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate}/></td>
