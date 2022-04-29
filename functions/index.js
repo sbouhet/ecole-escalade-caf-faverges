@@ -4,37 +4,26 @@ const functions = require("firebase-functions")
 const admin = require("firebase-admin")
 admin.initializeApp()
 const db = admin.firestore()
-const axios = require("axios").default
+const season = require("./lib/season")
 const BError = require("berror")
 const getNewTokens = require("./lib/helloAsso/getNewTokens")
-const deleteMedicalCertificate = require("./lib/firebase/storage/deleteMedicalCertificate")
-const getStudentFromFirestore = require("./lib/firebase/firestore/getStudentFromFirestore")
 const getEmails = require("./lib/firebase/firestore/getEmails")
 const getItemsFromHelloAsso = require("./lib/helloAsso/getItems")
 const getReceipts = require("./lib/helloAsso/getReceipts")
 const filterItems = require("./lib/helloAsso/filterItems")
 const getFormattedSoapUser = require("./lib/soap/getFormattedSoapUser")
 const checkConformity = require("./lib/soap/checkConformity")
-const linkStudentWithLicence = require("./lib/firebase/firestore/linkStudentWithLicence")
 const basics = require("./lib/firebase/firestore/basics")
 const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
-const deleteAllCustomClaims = require("./lib/firebase/auth/deleteAllCustomClaims")
 const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
 const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
-
-//test
-exports.test = functions.firestore
-  .document("test/{test}")
-  .onWrite(async (change, context) => {
-    console.log("TEST STARTING")
-    /*  await admin.auth().setCustomUserClaims("4axktEVXriP8jnDal9KqABJSSp52", null)
-    await admin.auth().setCustomUserClaims("XvjCydDEbtfhB0nAPrnhiVhTHBC3", null) */
-  })
 
 //##############################################################################################
 //                                CALLABLE FUNCTIONS
 //##############################################################################################
 
+//Find students with my email
+//(needs to be a cloud functions because users can't read private docs)
 exports.getMyIds = functions.https.onCall(async (data, context) => {
   try {
     if (!context.auth) throw "Il faut être inscrit pour faire ca"
@@ -42,7 +31,7 @@ exports.getMyIds = functions.https.onCall(async (data, context) => {
     const myIds = await getStudentsByEmail(context.auth.token.email)
     return {
       statusCode: 200,
-      message: `Succès !  élèves trouvés`,
+      message: `Ids retrieved`,
       body: { myIds },
     }
   } catch (error) {
@@ -50,136 +39,122 @@ exports.getMyIds = functions.https.onCall(async (data, context) => {
     return {
       statusCode: 409,
       message: error,
-      body: null,
+      body: "Could not get my ids",
     }
   }
 })
 
-exports.deleteClaims = functions.https.onCall(async (data, context) => {
-  try {
-    if (!context.auth.token.admin) throw "C'est pas la fête"
-    const response = deleteAllCustomClaims(data.userId)
-    return {
-      statusCode: 200,
-      message: "Succès !",
-      body: response,
-    }
-  } catch (error) {
-    return {
-      statusCode: 409,
-      message: error,
-      body: null,
-    }
-  }
-})
-
+//Check CAF Database to see if licenceNb is correct
 exports.checkLicence = functions
   .runWith({ secrets: ["SOAP_ID", "SOAP_PASSWORD"] })
   .https.onCall(async (data, context) => {
     try {
+      if (!data.licenceNb) throw "No licenceNb"
+      if (!data.studentId) throw "No studentId"
+      if (!data.seasonName) throw "No seasonName"
+
+      //Get soap user from licence number
       const soapUser = await getFormattedSoapUser(data.licenceNb)
-      const firestoreStudent = await getStudentFromFirestore(data.studentId)
-      const { dateDifference, timeLimit } = await checkConformity(
-        soapUser,
-        firestoreStudent.data()
-      )
-      const x = await linkStudentWithLicence(
-        firestoreStudent.id,
-        data.licenceNb,
-        data.seasonName
+
+      //Get student doc from Firestore
+      const student = await basics._getDoc("students", data.studentId)
+
+      //Make sure the names are the same and the signup date is ok
+      await checkConformity(soapUser, student.data())
+
+      //Update student doc with licence status and number
+      await basics._updateDoc(
+        {
+          [`seasons.${data.seasonName}.licence`]: "yes",
+          [`seasons.${data.seasonName}.licenceNb`]: data.licenceNb,
+        },
+        "students",
+        data.studentId
       )
       return {
         statusCode: 200,
-        message: "Succès !",
-        body: { soapUser, dateDifference, timeLimit },
+        message: "Licence checks out",
       }
     } catch (error) {
       return {
         statusCode: 409,
         message: error,
-        body: null,
+        body: "Error checking licence",
       }
     }
   })
 
+//Check HelloAsso to see if payment has been made
 exports.checkPayment = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
   .https.onCall(async (data, context) => {
-    const tokens = await getNewTokens()
-    const items = await getItemsFromHelloAsso(data.slug, tokens.access_token)
-    const filtered = filterItems(items, data.firstName, data.lastName)
-    let status
-    let helloAssoId = null
-    let payments = []
+    try {
+      //slug example: "ecole-d-escalade-6-7-ans-2022-2023"
+      if (!data.slug) throw "No slug"
+      if (!data.firstName) throw "No firstName"
+      if (!data.lastName) throw "No lastName"
 
-    if (filtered.length === 1) {
-      status = "yes"
-      helloAssoId = filtered[0].id
-      payments = filtered[0].payments
-    } else if (filtered.length > 1) {
-      status = "waiting"
-    } else {
-      status = "no"
+      //Get new API tokens (access_token and refresh_token)
+      const tokens = await getNewTokens()
+
+      //Get all items for specified slug (a slug is an adress to a helloAsso form)
+      const items = await getItemsFromHelloAsso(data.slug, tokens.access_token)
+
+      //Try to find student name in list of items
+      const filtered = filterItems(items, data.firstName, data.lastName)
+
+      //If one item is found with specified name (everything went well)
+      if (filtered.length === 1) {
+        const helloAssoId = filtered[0].id
+        const payments = filtered[0].payments
+
+        //Get receipts
+        const receipts = await getReceipts(
+          tokens.access_token,
+          payments,
+          data.slug
+        )
+
+        //Update public doc with status > "yes"
+        await basics._updateDoc(
+          { [`seasons.${data.seasonName}.payment`]: "yes" },
+          "students",
+          data.id
+        )
+
+        //Update private doc with receipts and helloAssoId
+        await basics._updateDoc(
+          { receipts, helloAssoId },
+          "students",
+          data.id,
+          "privateCol",
+          "privateDoc"
+        )
+
+        //If more than one items have the specified name
+      } else if (filtered.length > 1) {
+        throw "Plus d'un paiment trouvé avec ce nom, contactez un administrateur"
+
+        //If no payment found
+      } else {
+        throw "Aucun paiment trouvé avec ce nom"
+      }
+      return {
+        statusCode: 200,
+        message: "Payment checked successfully",
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        statusCode: 409,
+        message: error,
+        body: "Could not check payment",
+      }
     }
-    const receipts = await getReceipts(tokens.access_token, payments, data.slug)
-
-    //Update public doc
-    const response = basics._updateDoc(
-      {
-        [`seasons.${data.seasonName}.payment`]: status,
-      },
-      "students",
-      data.id
-    )
-    console.log(response)
-
-    //Update private doc
-    const response2 = await basics._updateDoc(
-      { receipts, helloAssoId },
-      "students",
-      data.id,
-      "privateCol",
-      "privateDoc"
-    )
-    console.log(response2)
-
-    if (status !== "yes")
-      return { statusCode: 409, message: "Une erreur est survenue", body: null }
-
-    return {
-      statusCode: 200,
-      message: "Succès !",
-      body: { filtered, receipts },
-    }
-  })
-
-exports.getPayments = functions
-  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
-  .https.onCall(async (data, context) => {
-    const myEmail = context.auth.token.email || null
-    const uid = context.auth.uid
-    if (context.auth.token.admin !== true) {
-      return { errorInfo: "If faut être admin pour voir les paiements" }
-    }
-
-    const tokens = await getTokensFromFirestore()
-    const access_token = tokens.access_token
-    const refresh_token = tokens.refresh_token
-
-    const response = await axios({
-      url: "https://api.helloasso.com/v5/organizations/caf-de-faverges/payments",
-      method: "get",
-      headers: {
-        authorization: `Bearer ${access_token}`,
-      },
-    })
-    console.log(`Response code : ${response.code}`)
-    return response.data
   })
 
 //change mod / admin status
 exports.changeModStatus = functions.https.onCall(async (data, context) => {
-  console.log(data)
   try {
     // check user is not null
     if (!context.auth) throw "Vous devez être connecté pour faire ca"
@@ -305,7 +280,9 @@ exports.onDeleteStudentFromFirestore = functions.firestore
   .onDelete(async (snap, context) => {
     const studentId = snap.id
     try {
-      await deleteMedicalCertificate(studentId)
+      const bucket = admin.storage().bucket()
+      const path = `medicalCertificates/${season().current}/${studentId}`
+      return bucket.file(path).delete()
     } catch (error) {
       console.log(error)
     }
@@ -345,3 +322,29 @@ exports.onDeleteStudentFromFirestore = functions.firestore
     //response.send({ body: request.body })
   }
 ) */
+
+/* exports.deleteClaims = functions.https.onCall(async (data, context) => {
+  try {
+    if (!context.auth.token.admin) throw "C'est pas la fête"
+    const response = deleteAllCustomClaims(data.userId)
+    return {
+      statusCode: 200,
+      message: "Succès !",
+      body: response,
+    }
+  } catch (error) {
+    return {
+      statusCode: 409,
+      message: error,
+      body: null,
+    }
+  }
+}) */
+
+/* //test
+exports.test = functions.firestore
+  .document("test/{test}")
+  .onWrite(async (change, context) => {
+    console.log("TEST STARTING")
+   
+  }) */

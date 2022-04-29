@@ -13,7 +13,7 @@ module.exports = async (soapUser, student) => {
     const timeLimit = adminDoc.data().timeLimitForLicence
     if (dateDifference > timeLimit)
       throw `Cette licence a été prise il y a plus de ${timeLimit} jours.`
-    return { dateDifference, timeLimit }
+    return
   } catch (error) {
     console.log("Error checking conformity")
     console.log(error)
