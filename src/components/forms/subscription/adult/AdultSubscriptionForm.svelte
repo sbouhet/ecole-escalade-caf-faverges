@@ -6,7 +6,6 @@
     let firstName, lastName, tel, accidentTel
     export let ageConfirmed
 
-    $:console.log(ageConfirmed)
     $:email = getAuth().currentUser.email
     
     // Persistent data, in case user leaves the page and comes back

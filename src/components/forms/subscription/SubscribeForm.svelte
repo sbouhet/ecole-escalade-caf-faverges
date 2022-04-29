@@ -8,7 +8,10 @@
     $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
     $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
     
+    //Force adult users to check switch "Je suis majeur"
     $:ageConfirmed = adult ? false : true
+    //This is only used for adults, "ageConfirmed" stays true for children
+    //For children, DateOfBirth component handles the age check 
 
     const handleSubmit = () => {
         $subscriptionStatus = 'readyToCheck'
