@@ -1,13 +1,12 @@
 <script>
     import AdultSubscriptionForm from "./adult/AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./child/ChildSubscriptionForm.svelte"
-    import { currentSeason, currentDay, subscriptionStatus } from '$utils/stores'
+    import { currentSeason, currentDay, subscriptionStatus, subscription } from '$utils/stores'
     import { getDayName, isDayForAdults } from '$utils/days'
     import YearWarning from "./YearWarning.svelte"
 
-    const day = $currentDay
-    const adult = isDayForAdults(day, $currentSeason.ageGroups)
-
+    $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
+    $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
 
     const handleSubmit = () => {
         $subscriptionStatus = 'readyToCheck'
@@ -18,7 +17,7 @@
 <form on:submit|preventDefault={handleSubmit}>
 
     <hgroup>
-        <h1>{getDayName(day)}</h1>
+        <h1>{getDayName($currentDay)}</h1>
         <h1>Saison {$currentSeason.name}</h1>
     </hgroup>
     

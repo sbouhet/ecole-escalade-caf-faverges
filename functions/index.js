@@ -49,7 +49,7 @@ exports.checkLicence = functions
   .runWith({ secrets: ["SOAP_ID", "SOAP_PASSWORD"] })
   .https.onCall(async (data, context) => {
     try {
-      if (!data.licenceNb) throw "No licenceNb"
+      if (!data.licenceNb) throw "Pas de numéro de licence"
       if (!data.studentId) throw "No studentId"
       if (!data.seasonName) throw "No seasonName"
 

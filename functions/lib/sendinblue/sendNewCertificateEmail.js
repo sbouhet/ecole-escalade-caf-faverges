@@ -11,7 +11,7 @@ module.exports = async (studentId) => {
     //Populate adminEmails
     let adminEmails = []
     for (const adminEmail of adminDoc.data().adminEmails) {
-      formatted.push({ email: adminEmail })
+      adminEmails.push({ email: adminEmail })
     }
 
     //Set subject

@@ -50,6 +50,6 @@
     <input type="email" id="email" name="email" placeholder="Adresse email" disabled={nb==1} bind:value={email}>
     
 
-    <label for="phoneNumber">Telephone</label>
+    <label for="phoneNumber">Téléphone</label>
     <input type="tel" id="tel" name="tel" required={nb==1} bind:value={tel}>
 </section>

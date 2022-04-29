@@ -23,7 +23,8 @@
     let selectedSeason = 'current'
     let notifications = []
 
-    $:console.log($students)
+    //$:console.log($students)
+    $:console.log($subscription)
 
     $:if ($currentSeason) {
         //Reset subscription because season has changed

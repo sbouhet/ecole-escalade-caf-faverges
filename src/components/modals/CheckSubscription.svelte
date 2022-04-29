@@ -11,6 +11,7 @@
    
     let full = false
     let loading = false
+    $:adult = $subscription.publicInfo.seasons[$currentSeason.name].adult
 
     const submitSubscription =  async () => {
       try {
@@ -31,7 +32,6 @@
         $fatal = true
       }
     }
-  $:console.log($subscription)
 </script>
 
 <dialog open>
@@ -39,23 +39,41 @@
     {#if $subscription && $subscription.publicInfo && $subscription.privateInfo}
       <h2>Vérifiez vos informations</h2>
       <div>
+
+        <!-- Name -->
         <h5>
           {printName($subscription.publicInfo)}
         </h5>
-        <div>Né·e le <b>{dayjs($subscription.privateInfo.dateOfBirth).format('D MMMM YYYY')}</b> ({getAge($subscription.privateInfo.dateOfBirth, false)} ans)</div>
+
+        <!-- Date of birth -->
+        {#if !adult}
+          <div>Né·e le <b>{dayjs($subscription.privateInfo.dateOfBirth).format('D MMMM YYYY')}</b> ({getAge($subscription.privateInfo.dateOfBirth, false)} ans)</div>
+        {/if}
+
+        <!-- Selected day -->
         <div>Créneau choisi : <b>{getDayName($currentDay)}</b></div>
         <br>
-        <section>
-          Parents :
-          {#each $subscription.privateInfo.parents as parent}
-          <hr>
-            <div>
-              <div><b>{printName(parent)}</b> <small>({translateRole(parent.role)})</small></div>
-              <div>Email : {parent.email===undefined?'':parent.email}</div>
-              <div>Téléphone: {parent.tel===undefined?'':parent.tel}</div>
-            </div>
-          {/each}
-        </section>
+
+        <!-- If adult -->
+        {#if adult}
+          <div>Email: {$subscription.privateInfo.email}</div>
+          <div>Téléphone : {$subscription.privateInfo.tel}</div>
+          <div>Téléphone de la personne à prévenir : {$subscription.privateInfo.accidentTel}</div>
+        
+          <!-- If child -->
+        {:else}
+          <section>
+            Parents :
+            {#each $subscription.privateInfo.parents as parent}
+            <hr>
+              <div>
+                <div><b>{printName(parent)}</b> <small>({translateRole(parent.role)})</small></div>
+                <div>Email : {parent.email===undefined?'':parent.email}</div>
+                <div>Téléphone : {parent.tel===undefined?'':parent.tel}</div>
+              </div>
+            {/each}
+          </section>
+        {/if}
       </div>
       {#if full}
         <ErrorMessage error="Il n'y a plus de place sur ce créneau" />

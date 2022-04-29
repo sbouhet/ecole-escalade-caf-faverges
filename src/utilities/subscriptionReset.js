@@ -20,6 +20,7 @@ export const subscriptionReset = (season) => {
         lastName: null,
         seasons: {
           [name]: {
+            adult: false,
             day,
             status: "no",
             payment: "no",
@@ -32,6 +33,7 @@ export const subscriptionReset = (season) => {
       },
       privateInfo: {
         tel: null,
+        accidentTel: null,
         email: null,
         dateOfBirth: null,
         parents: [{}],
