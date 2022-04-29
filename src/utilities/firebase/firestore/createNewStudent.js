@@ -5,7 +5,6 @@ export const createNewStudent = async (student, season) => {
   try {
     if (!student) throw "no student"
     if (!season) throw "no season"
-    //console.log(`Trying to subscribe ${student.publicInfo.firstName}`)
 
     //write public data to student doc (students/{studentId})
     const studentId = await _addDoc(student.publicInfo, "students")

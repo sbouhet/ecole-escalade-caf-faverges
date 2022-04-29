@@ -1,18 +1,14 @@
 <script>
     import { subscription, currentDay, currentSeason, error, fatal, subscriptionStatus} from '$utils/stores'
     import { getAge } from '$utils/ageGroups'
-    import { getDayName, getDayUrl } from '$utils/days'
+    import { getDayName } from '$utils/days'
     import { translateRole } from '$utils/TRANSLATE'
     import { createNewStudent } from '$firestore/createNewStudent'
-    import { getApp } from "firebase/app";
-    import { getFunctions, httpsCallable } from "firebase/functions"
     import { printName } from '$utils/printName'
     import { isDayFull } from '$firestore/dayIsFull'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { BError } from "berror"
-    import { getAuth } from "firebase/auth"
-    const functions = getFunctions(getApp())
-    const createStudent = httpsCallable(functions, 'createStudent')
+   
     let full = false
     let loading = false
 
@@ -22,6 +18,8 @@
         const dayUrl = $subscription.publicInfo.seasons[$currentSeason.name].day
         full = await isDayFull(dayUrl, $currentSeason.name, $currentSeason.days)
         if(full) return
+        const timestamp = dayjs().unix()
+        $subscription.publicInfo.seasons[$currentSeason.name].timestamp = timestamp
         const response = await createNewStudent($subscription, $currentSeason)
         console.log(response)
         $subscriptionStatus = 'uploadedToFirestore'
