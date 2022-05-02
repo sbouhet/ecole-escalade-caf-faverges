@@ -226,20 +226,6 @@ export default {
                 "name": "test"
               },
               "children": []
-            },
-            {
-              "meta": {},
-              "id": "_default_prive_admin_test2_svelte",
-              "name": "test2",
-              "module": () => import('../src/routes/prive/admin/test2.svelte'),
-              "file": {
-                "path": "src/routes/prive/admin/test2.svelte",
-                "dir": "src/routes/prive/admin",
-                "base": "test2.svelte",
-                "ext": ".svelte",
-                "name": "test2"
-              },
-              "children": []
             }
           ]
         },

@@ -1,5 +1,6 @@
 <script>
     import NameForm from '../NameForm.svelte'
+    import NameFormWithRestriction from '$components/forms/subscription/NameFromWithRestriction.svelte'
     import DateOfBirthForm from './DateOfBirthForm.svelte'
     import {subscription} from '$utils/stores'
 
@@ -21,7 +22,8 @@
 <section>
     <h5>Enfant</h5>
     
-    <NameForm bind:firstName bind:lastName  />
+    <!-- <NameForm bind:firstName bind:lastName  /> -->
+    <NameFormWithRestriction bind:firstName bind:lastName  />
     <DateOfBirthForm bind:dateOfBirth/>
     
 </section>

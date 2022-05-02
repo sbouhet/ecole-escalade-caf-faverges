@@ -16,9 +16,12 @@
     import Success from '$components/modals/Success.svelte'
     import { BError } from 'berror'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
+    
 
     //get day from url
     let dayUrl = $params.dayUrl
+
+  
 
     //Try to find corresponding day in current season
     try {
@@ -37,15 +40,15 @@
 </script>
 
 <article>
-
-    {#if $subscriptionStatus === 'readyToCheck'}
-        <CheckSubscription />
-    {:else if $subscriptionStatus === 'uploadedToFirestore'}
-        <Success />  
-    {:else}
-        <SubscribeForm />
-    {/if}
-    
+ 
+         {#if $subscriptionStatus === 'readyToCheck'}
+            <CheckSubscription />
+        {:else if $subscriptionStatus === 'uploadedToFirestore'}
+            <Success />  
+        {:else}
+            <SubscribeForm />
+        {/if}
+  
 
 </article>
 

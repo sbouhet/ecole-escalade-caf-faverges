@@ -15,6 +15,7 @@
     import { collection, query, where, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import { printName } from '$utils/printName'
+    import { _getDoc } from '$firestore/basics'
 
     
 

@@ -52,7 +52,6 @@ export const _query = async (collectionId, field, operation, value) => {
     if (!collectionId) throw "No collection"
     if (!field) throw "No field"
     if (!operation) throw "No operation"
-    if (!value) throw "No value"
     let result = []
     const collectionRef = collection(db, collectionId)
     const q = query(collectionRef, where(field, operation, value))
