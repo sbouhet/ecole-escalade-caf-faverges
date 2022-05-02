@@ -37,7 +37,7 @@
 {:else } 
     <h1>{printName(student.public)}</h1>
     <h4>{seasonName}</h4>
-    <div><a href={student.private.medicalCertificateLink} target="_new">Cliquer ici pour voir le certificat médical</a></div>
+    <div><a href={student.private.medicalCertificateLink} target="_new">Cliquez ici pour voir le certificat médical</a></div>
     <br>
     {#if student.public.seasons[seasonName]}
         <div>Status actuel :

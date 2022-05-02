@@ -2,6 +2,7 @@
     import Boolean from '$components/htmlElements/Boolean.svelte'
     import {uploadMedicalCertificate} from '$utils/firebase/storage'
     import {currentSeason, error, fatal} from '$utils/stores'
+    import {printName} from '$utils/printName'
     import { getAuth } from "firebase/auth"
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
@@ -30,7 +31,7 @@
             uploading = true
             const link = await uploadMedicalCertificate(file, $currentSeason.name, id, getAuth().currentUser.uid)
             console.log(link)
-            const response = await sendEmailAndChangeStatus({seasonName:$currentSeason.name, id})
+            const response = await sendEmailAndChangeStatus({seasonName:$currentSeason.name, id, name:printName(student.public)})
             console.log(response)
             if(response.data.statusCode!==200) throw new Error(response.data.message)
             console.log("Medical certificate uploaded successfully")
@@ -65,7 +66,13 @@
         <form>
             <label for="upload">Votre certificat médial :</label>
             <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
-            <button disabled={!file} aria-busy={uploading} on:click|preventDefault={submit} >Envoyer le certificat</button>
+            <button disabled={!file} aria-busy={uploading} on:click|preventDefault={submit} >
+                {#if uploading}
+                    merci de patienter...
+                {:else}
+                    Envoyer le certificat
+                {/if}
+            </button>
         </form>
     {/if}
 </details>

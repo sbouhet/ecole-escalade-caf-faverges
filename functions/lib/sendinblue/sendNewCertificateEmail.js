@@ -1,7 +1,7 @@
 const sendEmail = require("./sendEmail")
 const basics = require("../firebase/firestore/basics")
 
-module.exports = async (studentId, seasonName) => {
+module.exports = async (studentId, seasonName, name) => {
   try {
     if (!studentId) throw "No student ID"
     if (!seasonName) throw "No seasonName"
@@ -16,7 +16,7 @@ module.exports = async (studentId, seasonName) => {
     }
 
     //Set subject
-    const subject = "Nouveau certificat !"
+    const subject = `Nouveau certificat pour ${name}`
 
     //Set html content with student ID
     const htmlContent = `

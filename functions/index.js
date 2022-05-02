@@ -209,9 +209,10 @@ exports.sendEmailAndChangeStatus = functions
       console.log(data)
       if (!data.seasonName) throw "No seasonName"
       if (!data.id) throw "No id"
+      if (!data.name) throw "No name"
 
       //Send email to admins
-      await sendNewCertificateEmail(data.id, data.seasonName)
+      await sendNewCertificateEmail(data.id, data.seasonName, data.name)
 
       //Update student status
       await basics._updateDoc(
