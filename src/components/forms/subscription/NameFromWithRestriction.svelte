@@ -34,6 +34,10 @@
 
     
 </script>
+
+
+
+ 
     {#await priorityStudents}
         ...
     {:then priorityStudents} 
@@ -41,7 +45,7 @@
         <label for="search">Nom</label>
         <input type="search" id="search" name="search" placeholder="Chercher le nom de la personne à inscrire" bind:value={searchInput} on:input={()=>handleChange(priorityStudents)}>
         {#if !filled && releventStudents.length < 5 && releventStudents.length>0}
-        <br>
+            <br>
             <ul>
                 <small>Cliquez sur le bouton correspondant :</small>               
                 {#each releventStudents as student}
@@ -52,11 +56,14 @@
                     </li>
                 {/each}
             </ul>
+        {:else if releventStudents.length <= 0 && searchInput}
+            <p style="color:red">Aucun résultat ne correspond à votre recherche.</p>
         {/if}
+
     </div>
     {/await}
 
-    {#if firstName && lastName} 
+    {#if filled} 
         <strong>{firstName} {lastName}</strong>
         <br><br>
     {/if}
