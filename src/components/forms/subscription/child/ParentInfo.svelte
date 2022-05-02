@@ -47,7 +47,7 @@
     </select>
     
     <label for="email">Adresse email</label>
-    <input type="email" id="email" name="email" placeholder="Adresse email" disabled={nb==1} bind:value={email}>
+    <input type="email" id="email" name="email" placeholder="Adresse email" disabled={nb==1} bind:value={email} aria-invalid={nb==1?'false':null}>
     
 
     <label for="phoneNumber">Téléphone</label>
