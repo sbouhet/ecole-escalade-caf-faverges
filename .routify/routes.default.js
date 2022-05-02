@@ -59,6 +59,20 @@ export default {
         },
         {
           "meta": {},
+          "id": "_default_admin_checkMedicalCertificate_svelte",
+          "name": "checkMedicalCertificate",
+          "module": () => import('../src/routes/admin/checkMedicalCertificate.svelte'),
+          "file": {
+            "path": "src/routes/admin/checkMedicalCertificate.svelte",
+            "dir": "src/routes/admin",
+            "base": "checkMedicalCertificate.svelte",
+            "ext": ".svelte",
+            "name": "checkMedicalCertificate"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
           "id": "_default_admin_copySeason_svelte",
           "name": "copySeason",
           "module": () => import('../src/routes/admin/copySeason.svelte'),

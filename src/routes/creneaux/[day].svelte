@@ -12,7 +12,7 @@
     let day = getDayFromUrl(dayUrl, $currentSeason.days)
     
     let dayStudents = []
-    $:dayStudents = $students.filter(x=>x.data().seasons[$currentSeason.name].day===dayUrl)
+    $:dayStudents = $students.filter(x=>x.data().seasons[$currentSeason.name] != null && x.data().seasons[$currentSeason.name].day===dayUrl)
     //$:dayStudents = $students
     let error = null
    
