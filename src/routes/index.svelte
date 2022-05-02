@@ -10,7 +10,7 @@
 </hgroup>
 
 {#if $admin}
-    <a href="/admin">ADMIN</a><br>
+    <a href="/prive/admin">ADMIN</a><br>
 {/if}
 
 {#if $loggedin}

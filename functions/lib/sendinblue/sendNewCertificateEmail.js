@@ -1,9 +1,10 @@
 const sendEmail = require("./sendEmail")
 const basics = require("../firebase/firestore/basics")
 
-module.exports = async (studentId) => {
+module.exports = async (studentId, seasonName) => {
   try {
     if (!studentId) throw "No student ID"
+    if (!seasonName) throw "No seasonName"
 
     //Get admin doc from Firestore
     const adminDoc = await basics._getDoc("admin", "admin")
@@ -19,7 +20,7 @@ module.exports = async (studentId) => {
 
     //Set html content with student ID
     const htmlContent = `
-    <a href="https://ee22.netlify.app/admin/modifyStudent?id=${studentId}" target="_new">
+    <a href="https://ee22.netlify.app/prive/admin/checkMedicalCertificate?season=${seasonName}&id=${studentId}" target="_new">
     Cliquez ici pour voir le certificat</a>`
 
     //Send email to admins

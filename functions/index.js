@@ -211,7 +211,7 @@ exports.sendEmailAndChangeStatus = functions
       if (!data.id) throw "No id"
 
       //Send email to admins
-      await sendNewCertificateEmail(data.id)
+      await sendNewCertificateEmail(data.id, data.seasonName)
 
       //Update student status
       await basics._updateDoc(

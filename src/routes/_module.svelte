@@ -62,10 +62,11 @@
         $loggedin = true
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
-            //console.log(res.claims)
-          $admin = !!res.claims.admin
+            console.log(res.claims)
+          $admin = !!res.claims.admin || !!res.claims.mod
+        
           //TEST
-          $admin = true
+          //$admin = true
           userStoreUpToDate = true
         })
       }else{

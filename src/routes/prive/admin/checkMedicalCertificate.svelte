@@ -6,15 +6,23 @@
     import Boolean from '$components/htmlElements/Boolean.svelte'
     let seasonName = $params.season
     let studentId = $params.id
-    let student = getStudent(studentId)
+    let student
     let loading = false
+
+    const refreshStudent = async ()=>{
+            loading = true
+            student = await getStudent(studentId)
+            loading = false
+    }
+
+    refreshStudent()
 
     const handleClick = async (status)=>{
         loading = true
         console.log("CHanging state")
         try {
             await changeState(studentId, "medicalCertificate", status, seasonName)
-            student = getStudent(studentId)
+            await refreshStudent()
             console.log("done")
             loading = false
         } catch (error) {
@@ -24,15 +32,21 @@
     }
 </script>
 
-{#await student}
+{#if !student}
     <p aria-busy="true">Merci de patienter...</p>
-{:then student} 
+{:else } 
     <h1>{printName(student.public)}</h1>
     <h4>{seasonName}</h4>
-    <div><a href={student.private.medicalCertificateLink} target="_new">Certificat médical</a></div>
+    <div><a href={student.private.medicalCertificateLink} target="_new">Cliquer ici pour voir le certificat médical</a></div>
     <br>
     {#if student.public.seasons[seasonName]}
-        <div aria-busy={loading}>Status actuel : <Boolean value={student.public.seasons[seasonName].medicalCertificate} big=true/></div>
+        <div>Status actuel :
+            {#if loading}
+                <span aria-busy={loading}></span>
+            {:else}
+                <Boolean value={student.public.seasons[seasonName].medicalCertificate} big=true/>
+            {/if}
+        </div>
         <br>
         <dir role="button" class="outline" on:click={()=>handleClick("yes")}>Valider <Boolean value="yes" big=true/></dir>
         <dir role="button" class="outline" on:click={()=>handleClick("waiting")}>Mettre en attente <Boolean value="waiting" big=true/></dir>
@@ -40,5 +54,12 @@
         {:else}
         Lélève n'es pas inscrit sur cette saison
     {/if}
-    {/await}
+{/if}
     <br><br><br><br><br>
+
+<style>
+    a{
+        font-weight: bold;
+        font-size: x-large;
+    }
+</style>

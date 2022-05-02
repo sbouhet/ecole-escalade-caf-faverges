@@ -16,163 +16,6 @@ export default {
   "children": [
     {
       "meta": {},
-      "id": "_default_admin",
-      "name": "admin",
-      "module": () => import('../src/routes/admin/_module.svelte'),
-      "file": {
-        "path": "src/routes/admin/_module.svelte",
-        "dir": "src/routes/admin",
-        "base": "_module.svelte",
-        "ext": ".svelte",
-        "name": "_module"
-      },
-      "children": [
-        {
-          "meta": {
-            "dynamic": true
-          },
-          "id": "_default_admin__id__svelte",
-          "name": "[id]",
-          "module": () => import('../src/routes/admin/[id].svelte'),
-          "file": {
-            "path": "src/routes/admin/[id].svelte",
-            "dir": "src/routes/admin",
-            "base": "[id].svelte",
-            "ext": ".svelte",
-            "name": "[id]"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_allStudents_svelte",
-          "name": "allStudents",
-          "module": () => import('../src/routes/admin/allStudents.svelte'),
-          "file": {
-            "path": "src/routes/admin/allStudents.svelte",
-            "dir": "src/routes/admin",
-            "base": "allStudents.svelte",
-            "ext": ".svelte",
-            "name": "allStudents"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_checkMedicalCertificate_svelte",
-          "name": "checkMedicalCertificate",
-          "module": () => import('../src/routes/admin/checkMedicalCertificate.svelte'),
-          "file": {
-            "path": "src/routes/admin/checkMedicalCertificate.svelte",
-            "dir": "src/routes/admin",
-            "base": "checkMedicalCertificate.svelte",
-            "ext": ".svelte",
-            "name": "checkMedicalCertificate"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_copySeason_svelte",
-          "name": "copySeason",
-          "module": () => import('../src/routes/admin/copySeason.svelte'),
-          "file": {
-            "path": "src/routes/admin/copySeason.svelte",
-            "dir": "src/routes/admin",
-            "base": "copySeason.svelte",
-            "ext": ".svelte",
-            "name": "copySeason"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_index_svelte",
-          "name": "index",
-          "module": () => import('../src/routes/admin/index.svelte'),
-          "file": {
-            "path": "src/routes/admin/index.svelte",
-            "dir": "src/routes/admin",
-            "base": "index.svelte",
-            "ext": ".svelte",
-            "name": "index"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_manageAdmins_svelte",
-          "name": "manageAdmins",
-          "module": () => import('../src/routes/admin/manageAdmins.svelte'),
-          "file": {
-            "path": "src/routes/admin/manageAdmins.svelte",
-            "dir": "src/routes/admin",
-            "base": "manageAdmins.svelte",
-            "ext": ".svelte",
-            "name": "manageAdmins"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_modifyStudent_svelte",
-          "name": "modifyStudent",
-          "module": () => import('../src/routes/admin/modifyStudent.svelte'),
-          "file": {
-            "path": "src/routes/admin/modifyStudent.svelte",
-            "dir": "src/routes/admin",
-            "base": "modifyStudent.svelte",
-            "ext": ".svelte",
-            "name": "modifyStudent"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_payments_svelte",
-          "name": "payments",
-          "module": () => import('../src/routes/admin/payments.svelte'),
-          "file": {
-            "path": "src/routes/admin/payments.svelte",
-            "dir": "src/routes/admin",
-            "base": "payments.svelte",
-            "ext": ".svelte",
-            "name": "payments"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_test_svelte",
-          "name": "test",
-          "module": () => import('../src/routes/admin/test.svelte'),
-          "file": {
-            "path": "src/routes/admin/test.svelte",
-            "dir": "src/routes/admin",
-            "base": "test.svelte",
-            "ext": ".svelte",
-            "name": "test"
-          },
-          "children": []
-        },
-        {
-          "meta": {},
-          "id": "_default_admin_test2_svelte",
-          "name": "test2",
-          "module": () => import('../src/routes/admin/test2.svelte'),
-          "file": {
-            "path": "src/routes/admin/test2.svelte",
-            "dir": "src/routes/admin",
-            "base": "test2.svelte",
-            "ext": ".svelte",
-            "name": "test2"
-          },
-          "children": []
-        }
-      ]
-    },
-    {
-      "meta": {},
       "id": "_default_creneaux",
       "name": "creneaux",
       "module": false,
@@ -243,6 +86,163 @@ export default {
         "name": "_module"
       },
       "children": [
+        {
+          "meta": {},
+          "id": "_default_prive_admin",
+          "name": "admin",
+          "module": () => import('../src/routes/prive/admin/_module.svelte'),
+          "file": {
+            "path": "src/routes/prive/admin/_module.svelte",
+            "dir": "src/routes/prive/admin",
+            "base": "_module.svelte",
+            "ext": ".svelte",
+            "name": "_module"
+          },
+          "children": [
+            {
+              "meta": {
+                "dynamic": true
+              },
+              "id": "_default_prive_admin__id__svelte",
+              "name": "[id]",
+              "module": () => import('../src/routes/prive/admin/[id].svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/[id].svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "[id].svelte",
+                "ext": ".svelte",
+                "name": "[id]"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_allStudents_svelte",
+              "name": "allStudents",
+              "module": () => import('../src/routes/prive/admin/allStudents.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/allStudents.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "allStudents.svelte",
+                "ext": ".svelte",
+                "name": "allStudents"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_checkMedicalCertificate_svelte",
+              "name": "checkMedicalCertificate",
+              "module": () => import('../src/routes/prive/admin/checkMedicalCertificate.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/checkMedicalCertificate.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "checkMedicalCertificate.svelte",
+                "ext": ".svelte",
+                "name": "checkMedicalCertificate"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_copySeason_svelte",
+              "name": "copySeason",
+              "module": () => import('../src/routes/prive/admin/copySeason.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/copySeason.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "copySeason.svelte",
+                "ext": ".svelte",
+                "name": "copySeason"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_index_svelte",
+              "name": "index",
+              "module": () => import('../src/routes/prive/admin/index.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/index.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "index.svelte",
+                "ext": ".svelte",
+                "name": "index"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_manageAdmins_svelte",
+              "name": "manageAdmins",
+              "module": () => import('../src/routes/prive/admin/manageAdmins.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/manageAdmins.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "manageAdmins.svelte",
+                "ext": ".svelte",
+                "name": "manageAdmins"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_modifyStudent_svelte",
+              "name": "modifyStudent",
+              "module": () => import('../src/routes/prive/admin/modifyStudent.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/modifyStudent.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "modifyStudent.svelte",
+                "ext": ".svelte",
+                "name": "modifyStudent"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_payments_svelte",
+              "name": "payments",
+              "module": () => import('../src/routes/prive/admin/payments.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/payments.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "payments.svelte",
+                "ext": ".svelte",
+                "name": "payments"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_test_svelte",
+              "name": "test",
+              "module": () => import('../src/routes/prive/admin/test.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/test.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "test.svelte",
+                "ext": ".svelte",
+                "name": "test"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_admin_test2_svelte",
+              "name": "test2",
+              "module": () => import('../src/routes/prive/admin/test2.svelte'),
+              "file": {
+                "path": "src/routes/prive/admin/test2.svelte",
+                "dir": "src/routes/prive/admin",
+                "base": "test2.svelte",
+                "ext": ".svelte",
+                "name": "test2"
+              },
+              "children": []
+            }
+          ]
+        },
         {
           "meta": {},
           "id": "_default_prive_inscription",
