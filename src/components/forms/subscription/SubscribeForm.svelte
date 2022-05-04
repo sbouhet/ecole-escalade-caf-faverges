@@ -35,7 +35,7 @@ import InfoMessage from "./InfoMessage.svelte"
     
     <YearWarning />
     {#if pastStudentsOnly}
-        <InfoMessage msg="Inscriptions limitées aux élèves inscrits l'année dernière jusqu'au {dateOfNoRestriction.format('D MMMM YYYY')}" />
+        <InfoMessage msg="Inscription reservée aux élèves inscrits l'année dernière (jusqu'au {dateOfNoRestriction.format('D MMMM YYYY')})" />
     {/if}
 
     {#if adult}

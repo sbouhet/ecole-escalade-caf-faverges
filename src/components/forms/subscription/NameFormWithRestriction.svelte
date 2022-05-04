@@ -44,7 +44,7 @@
     {:else}
         <small>&nbsp;</small>
     {/if}
-    <label for="student">Élèves prioritaires</label>
+    <label for="student">Choisissez l'élève à inscrire</label>
     <select id="student" required bind:value={selectedStudent}>
         {#each releventStudents as student}
         <option value={student}>{capitalize(student.firstName.toLowerCase())} {student.lastName}</option>

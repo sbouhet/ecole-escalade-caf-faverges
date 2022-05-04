@@ -25,7 +25,7 @@
     let notifications = []
 
     //$:console.log($students)
-    $:console.log($subscription)
+    //$:console.log($subscription)
 
     $:if ($currentSeason) {
         //Reset subscription because season has changed
@@ -63,7 +63,7 @@
         $loggedin = true
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
-            console.log(res.claims)
+            //console.log(res.claims)
           $admin = !!res.claims.admin || !!res.claims.mod
         
           //TEST
