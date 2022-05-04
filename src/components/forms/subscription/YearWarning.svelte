@@ -7,6 +7,7 @@
     import {BError} from 'berror'
     import {error, currentSeason, currentDay} from '$utils/stores'
     import {getMinYearFromAgeGroup} from '$utils/getMinYearFromAgeGroup'
+    import InfoMessage from './InfoMessage.svelte'
 
 
     const getWarningMessage = (day) => {
@@ -34,17 +35,4 @@
     const warningMessage = getWarningMessage($currentDay)
 </script>
 
-<div>
-    <span>ℹ</span>
-    <small><i>{warningMessage}</i></small>
-</div>
-
-<style>
-    span{
-        margin-right: 5px;
-        opacity: 0.5;
-    }
-    div{
-        margin-bottom: 20px;
-    }
-</style>
+<InfoMessage msg={warningMessage} />

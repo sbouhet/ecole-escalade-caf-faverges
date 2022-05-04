@@ -1,10 +1,11 @@
 <script>
-    import NameForm from '../NameForm.svelte'
+    import NameFormNoRestriction from '../NameFormNoRestriction.svelte';
+    import NameFormWithRestriction from '../NameFormWithRestriction.svelte';
     import { subscription } from '$utils/stores'
     import { getAuth } from "firebase/auth"
 
     let firstName, lastName, tel, accidentTel
-    export let ageConfirmed
+    export let ageConfirmed, pastStudentsOnly
 
     $:email = getAuth().currentUser.email
     
@@ -25,7 +26,11 @@
 </script>
 
  <section>
-    <NameForm bind:firstName bind:lastName/>
+    {#if pastStudentsOnly}
+        <NameFormWithRestriction bind:firstName bind:lastName  />
+    {:else}
+        <NameFormNoRestriction bind:firstName bind:lastName  />
+    {/if}
     
     <label for="email">Adresse email</label>
     <input type="email" id="email" name="email" placeholder="Adresse email" disabled bind:value={email}>

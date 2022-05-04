@@ -39,19 +39,29 @@
     
 </script>
 
-<article>
- 
-         {#if $subscriptionStatus === 'readyToCheck'}
-            <CheckSubscription />
-        {:else if $subscriptionStatus === 'uploadedToFirestore'}
-            <Success />  
-        {:else}
-            <SubscribeForm />
-        {/if}
-  
-
-</article>
-
+<div>
+    <article>
+            {#if $subscriptionStatus === 'readyToCheck'}
+                <CheckSubscription />
+            {:else if $subscriptionStatus === 'uploadedToFirestore'}
+                <Success />  
+            {:else}
+                <SubscribeForm />
+            {/if}
+    </article>
+</div>
 
 <slot></slot> <!-- just to hide error warning in console -->
 
+<style>
+    article{
+      max-width: 800px; 
+      margin-top: 0;
+    }
+    div{
+       
+        display: flex;
+        justify-content: center;
+        
+    }
+</style>

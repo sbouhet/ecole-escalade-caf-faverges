@@ -2,6 +2,7 @@
     import ParentInfo from './ParentInfo.svelte'
     import ChildInfo from './ChildInfo.svelte'
     import { subscription } from '$utils/stores'
+    export let pastStudentsOnly
 
     $: parents = $subscription.privateInfo.parents
 
@@ -18,7 +19,7 @@
 
 <section>
 
-    <ChildInfo />
+    <ChildInfo {pastStudentsOnly}/>
 
     {#each parents as parent, i}
         <ParentInfo nb={i+1} />

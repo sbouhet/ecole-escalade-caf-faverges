@@ -1,7 +1,7 @@
 <script>
-    import NameForm from '../NameForm.svelte'
     import { subscription } from '$utils/stores'
     import { getAuth } from "firebase/auth"
+    import NameFormNoRestriction from '../NameFormNoRestriction.svelte'
     export let nb
 
     let firstName, lastName, role, email, tel
@@ -37,7 +37,7 @@
  <section>
     <h5>Parent {nb}</h5>
     
-    <NameForm bind:firstName bind:lastName/>
+    <NameFormNoRestriction bind:firstName bind:lastName/>
      
     <label for="relationship">Affiliation</label>
     <select id="relationship" required bind:value={role}>

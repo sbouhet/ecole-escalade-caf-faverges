@@ -1,8 +1,10 @@
 <script>
-    import NameForm from '../NameForm.svelte'
-    import NameFormWithRestriction from '$components/forms/subscription/NameFromWithRestriction.svelte'
     import DateOfBirthForm from './DateOfBirthForm.svelte'
     import {subscription} from '$utils/stores'
+    import NameFormNoRestriction from '../NameFormNoRestriction.svelte';
+    import NameFormWithRestriction from '../NameFormWithRestriction.svelte';
+
+    export let pastStudentsOnly
 
     let firstName, lastName, dateOfBirth
 
@@ -22,8 +24,11 @@
 <section>
     <h5>Enfant</h5>
     
-    <!-- <NameForm bind:firstName bind:lastName  /> -->
-    <NameFormWithRestriction bind:firstName bind:lastName  />
+    {#if pastStudentsOnly}
+        <NameFormWithRestriction bind:firstName bind:lastName  />
+    {:else}
+        <NameFormNoRestriction bind:firstName bind:lastName  />
+    {/if}
     <DateOfBirthForm bind:dateOfBirth/>
     
 </section>
