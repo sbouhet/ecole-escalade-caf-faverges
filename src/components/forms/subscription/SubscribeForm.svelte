@@ -4,7 +4,11 @@
     import { currentSeason, currentDay, subscriptionStatus, subscription } from '$utils/stores'
     import { getDayName, isDayForAdults } from '$utils/days'
     import YearWarning from "./YearWarning.svelte"
-    import InfoMessage from "./InfoMessage.svelte"    
+    import InfoMessage from "./InfoMessage.svelte"
+
+    $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
+    $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
+    
 
     //Check if everyone should be able to subscribe or only past students
     const today = dayjs()

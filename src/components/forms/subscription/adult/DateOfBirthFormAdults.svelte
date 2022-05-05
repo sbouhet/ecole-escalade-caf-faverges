@@ -59,14 +59,14 @@
         <input type="date" required bind:value={dateOfBirth} aria-invalid={invalid} max={dateMax}>
     </div>
     
-    {#if status === 'tooYoung'}
+    <div class={status==='tooYoung' ? '': 'hidden'}>
         <div class="red">
             <span>✕</span>
             <small>Vous êtes trop jeune pour ce groupe. Il faut être né avant le {dayjs(dateMax).format("DD/MM/YY")}</small>
         </div>
         <br>
-    {/if}
-    
+    </div>
+
 
 <style>
     span{
@@ -79,5 +79,8 @@
     }
     .red{
         color:red;
+    }
+    .hidden{
+        opacity: 0;
     }
 </style>
