@@ -36,6 +36,7 @@
         const q = query(collection(db, "students"), where(`seasons.${$currentSeason.name}.status`, ">", ""))
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
+            // notification if change in users
             if(snapshot.docChanges().length===1) pushNotification(snapshot.docChanges()[0])
             
             /* snapshot.docChanges().forEach((change) => {
