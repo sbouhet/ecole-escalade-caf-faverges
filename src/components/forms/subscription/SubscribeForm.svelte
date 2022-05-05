@@ -20,7 +20,6 @@ import { goto } from "@roxi/routify";
     const handleSubmit = () => {
         $subscriptionStatus = 'readyToCheck'
     }
-    console.log($currentDay)
 </script>
 
 
@@ -42,10 +41,8 @@ import { goto } from "@roxi/routify";
         <ChildSubscriptionForm {pastStudentsOnly}/>
     {/if}
     <footer>
-        <!-- <button type="button" class='secondary outline' on:click={$goto(`/creneaux/[day]`, {day:getDayUrl($currentDay)})}>Annuler</button>
-        <button>Valider</button> -->
-        <a role="button" class="secondary" href={`/creneaux/${getDayUrl($currentDay)}`}>Annuler</a>
-        <a role="button" href="#">Confirmer</a>
+        <button type="button" class='secondary outline' on:click={$goto(`/creneaux/[day]`, {day:getDayUrl($currentDay)})}>Annuler</button>
+        <button>Valider</button>
     </footer>
 </form>
 
