@@ -12,6 +12,7 @@ import {
   query,
   where,
   collection,
+  orderBy,
 } from "firebase/firestore"
 
 export const _getDoc = async (collection, docId, subCollection, subDocId) => {
@@ -47,14 +48,16 @@ export const _getDoc = async (collection, docId, subCollection, subDocId) => {
   }
 }
 
-export const _query = async (collectionId, field, operation, value) => {
+export const _query = async (collectionId, field, operation, value, order) => {
   try {
     if (!collectionId) throw "No collection"
     if (!field) throw "No field"
     if (!operation) throw "No operation"
     let result = []
     const collectionRef = collection(db, collectionId)
-    const q = query(collectionRef, where(field, operation, value))
+    let q = query(collectionRef, where(field, operation, value))
+    if (order)
+      q = query(collectionRef, where(field, operation, value), orderBy(order))
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
       result.push(doc)

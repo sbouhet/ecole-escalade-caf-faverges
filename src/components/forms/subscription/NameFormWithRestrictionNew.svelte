@@ -12,17 +12,15 @@
         firstName = selectedStudent.firstName
         lastName = selectedStudent.lastName
     }
+    
 
     const getPriorityStudents = async ()=>{
-        const adminDoc = await _getDoc('admin', 'admin')
-        const priorityStudents = adminDoc.data().priorityStudents.map(x=> {return {firstName: normalize(x.firstName), lastName:normalize(x.lastName)}})
-        const snap = await _query("students", `seasons.${seasons().last}.status`, ">", "")
-        let pastStudents = []
+        const snap = await _query("students", `seasons.${seasons().last}.status`, "==", "no")
+        let priorityStudents = []
         snap.forEach(student=>{
-            pastStudents.push(student)
+            priorityStudents.push(student)
         })
-        console.log(pastStudents)
-        
+        priorityStudents = priorityStudents.map(x=>{return {id: x.id, firstName: normalize(x.data().firstName), lastName:normalize(x.data().lastName)}})
         releventStudents = priorityStudents
         return priorityStudents
     }
@@ -31,6 +29,7 @@
    
     const handleChange = (priorityStudents)=>{
         if(searchInput){
+            
             releventStudents = priorityStudents.filter(x=>x.firstName.includes(normalize(searchInput))||x.lastName.includes(normalize(searchInput)))
         }else{
             releventStudents = priorityStudents
@@ -52,10 +51,11 @@
     {:else}
         <small>&nbsp;</small>
     {/if}
+
     <label for="student">Choisissez l'élève à inscrire</label>
     <select id="student" required bind:value={selectedStudent}>
         {#each releventStudents as student}
-        <option value={student}>{capitalize(student.firstName.toLowerCase())} {student.lastName}</option>
+            <option value={student}>{capitalize(student.firstName.toLowerCase())} {student.lastName}</option>
         {/each}
     </select>
 

@@ -4,15 +4,7 @@
     import { currentSeason, currentDay, subscriptionStatus, subscription } from '$utils/stores'
     import { getDayName, isDayForAdults } from '$utils/days'
     import YearWarning from "./YearWarning.svelte"
-import InfoMessage from "./InfoMessage.svelte"
-
-    $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
-    $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
-    
-    //Force adult users to check switch "Je suis majeur"
-    $:ageConfirmed = adult ? false : true
-    //This is only used for adults, "ageConfirmed" stays true for children
-    //For children, DateOfBirth component handles the age check 
+    import InfoMessage from "./InfoMessage.svelte"    
 
     //Check if everyone should be able to subscribe or only past students
     const today = dayjs()
@@ -39,12 +31,12 @@ import InfoMessage from "./InfoMessage.svelte"
     {/if}
 
     {#if adult}
-        <AdultSubscriptionForm bind:ageConfirmed {pastStudentsOnly}/>
+        <AdultSubscriptionForm {pastStudentsOnly}/>
     {:else}
         <ChildSubscriptionForm {pastStudentsOnly}/>
     {/if}
 
-    <button disabled={!ageConfirmed}>Valider</button>
+    <button>Valider</button>
 </form>
 
 <style>

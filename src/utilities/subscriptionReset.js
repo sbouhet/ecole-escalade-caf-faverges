@@ -20,7 +20,6 @@ export const subscriptionReset = (season) => {
         lastName: null,
         seasons: {
           [name]: {
-            adult: false,
             day,
             status: "no",
             payment: "no",
