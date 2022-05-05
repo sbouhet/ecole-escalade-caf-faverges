@@ -68,9 +68,10 @@
                         <td>{capitalize(student.data().firstName)}</td>
                         <td>{student.data().lastName.toUpperCase()}</td>
                     {/if}
-                    {#if showDay}
+                    {#if showDay && student.data().seasons[$currentSeason.name].day}
                         <td>
                             <div class="day">
+                                
                                 {getDayName(getDayFromUrl(student.data().seasons[$currentSeason.name].day, $currentSeason.days))}
                             </div>
                         </td>

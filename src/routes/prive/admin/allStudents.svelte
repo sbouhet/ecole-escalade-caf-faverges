@@ -8,7 +8,6 @@
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"
 
-
 </script>
 
 <hgroup>
@@ -20,6 +19,7 @@
   <small>Cliquez sur une colone pour trier les données</small>
 {/if}
 <br>
+
 <StudentsStatusTable students={$students} allowDelete={true} links={true} timestamp={true}/>
 
 <slot></slot>
