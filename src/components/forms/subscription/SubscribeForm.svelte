@@ -2,9 +2,10 @@
     import AdultSubscriptionForm from "./adult/AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./child/ChildSubscriptionForm.svelte"
     import { currentSeason, currentDay, subscriptionStatus, subscription } from '$utils/stores'
-    import { getDayName, isDayForAdults } from '$utils/days'
+    import { getDayName, isDayForAdults, getDayUrl } from '$utils/days'
     import YearWarning from "./YearWarning.svelte"
     import InfoMessage from "./InfoMessage.svelte"
+import { goto } from "@roxi/routify";
 
     $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
     $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
@@ -19,6 +20,7 @@
     const handleSubmit = () => {
         $subscriptionStatus = 'readyToCheck'
     }
+    console.log($currentDay)
 </script>
 
 
@@ -39,17 +41,25 @@
     {:else}
         <ChildSubscriptionForm {pastStudentsOnly}/>
     {/if}
-
-    <button>Valider</button>
+    <footer>
+        <!-- <button type="button" class='secondary outline' on:click={$goto(`/creneaux/[day]`, {day:getDayUrl($currentDay)})}>Annuler</button>
+        <button>Valider</button> -->
+        <a role="button" class="secondary" href={`/creneaux/${getDayUrl($currentDay)}`}>Annuler</a>
+        <a role="button" href="#">Confirmer</a>
+    </footer>
 </form>
 
 <style>
     h1{
         text-transform: capitalize;
     }
-
-    button{
-        max-width: 250px;
+    footer{
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
     }
-
+    a{
+        flex-basis: 250px;
+    }
+    
 </style>
