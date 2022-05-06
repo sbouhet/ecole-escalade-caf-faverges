@@ -45,9 +45,11 @@
         </h5>
 
         <!-- Date of birth -->
-        {#if !adult}
-          <div>Né·e le <b>{dayjs($subscription.privateInfo.dateOfBirth).format('D MMMM YYYY')}</b> ({getAge($subscription.privateInfo.dateOfBirth, false)} ans)</div>
-        {/if}
+        <div>Né·e le <b>{dayjs($subscription.privateInfo.dateOfBirth).format('D MMMM YYYY')}</b>
+          {#if !adult}
+            ({getAge($subscription.privateInfo.dateOfBirth, false)} ans)
+            {/if}
+        </div>
 
         <!-- Selected day -->
         <div>Créneau choisi : <b>{getDayName($currentDay)}</b></div>

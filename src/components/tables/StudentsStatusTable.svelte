@@ -60,12 +60,12 @@
                         <td>{student.data().seasons[$currentSeason.name].timestamp}</td>
                     {/if}
                     {#if myProfile}
-                        <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName)}</a></td>
+                        <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName.toLowerCase())}</a></td>
                     {:else if links}
-                        <td><a href={`/admin/${student.id}`}>{capitalize(student.data().firstName)}</a></td>
+                        <td><a href={`/admin/${student.id}`}>{capitalize(student.data().firstName.toLowerCase())}</a></td>
                         <td>{student.data().lastName.toUpperCase()}</td>
                     {:else}
-                        <td>{capitalize(student.data().firstName)}</td>
+                        <td>{capitalize(student.data().firstName.toLowerCase())}</td>
                         <td>{student.data().lastName.toUpperCase()}</td>
                     {/if}
                     {#if showDay && student.data().seasons[$currentSeason.name].day}

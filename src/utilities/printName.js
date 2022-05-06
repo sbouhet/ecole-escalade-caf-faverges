@@ -6,7 +6,7 @@ export const printName = (obj) => {
     if (!obj) throw new BError("No object")
     if (!obj.firstName) throw new BError("No firstName")
     if (!obj.lastName) throw new BError("No lastName")
-    let firstName = capitalize(obj.firstName)
+    let firstName = capitalize(obj.firstName.toLowerCase())
     let lastName = obj.lastName.toUpperCase()
     return `${firstName} ${lastName}`
   } catch (err) {
