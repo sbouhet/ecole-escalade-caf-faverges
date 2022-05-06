@@ -5,11 +5,9 @@
     import { getDayName, isDayForAdults, getDayUrl } from '$utils/days'
     import YearWarning from "./YearWarning.svelte"
     import InfoMessage from "./InfoMessage.svelte"
-import { goto } from "@roxi/routify";
+    import { goto } from "@roxi/routify"
 
-    $:adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
-    $:$subscription.publicInfo.seasons[$currentSeason.name].adult = adult
-    
+    export let adult    
 
     //Check if everyone should be able to subscribe or only past students
     const today = dayjs()
@@ -55,8 +53,4 @@ import { goto } from "@roxi/routify";
         justify-content: space-between;
         gap: 10px;
     }
-    a{
-        flex-basis: 250px;
-    }
-    
 </style>

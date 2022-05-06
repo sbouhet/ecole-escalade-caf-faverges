@@ -52,7 +52,6 @@
         <summary>{season.name}</summary>
         <div>day : {season.day}</div>
         <div>timestamp : {season.timestamp}</div>
-        <div>adult : {season.adult}</div>
         <div>helloAssoId : {season.helloAssoId}</div>
         <div>licence : {season.licence}</div>
         <div>medicalCertificate : {season.medicalCertificate}</div>

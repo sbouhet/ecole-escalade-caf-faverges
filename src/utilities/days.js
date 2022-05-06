@@ -22,20 +22,6 @@ export const getDayUrl = (day) => {
   }
 }
 
-/* export const getWarningMessage = (minYear) => {
-  try {
-    if (!minYear) throw "No minYear"
-    let currentYear = dayjs().year()
-    const minAge = currentYear - minYear
-    if (minAge >= 18) return "Ce créneaux est reservé aux adultes."
-    return `Ce créneau est reservé aux enfants nés en ${
-      currentYear - minAge
-    } ou avant.`
-  } catch (error) {
-    throw new BError("$utils/days => getWarningMessage()", error)
-  }
-} */
-
 export const getMinYear = (day, ageGroups) => {
   try {
     if (!day) throw "No day"

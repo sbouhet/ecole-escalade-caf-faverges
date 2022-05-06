@@ -8,10 +8,10 @@
     import { isDayFull } from '$firestore/dayIsFull'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { BError } from "berror"
+    export let adult
    
     let full = false
     let loading = false
-    $:adult = $subscription.publicInfo.seasons[$currentSeason.name].adult
 
     const submitSubscription =  async () => {
       try {

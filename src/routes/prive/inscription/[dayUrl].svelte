@@ -12,7 +12,7 @@
     import CheckSubscription from '$components/modals/CheckSubscription.svelte'
     import {params} from '@roxi/routify'
     import { currentSeason, subscription, subscriptionStatus, error, fatal, currentDay } from '$utils/stores'
-    import { getDayFromUrl } from '$utils/days'
+    import { getDayFromUrl, isDayForAdults } from '$utils/days'
     import Success from '$components/modals/Success.svelte'
     import { BError } from 'berror'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
@@ -20,12 +20,15 @@
 
     //get day from url
     let dayUrl = $params.dayUrl
-
-  
+    
+    let adult
 
     //Try to find corresponding day in current season
     try {
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
+
+        //Check if day is for adults
+        adult = isDayForAdults($currentDay, $currentDay.ageGroups)
 
         // Write day URL in subscription
         $subscription.publicInfo.seasons[$currentSeason.name].day = dayUrl
@@ -42,11 +45,11 @@
 <div>
     <article>
             {#if $subscriptionStatus === 'readyToCheck'}
-                <CheckSubscription />
+                <CheckSubscription {adult}/>
             {:else if $subscriptionStatus === 'uploadedToFirestore'}
                 <Success />  
             {:else}
-                <SubscribeForm />
+                <SubscribeForm {adult}/>
             {/if}
     </article>
 </div>
