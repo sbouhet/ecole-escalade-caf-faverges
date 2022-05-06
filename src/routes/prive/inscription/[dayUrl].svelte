@@ -28,7 +28,7 @@
         $currentDay = getDayFromUrl(dayUrl, $currentSeason.days)
 
         //Check if day is for adults
-        adult = isDayForAdults($currentDay, $currentDay.ageGroups)
+        adult = isDayForAdults($currentDay, $currentSeason.ageGroups)
 
         // Write day URL in subscription
         $subscription.publicInfo.seasons[$currentSeason.name].day = dayUrl

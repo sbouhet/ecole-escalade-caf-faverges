@@ -62,7 +62,7 @@
                     {#if myProfile}
                         <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName.toLowerCase())}</a></td>
                     {:else if links}
-                        <td><a href={`/admin/${student.id}`}>{capitalize(student.data().firstName.toLowerCase())}</a></td>
+                        <td><a href={`/prive/admin/${student.id}`}>{capitalize(student.data().firstName.toLowerCase())}</a></td>
                         <td>{student.data().lastName.toUpperCase()}</td>
                     {:else}
                         <td>{capitalize(student.data().firstName.toLowerCase())}</td>
