@@ -6,6 +6,7 @@
     import { currentDay, currentSeason } from '$utils/stores'
     import { getDayUrl } from '$utils/days'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
+    import { validateDateOfBirth } from '$utils/dateOfBirth'
 
     const getMyIds = httpsCallable(getFunctions(), 'getMyIds')
     const resubscribe = httpsCallable(getFunctions(), 'resubscribe')
@@ -38,6 +39,10 @@
             error = null
             success = false
             loading = true
+            const privateDoc = await _getDoc("students", id, "privateCol", "privateDoc")
+            const dateOfBirth = privateDoc.data().dateOfBirth
+            const status = validateDateOfBirth(dateOfBirth, $currentDay, $currentSeason)
+            if(!status.valid) throw status.msg
             const data = {id, oldSeasonName: seasons().last, newSeasonName: $currentSeason.name, dayUrl: getDayUrl($currentDay)}
             const response = await resubscribe(data)
             console.log(response)

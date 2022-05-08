@@ -7,7 +7,6 @@
     -------------------------------------------------------------------------------------------*/
     import { validateDateOfBirth, getMinAndMaxDate } from '$utils/dateOfBirth'
     import { currentDay, currentSeason } from '$utils/stores'
-
     export let dateOfBirth
     let status
     const {minDate, maxDate} = getMinAndMaxDate($currentDay, $currentSeason)
@@ -19,7 +18,7 @@
 
         // If user is not done writing the date, do not display age warning
         if(year<1900){
-            status = null
+            status = {valid: null}
             return
         }
 
@@ -35,16 +34,16 @@
         
     // If no date input (or incomplete) remove warning
     }else{
-        status = null
+        status = {valid: null}
     }
 </script>
 
 
-    <div>
-        <label for="dateOfBirth">Date de naissance</label>
-        <input type="date" required bind:value={dateOfBirth} aria-invalid={!status.valid} max={maxDate} min={minDate}>
-    </div>
-    
+<div>
+    <label for="dateOfBirth">Date de naissance</label>
+    <input type="date" required bind:value={dateOfBirth} aria-invalid={!status.valid} max={maxDate} min={minDate}>
+</div>
+{#if status.valid !== null}     
     {#if status.valid}
         <div class="green">
             <span>✓</span>
@@ -56,28 +55,8 @@
             <small>{status.msg}</small>
         </div>
     {/if}
-
-    <!-- {#if status==='ok'}
-        <div class='green'>
-            <span>✓</span>
-            <small>Date de naissance valide.</small>
-        </div>
-    {:else if status === 'tooYoung'}
-        <div class="red">
-            <span>✕</span>
-            {#if !ageMax}
-                <small>Il faut être majeur à la date du premier cours pour s'inscrire.</small>
-            {:else}    
-                <small>Votre enfant est né après {minYear}, il est trop jeune pour ce groupe.</small>
-            {/if}
-        </div>
-    {:else if status === 'tooOld'}
-        <div class="red">
-            <span>✕</span>
-            <small>Votre enfant aura {age} ans au premier cours, il est trop agé pour ce groupe.</small>
-        </div>
-    {/if} -->
-    <br>
+{/if}
+<br>
 
 <style>
     span{
