@@ -1,7 +1,7 @@
 <script>
     import NameFormNoRestriction from '../NameFormNoRestriction.svelte';
     import NameFormWithRestriction from '../NameFormWithRestriction.svelte';
-    import DateOfBirthFormAdults from '$components/forms/subscription/adult/DateOfBirthFormAdults.svelte'
+    import DateOfBirthForm from '$components/forms/subscription/DateOfBirthForm.svelte'
     import { subscription } from '$utils/stores'
     import { getAuth } from "firebase/auth"
 
@@ -35,7 +35,7 @@
         <NameFormNoRestriction bind:firstName bind:lastName  />
     {/if}
 
-    <DateOfBirthFormAdults bind:dateOfBirth/>
+    <DateOfBirthForm bind:dateOfBirth/>
     
     <label for="email">Adresse email</label>
     <input type="email" id="email" name="email" placeholder="Adresse email" disabled bind:value={email}>

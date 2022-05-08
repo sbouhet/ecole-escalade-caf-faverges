@@ -1,5 +1,5 @@
 <script>
-    import DateOfBirthForm from './DateOfBirthForm.svelte'
+    import DateOfBirthForm from '$components/forms/subscription/DateOfBirthForm.svelte'
     import {subscription} from '$utils/stores'
     import NameFormNoRestriction from '../NameFormNoRestriction.svelte';
     import NameFormWithRestriction from '../NameFormWithRestriction.svelte';

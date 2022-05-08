@@ -7,15 +7,21 @@
     -------------------------------------------------------------------------------------------*/
     import {getAge, getMinYear} from '$utils/ageGroups'
     import { currentDay, currentSeason } from '$utils/stores'
-   
+
     export let dateOfBirth
     let age, status, invalid, year
+
+    const firstDay = dayjs($currentDay.firstDay)
     const ageGroup = $currentSeason.ageGroups[$currentDay.ageGroupIndex]
     const minYear = getMinYear(ageGroup)
     const ageMax = ageGroup.max
-    const dateMax = `${minYear}-12-12`
-    const dateMin = dayjs().subtract(ageMax+1, 'year').format("YYYY-MM-DD")
-
+    let dateMax = `${minYear}-12-31`
+    let dateMin = firstDay.subtract(ageMax+1, 'year').format("YYYY-MM-DD")
+    //If adult
+    if(!ageMax){
+        dateMax = firstDay.subtract(18, 'year').format("YYYY-MM-DD")
+        dateMin = null
+    }
     
     const updateStatus = ()=>{
 
@@ -30,14 +36,18 @@
         }
 
         // Get age (without decimal)
-        age = getAge(dateOfBirth, false)
+        age = getAge(dateOfBirth, false, firstDay)
 
         // How much older than the limit a student is
         // If it's positive, student is too old
         let dif = dayjs(dateMin).diff(dayjs(dateOfBirth))
 
+        // How much younger than the limit a student is
+        // If it's positive, student is too young
+        let dif2 = dayjs(dateOfBirth).diff(dayjs(dateMax))
+
         // If student is too young, display warning
-        if (year > minYear) {
+        if (dif2 > 0) {
             status = 'tooYoung'
             invalid = true
         }
@@ -66,6 +76,7 @@
     }
 </script>
 
+
     <div>
         <label for="dateOfBirth">Date de naissance</label>
         <input type="date" required bind:value={dateOfBirth} aria-invalid={invalid} max={dateMax} min={dateMin}>
@@ -74,21 +85,24 @@
     {#if status==='ok'}
         <div class='green'>
             <span>✓</span>
-            <small>Votre enfant a {age} ans, il peut s'inscrire sur ce créneau.</small>
+            <small>Date de naissance valide.</small>
         </div>
     {:else if status === 'tooYoung'}
         <div class="red">
             <span>✕</span>
-            <small>Votre enfant est né après {minYear}, il est trop jeune pour ce groupe.</small>
+            {#if !ageMax}
+                <small>Il faut être majeur à la date du premier cours pour s'inscrire.</small>
+            {:else}    
+                <small>Votre enfant est né après {minYear}, il est trop jeune pour ce groupe.</small>
+            {/if}
         </div>
     {:else if status === 'tooOld'}
         <div class="red">
             <span>✕</span>
-            <small>Votre enfant a {age} ans, il est trop agé pour ce groupe.</small>
+            <small>Votre enfant aura {age} ans au premier cours, il est trop agé pour ce groupe.</small>
         </div>
     {/if}
-    
-    
+    <br>
 
 <style>
     span{

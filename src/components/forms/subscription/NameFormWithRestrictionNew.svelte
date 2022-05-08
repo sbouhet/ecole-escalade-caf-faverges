@@ -4,11 +4,13 @@
     import {capitalize} from '$utils/capitalize'
     import {seasons} from '$utils/seasons'
     export let firstName, lastName
+    export let student
 
     let selectedStudent, searchInput
     let releventStudents = []
 
     $:if(selectedStudent){
+        student = selectedStudent
         firstName = selectedStudent.firstName
         lastName = selectedStudent.lastName
     }

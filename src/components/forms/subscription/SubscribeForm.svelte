@@ -2,9 +2,10 @@
     import AdultSubscriptionForm from "./adult/AdultSubscriptionForm.svelte"
     import ChildSubscriptionForm from "./child/ChildSubscriptionForm.svelte"
     import { currentSeason, currentDay, subscriptionStatus, subscription } from '$utils/stores'
-    import { getDayName, isDayForAdults, getDayUrl } from '$utils/days'
+    import { getDayName, getDayUrl } from '$utils/days'
     import YearWarning from "./YearWarning.svelte"
     import InfoMessage from "./InfoMessage.svelte"
+    import ResubscribeForm from '$components/forms/subscription/ResubscribeForm.svelte'
     import { goto } from "@roxi/routify"
 
     export let adult    
@@ -29,14 +30,16 @@
     </hgroup>
     
     <YearWarning />
+    
     {#if pastStudentsOnly}
         <InfoMessage msg="Inscription reservée aux élèves inscrits l'année dernière (jusqu'au {dateOfNoRestriction.format('D MMMM YYYY')})" />
-    {/if}
-
-    {#if adult}
-        <AdultSubscriptionForm {pastStudentsOnly}/>
-    {:else}
-        <ChildSubscriptionForm {pastStudentsOnly}/>
+        <ResubscribeForm />
+    {:else}     
+        {#if adult}
+            <AdultSubscriptionForm {pastStudentsOnly}/>
+        {:else}
+            <ChildSubscriptionForm {pastStudentsOnly}/>
+        {/if}
     {/if}
     <footer>
         <button type="button" class='secondary outline' on:click={$goto(`/creneaux/[day]`, {day:getDayUrl($currentDay)})}>Annuler</button>

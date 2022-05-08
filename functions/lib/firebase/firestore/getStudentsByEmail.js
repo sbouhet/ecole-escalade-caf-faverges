@@ -1,5 +1,4 @@
 const admin = require("firebase-admin")
-const basics = require("./basics")
 const db = admin.firestore()
 
 module.exports = async (email) => {

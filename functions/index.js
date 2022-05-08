@@ -17,6 +17,7 @@ const basics = require("./lib/firebase/firestore/basics")
 const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
 const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
 const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
+const resubscribeStudent = require("./lib/firebase/firestore/resubscribeStudent")
 
 //##############################################################################################
 //                                CALLABLE FUNCTIONS
@@ -40,6 +41,32 @@ exports.getMyIds = functions.https.onCall(async (data, context) => {
       statusCode: 409,
       message: error,
       body: "Could not get my ids",
+    }
+  }
+})
+
+//Resubscribe student
+exports.resubscribe = functions.https.onCall(async (data, context) => {
+  try {
+    if (!context.auth) throw "Il faut être inscrit pour faire ca"
+
+    await resubscribeStudent(
+      data.id,
+      data.oldSeasonName,
+      data.newSeasonName,
+      data.dayUrl
+    )
+
+    return {
+      statusCode: 200,
+      message: `Student resubscibed successfully`,
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      statusCode: 409,
+      message: error,
+      body: "Could not resubscribe student",
     }
   }
 })
