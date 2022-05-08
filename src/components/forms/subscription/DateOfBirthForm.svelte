@@ -5,14 +5,12 @@
     MIN > the student must be a certain age at the time of subscription
     MAX > the year of their birthday must not be higher than a value (minYear)
     -------------------------------------------------------------------------------------------*/
-    import {getAge, getMinYear} from '$utils/ageGroups'
-    import { validateDateOfBirth, getMinAndMaxDate } from '$utils/dateOfBirth';
+    import { validateDateOfBirth, getMinAndMaxDate } from '$utils/dateOfBirth'
     import { currentDay, currentSeason } from '$utils/stores'
 
     export let dateOfBirth
     let status
-
-    const {minDate, maxDate} = getMinAndMaxDate()
+    const {minDate, maxDate} = getMinAndMaxDate($currentDay, $currentSeason)
     
     const updateStatus = ()=>{
 
