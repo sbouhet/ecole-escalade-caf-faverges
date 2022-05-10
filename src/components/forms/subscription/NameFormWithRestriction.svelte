@@ -43,21 +43,34 @@
         {#if releventStudents.length<=0}
             <small style="color:red">Aucun élève ne correspond à cette recherche</small>
         {:else if releventStudents.length === 1}
-            <small style="color:green; font-weight:bold">Élève trouvé !</small>
+            <small>Élève trouvé !</small>
         {:else}
-            <small style="color:green">{releventStudents.length} élèves correspondent à cette recherche</small>
+            <small>{releventStudents.length} élèves correspondent à cette recherche</small>
         {/if}
     {:else}
         <small>&nbsp;</small>
     {/if}
     <label for="student">Choisissez l'élève à inscrire</label>
-    <select id="student" required bind:value={selectedStudent}>
+    <select id="student" required bind:value={selectedStudent} class={releventStudents.length === 1?'success':''}>
         {#each releventStudents as student}
             <option value={student}>{printName(student)}</option>
         {/each}
     </select>
+    {#if releventStudents.length === 1}   
+        <small style="color:green"><span>✓</span> Élève trouvé.</small>
+    {:else}
+        <small><span>&nbsp;</span></small>  
+    {/if}
 
 {/await}
 
 
 
+<style>
+    span{
+        font-size: x-large;
+        font-weight: bold;
+        margin-right: 0.1em;
+    }
+   
+</style>

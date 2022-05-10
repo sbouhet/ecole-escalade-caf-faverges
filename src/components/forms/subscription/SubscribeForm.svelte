@@ -52,9 +52,12 @@
     {/if}
     <footer>
         <button type="button" class='secondary outline' on:click={$goto(`/creneaux/[day]`, {day:getDayUrl($currentDay)})}>Annuler</button>
-        {#if !pastStudentsOnly}
+       <!--  {#if !pastStudentsOnly}
             <button>Valider</button>
-        {/if}
+        {/if} -->
+        <!-- This section is only there for the first year, delete once everyone is subscribed -->
+            <button>Valider</button>
+        <!-- End of TMP section -->
     </footer>
 </form>
 
