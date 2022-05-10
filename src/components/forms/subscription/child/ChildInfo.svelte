@@ -3,7 +3,6 @@
     import {subscription} from '$utils/stores'
     import NameFormNoRestriction from '../NameFormNoRestriction.svelte';
     import NameFormWithRestriction from '../NameFormWithRestriction.svelte';
-    import NameFormWithRestrictionNew from '../NameFormWithRestrictionNew.svelte';
 
     export let pastStudentsOnly
 
@@ -27,7 +26,7 @@
     
     {#if pastStudentsOnly}
        <!--  <NameFormWithRestriction bind:firstName bind:lastName  /> -->
-        <NameFormWithRestrictionNew bind:firstName bind:lastName  />
+        <NameFormWithRestriction bind:firstName bind:lastName  />
     {:else}
         <NameFormNoRestriction bind:firstName bind:lastName  />
     {/if}

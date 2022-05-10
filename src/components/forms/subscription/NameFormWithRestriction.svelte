@@ -1,7 +1,7 @@
 <script>
     import {_getDoc}from '$firestore/basics'
     import {normalize} from '$utils/normalize'
-    import {capitalize} from '$utils/capitalize'
+    import { printName } from '$utils/printName';
     export let firstName, lastName
 
     let selectedStudent, searchInput
@@ -39,15 +39,21 @@
 
     <input type="search" id="search" name="search" placeholder="Chercher le nom de l'élève à inscrire" bind:value={searchInput} on:input={()=>handleChange(priorityStudents)}>
 
-    {#if releventStudents.length<=0}
-        <small style="color:red">Aucun élève ne correspond à cette recherche</small>
+    {#if searchInput}    
+        {#if releventStudents.length<=0}
+            <small style="color:red">Aucun élève ne correspond à cette recherche</small>
+        {:else if releventStudents.length === 1}
+            <small style="color:green; font-weight:bold">Élève trouvé !</small>
+        {:else}
+            <small style="color:green">{releventStudents.length} élèves correspondent à cette recherche</small>
+        {/if}
     {:else}
         <small>&nbsp;</small>
     {/if}
     <label for="student">Choisissez l'élève à inscrire</label>
     <select id="student" required bind:value={selectedStudent}>
         {#each releventStudents as student}
-        <option value={student}>{capitalize(student.firstName.toLowerCase())} {student.lastName}</option>
+            <option value={student}>{printName(student)}</option>
         {/each}
     </select>
 

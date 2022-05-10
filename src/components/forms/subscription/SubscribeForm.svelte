@@ -8,13 +8,14 @@
     import ResubscribeForm from '$components/forms/subscription/ResubscribeForm.svelte'
     import { goto } from "@roxi/routify"
 
-    export let adult    
+    export let adult
 
     //Check if everyone should be able to subscribe or only past students
     const today = dayjs()
     const dateOfNoRestriction = dayjs($currentSeason.dateOfNoRestriction)
     const timeUntilNoRestrictions = dateOfNoRestriction.diff(today)
     const pastStudentsOnly = timeUntilNoRestrictions>0
+
 
     const handleSubmit = () => {
         $subscriptionStatus = 'readyToCheck'
@@ -33,17 +34,27 @@
     
     {#if pastStudentsOnly}
         <InfoMessage msg="Inscription reservée aux élèves inscrits l'année dernière (jusqu'au {dateOfNoRestriction.format('D MMMM YYYY')})" />
-        <ResubscribeForm />
-    {:else}     
+        <!-- <ResubscribeForm /> -->
+
+        <!-- This section is only there for the first year, delete once everyone is subscribed -->
         {#if adult}
             <AdultSubscriptionForm {pastStudentsOnly}/>
         {:else}
             <ChildSubscriptionForm {pastStudentsOnly}/>
         {/if}
+        <!-- End of TMP section -->
+    {:else}     
+        {#if adult}
+            <AdultSubscriptionForm />
+        {:else}
+            <ChildSubscriptionForm />
+        {/if}
     {/if}
     <footer>
         <button type="button" class='secondary outline' on:click={$goto(`/creneaux/[day]`, {day:getDayUrl($currentDay)})}>Annuler</button>
-        <button>Valider</button>
+        {#if !pastStudentsOnly}
+            <button>Valider</button>
+        {/if}
     </footer>
 </form>
 

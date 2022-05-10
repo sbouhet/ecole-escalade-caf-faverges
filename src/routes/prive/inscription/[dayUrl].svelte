@@ -39,7 +39,7 @@
         $error = e
         $fatal = true
     }
-    
+
 </script>
 
 <div>
@@ -48,7 +48,7 @@
                 <CheckSubscription {adult}/>
             {:else if $subscriptionStatus === 'uploadedToFirestore'}
                 <Success />  
-            {:else}
+            {:else} 
                 <SubscribeForm {adult}/>
             {/if}
     </article>

@@ -6,7 +6,7 @@
     import { getAuth } from "firebase/auth"
 
     let firstName, lastName, tel, accidentTel, dateOfBirth
-    export let pastStudentsOnly
+    export let pastStudentsOnly = false
 
     $:email = getAuth().currentUser.email
     

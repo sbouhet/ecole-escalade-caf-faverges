@@ -2,7 +2,7 @@
     import ParentInfo from './ParentInfo.svelte'
     import ChildInfo from './ChildInfo.svelte'
     import { subscription } from '$utils/stores'
-    export let pastStudentsOnly
+    export let pastStudentsOnly = false
 
     $: parents = $subscription.privateInfo.parents
 
