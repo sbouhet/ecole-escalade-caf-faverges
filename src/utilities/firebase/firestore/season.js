@@ -22,5 +22,3 @@ export const getSeason = async (time = "current") => {
     throw new BError("$firestore/season => getSeason()", error)
   }
 }
-
-//TODO FIX INEVITABLE BUGS

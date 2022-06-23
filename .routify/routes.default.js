@@ -291,17 +291,46 @@ export default {
               "meta": {
                 "dynamic": true
               },
-              "id": "_default_prive_mon_compte__id__svelte",
+              "id": "_default_prive_mon_compte__id_",
               "name": "[id]",
-              "module": () => import('../src/routes/prive/mon-compte/[id].svelte'),
+              "module": false,
               "file": {
-                "path": "src/routes/prive/mon-compte/[id].svelte",
+                "path": "src/routes/prive/mon-compte/[id]",
                 "dir": "src/routes/prive/mon-compte",
-                "base": "[id].svelte",
-                "ext": ".svelte",
+                "base": "[id]",
+                "ext": "",
                 "name": "[id]"
               },
-              "children": []
+              "children": [
+                {
+                  "meta": {},
+                  "id": "_default_prive_mon_compte__id__checkPayment_svelte",
+                  "name": "checkPayment",
+                  "module": () => import('../src/routes/prive/mon-compte/[id]/checkPayment.svelte'),
+                  "file": {
+                    "path": "src/routes/prive/mon-compte/[id]/checkPayment.svelte",
+                    "dir": "src/routes/prive/mon-compte/[id]",
+                    "base": "checkPayment.svelte",
+                    "ext": ".svelte",
+                    "name": "checkPayment"
+                  },
+                  "children": []
+                },
+                {
+                  "meta": {},
+                  "id": "_default_prive_mon_compte__id__index_svelte",
+                  "name": "index",
+                  "module": () => import('../src/routes/prive/mon-compte/[id]/index.svelte'),
+                  "file": {
+                    "path": "src/routes/prive/mon-compte/[id]/index.svelte",
+                    "dir": "src/routes/prive/mon-compte/[id]",
+                    "base": "index.svelte",
+                    "ext": ".svelte",
+                    "name": "index"
+                  },
+                  "children": []
+                }
+              ]
             },
             {
               "meta": {},

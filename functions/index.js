@@ -18,6 +18,7 @@ const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
 const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
 const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
 const resubscribeStudent = require("./lib/firebase/firestore/resubscribeStudent")
+const getPaymentLink = require("./lib/helloAsso/getPaymentLink")
 
 //##############################################################################################
 //                                CALLABLE FUNCTIONS
@@ -111,8 +112,73 @@ exports.checkLicence = functions
     }
   })
 
+//Get payment link
+exports.getPaymentLinkFromHelloAsso = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .https.onCall(async (data, context) => {
+    try {
+      //Get new API tokens (access_token and refresh_token)
+      const tokens = await getNewTokens()
+
+      const link = await getPaymentLink(
+        tokens.access_token,
+        0.1,
+        "O7MggRa9BcAuXtxGDqmU",
+        {
+          firstName: "jules",
+          lastName: "marchand",
+          email: "friarobas@gmail.com",
+        },
+        false
+      )
+      console.log(link)
+
+      return {
+        statusCode: 200,
+        message: "Payment checked successfully",
+      }
+    } catch (error) {
+      return {
+        statusCode: 409,
+        message: error,
+        body: "Could not get payment link",
+      }
+    }
+  })
+
+//Change payment status to "Waiting"
+exports.changePaymentStatusToWaiting = functions.https.onCall(
+  async (data, context) => {
+    try {
+      if (!data.seasonName) throw "No seasonName"
+      if (!data.studentId) throw "No studentId"
+
+      console.log(data)
+
+      //Update public doc with status > "waiting"
+      await basics._updateDoc(
+        { [`seasons.${data.seasonName}.payment`]: "waiting" },
+        "students",
+        data.studentId
+      )
+
+      return {
+        statusCode: 200,
+        message: "Payment status updated",
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        statusCode: 409,
+        message: error,
+        body: "Could not update payment status",
+      }
+    }
+  }
+)
+
 //Check HelloAsso to see if payment has been made
-exports.checkPayment = functions
+exports.checkPaymentOLD = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
   .https.onCall(async (data, context) => {
     try {

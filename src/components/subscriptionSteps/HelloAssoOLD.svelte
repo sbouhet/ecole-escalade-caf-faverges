@@ -2,13 +2,12 @@
     import { currentSeason } from "$utils/stores"
     import { getAgeGroupFromDayUrl } from "$utils/ageGroups"
     import Boolean from '$components/htmlElements/Boolean.svelte'
-    import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions"
+    import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     export let student
     const functions = getFunctions(getApp())
-    connectFunctionsEmulator(functions, "localhost", 5001)
-    const getPaymentLinkFromHelloAsso = httpsCallable(functions, "getPaymentLinkFromHelloAsso")
+    const checkPayment = httpsCallable(functions, "checkPayment")
 
     $:id = student.id
     $:firstName = student.public.firstName
@@ -30,9 +29,7 @@
             result = null
             loading = true
             //const users = await getUsersFromHelloAsso()
-            
-            //TODO FIX PARAMETERS
-            result = await getPaymentLinkFromHelloAsso({firstName, lastName, slug, id, seasonName:$currentSeason.name})
+            result = await checkPayment({firstName, lastName, slug, id, seasonName:$currentSeason.name})
             loading = false
             console.log(result)
         } catch (error) {

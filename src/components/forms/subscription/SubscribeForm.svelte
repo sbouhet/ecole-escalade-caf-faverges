@@ -18,7 +18,7 @@
 
 
     const handleSubmit = () => {
-        $subscriptionStatus = 'readyToCheck'
+        $subscriptionStatus = 'imageRights'
     }
 </script>
 

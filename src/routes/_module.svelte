@@ -68,7 +68,7 @@
           $admin = !!res.claims.admin || !!res.claims.mod
         
           //TEST
-          $admin = true
+          //$admin = true
           userStoreUpToDate = true
         })
       }else{

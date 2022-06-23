@@ -17,6 +17,7 @@
 
     let error
     let urlId = $params.id
+    console.log($params)
     let student, medicalCertificateLink, medicalCertificateTimestamp, medicalCertificateStatus, firstName, lastName, paymentStatus, slug
     const unsub = onSnapshot(doc(db, "students", urlId), async (doc) => {
         try {

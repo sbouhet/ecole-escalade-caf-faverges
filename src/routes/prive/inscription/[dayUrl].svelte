@@ -10,6 +10,8 @@
     export let context //just to hide warning in console
     import SubscribeForm from '$components/forms/subscription/SubscribeForm.svelte'
     import CheckSubscription from '$components/modals/CheckSubscription.svelte'
+    import ImageRights from '$components/modals/ImageRights.svelte'
+    import ParentalAuthorization from '$components/modals/ParentalAuthorization.svelte'
     import {params} from '@roxi/routify'
     import { currentSeason, subscription, subscriptionStatus, error, fatal, currentDay } from '$utils/stores'
     import { getDayFromUrl, isDayForAdults } from '$utils/days'
@@ -33,7 +35,7 @@
         // Write day URL in subscription
         $subscription.publicInfo.seasons[$currentSeason.name].day = dayUrl
 
-        } catch (err) {
+    } catch (err) {
         const e = new BError(`Could not find day with url ${dayUrl}`, err, {days:$currentSeason.days})
         e.log()
         $error = e
@@ -44,7 +46,11 @@
 
 <div>
     <article>
-            {#if $subscriptionStatus === 'readyToCheck'}
+            {#if $subscriptionStatus === 'imageRights'}
+                <ImageRights {adult}/>
+            {:else if $subscriptionStatus === 'parentalAuthorization'}
+                <ParentalAuthorization />  
+            {:else if $subscriptionStatus === 'readyToCheck'}
                 <CheckSubscription {adult}/>
             {:else if $subscriptionStatus === 'uploadedToFirestore'}
                 <Success />  

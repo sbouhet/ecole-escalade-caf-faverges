@@ -14,7 +14,7 @@
 {/if}
 
 {#if $loggedin}
-    <a href="/prive/mon-compte" role="button" class="outline">Mon compte</a>
+    <a href="/prive/mon-compte" role="button" class="outline">Mes inscriptions</a>
 {:else}
     <a href="/prive/mon-compte" role="button" class="outline">Se connecter</a>
 {/if}

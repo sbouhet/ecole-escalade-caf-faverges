@@ -35,6 +35,9 @@
                 <tr>
                     {#if $admin && allowDelete}<th scope="col">Del</th>{/if}
                     {#if timestamp}<th scope="col">Timestamp</th>{/if}
+                     {#if links}
+                        <th scope="col"></th>
+                    {/if} 
                     <th scope="col">Prénom</th>
                     {#if !myProfile}
                         <th scope="col">Nom</th>
@@ -62,6 +65,7 @@
                     {#if myProfile}
                         <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName.toLowerCase())}</a></td>
                     {:else if links}
+                        <td><a href={`/prive/admin/modifyStudent?id=${student.id}`}>⚙</a></td>
                         <td><a href={`/prive/admin/${student.id}`}>{capitalize(student.data().firstName.toLowerCase())}</a></td>
                         <td>{student.data().lastName.toUpperCase()}</td>
                     {:else}
