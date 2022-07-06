@@ -91,7 +91,7 @@
 
            
     {:else if status === "waiting"}
-            Votre paiement doit être validé par notre équipe.
+            Nous attendons votre paiement par chèque, espèces ou chèque vacances. Vous avez jusqu'au 1er septembre pour nous faire parvenir votre paiement.
     {:else if status === "yes"}
             <div style="color:green">Votre paiement est validé !</div>
     {/if}

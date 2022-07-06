@@ -17,7 +17,7 @@
         }else{
             $error = 'Une erreur est survenue lors du paiment'
         }
-        $goto(`/prive/mon-compte/[id]`, {id:$params.id})
+        $goto(`/prive/mon-compte/[id]`, {id:$params.id, payment: "true"})
     }
     
     run()
