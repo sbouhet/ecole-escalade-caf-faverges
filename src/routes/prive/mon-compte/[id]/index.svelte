@@ -14,6 +14,7 @@
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
     import { goto } from '@roxi/routify'
+    import Back from '$components/htmlElements/Back.svelte'
 
     let error
     let urlId = $params.id
@@ -33,8 +34,6 @@
             error = err
         }
     })
-
-    
 </script>
 <ErrorMessage {error} modal={true}/>
 {#if student}
@@ -45,14 +44,16 @@
         </hgroup>
         <small>Cliquez sur chaque étape pour plus de détails.</small>
         <br><br>
+   
         
         <details>
-            <summary><Boolean value={'yes'} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
+            <summary role="button" class="outline"><Boolean value={'yes'} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
             <p style="color:green">Votre compte a bien été créé !</p>
         </details>
-        <HelloAsso {student}/>
-        <Licence {student}/>
-        <MedicalCertificate  {student}/>
+        <HelloAsso {student} open={$params.payment}/>
+        <Licence {student} open={$params.licence}/>
+        <MedicalCertificate  {student} open={$params.certificate}/>
     </article>
+    <Back path='/prive/mon-compte'/>
 {/if}
 <slot></slot>

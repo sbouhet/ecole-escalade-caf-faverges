@@ -15,8 +15,8 @@
 </button>
 
 <style>
-    /* button{
+     button{
         max-width: 200px;
         margin-top: 20px;
-    } */
+    } 
 </style>

@@ -34,3 +34,5 @@ getAuth().currentUser.getIdToken(true)
 
 Primary color: #1095C1
 var(--primary)
+
+ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass

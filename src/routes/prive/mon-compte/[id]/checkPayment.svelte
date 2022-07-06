@@ -6,11 +6,11 @@
     const functions = getFunctions(getApp())
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const changePaymentStatusToWaiting = httpsCallable(functions, "changePaymentStatusToWaiting")
-    let loading = true
     
     const run = async ()=>{
         
         if ($params.code === "succeeded") {
+            console.log("payment done, change status")
             const result = await changePaymentStatusToWaiting({seasonName: $currentSeason.name,studentId: $params.id})
             console.log(result)
             

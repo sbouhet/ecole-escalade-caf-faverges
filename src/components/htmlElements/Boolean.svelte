@@ -24,7 +24,7 @@
     }
     .big{
         margin-right: 20px;
-        font-size:medium;
+        font-size:large;
         color:white;
     }
 </style>

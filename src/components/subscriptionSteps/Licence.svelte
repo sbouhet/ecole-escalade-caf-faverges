@@ -6,7 +6,7 @@
     import { getApp } from "firebase/app"
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import HowToFindLicence from '$components/modals/HowToFindLicence.svelte'
-    export let student
+    export let student, open
     const functions = getFunctions(getApp())
     const checkLicence = httpsCallable(functions, "checkLicence")
     let error, input, modalOpen
@@ -32,8 +32,8 @@
     }
 </script>
 
-<details>
-    <summary>
+<details open={open}>
+    <summary role="button" class="outline">
         <Boolean value={status} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges
     </summary>
     {#if status==="no"}

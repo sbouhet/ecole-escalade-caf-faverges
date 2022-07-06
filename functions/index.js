@@ -117,25 +117,34 @@ exports.getPaymentLinkFromHelloAsso = functions
   .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
   .https.onCall(async (data, context) => {
     try {
+      if (!data.firstName) throw "No firstName"
+      if (!data.lastName) throw "No lastName"
+      if (!data.email) throw "No email"
+      if (!data.id) throw "No id"
+      if (!data.totalAmount) throw "No totalAmount"
+
       //Get new API tokens (access_token and refresh_token)
       const tokens = await getNewTokens()
 
-      const link = await getPaymentLink(
+      const result = await getPaymentLink(
         tokens.access_token,
-        0.1,
-        "O7MggRa9BcAuXtxGDqmU",
+        data.totalAmount, // total amount to be paid
+        data.id,
         {
-          firstName: "jules",
-          lastName: "marchand",
-          email: "friarobas@gmail.com",
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
         },
-        false
+        data.payInThree
       )
-      console.log(link)
+      console.log(result)
 
       return {
         statusCode: 200,
-        message: "Payment checked successfully",
+        message: "Link created successfully",
+        id: result.id,
+        link: result.redirectUrl,
+        data: data
       }
     } catch (error) {
       return {
@@ -172,6 +181,38 @@ exports.changePaymentStatusToWaiting = functions.https.onCall(
         statusCode: 409,
         message: error,
         body: "Could not update payment status",
+      }
+    }
+  }
+)
+
+//Set payment type
+exports.setPaymentType = functions.https.onCall(
+  async (data, context) => {
+    try {
+      if (!data.seasonName) throw "No seasonName"
+      if (!data.studentId) throw "No studentId"
+      if (!data.paymentType) throw "No paymentType"
+
+      console.log(data)
+
+      //Update public doc with status > "waiting"
+      await basics._updateDoc(
+        { [`seasons.${data.seasonName}.paymentType`]: data.paymentType },
+        "students",
+        data.studentId
+      )
+
+      return {
+        statusCode: 200,
+        message: "Payment type updated",
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        statusCode: 409,
+        message: error,
+        body: "Could not update payment type",
       }
     }
   }

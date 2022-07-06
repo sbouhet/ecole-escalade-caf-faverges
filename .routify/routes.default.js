@@ -61,6 +61,20 @@ export default {
     },
     {
       "meta": {},
+      "id": "_default_erreur_svelte",
+      "name": "erreur",
+      "module": () => import('../src/routes/erreur.svelte'),
+      "file": {
+        "path": "src/routes/erreur.svelte",
+        "dir": "src/routes",
+        "base": "erreur.svelte",
+        "ext": ".svelte",
+        "name": "erreur"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_index_svelte",
       "name": "index",
       "module": () => import('../src/routes/index.svelte'),

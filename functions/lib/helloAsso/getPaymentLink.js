@@ -60,8 +60,8 @@ module.exports = async (
         initialAmount,
         terms,
         itemName: "Cours d'escalade'",
-        backUrl: `https://ee22.netlify.app/prive/mon-compte/${studentId}`,
-        errorUrl: "https://ee22.netlify.app/prive/mon-compte/erreur",
+        backUrl: `https://ee22.netlify.app/prive/mon-compte/${studentId}?payment=true`,
+        errorUrl: "https://ee22.netlify.app/erreur",
         returnUrl: `https://ee22.netlify.app/prive/mon-compte/${studentId}/checkPayment`,
         containsDonation: false,
 
@@ -71,7 +71,7 @@ module.exports = async (
           email: payer.email,
         },
         metadata: {
-          studentId: 98765,
+          studentId
         },
       },
     })

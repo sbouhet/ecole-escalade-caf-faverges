@@ -10,7 +10,7 @@
     const functions = getFunctions(getApp())
     const sendEmailAndChangeStatus = httpsCallable(functions, 'sendEmailAndChangeStatus')
     
-    export let student
+    export let student, open
     $:id = student.id
     $:status = student.public.seasons[$currentSeason.name].medicalCertificate
     $:link = student.private.medicalCertificateLink
@@ -47,8 +47,8 @@
     
 </script>
 
-<details>
-    <summary><Boolean value={status} big={true}/>Étape 4 : Transférer un certificat médical</summary>
+<details open={open}>
+    <summary role="button" class="outline"><Boolean value={status} big={true}/>Étape 4 : Transférer un certificat médical</summary>
 
     {#if link}
         <a href={link} target="_new">Voir votre certificat médical</a><br>
