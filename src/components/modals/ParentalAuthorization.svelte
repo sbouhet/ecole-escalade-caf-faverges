@@ -34,7 +34,7 @@ En cas d’urgence, j’autorise / je n’autorise pas (rayer la mention inutile
 J’autorise / je n’autorise pas (rayer la mention inutile) les responsables de l’encadrement à utiliser les photos/vidéos de mon enfant, prises dans le cadre des activités pour réaliser des outils de communication (revue club, site club, site FFCAM, Dauphiné, affiches et flyers).
  <footer>
         <a href="#" role="button" class="secondary outline" on:click={()=>$subscriptionStatus=null}>Annuler</a>
-        <a href="#" role="button" on:click={()=>$subscriptionStatus='readyToCheck'}>Confirmer l'inscription</a>
+        <a href="#" role="button" on:click={()=>$subscriptionStatus='readyToCheck'}>J'accèpte</a>
     </footer>  
 </article>
 </dialog>

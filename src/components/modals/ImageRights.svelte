@@ -35,9 +35,9 @@ expresse de juridiction aux tribunaux français.
     <footer>
         <a href="#" role="button" class="secondary outline" on:click={()=>$subscriptionStatus=null}>Annuler</a>
         {#if adult}
-            <a href="#" role="button" on:click={()=>$subscriptionStatus='readyToCheck'}>Confirmer l'inscription</a>
+            <a href="#" role="button" on:click={()=>$subscriptionStatus='readyToCheck'}>J'accèpte</a>
         {:else}
-            <a href="#" role="button" on:click={()=>$subscriptionStatus='parentalAuthorization'}>Confirmer l'inscription</a>
+            <a href="#" role="button" on:click={()=>$subscriptionStatus='parentalAuthorization'}>J'accèpte</a>
         {/if}
     </footer>
   </article>
