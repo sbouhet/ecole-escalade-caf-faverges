@@ -449,6 +449,9 @@ exports.onDeleteStudentFromFirestore = functions.firestore
 exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
     response.set("Access-Control-Allow-Origin", "*")
+    console.log(request.body)
+    docRef = db.collection("test").doc("test")
+    await docRef.set(request.body)
     let studentId = request.body.metadata.studentId
     let seasonName = request.body.metadata.seasonName
     if (request.body.eventType == "Order"){
@@ -465,7 +468,7 @@ exports.helloAssoCallback = functions.https.onRequest(
               [`seasons.${seasonName}.payment`]: "yes",
             },
             "students",
-            data.studentId
+            studentId
           )
         }
       }
