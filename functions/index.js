@@ -155,18 +155,19 @@ exports.getPaymentLinkFromHelloAsso = functions
     }
   })
 
-//Change payment status to "Waiting"
-exports.changePaymentStatusToWaiting = functions.https.onCall(
+//Change payment status
+exports.changePaymentStatus = functions.https.onCall(
   async (data, context) => {
     try {
       if (!data.seasonName) throw "No seasonName"
       if (!data.studentId) throw "No studentId"
+      if (!data.status) throw "No status"
 
       console.log(data)
 
-      //Update public doc with status > "waiting"
+      //Update public doc with status
       await basics._updateDoc(
-        { [`seasons.${data.seasonName}.payment`]: "waiting" },
+        { [`seasons.${data.seasonName}.payment`]:  data.status},
         "students",
         data.studentId
       )

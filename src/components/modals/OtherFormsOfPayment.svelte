@@ -5,7 +5,7 @@
     import { currentSeason } from "$utils/stores"
     const functions = getFunctions(getApp())
     //connectFunctionsEmulator(functions, "localhost", 5001)
-    const changePaymentStatusToWaiting = httpsCallable(functions, "changePaymentStatusToWaiting")
+    const changePaymentStatus = httpsCallable(functions, "changePaymentStatus")
     const setPaymentType = httpsCallable(functions, "setPaymentType")
 
     export let open, id, error
@@ -16,7 +16,7 @@
         error = false
         loading = true
         console.log("starting")
-        const result = await changePaymentStatusToWaiting({seasonName: $currentSeason.name,studentId: id})
+        const result = await changePaymentStatus({seasonName: $currentSeason.name,studentId: id, status:"waiting"})
         console.log(result)
         const result2 = await setPaymentType({seasonName: $currentSeason.name,studentId: id, paymentType})
         console.log(result2)
