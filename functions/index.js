@@ -170,8 +170,7 @@ exports.changePaymentStatus = functions.https.onCall(
       //Update public doc with status
       await basics._updateDoc(
         { 
-          [`seasons.${data.seasonName}.payment`]:  data.status,
-          [`seasons.${data.seasonName}.checkoutIntentId`]:  data.checkoutIntentId,
+          [`seasons.${data.seasonName}.payment`]:  data.status
         },
         "students",
         data.studentId
@@ -449,9 +448,7 @@ exports.onDeleteStudentFromFirestore = functions.firestore
 exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
     response.set("Access-Control-Allow-Origin", "*")
-    console.log(request.body)
-    docRef = db.collection("test").doc("test")
-    await docRef.set(request.body)
+    
     let studentId = request.body.metadata.studentId
     let seasonName = request.body.metadata.seasonName
     if (request.body.eventType == "Order"){

@@ -1,5 +1,6 @@
 <script>
     import { currentSeason } from "$utils/stores"
+    import {_updateDoc} from "$utils/firebase/firestore/basics"
     import {params} from '@roxi/routify'
     import { getAgeGroupFromDayUrl } from "$utils/ageGroups"
     import Boolean from '$components/htmlElements/Boolean.svelte'
@@ -11,7 +12,9 @@
     const functions = getFunctions(getApp())
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const getPaymentLinkFromHelloAsso = httpsCallable(functions, "getPaymentLinkFromHelloAsso")
-    if($params.code == "succeeded" && student.public.seasons[$currentSeason.name].payment == "no") student.public.seasons[$currentSeason.name].payment = "waiting"
+    const changePaymentStatus = httpsCallable(functions, "changePaymentStatus")
+
+    
     $:id = student.id
     $:firstName = student.public.firstName
     $:lastName = student.public.lastName
@@ -20,6 +23,12 @@
     $:ageGroup = getAgeGroupFromDayUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days, $currentSeason.ageGroups)
     $:price = ageGroup.price
     $:priceDividedByThree = Math.ceil((price * 100) / 3)/100
+
+    $:if($params.code == "succeeded" && status == "no") {
+        console.log("trying to change status")
+        changePaymentStatus({seasonName: $currentSeason.name,studentId: $params.id, status:"waiting" })
+    }
+
     let result
     let openOtherPaymentModal = false
     let payInThree = false
@@ -38,7 +47,6 @@
         }
     }
 </script>
-
 <OtherFormsOfPayment bind:open={openOtherPaymentModal} {id}/>
 
 <details open={open}>
