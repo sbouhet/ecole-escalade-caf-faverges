@@ -29,7 +29,7 @@
             if(loading)return
             loading = true
             //TODO CHANGE AMOUNT !!!
-            result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : 0.01, payInThree})
+            result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : 0.01, seasonName: $currentSeason.name, payInThree})
             window.location.href = result.data.link
         } catch (error) {
             console.log(error)

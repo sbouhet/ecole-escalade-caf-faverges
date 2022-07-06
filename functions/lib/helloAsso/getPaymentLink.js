@@ -7,6 +7,7 @@ module.exports = async (
   totalAmount,
   studentId,
   payer,
+  seasonName,
   payInThree = false
 ) => {
   console.log("Trying to get link from HelloAsso")
@@ -16,6 +17,7 @@ module.exports = async (
     if (!totalAmount) throw "No totalAmount"
     if (!studentId) throw "No studentId"
     if (!payer) throw "No payer"
+    if (!seasonName) throw "No seasonName"
 
     let initialAmount, terms
 
@@ -72,7 +74,8 @@ module.exports = async (
           email: payer.email,
         },
         metadata: {
-          studentId
+          studentId,
+          seasonName
         },
       },
     })

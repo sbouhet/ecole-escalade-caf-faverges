@@ -8,7 +8,7 @@
     const changePaymentStatus = httpsCallable(functions, "changePaymentStatus")
     const setPaymentType = httpsCallable(functions, "setPaymentType")
     
-    const run = async ()=>{
+/*     const run = async ()=>{
         console.log($params.checkoutIntentId)
         if ($params.code === "succeeded") {
             console.log("payment done, change status")
@@ -23,7 +23,7 @@
         $goto(`/prive/mon-compte/[id]`, {id:$params.id, payment: "true"})
     }
     
-    run()
+    run() */
 
 </script>
 

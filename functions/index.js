@@ -122,6 +122,7 @@ exports.getPaymentLinkFromHelloAsso = functions
       if (!data.email) throw "No email"
       if (!data.id) throw "No id"
       if (!data.totalAmount) throw "No totalAmount"
+      if (!data.seasonName) throw "No seasonName"
 
       //Get new API tokens (access_token and refresh_token)
       const tokens = await getNewTokens()
@@ -135,6 +136,7 @@ exports.getPaymentLinkFromHelloAsso = functions
           lastName: data.lastName,
           email: data.email,
         },
+        data.seasonName,
         data.payInThree
       )
       console.log(result)
@@ -447,7 +449,8 @@ exports.onDeleteStudentFromFirestore = functions.firestore
 exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
     response.set("Access-Control-Allow-Origin", "*")
-    console.log(JSON.stringify(request.body))
+    let studentId = request.body.metadata.studentId
+    let seasonName = request.body.metadata.seasonName
     if (request.body.eventType == "Order"){
       const items = request.body.data.items
       let docRef
@@ -455,6 +458,16 @@ exports.helloAssoCallback = functions.https.onRequest(
         if (!item.id) return
         docRef = db.collection("orders").doc(item.id.toString())
         await docRef.set(item)
+        if(item.state == "Processed"){
+          //Update student doc with status payment > yes
+          await basics._updateDoc(
+            {
+              [`seasons.${seasonName}.payment`]: "yes",
+            },
+            "students",
+            data.studentId
+          )
+        }
       }
     }else if(request.body.eventType == "Payment"){
         docRef = db.collection("payments").doc(request.body.data.id.toString())
