@@ -8,6 +8,9 @@
     import { isDayFull } from '$firestore/dayIsFull'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { BError } from "berror"
+    import { getAuth} from "firebase/auth"
+    import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+    import { db } from "$utils/firebase/firebase"
     export let adult
    
     let full = false
@@ -21,7 +24,14 @@
         if(full) return
         const timestamp = dayjs().unix()
         $subscription.publicInfo.seasons[$currentSeason.name].timestamp = timestamp
-        await createNewStudent($subscription, $currentSeason)
+        const studentId = await createNewStudent($subscription, $currentSeason)
+
+        const userRef = doc(db, "users", getAuth().currentUser.uid);
+      await updateDoc(userRef, {
+          students: arrayUnion(studentId)
+      })
+
+        getAuth().currentUser.uid
         $subscriptionStatus = 'uploadedToFirestore'
         loading = false
       } catch (err) {

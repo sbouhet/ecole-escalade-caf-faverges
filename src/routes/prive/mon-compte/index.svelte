@@ -1,5 +1,6 @@
 <script>
     export let context
+    import {_getDoc} from "$firestore/basics"
     import { currentSeason, students,  } from '$utils/stores'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"
@@ -7,7 +8,7 @@
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
 
     let error = null
-    const getMyIds = httpsCallable(getFunctions(), 'getMyIds')
+    /* const getMyIds = httpsCallable(getFunctions(), 'getMyIds')
 
     const getMyStudents = async(students)=>{
       let response = await getMyIds()
@@ -22,9 +23,26 @@
         error = response.data.message
         return
       }
+    } */
+
+
+    const getMyStudents = async()=>{
+      const result = await _getDoc("users", getAuth().currentUser.uid)
+      console.log(result.data())
+      const myIds = result.data().students
+      let myStudents = []
+      for (const id of myIds) {
+        const student = await _getDoc("students", id)
+        myStudents.push(student)
+      }
+      console.log("Found "+ myStudents.length + " students")
+      console.log(myStudents)
+      return myStudents
     }
-    let myStudents = []
-    $:if($students.length) myStudents = getMyStudents($students)
+
+    let myStudents = getMyStudents()
+    //$:if($students.length) myStudents = getMyStudents($students)
+
     
 </script>
 

@@ -318,20 +318,6 @@ export default {
               "children": [
                 {
                   "meta": {},
-                  "id": "_default_prive_mon_compte__id__checkPayment_svelte",
-                  "name": "checkPayment",
-                  "module": () => import('../src/routes/prive/mon-compte/[id]/checkPayment.svelte'),
-                  "file": {
-                    "path": "src/routes/prive/mon-compte/[id]/checkPayment.svelte",
-                    "dir": "src/routes/prive/mon-compte/[id]",
-                    "base": "checkPayment.svelte",
-                    "ext": ".svelte",
-                    "name": "checkPayment"
-                  },
-                  "children": []
-                },
-                {
-                  "meta": {},
                   "id": "_default_prive_mon_compte__id__index_svelte",
                   "name": "index",
                   "module": () => import('../src/routes/prive/mon-compte/[id]/index.svelte'),

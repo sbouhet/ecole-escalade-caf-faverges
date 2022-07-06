@@ -19,7 +19,7 @@ export const createNewStudent = async (student, season) => {
     )
 
     console.log("Document written with ID: ", studentId)
-    return
+    return studentId
   } catch (error) {
     throw new BError("$firestore/createNewStudent => createNewStudent()", error)
   }

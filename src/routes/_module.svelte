@@ -59,7 +59,7 @@
 
     onAuthStateChanged(getAuth(), (usr)=>{
         userStoreUpToDate = false
-        //console.log(getAuth().currentUser)
+        console.log(getAuth().currentUser.uid)
       if(usr){
         $loggedin = true
         verified = usr.emailVerified
