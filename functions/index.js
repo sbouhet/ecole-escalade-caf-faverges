@@ -466,6 +466,7 @@ exports.helloAssoCallback = functions.https.onRequest(
           await basics._updateDoc(
             {
               [`seasons.${seasonName}.payment`]: "yes",
+              [`seasons.${seasonName}.paymentType`]: "CB",
             },
             "students",
             studentId

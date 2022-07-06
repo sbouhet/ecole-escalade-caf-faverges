@@ -1,5 +1,6 @@
 <script>
     import { currentSeason } from "$utils/stores"
+    import {params} from '@roxi/routify'
     import { getAgeGroupFromDayUrl } from "$utils/ageGroups"
     import Boolean from '$components/htmlElements/Boolean.svelte'
     import OtherFormsOfPayment from '$components/modals/OtherFormsOfPayment.svelte'
@@ -10,7 +11,7 @@
     const functions = getFunctions(getApp())
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const getPaymentLinkFromHelloAsso = httpsCallable(functions, "getPaymentLinkFromHelloAsso")
-
+    if($params.code == "succeeded" && student.public.seasons[$currentSeason.name].payment == "no") student.public.seasons[$currentSeason.name].payment = "waiting"
     $:id = student.id
     $:firstName = student.public.firstName
     $:lastName = student.public.lastName
@@ -85,7 +86,8 @@
 
            
     {:else if status === "waiting"}
-            Nous attendons votre paiement par chèque, espèces ou chèque vacances. Vous avez jusqu'au 1er septembre pour nous faire parvenir votre paiement.
+            En attente de validation. <br>Si vous n'avez pas payé par carte bleue,
+            nous attendons votre paiement par chèque, espèces ou chèque vacances. Vous avez jusqu'au 1er septembre pour nous faire parvenir votre paiement.
     {:else if status === "yes"}
             <div style="color:green">Votre paiement est validé !</div>
     {/if}
