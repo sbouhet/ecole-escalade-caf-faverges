@@ -17,13 +17,8 @@
     $:email = student.private.emails[0]
     $:status = student.public.seasons[$currentSeason.name].payment
     $:ageGroup = getAgeGroupFromDayUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days, $currentSeason.ageGroups)
-    $:slug = ageGroup.slug
-    $:console.log(ageGroup.slug)
-    //FOR TESTING REMOVE
-    //const slug = "test"
     $:price = ageGroup.price
     $:priceDividedByThree = Math.ceil((price * 100) / 3)/100
-    $:link = `https://www.helloasso.com/associations/caf-de-faverges/adhesions/${slug}`
     let result
     let openOtherPaymentModal = false
     let payInThree = false
@@ -32,15 +27,10 @@
     const handleClick = async ()=>{
         try {
             if(loading)return
-            result = null
             loading = true
-            //const users = await getUsersFromHelloAsso()
-            
-            //TODO FIX PARAMETERS
-            result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : price, payInThree})
-            loading = false
-            console.log(result.data)
-            console.log(result.data.link)
+            //TODO CHANGE AMOUNT !!!
+            result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : 0.01, payInThree})
+            window.location.href = result.data.link
         } catch (error) {
             console.log(error)
             loading = false
@@ -72,19 +62,23 @@
                 Montant prélevé le 1er mars : <b>{priceDividedByThree} €</b>
             {/if}
     <br><br>
-        <a href="" role="button">Cliquez ici pour payer
-            <b>
-            {#if payInThree}
-                {priceDividedByThree} €
-            {:else}
-                {price} €
-            {/if}
-            </b>&nbsp;&nbsp;
-            <small>(carte bleue)</small>
-        </a>
+        {#if loading}
+        <a href="" role="button" aria-busy={true} disabled>Merci de patienter...</a>
+        {:else}    
+            <a href="" role="button" on:click={handleClick}>Cliquez ici pour payer
+                <b>
+                {#if payInThree}
+                    {priceDividedByThree} €
+                {:else}
+                    {price} €
+                {/if}
+                </b>&nbsp;&nbsp;
+                <small>(carte bleue)</small>
+            </a>
+        {/if}
     <br><br>
     <small>
-        Le paiment par carte bleue est recommandé. Si vous souhaitez utiliser un autre mode de paiment, cliquez sur le lien suivant :
+        Le paiement par carte bleue est recommandé. Si vous souhaitez utiliser un autre moyen de paiement, cliquez sur le lien suivant :
         <br>
         <a href="" class="secondary" on:click={()=>openOtherPaymentModal=true}>Je ne souhaite pas payer par carte bleue</a>
     </small>

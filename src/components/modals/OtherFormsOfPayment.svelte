@@ -33,10 +33,10 @@
 
 <dialog open={open}>
   <article>
-      <h4>Autres moyens de paiment</h4>
+      <h4>Autres moyens de paiement</h4>
 
           <fieldset>
-            <legend>Séléctionnez votre moyen de paiment :</legend>
+            <legend>Séléctionnez votre moyen de paiement :</legend>
             <br>
             <label for="check">
               <input type="radio" id="check" bind:group={paymentType} name="paymentType" value={"check"} disabled={loading}>
@@ -54,7 +54,7 @@
 
           <label for="agree">
             <input type="checkbox" id="agree" name="agree" bind:checked={agree} disabled={loading}>
-            Je m'engage à transmettre mon moyen de paiment au CAF de Faverges avant 1er septembre.
+            Je m'engage à transmettre mon moyen de paiement au CAF de Faverges avant 1er septembre.
           </label>
           {#if error}
           <br>

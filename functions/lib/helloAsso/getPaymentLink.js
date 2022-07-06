@@ -1,5 +1,6 @@
 const axios = require("axios").default
 const dayjs = require("dayjs")
+const capitalize = require("../capitalize")
 
 module.exports = async (
   token,
@@ -66,8 +67,8 @@ module.exports = async (
         containsDonation: false,
 
         payer: {
-          firstName: payer.firstName,
-          lastName: payer.lastName,
+          firstName: capitalize(payer.firstName),
+          lastName: payer.lastName.toUpperCase(),
           email: payer.email,
         },
         metadata: {

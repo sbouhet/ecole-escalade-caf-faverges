@@ -167,7 +167,10 @@ exports.changePaymentStatus = functions.https.onCall(
 
       //Update public doc with status
       await basics._updateDoc(
-        { [`seasons.${data.seasonName}.payment`]:  data.status},
+        { 
+          [`seasons.${data.seasonName}.payment`]:  data.status,
+          [`seasons.${data.seasonName}.checkoutIntentId`]:  data.checkoutIntentId,
+        },
         "students",
         data.studentId
       )
@@ -232,7 +235,7 @@ exports.checkPaymentOLD = functions
       //Get new API tokens (access_token and refresh_token)
       const tokens = await getNewTokens()
 
-      //Get all items for specified slug (a slug is an adress to a helloAsso form)
+      //Get all items for specified slug (a slug is an address to a helloAsso form)
       const items = await getItemsFromHelloAsso(data.slug, tokens.access_token)
 
       //Try to find student name in list of items
@@ -268,11 +271,11 @@ exports.checkPaymentOLD = functions
 
         //If more than one items have the specified name
       } else if (filtered.length > 1) {
-        throw "Plus d'un paiment trouvé avec ce nom, contactez un administrateur"
+        throw "Plus d'un paiement trouvé avec ce nom, contactez un administrateur"
 
         //If no payment found
       } else {
-        throw "Aucun paiment trouvé avec ce nom"
+        throw "Aucun paiement trouvé avec ce nom"
       }
       return {
         statusCode: 200,
@@ -441,23 +444,27 @@ exports.onDeleteStudentFromFirestore = functions.firestore
   return `Hello  ${name}`
 }) */
 
-/* exports.helloAssoCallback = functions.https.onRequest(
+exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
     response.set("Access-Control-Allow-Origin", "*")
     console.log(JSON.stringify(request.body))
-    if (request.body.eventType !== "Order") return
-    const items = request.body.data.items
-    let docRef
-    for (const item of items) {
-      console.log(item)
-      if (!item.id) return
-      docRef = db.collection("orders").doc(item.id.toString())
-      await docRef.set(item)
+    if (request.body.eventType == "Order"){
+      const items = request.body.data.items
+      let docRef
+      for (const item of items) {
+        if (!item.id) return
+        docRef = db.collection("orders").doc(item.id.toString())
+        await docRef.set(item)
+      }
+    }else if(request.body.eventType == "Payment"){
+        docRef = db.collection("payments").doc(request.body.data.id.toString())
+        await docRef.set(request.body.data)
     }
+    
     return
     //response.send({ body: request.body })
   }
-) */
+)
 
 /* exports.deleteClaims = functions.https.onCall(async (data, context) => {
   try {
