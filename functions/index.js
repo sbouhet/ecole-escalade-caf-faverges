@@ -199,8 +199,12 @@ exports.changePaymentStatusToWaiting = functions.https.onCall(
       if (!data.seasonName) throw "No seasonName"
       if (!data.studentId) throw "No studentId"
 
-      console.log(data)
+      const studentRef = await basics._getDoc("students", data.studentId)
+      const currentState = studentRef.data().seasons[data.seasonName].payment
 
+      //If current payment state is "yes" or "waiting", do nothing
+      if(currentState != "no") throw `Current state is ${currentState}`
+      
       //Update public doc with status
       await basics._updateDoc(
         { 
@@ -404,26 +408,7 @@ exports.helloAssoCallback = functions.https.onRequest(
     
     let studentId = request.body.metadata.studentId
     let seasonName = request.body.metadata.seasonName
-    if (request.body.eventType == "Order"){
-     /*  const items = request.body.data.items
-      let docRef
-      for (const item of items) {
-        if (!item.id) return
-        docRef = db.collection("orders").doc(item.id.toString())
-        await docRef.set(item)
-        if(item.state == "Processed"){
-          //Update student doc with status payment > yes
-          await basics._updateDoc(
-            {
-              [`seasons.${seasonName}.payment`]: "yes",
-              [`seasons.${seasonName}.paymentType`]: "CB",
-            },
-            "students",
-            studentId
-          )
-        } 
-      }*/
-    }else if(request.body.eventType == "Payment"){
+    if(request.body.eventType == "Payment"){
         const state= request.body.data.state
 
         //If payment is authorized, update firestore

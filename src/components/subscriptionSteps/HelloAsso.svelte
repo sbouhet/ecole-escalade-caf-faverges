@@ -10,11 +10,10 @@
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     export let student, open
     const functions = getFunctions(getApp())
-    //connectFunctionsEmulator(functions, "localhost", 5001)
+    connectFunctionsEmulator(functions, "localhost", 5001)
     const getPaymentLinkFromHelloAsso = httpsCallable(functions, "getPaymentLinkFromHelloAsso")
     const changePaymentStatusToWaiting = httpsCallable(functions, "changePaymentStatusToWaiting")
 
-    
     $:id = student.id
     $:firstName = student.public.firstName
     $:lastName = student.public.lastName
@@ -24,9 +23,14 @@
     $:price = ageGroup.price
     $:priceDividedByThree = Math.ceil((price * 100) / 3)/100
 
-    $:if($params.code == "succeeded" && status == "no") {
+    const changeState = async ()=>{
         console.log("trying to change status")
-        changePaymentStatusToWaiting({seasonName: $currentSeason.name,studentId: $params.id })
+        const result = await changePaymentStatusToWaiting({seasonName: $currentSeason.name,studentId: $params.id })
+        console.log(result)
+    }
+
+    $:if($params.code == "succeeded") {
+        changeState()
     }
 
     let result
@@ -39,7 +43,7 @@
             if(loading)return
             loading = true
             //TODO CHANGE AMOUNT !!!
-            result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : price, seasonName: $currentSeason.name, payInThree})
+            result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : 0.01, seasonName: $currentSeason.name, payInThree})
             window.location.href = result.data.link
         } catch (error) {
             console.log(error)
