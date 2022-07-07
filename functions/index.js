@@ -408,6 +408,9 @@ exports.helloAssoCallback = functions.https.onRequest(
     
     let studentId = request.body.metadata.studentId
     let seasonName = request.body.metadata.seasonName
+
+    await basics._setDoc(request.body, "helloAssoLogs", dayjs().unix())
+
     if(request.body.eventType == "Payment"){
         const state= request.body.data.state
 
