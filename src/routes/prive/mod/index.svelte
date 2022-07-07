@@ -4,7 +4,7 @@
 
 <ul>
     <li><a href="/prive/mod/allStudents">Tous les élèves</a></li>
-    <li><a href="/prive/mod/payments">Voir les paiements</a></li>
+    <li><a href="/prive/mod/helloAssoAPI">Paiements</a></li>
 </ul>
 
 

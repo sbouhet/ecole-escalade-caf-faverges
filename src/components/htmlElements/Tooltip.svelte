@@ -1,5 +1,6 @@
 <script>
 	export let list = [];
+	export let msg = null
 	let isHovered = false;
 	let x;
 	let y;
@@ -32,6 +33,12 @@
 			<div>{item}</div>
 		{/each}
 	</div>
+{/if}
+
+{#if isHovered && msg}
+<div style="top: {y}px; left: {x}px;" class="tooltip">
+		<div>{msg}</div>
+</div>
 {/if}
 
 <style>

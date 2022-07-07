@@ -6,7 +6,8 @@ module.exports = async (token, search) => {
 
     let searchString = ''
     if (search) searchString = `&userSearchKey=${search}`
-    const url = `https://api.helloasso.com/v5/organizations/caf-de-faverges/items?pageSize=100&withDetails=true${searchString}`
+    const url = `https://api.helloasso.com/v5/organizations/caf-de-faverges/payments?pageSize=100${searchString}`
+
 
     const response = await axios({
       url,
@@ -19,6 +20,6 @@ module.exports = async (token, search) => {
     return items
   } catch (error) {
     console.log(error)
-    throw `Could not get items from helloAsso`
+    throw error
   }
 }

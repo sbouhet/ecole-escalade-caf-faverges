@@ -261,6 +261,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_helloAssoAPI_svelte",
+              "name": "helloAssoAPI",
+              "module": () => import('../src/routes/prive/mod/helloAssoAPI.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/helloAssoAPI.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "helloAssoAPI.svelte",
+                "ext": ".svelte",
+                "name": "helloAssoAPI"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_index_svelte",
               "name": "index",
               "module": () => import('../src/routes/prive/mod/index.svelte'),
@@ -284,20 +298,6 @@ export default {
                 "base": "modifyStudent.svelte",
                 "ext": ".svelte",
                 "name": "modifyStudent"
-              },
-              "children": []
-            },
-            {
-              "meta": {},
-              "id": "_default_prive_mod_payments_svelte",
-              "name": "payments",
-              "module": () => import('../src/routes/prive/mod/payments.svelte'),
-              "file": {
-                "path": "src/routes/prive/mod/payments.svelte",
-                "dir": "src/routes/prive/mod",
-                "base": "payments.svelte",
-                "ext": ".svelte",
-                "name": "payments"
               },
               "children": []
             }

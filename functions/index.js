@@ -11,6 +11,9 @@ const getEmails = require("./lib/firebase/firestore/getEmails")
 const getItemsFromHelloAsso = require("./lib/helloAsso/getItems")
 const getReceipts = require("./lib/helloAsso/getReceipts")
 const filterItems = require("./lib/helloAsso/filterItems")
+const getItems = require("./lib/helloAsso/getItems")
+const getOrders = require("./lib/helloAsso/getOrders")
+const getPayments = require("./lib/helloAsso/getPayments")
 const getFormattedSoapUser = require("./lib/soap/getFormattedSoapUser")
 const checkConformity = require("./lib/soap/checkConformity")
 const basics = require("./lib/firebase/firestore/basics")
@@ -108,6 +111,86 @@ exports.getPaymentLinkFromHelloAsso = functions
       }
     }
   })
+
+//Get items from HelloAsso
+exports.getItemsFromHelloAsso = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .https.onCall(async (data, context) => {
+    try {
+      
+      //Get new API tokens (access_token and refresh_token)
+      const tokens = await getNewTokens()
+
+      const result = await getItems(tokens.access_token, data.search)
+      console.log(result)
+
+      return {
+        statusCode: 200,
+        message: "Items retrieved",
+        body: result
+      }
+    } catch (error) {
+      return {
+        statusCode: 409,
+        message: error,
+        body: `Could not get items`,
+      }
+    }
+  })
+
+//Get orders from HelloAsso
+exports.getOrdersFromHelloAsso = functions
+.runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+.https.onCall(async (data, context) => {
+  try {
+    
+
+    //Get new API tokens (access_token and refresh_token)
+    const tokens = await getNewTokens()
+
+    const result = await getOrders(tokens.access_token, data.search)
+    console.log(result)
+
+    return {
+      statusCode: 200,
+      message: "Orders retrieved",
+      body: result
+    }
+  } catch (error) {
+    return {
+      statusCode: 409,
+      message: error,
+      body: `Could not get orders`,
+    }
+  }
+})
+
+//Get payments from HelloAsso
+exports.getPaymentsFromHelloAsso = functions
+.runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+.https.onCall(async (data, context) => {
+  try {
+    
+
+    //Get new API tokens (access_token and refresh_token)
+    const tokens = await getNewTokens()
+
+    const result = await getPayments(tokens.access_token, data.search)
+    console.log(result)
+
+    return {
+      statusCode: 200,
+      message: "Payments retrieved",
+      body: result
+    }
+  } catch (error) {
+    return {
+      statusCode: 409,
+      message: error,
+      body: `Could not get Payments`,
+    }
+  }
+})
 
 //Change payment status to waiting
 exports.changePaymentStatusToWaiting = functions.https.onCall(
@@ -349,6 +432,22 @@ exports.helloAssoCallback = functions.https.onRequest(
     //response.send({ body: request.body })
   }
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //##########################################################################
 //                                TEST FUNCTIONS
