@@ -1,6 +1,6 @@
 <script>
     export let context
-    import {_getDoc} from "$firestore/basics"
+    import {_getDoc, _query} from "$firestore/basics"
     import { currentSeason, students,  } from '$utils/stores'
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getAuth } from "firebase/auth"
@@ -26,7 +26,7 @@
     } */
 
 
-    const getMyStudents = async()=>{
+ /*    const getMyStudents = async()=>{
       const result = await _getDoc("users", getAuth().currentUser.uid)
       console.log(result.data())
       const myIds = result.data().students
@@ -38,6 +38,12 @@
       console.log("Found "+ myStudents.length + " students")
       console.log(myStudents)
       return myStudents
+    } */
+
+    const getMyStudents = async()=>{
+      const result = await _query("students", "parents", "array-contains", getAuth().currentUser.uid)
+  
+      return result
     }
 
     let myStudents = getMyStudents()
