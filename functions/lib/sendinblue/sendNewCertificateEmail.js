@@ -20,7 +20,7 @@ module.exports = async (studentId, seasonName, name) => {
 
     //Set html content with student ID
     const htmlContent = `
-    <a href="https://ee22.netlify.app/prive/admin/checkMedicalCertificate?season=${seasonName}&id=${studentId}" target="_new">
+    <a href="https://ee22.netlify.app/prive/mod/checkMedicalCertificate?season=${seasonName}&id=${studentId}" target="_new">
     Cliquez ici pour voir le certificat</a>`
 
     //Send email to admins

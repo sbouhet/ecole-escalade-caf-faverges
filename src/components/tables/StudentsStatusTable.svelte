@@ -10,90 +10,132 @@
     import { printName } from "$utils/printName";
     
     export let students = []
-    export let links = false
     export let showDay = true
-    export let myProfile = false
     export let timestamp = false
 
-    let table
+    const studentOfCurrentUser = (student)=>{
+        if(!getAuth().currentUser) return
+        const userId = getAuth().currentUser.uid
+        if(student.data().parents.includes(userId)) return true
+        return false
+    }
+
+
+    let table, showAdminControls
     $:if(table){
         new Tablesort(table)
     }
 
-    const handleClick = (id)=>{
-        if(!myProfile)return
+    //On click of row (not on a button but the row itself)
+    const handleClick = (student)=>{
+        //if admin, do nothing
+        if($admin) return
+
+        //if not current user's student, do nothing
+        if(!studentOfCurrentUser(student)) return
+
+        //if current user's student, go to profile page
+        const id = student.id
         $goto("/prive/mon-compte/[id]", {id})
     }
 </script>
 
 
 {#if students.length > 0}
+    {#if $admin}
+        Admin
+        <input type="checkbox" role="switch" bind:checked={showAdminControls}>
+    {/if}
     <figure>
         <table role="grid" bind:this={table}>
+
+            <!-- ****************   HEAD    ****************-->
             <thead>
                 <tr>
-                    {#if $admin}<th scope="col">Del</th>{/if}
-                    {#if timestamp}<th scope="col">Timestamp</th>{/if}
-                     {#if links}
-                        <th scope="col"></th>
-                    {/if} 
-                    <th scope="col">Prénom</th>
-                    {#if !myProfile}
-                        <th scope="col">Nom</th>
-                    {/if} 
+                    <!-- timestamp  -->
+                    {#if timestamp}
+                        <th scope="col">Inscription</th>
+                    {/if}
+
+                    <!-- admin controls -->
+                    {#if $admin && showAdminControls}
+                        <th scope="col">Supprimer</th>
+                        <th scope="col">Modifier</th>
+                        <th scope="col">Infos</th>
+                    {/if}
+
+                    <!-- name -->
+                    <th scope="col"></th>
+                   
+                    <!-- day -->
                     {#if showDay}
                         <th scope="col">Créneau</th>
                     {/if}
-                    <!-- <th scope="col">Status</th> -->
+
                     <th scope="col">Compte</th>
                     <th scope="col">Licence</th>
                     <th scope="col">Paiement</th>
                     <th scope="col">Certificat médical</th>
                 </tr>
             </thead>
+
+            <!-- ****************     BODY     ************** -->
             <tbody>
                 {#each students as student}
-                {#if student.data().seasons[$currentSeason.name]}
-                <tr on:click={()=>handleClick(student.id)} class={myProfile?'':'noPointer'}>
-                    {#if $admin}
-                        <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
+                    {#if student.data().seasons[$currentSeason.name]}
+
+                        <!-- Show mouse pointer only if user's student and not an admin -->
+                        <tr on:click={()=>handleClick(student)} class={studentOfCurrentUser(student) && !$admin?'':'noPointer'}>
+
+                            <!-- timestamp -->
+                            {#if timestamp}
+                                <td>
+                                    <small style="opacity:0">{student.data().seasons[$currentSeason.name].timestamp}</small>
+                                    <br>
+                                    <small>{dayjs.unix(student.data().seasons[$currentSeason.name].timestamp).format("D MMM HH:mm")}</small>
+                                    
+                                </td>
+                            {/if}
+                            
+
+                            <!-- admin contrls -->
+                            {#if $admin && showAdminControls}
+                                <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
+                                <td><a href={`/prive/mod/modifyStudent?id=${student.id}`}>⚙</a></td>
+                                <td><a href={`/prive/mod/${student.id}`}>Info</a></td>
+                            {/if}
+
+                            
+
+                            <!-- name -->
+                            {#if $admin || studentOfCurrentUser(student)}
+                                <td><a href={`/prive/mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</a></td>
+                            {:else}
+                                <td>{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</td>
+                            {/if}
+
+                            <!-- day -->
+                            {#if showDay && student.data().seasons[$currentSeason.name].day}
+                                <td>
+                                    <div class="day">
+                                        {getDayName(getDayFromUrl(student.data().seasons[$currentSeason.name].day, $currentSeason.days))}
+                                    </div>
+                                </td>
+                            {/if}
+                            
+                            <!-- account -->
+                            <td><Boolean value=yes/></td>
+
+                            <!-- licence -->
+                            <td><Boolean value={student.data().seasons[$currentSeason.name].licence}/></td>
+
+                            <!-- payment -->
+                            <td><Boolean value={student.data().seasons[$currentSeason.name].payment}/></td>
+
+                            <!-- certificate -->
+                            <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate}/></td>
+                        </tr>
                     {/if}
-                    {#if timestamp}
-                        <td>{student.data().seasons[$currentSeason.name].timestamp}</td>
-                    {/if}
-                    {#if myProfile}
-                        <td><a href={`./mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName.toLowerCase())}</a></td>
-                    {:else if links}
-                        <td><a href={`/prive/admin/modifyStudent?id=${student.id}`}>⚙</a></td>
-                        <td><a href={`/prive/admin/${student.id}`}>{capitalize(student.data().firstName.toLowerCase())}</a></td>
-                        <td>{student.data().lastName.toUpperCase()}</td>
-                    {:else}
-                        <td>{capitalize(student.data().firstName.toLowerCase())}</td>
-                        <td>{student.data().lastName.toUpperCase()}</td>
-                    {/if}
-                    {#if showDay && student.data().seasons[$currentSeason.name].day}
-                        <td>
-                            <div class="day">
-                                
-                                {getDayName(getDayFromUrl(student.data().seasons[$currentSeason.name].day, $currentSeason.days))}
-                            </div>
-                        </td>
-                    {/if}
-                  <!--   <td>{#if student.data().seasons[$currentSeason.name].status==='waiting'}
-                        <span data-tooltip="Pré‑inscrit·e, en cours de validation.">⌛</span>
-                        {:else if student.data().seasons[$currentSeason.name].status==='yes'}
-                        <span data-tooltip="Inscrit·e">✅</span>
-                        {:else}
-                        {student.data().seasons[$currentSeason.name].status}
-                        {/if}
-                    </td> -->
-                    <!-- <td><Boolean value={student.data().seasons[$currentSeason.name].status}/></td> -->
-                    <td><Boolean value=yes/></td>
-                    <td><Boolean value={student.data().seasons[$currentSeason.name].licence}/></td>
-                    <td><Boolean value={student.data().seasons[$currentSeason.name].payment}/></td>
-                    <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate}/></td>
-                </tr>
-                {/if}
                 {/each}
             </tbody>
         </table>
@@ -104,14 +146,13 @@
 
 <style>
     .del{
-        color:red;
         cursor: pointer;
     }
-     th{cursor:pointer; font-weight: bold;}
+     th{
+        cursor:pointer;
+        font-weight: bold;
+    }
 
-     span{
-         color: rgb(255, 255, 255);
-     }
      .day{
          text-transform: capitalize;
      }

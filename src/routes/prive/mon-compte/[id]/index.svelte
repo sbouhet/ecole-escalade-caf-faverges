@@ -54,6 +54,6 @@
         <Licence {student} open={$params.licence}/>
         <MedicalCertificate  {student} open={$params.certificate}/>
     </article>
-    <Back path='/prive/mon-compte'/>
+    <Back/>
 {/if}
 <slot></slot>

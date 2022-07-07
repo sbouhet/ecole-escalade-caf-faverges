@@ -24,54 +24,6 @@ const getPaymentLink = require("./lib/helloAsso/getPaymentLink")
 //                                CALLABLE FUNCTIONS
 //##############################################################################################
 
-//Find students with my email
-//(needs to be a cloud functions because users can't read private docs)
-exports.getMyIds = functions.https.onCall(async (data, context) => {
-  try {
-    if (!context.auth) throw "Il faut être inscrit pour faire ca"
-
-    const myIds = await getStudentsByEmail(context.auth.token.email)
-    return {
-      statusCode: 200,
-      message: `Ids retrieved`,
-      body: { myIds },
-    }
-  } catch (error) {
-    console.log(error)
-    return {
-      statusCode: 409,
-      message: error,
-      body: "Could not get my ids",
-    }
-  }
-})
-
-//Resubscribe student
-exports.resubscribe = functions.https.onCall(async (data, context) => {
-  try {
-    if (!context.auth) throw "Il faut être inscrit pour faire ca"
-
-    await resubscribeStudent(
-      data.id,
-      data.oldSeasonName,
-      data.newSeasonName,
-      data.dayUrl
-    )
-
-    return {
-      statusCode: 200,
-      message: `Student resubscibed successfully`,
-    }
-  } catch (error) {
-    console.log(error)
-    return {
-      statusCode: 409,
-      message: error,
-      body: "Could not resubscribe student",
-    }
-  }
-})
-
 //Check CAF Database to see if licenceNb is correct
 exports.checkLicence = functions
   .runWith({ secrets: ["SOAP_ID", "SOAP_PASSWORD"] })
@@ -157,20 +109,19 @@ exports.getPaymentLinkFromHelloAsso = functions
     }
   })
 
-//Change payment status
-exports.changePaymentStatus = functions.https.onCall(
+//Change payment status to waiting
+exports.changePaymentStatusToWaiting = functions.https.onCall(
   async (data, context) => {
     try {
       if (!data.seasonName) throw "No seasonName"
       if (!data.studentId) throw "No studentId"
-      if (!data.status) throw "No status"
 
       console.log(data)
 
       //Update public doc with status
       await basics._updateDoc(
         { 
-          [`seasons.${data.seasonName}.payment`]:  data.status
+          [`seasons.${data.seasonName}.payment`]:  "waiting"
         },
         "students",
         data.studentId
@@ -201,7 +152,7 @@ exports.setPaymentType = functions.https.onCall(
 
       console.log(data)
 
-      //Update public doc with status > "waiting"
+      //Update public doc with payment type
       await basics._updateDoc(
         { [`seasons.${data.seasonName}.paymentType`]: data.paymentType },
         "students",
@@ -222,75 +173,6 @@ exports.setPaymentType = functions.https.onCall(
     }
   }
 )
-
-//Check HelloAsso to see if payment has been made
-exports.checkPaymentOLD = functions
-  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
-  .https.onCall(async (data, context) => {
-    try {
-      //slug example: "ecole-d-escalade-6-7-ans-2022-2023"
-      if (!data.slug) throw "No slug"
-      if (!data.firstName) throw "No firstName"
-      if (!data.lastName) throw "No lastName"
-
-      //Get new API tokens (access_token and refresh_token)
-      const tokens = await getNewTokens()
-
-      //Get all items for specified slug (a slug is an address to a helloAsso form)
-      const items = await getItemsFromHelloAsso(data.slug, tokens.access_token)
-
-      //Try to find student name in list of items
-      const filtered = filterItems(items, data.firstName, data.lastName)
-
-      //If one item is found with specified name (everything went well)
-      if (filtered.length === 1) {
-        const helloAssoId = filtered[0].id
-        const payments = filtered[0].payments
-
-        //Get receipts
-        const receipts = await getReceipts(
-          tokens.access_token,
-          payments,
-          data.slug
-        )
-
-        //Update public doc with status > "yes"
-        await basics._updateDoc(
-          { [`seasons.${data.seasonName}.payment`]: "yes" },
-          "students",
-          data.id
-        )
-
-        //Update private doc with receipts and helloAssoId
-        await basics._updateDoc(
-          { receipts, helloAssoId },
-          "students",
-          data.id,
-          "privateCol",
-          "privateDoc"
-        )
-
-        //If more than one items have the specified name
-      } else if (filtered.length > 1) {
-        throw "Plus d'un paiement trouvé avec ce nom, contactez un administrateur"
-
-        //If no payment found
-      } else {
-        throw "Aucun paiement trouvé avec ce nom"
-      }
-      return {
-        statusCode: 200,
-        message: "Payment checked successfully",
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        statusCode: 409,
-        message: error,
-        body: "Could not check payment",
-      }
-    }
-  })
 
 //change mod / admin status
 exports.changeModStatus = functions.https.onCall(async (data, context) => {
@@ -429,22 +311,10 @@ exports.onDeleteStudentFromFirestore = functions.firestore
   })
 
 //##########################################################################
-//                                TEST FUNCTIONS
+//                                CALLBACKS
 //##########################################################################
 
-/* exports.randomNumber = functions.https.onRequest((request, response) => {
-  const truc = `
-  This season: ${season().current},
-  next season: ${season().next},
-  last season: ${season().last}`
-  response.send(truc)
-}) */
-
-/* exports.sayHello = functions.https.onCall((data, context) => {
-  const name = data.name
-  return `Hello  ${name}`
-}) */
-
+//HelloAsso callback
 exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
     response.set("Access-Control-Allow-Origin", "*")
@@ -480,6 +350,25 @@ exports.helloAssoCallback = functions.https.onRequest(
   }
 )
 
+//##########################################################################
+//                                TEST FUNCTIONS
+//##########################################################################
+
+/* exports.randomNumber = functions.https.onRequest((request, response) => {
+  const truc = `
+  This season: ${season().current},
+  next season: ${season().next},
+  last season: ${season().last}`
+  response.send(truc)
+}) */
+
+/* exports.sayHello = functions.https.onCall((data, context) => {
+  const name = data.name
+  return `Hello  ${name}`
+}) */
+
+
+
 /* exports.deleteClaims = functions.https.onCall(async (data, context) => {
   try {
     if (!context.auth.token.admin) throw "C'est pas la fête"
@@ -504,4 +393,121 @@ exports.test = functions.firestore
   .onWrite(async (change, context) => {
     console.log("TEST STARTING")
    
+  }) */
+
+  //Find students with my email
+//(needs to be a cloud functions because users can't read private docs)
+/* exports.getMyIds = functions.https.onCall(async (data, context) => {
+  try {
+    if (!context.auth) throw "Il faut être inscrit pour faire ca"
+
+    const myIds = await getStudentsByEmail(context.auth.token.email)
+    return {
+      statusCode: 200,
+      message: `Ids retrieved`,
+      body: { myIds },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      statusCode: 409,
+      message: error,
+      body: "Could not get my ids",
+    }
+  }
+}) */
+
+//Resubscribe student
+/* exports.resubscribe = functions.https.onCall(async (data, context) => {
+  try {
+    if (!context.auth) throw "Il faut être inscrit pour faire ca"
+
+    await resubscribeStudent(
+      data.id,
+      data.oldSeasonName,
+      data.newSeasonName,
+      data.dayUrl
+    )
+
+    return {
+      statusCode: 200,
+      message: `Student resubscibed successfully`,
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      statusCode: 409,
+      message: error,
+      body: "Could not resubscribe student",
+    }
+  }
+}) */
+
+//Check HelloAsso to see if payment has been made
+/* exports.checkPaymentOLD = functions
+  .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
+  .https.onCall(async (data, context) => {
+    try {
+      //slug example: "ecole-d-escalade-6-7-ans-2022-2023"
+      if (!data.slug) throw "No slug"
+      if (!data.firstName) throw "No firstName"
+      if (!data.lastName) throw "No lastName"
+
+      //Get new API tokens (access_token and refresh_token)
+      const tokens = await getNewTokens()
+
+      //Get all items for specified slug (a slug is an address to a helloAsso form)
+      const items = await getItemsFromHelloAsso(data.slug, tokens.access_token)
+
+      //Try to find student name in list of items
+      const filtered = filterItems(items, data.firstName, data.lastName)
+
+      //If one item is found with specified name (everything went well)
+      if (filtered.length === 1) {
+        const helloAssoId = filtered[0].id
+        const payments = filtered[0].payments
+
+        //Get receipts
+        const receipts = await getReceipts(
+          tokens.access_token,
+          payments,
+          data.slug
+        )
+
+        //Update public doc with status > "yes"
+        await basics._updateDoc(
+          { [`seasons.${data.seasonName}.payment`]: "yes" },
+          "students",
+          data.id
+        )
+
+        //Update private doc with receipts and helloAssoId
+        await basics._updateDoc(
+          { receipts, helloAssoId },
+          "students",
+          data.id,
+          "privateCol",
+          "privateDoc"
+        )
+
+        //If more than one items have the specified name
+      } else if (filtered.length > 1) {
+        throw "Plus d'un paiement trouvé avec ce nom, contactez un administrateur"
+
+        //If no payment found
+      } else {
+        throw "Aucun paiement trouvé avec ce nom"
+      }
+      return {
+        statusCode: 200,
+        message: "Payment checked successfully",
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        statusCode: 409,
+        message: error,
+        body: "Could not check payment",
+      }
+    }
   }) */

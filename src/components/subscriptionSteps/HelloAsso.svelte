@@ -12,7 +12,7 @@
     const functions = getFunctions(getApp())
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const getPaymentLinkFromHelloAsso = httpsCallable(functions, "getPaymentLinkFromHelloAsso")
-    const changePaymentStatus = httpsCallable(functions, "changePaymentStatus")
+    const changePaymentStatusToWaiting = httpsCallable(functions, "changePaymentStatusToWaiting")
 
     
     $:id = student.id
@@ -26,7 +26,7 @@
 
     $:if($params.code == "succeeded" && status == "no") {
         console.log("trying to change status")
-        changePaymentStatus({seasonName: $currentSeason.name,studentId: $params.id, status:"waiting" })
+        changePaymentStatusToWaiting({seasonName: $currentSeason.name,studentId: $params.id })
     }
 
     let result

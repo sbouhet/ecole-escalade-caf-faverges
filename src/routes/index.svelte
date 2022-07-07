@@ -1,6 +1,6 @@
 <script>
     export let context //just to hide warning in console
-    import { currentSeason, admin, loggedin } from '$utils/stores'
+    import { currentSeason, admin, loggedin, mod } from '$utils/stores'
     import DaysRecapTable from '$components/tables/DaysRecapTable.svelte'
 </script>
 
@@ -11,6 +11,9 @@
 
 {#if $admin}
     <a href="/prive/admin" role="button"  class="admin">Admin</a>
+{/if}
+{#if $mod}
+    <a href="/prive/mod" role="button"  class="mod">Moderateur</a>
 {/if}
 
 {#if $loggedin}
@@ -29,6 +32,11 @@
 <style>
     .admin{
         background-color: rgb(224, 39, 39);
+        border: 0;
+    }
+
+    .mod{
+        background-color: rgb(224, 181, 39);
         border: 0;
     }
 </style>

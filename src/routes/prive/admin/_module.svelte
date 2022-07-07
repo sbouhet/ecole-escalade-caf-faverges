@@ -7,7 +7,7 @@
 
 {#if $admin}
     <slot></slot>
-    <Back path='/prive/admin' msg='Retour à la page Admin'/>
+    <Back />
 {:else}
     <p style="color:red">Vous devez être admin pour accéder à cette page</p>
 {/if}

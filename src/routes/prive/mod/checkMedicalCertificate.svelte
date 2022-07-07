@@ -52,7 +52,7 @@
         <dir role="button" class="outline" on:click={()=>handleClick("waiting")}>Mettre en attente <Boolean value="waiting" big=true/></dir>
         <dir role="button" class="outline" on:click={()=>handleClick("no")}>Refuser <Boolean value="no" big=true/></dir>
         {:else}
-        Lélève n'es pas inscrit sur cette saison
+        L'élève n'es pas inscrit sur cette saison
     {/if}
 {/if}
     <br><br><br><br><br>

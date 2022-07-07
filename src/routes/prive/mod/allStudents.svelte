@@ -20,6 +20,6 @@
 {/if}
 <br>
 
-<StudentsStatusTable students={$students} links={true} timestamp={true}/>
+<StudentsStatusTable students={$students} timestamp={true}/>
 
 <slot></slot>

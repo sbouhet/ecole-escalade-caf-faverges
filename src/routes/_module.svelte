@@ -3,7 +3,7 @@
     export let context //just to hide warning in console
     import { getAuth, onAuthStateChanged } from "firebase/auth"
     import { getSeason } from '$firestore/season'
-    import {currentDay, currentSeason, loggedin, subscription, admin, error, fatal, students} from '$utils/stores'
+    import {currentDay, currentSeason, loggedin, subscription, admin, error, fatal, students, mod} from '$utils/stores'
     import Back from '$components/htmlElements/Back.svelte'
     import Logout from '$components/htmlElements/Logout.svelte'
     import {isActive} from '@roxi/routify'
@@ -22,7 +22,6 @@
     $admin = false
     let verified = false
     let selectedSeason = 'current'
-    let notifications = []
 
     //$:console.log($students)
     //$:console.log($subscription)
@@ -36,12 +35,6 @@
         const q = query(collection(db, "students"), where(`seasons.${$currentSeason.name}.status`, ">", ""))
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            // notification if change in users
-            if(snapshot.docChanges().length===1) pushNotification(snapshot.docChanges()[0])
-            
-            /* snapshot.docChanges().forEach((change) => {
-                pushNotification(change)
-            })//end of change function */
 
         const studentsArray = []
         snapshot.forEach((doc) => {
@@ -64,7 +57,8 @@
         verified = usr.emailVerified
         usr.getIdTokenResult().then(res => {
             //console.log(res.claims)
-          $admin = !!res.claims.admin || !!res.claims.mod
+          $admin = !!res.claims.admin
+          $mod = !!res.claims.mod
         
           //TEST
           //$admin = true
@@ -73,6 +67,7 @@
       }else{
         $loggedin = false
         $admin = false
+        $mod = false
         verified = false
         userStoreUpToDate = true
       }
@@ -88,29 +83,14 @@
         $error = e
         $fatal = true
     })
-    const pushNotification = async (change)=>{
-        const student = change.doc.data()
-        if(change.type==="modified") return
-        const text = `Student ${change.type} : ${printName(student)}`
-        console.log(text)
-        notifications = [...notifications, text]
-    }
+  
    
 
-    const removeNotification=(e)=>{
-        notifications.splice(e.target.id,1)
-        notifications = notifications
-    }
+  
 </script>
 
 <body>
-    {#if $admin}    
-        <div class="notifications">
-                {#each notifications as notif, index}
-                    <div class="notif" on:click={removeNotification} id={index}>{notif}</div>
-                {/each}
-        </div>
-    {/if}
+    
     {#if !$error}
         <div class="season">
             <small>
@@ -132,6 +112,9 @@
                     {getAuth().currentUser.email}
                     {#if $admin}
                         (admin)
+                    {/if}
+                    {#if $mod}
+                        (mod)
                     {/if}
                 </div>
                 <Logout tiny={true} />
@@ -192,24 +175,7 @@
         }
     }
 
-    .notifications{
-        font-size: smaller;
-        text-align: right;
-        position:absolute;
-        right: 0;
-        top: 60px;
-    }
-    .notif{
-        position: relative;
-        animation: example 0.5s, test 4s ease infinite;
-        padding: 15px;
-        margin: 5px;
-        color:white;
-        background: rgb(237, 236, 237);
-        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-        background-size: 400% 400%;
-        border-radius: 30px;
-    }
+   
     .season{
         position:absolute;
         right: 0;
