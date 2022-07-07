@@ -426,9 +426,9 @@ exports.helloAssoCallback = functions.https.onRequest(
           )
         }
       }
-      
+
       //Log
-      await basics._setDoc(request.body, "helloAssoLogs", dayjs().unix())
+      await basics._setDoc(request.body, "helloAssoLogs", dayjs().unix().toString())
     }
 )
 
