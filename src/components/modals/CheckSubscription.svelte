@@ -24,14 +24,14 @@
         if(full) return
         const timestamp = dayjs().unix()
         $subscription.publicInfo.seasons[$currentSeason.name].timestamp = timestamp
+        $subscription.publicInfo.parents = [getAuth().currentUser.uid]
         const studentId = await createNewStudent($subscription, $currentSeason)
 
-        const userRef = doc(db, "users", getAuth().currentUser.uid);
-      await updateDoc(userRef, {
+        /* const userRef = doc(db, "users", getAuth().currentUser.uid);
+        await updateDoc(userRef, {
           students: arrayUnion(studentId)
-      })
-
-        getAuth().currentUser.uid
+      }) */
+      
         $subscriptionStatus = 'uploadedToFirestore'
         loading = false
       } catch (err) {
