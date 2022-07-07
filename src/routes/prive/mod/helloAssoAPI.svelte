@@ -29,8 +29,7 @@
         payments = []
         loading = true
         if(search) normalizedSearch = normalize(search)
-        console.log(normalizedSearch)
-        const result = await getPaymentsFromHelloAsso({search})
+        const result = await getPaymentsFromHelloAsso({search:normalizedSearch})
         console.log(result.data)
         payments = result.data.body
         loading = false
