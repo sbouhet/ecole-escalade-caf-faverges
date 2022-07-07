@@ -439,7 +439,6 @@ exports.helloAssoCallback = functions.https.onRequest(
           )
         }
     }
-  
   }
 )
 
