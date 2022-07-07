@@ -20,6 +20,6 @@
 {/if}
 <br>
 
-<StudentsStatusTable students={$students} allowDelete={true} links={true} timestamp={true}/>
+<StudentsStatusTable students={$students} links={true} timestamp={true}/>
 
 <slot></slot>

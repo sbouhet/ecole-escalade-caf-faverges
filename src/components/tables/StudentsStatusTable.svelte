@@ -10,7 +10,6 @@
     import { printName } from "$utils/printName";
     
     export let students = []
-    export let allowDelete = false
     export let links = false
     export let showDay = true
     export let myProfile = false
@@ -33,7 +32,7 @@
         <table role="grid" bind:this={table}>
             <thead>
                 <tr>
-                    {#if $admin && allowDelete}<th scope="col">Del</th>{/if}
+                    {#if $admin}<th scope="col">Del</th>{/if}
                     {#if timestamp}<th scope="col">Timestamp</th>{/if}
                      {#if links}
                         <th scope="col"></th>
@@ -56,7 +55,7 @@
                 {#each students as student}
                 {#if student.data().seasons[$currentSeason.name]}
                 <tr on:click={()=>handleClick(student.id)} class={myProfile?'':'noPointer'}>
-                    {#if $admin && allowDelete}
+                    {#if $admin}
                         <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                     {/if}
                     {#if timestamp}

@@ -61,7 +61,7 @@
     
     <p>Cliquez sur une inscription pour plus de détails.</p>
     <br>
-    <StudentsStatusTable students={myStudents} allowDelete={false} myProfile={true}/>
+    <StudentsStatusTable students={myStudents} myProfile={true}/>
 {:catch}
     <ErrorMessage error='inscriptions non trouvées.'/>
 {/await}
