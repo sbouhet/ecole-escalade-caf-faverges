@@ -13,6 +13,13 @@ export const changeState = async (studentId, field, state, seasonName) => {
       "students",
       studentId
     )
+    if(field == "payment" && state == "no"){
+      await _updateDoc(
+        { [`seasons.${seasonName}.paymentType`]: null },
+        "students",
+        studentId
+      )
+    }
     return
   } catch (error) {
     throw new BError("$firestore/changeState => changeState()", error)

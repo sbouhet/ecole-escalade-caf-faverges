@@ -12,6 +12,7 @@
     let paymentType = "check"
     let agree= false
     let loading = false
+    
     let handleClick = async ()=>{
         error = false
         loading = true
