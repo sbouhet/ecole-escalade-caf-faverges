@@ -409,25 +409,27 @@ exports.helloAssoCallback = functions.https.onRequest(
     let studentId = request.body.metadata.studentId
     let seasonName = request.body.metadata.seasonName
 
-    await basics._setDoc(request.body, "helloAssoLogs", dayjs().unix())
-
+    
     if(request.body.eventType == "Payment"){
-        const state= request.body.data.state
-
-        //If payment is authorized, update firestore
-        if(state==="Authorized"){
-           //Update student doc with status payment > yes
-           await basics._updateDoc(
-            {
-              [`seasons.${seasonName}.payment`]: "yes",
-              [`seasons.${seasonName}.paymentType`]: "CB",
-            },
-            "students",
-            studentId
+      const state= request.body.data.state
+      
+      //If payment is authorized, update firestore
+      if(state==="Authorized"){
+        //Update student doc with status payment > yes
+        await basics._updateDoc(
+          {
+            [`seasons.${seasonName}.payment`]: "yes",
+            [`seasons.${seasonName}.paymentType`]: "CB",
+          },
+          "students",
+          studentId
           )
         }
+      }
+      
+      //Log
+      await basics._setDoc(request.body, "helloAssoLogs", dayjs().unix())
     }
-  }
 )
 
 
