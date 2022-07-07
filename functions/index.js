@@ -405,7 +405,7 @@ exports.helloAssoCallback = functions.https.onRequest(
     let studentId = request.body.metadata.studentId
     let seasonName = request.body.metadata.seasonName
     if (request.body.eventType == "Order"){
-      const items = request.body.data.items
+     /*  const items = request.body.data.items
       let docRef
       for (const item of items) {
         if (!item.id) return
@@ -421,15 +421,25 @@ exports.helloAssoCallback = functions.https.onRequest(
             "students",
             studentId
           )
-        }
-      }
+        } 
+      }*/
     }else if(request.body.eventType == "Payment"){
-        docRef = db.collection("payments").doc(request.body.data.id.toString())
-        await docRef.set(request.body.data)
+        const state= request.body.data.state
+
+        //If payment is authorized, update firestore
+        if(state==="Authorized"){
+           //Update student doc with status payment > yes
+           await basics._updateDoc(
+            {
+              [`seasons.${seasonName}.payment`]: "yes",
+              [`seasons.${seasonName}.paymentType`]: "CB",
+            },
+            "students",
+            studentId
+          )
+        }
     }
-    
-    return
-    //response.send({ body: request.body })
+  
   }
 )
 
