@@ -31,3 +31,19 @@ export const translateStatus = (english) => {
     throw new BError("$utils/TRANSLATE => translateStatus()", error)
   }
 }
+
+export const translatePaymentType = (english) => {
+  try {
+    if (!english) throw "No english"
+    switch (english) {
+      case "check":
+        return "chèque(s)"
+      case "cash":
+        return "espèces"
+      case "hollidayCheck":
+        return "chèque vacances"
+    }
+  } catch (error) {
+    throw new BError("$utils/TRANSLATE => translateStatus()", error)
+  }
+}

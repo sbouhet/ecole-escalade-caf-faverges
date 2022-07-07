@@ -17,13 +17,12 @@
         error = false
         loading = true
         console.log("starting")
-        const result = await changePaymentStatusToWaiting({seasonName: $currentSeason.name,studentId: id})
-        console.log(result)
         const result2 = await setPaymentType({seasonName: $currentSeason.name,studentId: id, paymentType})
         console.log(result2)
+        const result = await changePaymentStatusToWaiting({seasonName: $currentSeason.name,studentId: id})
+        console.log(result)
         loading = false
         if (result.data.statusCode === 200 && result2.data.statusCode) {
-
             open = false
         }else{
             error = true
@@ -41,7 +40,8 @@
             <br>
             <label for="check">
               <input type="radio" id="check" bind:group={paymentType} name="paymentType" value={"check"} disabled={loading}>
-              Chèque(s)
+              Chèque(s)<br>
+              <small>Paiement en trois fois disponible</small>
             </label>
             <label for="cash">
               <input type="radio" id="cash" bind:group={paymentType} name="paymentType" value={"cash"} disabled={loading}>
@@ -55,7 +55,7 @@
 
           <label for="agree">
             <input type="checkbox" id="agree" name="agree" bind:checked={agree} disabled={loading}>
-            Je m'engage à transmettre mon moyen de paiement au CAF de Faverges avant 1er septembre.
+            Je m'engage à transmettre mon moyen de paiement au CAF de Faverges avant 15 septembre.
           </label>
           {#if error}
           <br>
