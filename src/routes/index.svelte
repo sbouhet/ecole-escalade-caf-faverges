@@ -10,7 +10,7 @@
 </hgroup>
 
 {#if $admin}
-    <a href="/prive/admin">ADMIN</a><br>
+    <a href="/prive/admin" role="button"  class="admin">Admin</a>
 {/if}
 
 {#if $loggedin}
@@ -25,3 +25,10 @@
 </section>
 
 <slot></slot> <!-- just to hide error warning in console -->
+
+<style>
+    .admin{
+        background-color: rgb(224, 39, 39);
+        border: 0;
+    }
+</style>
