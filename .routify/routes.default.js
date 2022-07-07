@@ -289,6 +289,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_logs_svelte",
+              "name": "logs",
+              "module": () => import('../src/routes/prive/mod/logs.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/logs.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "logs.svelte",
+                "ext": ".svelte",
+                "name": "logs"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_modifyStudent_svelte",
               "name": "modifyStudent",
               "module": () => import('../src/routes/prive/mod/modifyStudent.svelte'),

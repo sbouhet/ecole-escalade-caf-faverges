@@ -149,3 +149,18 @@ export const _deleteDoc = async (
     throw new BError("$firestore/basics => _deleteDoc()", error)
   }
 }
+
+export const _getDocs = async (collectionId) => {
+  try {
+    if (!collectionId) throw "No collection"
+    
+    let result = []
+    const querySnapshot = await getDocs(collection(db, collectionId));
+    querySnapshot.forEach((doc) => {
+      result.push(doc)
+    })
+    return result
+  } catch (error) {
+    throw new BError("$firestore/basics => _getDocs()", error)
+  }
+}

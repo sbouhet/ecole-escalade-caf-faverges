@@ -404,15 +404,24 @@ exports.onDeleteStudentFromFirestore = functions.firestore
 //HelloAsso callback
 exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
+    console.log("Callback starting 1")
     response.set("Access-Control-Allow-Origin", "*")
-    
-    let studentId = request.body.metadata.studentId
-    let seasonName = request.body.metadata.seasonName
+    console.log("Callback starting 2")
     
     //Log
-    await basics._setDoc(request.body, "helloAssoLogs", dayjs().unix().toString())
+    await basics._setDoc({body:request.body}, "helloAssoLogs", dayjs().unix().toString())
 
-    console.log(request.body)
+    let studentId = request.body.metadata.studentId
+    let seasonName = request.body.metadata.seasonName
+
+    if(!studentId || !seasonName) throw "No StudentId or seasonName"
+
+    //Check current state
+    const studentRef = await basics._getDoc("students", studentId)
+    const currentState = studentRef.data().seasons[seasonName].payment
+
+    //If current payment state is "yes", do nothing
+    if(currentState === "yes") throw `Current state is yes, abort`
     
     if(request.body.eventType == "Payment"){
       const state= request.body.data.state
@@ -430,7 +439,6 @@ exports.helloAssoCallback = functions.https.onRequest(
           )
         }
       }
-
     }
 )
 

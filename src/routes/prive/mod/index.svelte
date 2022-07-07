@@ -5,6 +5,7 @@
 <ul>
     <li><a href="/prive/mod/allStudents">Tous les élèves</a></li>
     <li><a href="/prive/mod/helloAssoAPI">Paiements</a></li>
+    <li><a href="/prive/mod/logs">Logs</a></li>
 </ul>
 
 
