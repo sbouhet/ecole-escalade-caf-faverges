@@ -17,6 +17,7 @@
     {#if getAuth().currentUser.emailVerified }
         <slot></slot>
     {:else}
+       
         <VerifyEmail/>
     {/if}
 {:else}
