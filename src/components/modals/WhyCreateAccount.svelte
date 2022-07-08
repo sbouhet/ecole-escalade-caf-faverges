@@ -8,7 +8,7 @@
         Créer un compte nous permet de <b>valider votre adresse email</b>.
         Cela nous assure que vous recevrez bien toutes les informations que nous enverrons.<br>
         <br>
-        C'est une étape obligatoire avant de pouvoir s'inscrire.<br>
+        <strong>C'est une étape obligatoire avant de pouvoir s'inscrire.</strong><br>
         <br>
         Depuis votre éspace personnel vous pourrez gérer vos inscriptions,
         et effectuer les différentes démarches necessaires pour pouvoir participer aux cours d'escalade.<br>
