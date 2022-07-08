@@ -7,8 +7,10 @@
     import {isActive} from '@roxi/routify'
     import { getAuth } from "firebase/auth"
     import { loggedin } from '$utils/stores';
+    import {params} from '@roxi/routify'
     
     let showCreateAccount = $isActive('/prive/inscription')
+    if($params.showCreateAccount) showCreateAccount = true
 </script>
 
 {#if $loggedin}
