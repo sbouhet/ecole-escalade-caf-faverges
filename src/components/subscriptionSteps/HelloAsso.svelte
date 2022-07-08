@@ -97,7 +97,7 @@
         {:else if status === "waiting" && paymentType}
             Vous avez choisi de régler par {translatePaymentType(paymentType)}.<br>
             <br>
-            Nous attendons votre reglement de <b>{price} €</b> avant le 15 septembre.<br>
+            Nous attendons votre reglement de <b>{price} €</b> avant le <b>{dayjs($currentSeason.deadline).format("dddd D MMMM à HH:mm")}</b>.<br>
             <span style="color:red">Après cette date, votre place sera proposée aux personnes inscrites sur la liste d'attente.</span>
             <br><br>
             Merci de mettre votre règlement dans une enveloppe intitulée

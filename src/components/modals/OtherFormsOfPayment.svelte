@@ -55,7 +55,7 @@
 
           <label for="agree">
             <input type="checkbox" id="agree" name="agree" bind:checked={agree} disabled={loading}>
-            Je m'engage à transmettre mon moyen de paiement au CAF de Faverges avant 15 septembre.
+            Je m'engage à transmettre mon moyen de paiement au CAF de Faverges avant le <b>{dayjs($currentSeason.deadline).format("dddd D MMMM à HH:mm")}</b>.
           </label>
           {#if error}
           <br>
