@@ -15,4 +15,7 @@
     div{
         margin-bottom: 20px;
     }
+    small{
+        color:grey;
+    }
 </style>

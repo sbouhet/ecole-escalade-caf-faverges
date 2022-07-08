@@ -6,6 +6,7 @@
     import {translatePaymentType} from "$utils/TRANSLATE"
     import Boolean from '$components/htmlElements/Boolean.svelte'
     import OtherFormsOfPayment from '$components/modals/OtherFormsOfPayment.svelte'
+    import InfoMessage from "$components/forms/subscription/InfoMessage.svelte"
     import { getFunctions, httpsCallable, connectFunctionsEmulator } from "firebase/functions"
     import { getApp } from "firebase/app"
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
@@ -32,8 +33,8 @@
         try {
             if(loading)return
             loading = true
-            //TODO CHANGE AMOUNT !!!
-            const result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : 0.01, seasonName: $currentSeason.name, payInThree})
+            
+            const result = await getPaymentLinkFromHelloAsso({firstName, lastName, id, email, totalAmount : price, seasonName: $currentSeason.name, payInThree})
             window.location.href = result.data.link
         } catch (error) {
             console.log(error)
@@ -86,12 +87,14 @@
                         </b>&nbsp;&nbsp;
                         <small>(carte bleue)</small>
                     </a>
+                    <br><br>
+                    <InfoMessage msg="La contribution à HelloAsso proposée par defaut n'est pas obligatoire. Cliquez sur Modifier pour la supprimer."/>
                 {/if}
                 <br><br>
                 <small>
                     Le paiement par carte bleue est recommandé. Si vous souhaitez utiliser un autre moyen de paiement, cliquez sur le lien suivant :
                     <br>
-                    <a href="" class="secondary" on:click={()=>openOtherPaymentModal=true}>Je ne souhaite pas payer par carte bleue</a>
+                    <a href=""  on:click={()=>openOtherPaymentModal=true}>Je ne souhaite pas payer par carte bleue</a>
                 </small>
             {/if}
         {:else if status === "waiting" && paymentType}
