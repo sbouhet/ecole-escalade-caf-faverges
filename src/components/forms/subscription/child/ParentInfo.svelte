@@ -47,9 +47,9 @@
     </select>
     
     <label for="email">Adresse email</label>
-    <input type="email" id="email" name="email" placeholder="Adresse email" disabled={nb==1} bind:value={email} aria-invalid={nb==1?'false':null}>
+    <input type="email" id="email" name="email" placeholder="Adresse email" disabled={nb==1} required bind:value={email} aria-invalid={nb==1?'false':null}>
     
 
     <label for="phoneNumber">Téléphone</label>
-    <input type="tel" id="tel" name="tel" required={nb==1} bind:value={tel}>
+    <input type="tel" id="tel" name="tel" required bind:value={tel}>
 </section>

@@ -16,6 +16,20 @@ export default {
   "children": [
     {
       "meta": {},
+      "id": "_default_countdown_svelte",
+      "name": "countdown",
+      "module": () => import('../src/routes/countdown.svelte'),
+      "file": {
+        "path": "src/routes/countdown.svelte",
+        "dir": "src/routes",
+        "base": "countdown.svelte",
+        "ext": ".svelte",
+        "name": "countdown"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_creneaux",
       "name": "creneaux",
       "module": false,

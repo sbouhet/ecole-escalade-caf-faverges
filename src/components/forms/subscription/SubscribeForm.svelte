@@ -13,15 +13,13 @@
     //Check if everyone should be able to subscribe or only past students
     const today = dayjs()
     const dateOfNoRestriction = dayjs($currentSeason.dateOfNoRestriction)
-    const timeUntilNoRestrictions = dateOfNoRestriction.diff(today)
+    const timeUntilNoRestrictions = dateOfNoRestriction.diff(today, "seconds")
     const pastStudentsOnly = timeUntilNoRestrictions>0
-
 
     const handleSubmit = () => {
         $subscriptionStatus = 'imageRights'
     }
 </script>
-
 
 <form on:submit|preventDefault={handleSubmit}>
 
@@ -33,7 +31,7 @@
     <YearWarning />
     
     {#if pastStudentsOnly}
-        <InfoMessage msg="Inscription reservée aux élèves inscrits l'année dernière (jusqu'au {dateOfNoRestriction.format('D MMMM YYYY')})" />
+        <InfoMessage msg="Inscription reservée aux élèves inscrits l'année dernière (jusqu'au {dateOfNoRestriction.format('dddd D MMMM YYYY à HH:mm')})" />
         <!-- <ResubscribeForm /> -->
 
         <!-- This section is only there for the first year, delete once everyone is subscribed -->

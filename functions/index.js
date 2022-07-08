@@ -404,9 +404,7 @@ exports.onDeleteStudentFromFirestore = functions.firestore
 //HelloAsso callback
 exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
-    console.log("Callback starting 1")
     response.set("Access-Control-Allow-Origin", "*")
-    console.log("Callback starting 2")
     
     //Log
     await basics._setDoc({body:request.body}, "helloAssoLogs", dayjs().unix().toString())
