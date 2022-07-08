@@ -1,15 +1,27 @@
 <script>
     export let context
-    import { db } from "$utils/firebase/firebase"
-    import {collection,query,where,onSnapshot} from "firebase/firestore"
-    import { getDayFromUrl, getDayInfo, getDayName } from '$utils/days'
-    import { currentSeason, subscription, students } from '$utils/stores'
+    import { onMount } from 'svelte'
+    import { getDayFromUrl, getDayInfo } from '$utils/days'
+    import { currentSeason, students } from '$utils/stores'
     import StudentsStatusTable from '$components/tables/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import {goto, params} from '@roxi/routify'
-    import { seasons } from "$utils/seasons";
+    import CheckIfPreviousStudent from "$components/modals/CheckIfPreviousStudent.svelte"
     let dayUrl = $params.day
+    let openModal= false
     let day = getDayFromUrl(dayUrl, $currentSeason.days)
+    let today = dayjs()
+    onMount(() => {
+		const interval = setInterval(() => {
+			today = dayjs();
+		}, 1000);
+
+		return () => {
+			clearInterval(interval);
+		}
+	})
+    const dateOfNoRestriction = dayjs($currentSeason.dateOfNoRestriction)
+    $:timeUntilNoRestrictions = dateOfNoRestriction.diff(today, "seconds")
     
     let dayStudents = []
     $:dayStudents = $students.filter(x=>x.data().seasons[$currentSeason.name] != null && x.data().seasons[$currentSeason.name].day===dayUrl)
@@ -19,6 +31,8 @@
     $: info = getDayInfo(day, $currentSeason, dayStudents)
     
 </script>
+
+<CheckIfPreviousStudent open={openModal} {dayUrl}/>
 
 <hgroup>
     <h1>{info.name}</h1>
@@ -47,7 +61,11 @@
 
 <section>
     {#if info.spotsLeft>0}
-        <div role="button" on:click={$goto("/prive/inscription/[dayUrl]", {dayUrl})}>Inscription</div>
+        {#if timeUntilNoRestrictions > 0}
+            <div role="button" on:click={()=>openModal=true}>Inscription</div>
+        {:else}
+            <div role="button" on:click={$goto("/prive/inscription/[dayUrl]", {dayUrl})}>Inscription</div>
+        {/if}
     {:else}
         <a role="button" class="secondary">Inscription</a>
         <strong class="red">COMPLET</strong>
