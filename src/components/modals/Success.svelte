@@ -12,9 +12,10 @@
     }
 
     const done = ()=>{
+      const id = $subscription.id
       $subscription = subscriptionReset($currentSeason)
       $subscriptionStatus = null
-      $goto('/prive/mon-compte')
+      $goto('/prive/mon-compte/[id]', {id})
     }
 
   
