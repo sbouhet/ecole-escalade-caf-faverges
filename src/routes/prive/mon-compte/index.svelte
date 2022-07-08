@@ -6,44 +6,14 @@
     import { getAuth } from "firebase/auth"
     import StudentsStatusTable from '$components/tables/StudentsStatusTable.svelte'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
-
+    import { goto } from "@roxi/routify"
     let error = null
-    /* const getMyIds = httpsCallable(getFunctions(), 'getMyIds')
-
-    const getMyStudents = async(students)=>{
-      let response = await getMyIds()
-      console.log(response)
     
-      if (response.data.statusCode === 200) {
-        const myIds = response.data.body.myIds
-        const myStudents = students.filter(x=>myIds.includes(x.id))
-        return myStudents
-      } else {
-        console.log(response)
-        error = response.data.message
-        return
-      }
-    } */
-
-
- /*    const getMyStudents = async()=>{
-      const result = await _getDoc("users", getAuth().currentUser.uid)
-      console.log(result.data())
-      const myIds = result.data().students
-      let myStudents = []
-      for (const id of myIds) {
-        const student = await _getDoc("students", id)
-        myStudents.push(student)
-      }
-      console.log("Found "+ myStudents.length + " students")
-      console.log(myStudents)
-      return myStudents
-    } */
 
     const getMyStudents = async()=>{
-      const result = await _query("students", "parents", "array-contains", getAuth().currentUser.uid)
-  
-      return result
+      const myStudents = await _query("students", "parents", "array-contains", getAuth().currentUser.uid)
+      if(myStudents.length === 1) $goto("/prive/mon-compte/[id]", {id:myStudents[0].id})
+      return myStudents
     }
 
     let myStudents = getMyStudents()
