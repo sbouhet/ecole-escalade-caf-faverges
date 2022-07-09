@@ -74,7 +74,6 @@
         <div>dateOfBirth : {student.private.dateOfBirth}</div>
         <div>email : {student.private.email}</div>
         <div>tel : {student.private.tel}</div>
-        <div>emails : {student.private.emails}</div>
         <div>medicalCertificateLink : 
             {#if student.private.medicalCertificateLink}
                 <a href="{student.private.medicalCertificateLink}" target="_new">Cliquer ici</a>

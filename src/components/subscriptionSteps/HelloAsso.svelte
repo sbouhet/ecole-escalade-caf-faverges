@@ -18,7 +18,7 @@ console.log(student)
     $:id = student.id
     $:firstName = student.public.firstName
     $:lastName = student.public.lastName
-    $:email = student.private.emails[0]
+    $:email = student.private.email ||student.private.parents[0].email
     $:status = student.public.seasons[$currentSeason.name].payment
     $:paymentType = student.public.seasons[$currentSeason.name].paymentType
     $:ageGroup = getAgeGroupFromDayUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days, $currentSeason.ageGroups)
