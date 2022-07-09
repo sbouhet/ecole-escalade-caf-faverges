@@ -8,9 +8,6 @@ const season = require("./lib/season")
 const BError = require("berror")
 const getNewTokens = require("./lib/helloAsso/getNewTokens")
 const getEmails = require("./lib/firebase/firestore/getEmails")
-const getItemsFromHelloAsso = require("./lib/helloAsso/getItems")
-const getReceipts = require("./lib/helloAsso/getReceipts")
-const filterItems = require("./lib/helloAsso/filterItems")
 const getItems = require("./lib/helloAsso/getItems")
 const getOrders = require("./lib/helloAsso/getOrders")
 const getPayments = require("./lib/helloAsso/getPayments")
@@ -18,7 +15,6 @@ const getFormattedSoapUser = require("./lib/soap/getFormattedSoapUser")
 const checkConformity = require("./lib/soap/checkConformity")
 const basics = require("./lib/firebase/firestore/basics")
 const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
-const getStudentsByEmail = require("./lib/firebase/firestore/getStudentsByEmail")
 const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
 const resubscribeStudent = require("./lib/firebase/firestore/resubscribeStudent")
 const getPaymentLink = require("./lib/helloAsso/getPaymentLink")
@@ -367,7 +363,7 @@ exports.delAuthUser = functions.auth.user().onDelete((user) => {
 //FIRESTORE TRIGGERS
 
 //When student's private doc is created, updated, or deleted, update Emails array
-exports.updateEmails = functions.firestore
+/* exports.updateEmails = functions.firestore
   .document("students/{studentId}/privateCol/{privateDoc}")
   .onWrite(async (change, context) => {
     const privateDataBefore = change.before.data()
@@ -381,7 +377,7 @@ exports.updateEmails = functions.firestore
     return db
       .doc(`students/${studentId}/privateCol/privateDoc`)
       .update({ emails: emailsAfter })
-  })
+  }) */
 
 //When a student is deleted from Firestore,  delete medical certificate
 exports.onDeleteStudentFromFirestore = functions.firestore
