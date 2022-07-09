@@ -2,7 +2,7 @@
     import { subscription, currentDay, currentSeason, error, fatal, subscriptionStatus} from '$utils/stores'
     import { getAge } from '$utils/ageGroups'
     import { getDayName } from '$utils/days'
-    import { translateRole } from '$utils/TRANSLATE'
+    import { translate } from '$utils/TRANSLATE'
     import { createNewStudent } from '$firestore/createNewStudent'
     import { printName } from '$utils/printName'
     import { isDayFull } from '$firestore/dayIsFull'
@@ -73,7 +73,7 @@
             {#each $subscription.privateInfo.parents as parent}
             <hr>
               <div>
-                <div><b>{printName(parent)}</b> <small>({translateRole(parent.role)})</small></div>
+                <div><b>{printName(parent)}</b> <small>({translate(parent.role)})</small></div>
                 <div>Email : {parent.email===undefined?'':parent.email}</div>
                 <div>Téléphone : {parent.tel===undefined?'':parent.tel}</div>
               </div>

@@ -3,7 +3,7 @@
     import {_updateDoc} from "$utils/firebase/firestore/basics"
     import {params} from '@roxi/routify'
     import { getAgeGroupFromDayUrl } from "$utils/ageGroups"
-    import {translatePaymentType} from "$utils/TRANSLATE"
+    import {translate} from "$utils/TRANSLATE"
     import Boolean from '$components/htmlElements/Boolean.svelte'
     import OtherFormsOfPayment from '$components/modals/OtherFormsOfPayment.svelte'
     import InfoMessage from "$components/forms/subscription/InfoMessage.svelte"
@@ -98,7 +98,7 @@
                 </small>
             {/if}
         {:else if status === "waiting" && paymentType}
-            Vous avez choisi de régler par {translatePaymentType(paymentType)}.<br>
+            Vous avez choisi de régler par {translate(paymentType)}.<br>
             <br>
             Nous attendons votre reglement de <b>{price} €</b> avant le <b>{dayjs($currentSeason.deadline).format("dddd D MMMM à HH:mm")}</b>.<br>
             <span style="color:red">Après cette date, votre place sera proposée aux personnes inscrites sur la liste d'attente.</span>

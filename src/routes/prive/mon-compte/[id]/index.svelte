@@ -5,7 +5,7 @@
     import { printName } from '$utils/printName'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { currentSeason } from '$utils/stores'
-    import { translateRole, translateStatus } from '$utils/TRANSLATE'
+    import { translate } from '$utils/TRANSLATE'
     import Boolean from '$components/htmlElements/Boolean.svelte'
     import MedicalCertificate from '$components/subscriptionSteps/MedicalCertificate.svelte'
     import HelloAsso from '$components/subscriptionSteps/HelloAsso.svelte'
@@ -40,7 +40,7 @@
     <article>
         <hgroup>
             <h1>{printName(student.public)}</h1>
-            <h4>{translateStatus(student.public.seasons[$currentSeason.name].status)}</h4>
+            <h4>{translate(student.public.seasons[$currentSeason.name].status)}</h4>
         </hgroup>
         <small>Cliquez sur chaque étape pour plus de détails.</small>
         <br><br>
