@@ -342,6 +342,20 @@ export default {
                 "name": "modifyStudent"
               },
               "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_mod_waitlist_svelte",
+              "name": "waitlist",
+              "module": () => import('../src/routes/prive/mod/waitlist.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/waitlist.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "waitlist.svelte",
+                "ext": ".svelte",
+                "name": "waitlist"
+              },
+              "children": []
             }
           ]
         },
