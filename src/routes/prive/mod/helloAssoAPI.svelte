@@ -3,7 +3,7 @@
     import { functions } from '$utils/firebase/firebase'    
     import PaymentsTable from "$components/tables/PaymentsTable.svelte"
     import {normalize} from '$utils/normalize'
-    connectFunctionsEmulator(functions, "localhost", 5001)
+    //connectFunctionsEmulator(functions, "localhost", 5001)
 
     const getItemsFromHelloAsso = httpsCallable(functions, 'getItemsFromHelloAsso')
     const getOrdersFromHelloAsso = httpsCallable(functions, 'getOrdersFromHelloAsso')

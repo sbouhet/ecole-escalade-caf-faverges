@@ -34,11 +34,9 @@ export const subscriptionReset = (season) => {
         accidentTel: null,
         email: null,
         dateOfBirth: null,
-        helloAssoId: null,
         parents: [{}, {}],
         medicalCertificateLink: null,
         medicalCertificateTimestamp: null,
-        receipts: [],
       },
     }
   } catch (error) {

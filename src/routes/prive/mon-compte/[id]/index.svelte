@@ -35,24 +35,31 @@
         }
     })
 </script>
-<ErrorMessage {error} modal={true}/>
+<!-- <ErrorMessage {error} modal={true}/> -->
 {#if student}
-    <article>
-        <hgroup>
-            <h1>{printName(student.public)}</h1>
-            <h4>{translate(student.public.seasons[$currentSeason.name].status)}</h4>
-        </hgroup>
-        <small>Cliquez sur chaque étape pour plus de détails.</small>
-        <br><br>
-   
-        
-        <details>
-            <summary role="button" class="outline"><Boolean value={'yes'} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
-            <p style="color:green">Votre compte a bien été créé !</p>
-        </details>
-        <HelloAsso {student} open={$params.payment}/>
-        <Licence {student} open={$params.licence}/>
-        <MedicalCertificate  {student} open={$params.certificate}/>
-    </article>
+    {#if student.public.seasons[$currentSeason.name]}
+        <article>
+            <hgroup>
+                <h1>{printName(student.public)}</h1>
+                <h4>{translate(student.public.seasons[$currentSeason.name].status)}</h4>
+            </hgroup>
+            <small>Cliquez sur chaque étape pour plus de détails.</small>
+            <br><br>
+    
+            
+            <details>
+                <summary role="button" class="outline"><Boolean value={'yes'} big={true}/>Étape 1 : Créer un compte sur le site de l'école d'escalade</summary>
+                <p style="color:green">Votre compte a bien été créé !</p>
+            </details>
+            <HelloAsso {student} open={$params.payment}/>
+            <Licence {student} open={$params.licence}/>
+            <MedicalCertificate  {student} open={$params.certificate}/>
+        </article>
+    {:else}
+        <div style="color:red">Erreur : cet élève n'est pas inscrit sur la saison {$currentSeason.name}</div>
+    {/if}
+{:else}
+    <div style="color:red">Erreur : cet élève n'existe pas</div>
 {/if}
+
 <slot></slot>

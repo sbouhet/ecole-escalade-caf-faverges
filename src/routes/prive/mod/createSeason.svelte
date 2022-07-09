@@ -1,12 +1,11 @@
 <script>
     export let context //just to hide warning in console
-    import { copySeason } from '$firestore/copySeason'
     import { doc, getDoc, getDocs, collection, setDoc } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupName } from "$utils/ageGroups"
-import { currentSeason } from '$utils/stores';
+    import { getHeaderInfo } from "$utils/TRANSLATE"
+    import Tooltip from "$components/htmlElements/Tooltip.svelte"
 
-    let loading = false
     
     const getAllSeasons = async()=>{
         const seasons = []
@@ -21,7 +20,6 @@ import { currentSeason } from '$utils/stores';
     let selectedSeason
 
     const createNewSeason = async (season)=>{
-        loading = true
         if(!season || !season.name) throw "No season or season name"
         const docRef = doc(db, "seasons", season.name);
         const docSnap = await getDoc(docRef);
@@ -64,7 +62,11 @@ import { currentSeason } from '$utils/stores';
             <tr>
                 {#each Object.keys(selectedSeason).sort() as key}
                     {#if !Array.isArray(selectedSeason[key])}
-                        <th scope="col">{key}</th>
+                        <th scope="col">
+                            <Tooltip msg={getHeaderInfo(key)}>
+                                {key}
+                            </Tooltip>
+                        </th>
                     {/if}
                 {/each}
             </tr>
@@ -94,7 +96,11 @@ import { currentSeason } from '$utils/stores';
                         <th>AgeGroup</th>
                     {/if}
                     {#each Object.keys(selectedSeason[arrayName][0]).sort() as key}
-                        <th scope="col">{key}</th>
+                        <th scope="col">
+                            <Tooltip msg={getHeaderInfo(key)}>
+                                {key}
+                            </Tooltip>
+                        </th>
                     {/each}
                     <th></th>
                 </tr>
