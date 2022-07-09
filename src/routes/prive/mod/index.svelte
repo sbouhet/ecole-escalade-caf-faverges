@@ -7,6 +7,7 @@
     <li><a href="/prive/mod/helloAssoAPI">Paiements</a></li>
     <li><a href="/prive/mod/logs">Logs</a></li>
     <li><a href="/prive/mod/createSeason">Créer une nouvelle saison</a></li>
+    <li><a href="/prive/mod/allowStudents">Autoriser un élève à s'inscrire même si il n'a pas le bon age</a></li>
 </ul>
 
 

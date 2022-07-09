@@ -247,6 +247,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_allowStudents_svelte",
+              "name": "allowStudents",
+              "module": () => import('../src/routes/prive/mod/allowStudents.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/allowStudents.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "allowStudents.svelte",
+                "ext": ".svelte",
+                "name": "allowStudents"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_checkMedicalCertificate_svelte",
               "name": "checkMedicalCertificate",
               "module": () => import('../src/routes/prive/mod/checkMedicalCertificate.svelte'),

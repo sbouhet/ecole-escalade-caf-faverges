@@ -2,6 +2,7 @@
     import {_getDoc}from '$firestore/basics'
     import {normalize} from '$utils/normalize'
     import { printName } from '$utils/printName';
+    import {allowWrongAge} from '$utils/stores'
     export let firstName, lastName
 
     let selectedStudent, searchInput
@@ -10,11 +11,12 @@
     $:if(selectedStudent){
         firstName = selectedStudent.firstName
         lastName = selectedStudent.lastName
+        $allowWrongAge = selectedStudent.allowed
     }
 
     const getPriorityStudents = async ()=>{
         const adminDoc = await _getDoc('admin', 'admin')
-        const priorityStudents = adminDoc.data().priorityStudents.map(x=> {return {firstName: normalize(x.firstName), lastName:normalize(x.lastName)}})
+        const priorityStudents = adminDoc.data().priorityStudents.map(x=> {return {firstName: normalize(x.firstName), lastName:normalize(x.lastName), allowed:x.allowed}})
         releventStudents = priorityStudents
         return priorityStudents
     }

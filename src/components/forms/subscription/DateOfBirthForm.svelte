@@ -1,4 +1,5 @@
 <script>
+    import {getAge} from "$utils/ageGroups"
     /*-----------------------------------------------------------------------------------------
     This components asks for date of birth and checks it
     It has a mim and max date values
@@ -6,8 +7,10 @@
     MAX > the year of their birthday must not be higher than a value (minYear)
     -------------------------------------------------------------------------------------------*/
     import { validateDateOfBirth, getMinAndMaxDate } from '$utils/dateOfBirth'
-    import { currentDay, currentSeason } from '$utils/stores'
+    import { currentDay, currentSeason, allowWrongAge } from '$utils/stores'
     export let dateOfBirth
+  
+    let hideWarning = false
     let status
     const {minDate, maxDate} = getMinAndMaxDate($currentDay, $currentSeason)
     
@@ -21,7 +24,7 @@
             status = {valid: null}
             return
         }
-
+        
         status = validateDateOfBirth(dateOfBirth, $currentDay, $currentSeason)
         
     }
@@ -40,8 +43,13 @@
 
 
 <div>
+    <!-- {getAge(dateOfBirth)} -->
     <label for="dateOfBirth">Date de naissance</label>
-    <input type="date" required bind:value={dateOfBirth} aria-invalid={!status.valid} max={maxDate} min={minDate}>
+    {#if hideWarning}
+        <input type="date" required bind:value={dateOfBirth} aria-invalid={!status.valid}>
+    {:else}
+        <input type="date" required bind:value={dateOfBirth} aria-invalid={!status.valid} max={maxDate} min={minDate}>
+    {/if}
 </div>
 {#if status.valid !== null}     
     {#if status.valid}
@@ -50,10 +58,19 @@
             <small>{status.msg}</small>
         </div>
     {:else}
-        <div class="red">
-            <span>✕</span>
-            <small>{status.msg}</small>
-        </div>
+        {#if !hideWarning}
+            <div class="red">
+                <span>✕</span>
+                <small>{status.msg}</small><br>
+            </div>
+            <br>
+        {/if}
+        {#if $allowWrongAge}
+            <small>Un moniteur (Jules ou Jelena) a donné son accord pour accepter cet élève même si son âge ne correspond pas au cours.</small>
+            <br><br>
+            <span><input type="checkbox" bind:checked={hideWarning}></span>
+            <small>J'ai vérifié la date de naissance et je veux continuer l'inscription.</small>
+        {/if}
     {/if}
 {/if}
 <br>
