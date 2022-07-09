@@ -7,6 +7,12 @@
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import {goto, params} from '@roxi/routify'
     import CheckIfPreviousStudent from "$components/modals/CheckIfPreviousStudent.svelte"
+    import { getAuth } from "firebase/auth"
+    import { _updateDoc} from '$firestore/basics'
+    import { arrayUnion } from 'firebase/firestore'
+
+    let loading = false
+    let done = false
     let dayUrl = $params.day
     let openModal= false
     let day = getDayFromUrl(dayUrl, $currentSeason.days)
@@ -29,7 +35,21 @@
     let error = null
    
     $: info = getDayInfo(day, $currentSeason, dayStudents)
-    
+    let waitingListEmail
+    $:if(getAuth().currentUser) waitingListEmail = getAuth().currentUser.email
+    const addEmailToWaitlist = async()=>{
+        try {
+            if(loading)return
+            loading = true
+            done = false
+            const result = await _updateDoc({[dayUrl]:arrayUnion(waitingListEmail)}, "waitlist", $currentSeason.name)
+            done = true
+            console.log("done")
+        }catch (error) {
+            console.error(error)
+        }
+        loading = false
+    }
 </script>
 
 <CheckIfPreviousStudent open={openModal} {dayUrl}/>
@@ -67,12 +87,23 @@
             <div role="button" on:click={$goto("/prive/inscription/[dayUrl]", {dayUrl})}>Inscription</div>
         {/if}
     {:else}
-        <a role="button" class="secondary">Inscription</a>
-        <strong class="red">COMPLET</strong>
-    {/if}
-   
+        <strong class="red" style="font-size: xx-large;">Ce créneau est complet</strong><br>
+        Si une place se libère, nous enverrons un email aux personnes inscrites sur la liste d'attente.
     
+        <br><br>
+        <form on:submit|preventDefault={addEmailToWaitlist}>
+            <label for="waitingListEmail">Adresse email</label>
+            <div style="display: flex;">
+                <input type="email" name="waitingListEmail" bind:value={waitingListEmail} style="max-width: 300px;" required>
+                <button aria-busy={loading} style="max-width: 300px; margin-left:20px">S'inscire sur la liste d'attente</button>
+            </div>
+            {#if done}
+                ✅  <span style="color:green"> Vous êtes inscrit sur la liste d'attente</span>
+            {/if}
+        </form>
+    {/if}
 </section>
+
 <progress value={info.nbOfSubscibedStudents} max={info.nbMaxOfStudents}></progress>
 <section>
     <StudentsStatusTable students={dayStudents} showDay={false}/>

@@ -20,7 +20,8 @@
     <strong>Créneaux disponibles</strong>
 </div>
 <small>Cliquez sur un créneau pour plus d'informations.</small>
-<br><br>
+<br>
+<br>
 
 <figure>
         <table role="grid">
@@ -68,6 +69,9 @@
         </table>
     </figure>
 
+    <small style="color:red">
+        Certains créneaux sont complets, vous pouvez cependant vous inscrire sur liste d'attente en cliquant dessus.
+    </small>
 
 <slot></slot>
 
