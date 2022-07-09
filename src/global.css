@@ -10,7 +10,6 @@ tbody tr {
 }
 tbody tr:hover {
   border-left: 10px solid var(--primary);
-
   cursor: pointer;
 }
 summary {

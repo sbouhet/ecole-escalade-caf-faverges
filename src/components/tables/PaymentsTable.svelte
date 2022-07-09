@@ -48,8 +48,3 @@
      <i style="color:grey">Aucun payment</i>
 {/if}
 
-<style>
-   tbody tr:hover{
-    background-color: #1095c13d;
-   }
-</style>

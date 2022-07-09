@@ -129,20 +129,6 @@ export default {
           "children": [
             {
               "meta": {},
-              "id": "_default_prive_admin_copySeason_svelte",
-              "name": "copySeason",
-              "module": () => import('../src/routes/prive/admin/copySeason.svelte'),
-              "file": {
-                "path": "src/routes/prive/admin/copySeason.svelte",
-                "dir": "src/routes/prive/admin",
-                "base": "copySeason.svelte",
-                "ext": ".svelte",
-                "name": "copySeason"
-              },
-              "children": []
-            },
-            {
-              "meta": {},
               "id": "_default_prive_admin_index_svelte",
               "name": "index",
               "module": () => import('../src/routes/prive/admin/index.svelte'),
@@ -270,6 +256,20 @@ export default {
                 "base": "checkMedicalCertificate.svelte",
                 "ext": ".svelte",
                 "name": "checkMedicalCertificate"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
+              "id": "_default_prive_mod_createSeason_svelte",
+              "name": "createSeason",
+              "module": () => import('../src/routes/prive/mod/createSeason.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/createSeason.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "createSeason.svelte",
+                "ext": ".svelte",
+                "name": "createSeason"
               },
               "children": []
             },

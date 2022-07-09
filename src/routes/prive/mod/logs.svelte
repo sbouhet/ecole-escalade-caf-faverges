@@ -46,3 +46,10 @@ Unique
         {/each}
     </tbody>
 </table>
+
+<style>
+    tbody tr:hover{
+  background-color: #1095c13d;
+
+    }
+</style>
