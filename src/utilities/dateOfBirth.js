@@ -14,7 +14,7 @@ export const getMinAndMaxDate = (day, season) => {
     //if children
   } else {
     maxDate = `${getMinYear(ageGroup)}-12-31`
-    minDate = firstDay.subtract(ageGroup.max + 1, "year").format("YYYY-MM-DD")
+    minDate = firstDay.subtract(parseInt(ageGroup.max) + 1, "year").format("YYYY-MM-DD")
   }
   return { maxDate, minDate }
 }

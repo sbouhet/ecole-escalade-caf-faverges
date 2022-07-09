@@ -105,8 +105,8 @@ export const getDayInfo = (day, season, students) => {
     const ageGroup = season.ageGroups[day.ageGroupIndex]
     const adult = ageGroup.min === 18
     const minYear = getMinYear(day, season.ageGroups)
-    const minAge = ageGroup.min
-    const maxAge = ageGroup.max
+    const minAge = parseInt(ageGroup.min)
+    const maxAge = parseInt(ageGroup.max)
     return {
       name: getDayName(day, false),
       tooltip: adult
