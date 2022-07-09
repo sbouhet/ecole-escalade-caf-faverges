@@ -3,8 +3,8 @@ import { getDayFromUrl } from "$utils/days"
 
 export const getAgeGroupName = (ageGroup) => {
   try {
-    if (!ageGroup) throw "No age group"
-    if (ageGroup.min === 18) return "Adultes"
+    if (!ageGroup) return "No age group"
+    if (ageGroup.min == 18) return "Adultes"
     return `${ageGroup.min}‑${ageGroup.max} ans`
   } catch (error) {
     throw new BError("$utils/ageGroups => getAgeGroupName()", error).log()

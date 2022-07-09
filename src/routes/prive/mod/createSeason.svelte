@@ -1,9 +1,10 @@
 <script>
     export let context //just to hide warning in console
     import { copySeason } from '$firestore/copySeason'
-    import { doc, getDoc, getDocs, collection } from "firebase/firestore"
+    import { doc, getDoc, getDocs, collection, setDoc } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import { getAgeGroupName } from "$utils/ageGroups"
+import { currentSeason } from '$utils/stores';
 
     let loading = false
     
@@ -17,8 +18,22 @@
     }
 
     let seasons = getAllSeasons()
-
     let selectedSeason
+
+    const createNewSeason = async (season)=>{
+        loading = true
+        if(!season || !season.name) throw "No season or season name"
+        const docRef = doc(db, "seasons", season.name);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            alert("Cette saison existe déjà, modifiez le nom de la nouvelle saison")
+            return
+        } else {
+            await setDoc(doc(db, "seasons", season.name), season)
+            alert("La saison a été créée")
+        }
+    }
 </script>
 
 
@@ -75,6 +90,8 @@
                 <tr>
                     {#if arrayName === "ageGroups"}
                         <th>Index</th>
+                    {:else if arrayName === "days"}
+                        <th>AgeGroup</th>
                     {/if}
                     {#each Object.keys(selectedSeason[arrayName][0]).sort() as key}
                         <th scope="col">{key}</th>
@@ -87,7 +104,11 @@
                     <tr>
                         {#if arrayName === "ageGroups"}
                             <td>
-                                <input type="text" disabled value={i} style="color: red; font-weight:bold">
+                                <input type="text" disabled value={`${i}      (${getAgeGroupName(row)})`}>
+                            </td>
+                        {:else if arrayName === "days"}
+                            <td>
+                                <input type="text" disabled value={getAgeGroupName(selectedSeason.ageGroups[row.ageGroupIndex])}>
                             </td>
                         {/if}
                         {#each Object.keys(selectedSeason[arrayName][0]).sort() as key}
@@ -111,7 +132,7 @@
 
 {/if}
 
-<button on:click={console.log(selectedSeason)}>Créer la saison</button>
+<button on:click={()=>createNewSeason(selectedSeason)}>Créer la saison</button>
 
 
 <style>
