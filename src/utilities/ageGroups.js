@@ -13,7 +13,7 @@ export const getAgeGroupName = (ageGroup) => {
 
 export const getAge = (dateOfBirth, keepThreeDecimal = true, date) => {
   try {
-    if (!dateOfBirth) throw "No date of birth"
+    if (!dateOfBirth) return "No date of birth"
     const birthday = dayjs(dateOfBirth, "YYYY-MM-DD")
     if (date) {
       date = dayjs(date)

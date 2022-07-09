@@ -20,6 +20,7 @@
     <a href="/prive/mon-compte" role="button" class="outline">Mes inscriptions</a>
 {:else}
     <a href="/prive/mon-compte" role="button" class="outline">Se connecter</a>
+    <a href="/prive/mon-compte?showCreateAccount=true" role="button" class="outline">S'inscrire</a>
 {/if}
 <br><br>
 
