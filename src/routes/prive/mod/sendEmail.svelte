@@ -10,7 +10,7 @@
     connectFunctionsEmulator(functions, "localhost", 5001)
     const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
-    let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails
+    let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending
     let templates= []
     let allEmails = []
     let lists = []
@@ -174,16 +174,19 @@
 
     const sendEmail = async()=>{
         try {
+            if(sending) return
             if(!subject) throw "Il manque l'object"
             if(!htmlContent) throw "Il manque le message"
             if(!allEmails || allEmails.length<=0) throw "Il manque les adresses email"
     
             const result = window.confirm(`Êtes vous sur de vouloir envoyer cet email à ${allEmails.length} adresses ?`)
             if(!result)return
-    
-            const result2 = await sendEmailToPeople({allEmails, subject, htmlContent})
+            sending = true
+            const result2 = await sendEmailToPeople({emails:allEmails, subject, htmlContent})
+            sending = false
             console.log(result2)
         } catch (error) {
+            sending = false
             alert(error)
         }
     }
@@ -289,6 +292,13 @@
 {:else}
         Merci de patienter...
  {/if}
+
+ <dialog open={sending}>
+    <article>
+        <h3>Envoi en cours...</h3>
+        <strong style="color:red">Ne pas fermer la page !</strong>
+    </article>
+ </dialog>
 
 <style>
     .preview{
