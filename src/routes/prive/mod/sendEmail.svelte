@@ -13,7 +13,6 @@
     let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails
     let templates= []
     let allEmails = []
-    let emails = []
     let lists = []
     $:if(lists.length>0){
         allEmails = mergeEmails()
@@ -177,12 +176,12 @@
         try {
             if(!subject) throw "Il manque l'object"
             if(!htmlContent) throw "Il manque le message"
-            if(!emails || emails.length<=0) throw "Il manque les adresses email"
+            if(!allEmails || allEmails.length<=0) throw "Il manque les adresses email"
     
-            const result = window.confirm(`Êtes vous sur de vouloir envoyer cet email à ${emails.length} adresses ?`)
+            const result = window.confirm(`Êtes vous sur de vouloir envoyer cet email à ${allEmails.length} adresses ?`)
             if(!result)return
     
-            const result2 = await sendEmailToPeople({emails, subject, htmlContent})
+            const result2 = await sendEmailToPeople({allEmails, subject, htmlContent})
             console.log(result2)
         } catch (error) {
             alert(error)
@@ -191,7 +190,7 @@
 </script>
 
 <h1>Envoyer un email</h1>
-{#if lists && lists.length>0}
+{#if lists && lists.length>0 && allEmails.length>0}
 <section>
     <h4>Destinataires</h4>
     
