@@ -18,6 +18,7 @@ const changeCustomClaims = require("./lib/firebase/auth/changeCustomClaims")
 const sendNewCertificateEmail = require("./lib/sendinblue/sendNewCertificateEmail")
 const resubscribeStudent = require("./lib/firebase/firestore/resubscribeStudent")
 const getPaymentLink = require("./lib/helloAsso/getPaymentLink")
+const sendEmail = require("./lib/sendinblue/sendEmail")
 
 //##############################################################################################
 //                                CALLABLE FUNCTIONS
@@ -338,6 +339,49 @@ exports.sendEmailAndChangeStatus = functions
       }
     }
   })
+
+  //Send email
+exports.sendEmailToPeople = functions
+.runWith({ secrets: ["SENDINBLUE_API_KEY_SECRET"] })
+.https.onCall(async (data, context) => {
+  try {
+    // check user is not null
+    if (!context.auth) throw "Vous devez être connecté pour faire ca"
+
+    // check request is made by a mod
+    if (
+      context.auth.token.mod !== true 
+    ) {
+      throw "If faut être admin pour faire ca"
+    }
+
+    if (!data.subject) throw "No subject"
+    if (!data.htmlContent) throw "No htmlContent"
+    if (!data.emails) throw "No emails"
+
+    //populate email field
+    let targetEmails = []
+    for (const email of data.emails) {
+      targetEmails.push({ email: email })
+    }
+   
+    //Send email to admins
+    const result = await sendEmail(targetEmails, data.subject, data.htmlContent)
+
+    return {
+      statusCode: 200,
+      message: "Succès !",
+      body: result
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      statusCode: 409,
+      message: error,
+      body: `Could not send email ${data.subject}`,
+    }
+  }
+})
 
 //####################################################################################################
 //                                TRIGGER FUNCTIONS

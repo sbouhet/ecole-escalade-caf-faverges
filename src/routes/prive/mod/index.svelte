@@ -9,6 +9,7 @@
     <li><a href="/prive/mod/createSeason">Créer une nouvelle saison</a></li>
     <li><a href="/prive/mod/allowStudents">Autoriser un élève à s'inscrire même si il n'a pas le bon age</a></li>
     <li><a href="/prive/mod/waitlist">Listes d'attente</a></li>
+    <li><a href="/prive/mod/sendEmail">Envoyer un email</a></li>
 </ul>
 
 

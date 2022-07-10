@@ -9,8 +9,9 @@ module.exports = async (emails, subject, htmlContent) => {
     await axios.post(
       "https://api.sendinblue.com/v3/smtp/email",
       {
-        sender: { name: "Jules", email: "jules@ne-pas-repondre.com" },
-        to: emails,
+        sender: { name: "Jules", email: "ne-pas-repondre@CAF-Faverges.com" },
+        bcc:emails,
+        to: [{email:"ne-pas-repondre@CAF-Faverges.com"}],
         subject,
         htmlContent,
       },

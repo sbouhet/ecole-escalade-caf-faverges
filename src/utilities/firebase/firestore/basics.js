@@ -94,11 +94,16 @@ export const _setDoc = async (
 }
 
 //Write document with random ID, returns the ID after creation
-export const _addDoc = async (document, collectionId) => {
+export const _addDoc = async (document, collectionId, subDocId, subCollection) => {
   try {
     if (!document) throw "No document object"
     if (!collectionId) throw "No Collection"
-    const docRef = await addDoc(collection(db, collectionId), document)
+    let docRef
+    if (subCollection){
+      docRef = await addDoc(collection(db, collectionId, subDocId, subCollection), document)
+    }else{
+      docRef = await addDoc(collection(db, collectionId), document)
+    }
     return docRef.id
   } catch (error) {
     throw new BError("$firestore/basics => _addDoc()", error)

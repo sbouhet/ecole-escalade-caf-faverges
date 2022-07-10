@@ -345,6 +345,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_sendEmail_svelte",
+              "name": "sendEmail",
+              "module": () => import('../src/routes/prive/mod/sendEmail.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/sendEmail.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "sendEmail.svelte",
+                "ext": ".svelte",
+                "name": "sendEmail"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_waitlist_svelte",
               "name": "waitlist",
               "module": () => import('../src/routes/prive/mod/waitlist.svelte'),
