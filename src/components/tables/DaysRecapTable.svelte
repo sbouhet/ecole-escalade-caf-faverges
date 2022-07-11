@@ -5,14 +5,20 @@
     import { goto } from '@roxi/routify'
 
     let days = []
+    let someFull = false
 
     //Get information on days
     $:if($currentSeason && $students){
         days = []
+        someFull = false
         for (const day of $currentSeason.days) {
-            days.push(getDayInfo(day, $currentSeason, $students))
+            const dayInfo = getDayInfo(day, $currentSeason, $students)
+            days.push(dayInfo)
+            if(dayInfo.spotsLeft <= 0) someFull = true
         }
     }
+
+
    
 </script>
 
@@ -69,9 +75,11 @@
         </table>
     </figure>
 
-    <small style="color:red">
-        Certains créneaux sont complets, vous pouvez cependant vous inscrire sur liste d'attente en cliquant dessus.
-    </small>
+    {#if someFull}
+        <small style="color:red">
+            Certains créneaux sont complets, vous pouvez cependant vous inscrire sur liste d'attente en cliquant dessus.
+        </small>
+    {/if}
 
 <slot></slot>
 

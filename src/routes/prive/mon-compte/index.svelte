@@ -13,7 +13,7 @@
     const getMyStudents = async()=>{
       let myStudents = await _query("students", "parents", "array-contains", getAuth().currentUser.uid)
       myStudents = myStudents.filter(x=>x.data().seasons[$currentSeason.name])
-      if(myStudents.length === 1) $goto("/prive/mon-compte/[id]", {id:myStudents[0].id})
+      if(myStudents.length === 1) $goto("/prive/mon-compte/[id]", {id:myStudents[0].id}, true)
       return myStudents
     }
 
