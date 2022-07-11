@@ -406,22 +406,6 @@ exports.delAuthUser = functions.auth.user().onDelete((user) => {
 //****************************
 //FIRESTORE TRIGGERS
 
-//When student's private doc is created, updated, or deleted, update Emails array
-/* exports.updateEmails = functions.firestore
-  .document("students/{studentId}/privateCol/{privateDoc}")
-  .onWrite(async (change, context) => {
-    const privateDataBefore = change.before.data()
-    const privateDataAfter = change.after.data()
-    if (!privateDataAfter) return //if deleted do nothing
-    const emailsBefore = getEmails(privateDataBefore)
-    const emailsAfter = getEmails(privateDataAfter)
-    //if no changes to emails, do nothing
-    if (emailsBefore === emailsAfter) return
-    const studentId = context.params.studentId
-    return db
-      .doc(`students/${studentId}/privateCol/privateDoc`)
-      .update({ emails: emailsAfter })
-  }) */
 
 //When a student is deleted from Firestore,  delete medical certificate
 exports.onDeleteStudentFromFirestore = functions.firestore

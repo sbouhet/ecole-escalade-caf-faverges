@@ -10,12 +10,13 @@
     connectFunctionsEmulator(functions, "localhost", 5001)
     const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
-    let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending
+    let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate
     let templates= []
     let allEmails = []
     let lists = []
     $:if(lists.length>0){
         allEmails = mergeEmails()
+        listUpToDate = true
     }
     $:if(showMoreEmails === false) emailString = ''
     $:if(showWaitlist === false){
@@ -193,7 +194,7 @@
 </script>
 
 <h1>Envoyer un email</h1>
-{#if lists && lists.length>0 && allEmails.length>0}
+{#if listUpToDate}
 <section>
     <h4>Destinataires</h4>
     
