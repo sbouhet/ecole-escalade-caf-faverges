@@ -59,7 +59,7 @@
             const refs = await _query("users", "mod", "==", true)
             const emails = refs.map(x=>x.data().email)
             for (const email of emails) {
-                lists.push({selected:true, name:email, emails:[email], type:"mod"})
+                lists.push({selected:false, name:email, emails:[email], type:"mod"})
             }
         } catch (error) {
             console.log("Could not get mods")

@@ -118,7 +118,7 @@
                             {#if showDay && student.data().seasons[$currentSeason.name].day}
                                 <td>
                                     <div class="day">
-                                        {getDayName(getDayFromUrl(student.data().seasons[$currentSeason.name].day, $currentSeason.days))}
+                                        {student.data().seasons[$currentSeason.name].day}
                                     </div>
                                 </td>
                             {/if}
