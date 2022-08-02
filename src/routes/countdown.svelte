@@ -51,7 +51,7 @@
         </ul>
     </div>
 
-    Pour gagner du temps lors de votre inscription, vous pouvez déjà créer un compte en cliquand sur le lien suivant :
+    Pour gagner du temps lors de votre inscription, vous pouvez déjà créer un compte en cliquant sur le lien suivant :
     <a href="/prive/mon-compte?showCreateAccount=true">Créer un compte</a>
   {:else}
     <h1>Les inscriptions sont ouvertes !</h1>
