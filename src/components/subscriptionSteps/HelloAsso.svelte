@@ -14,7 +14,7 @@
     const functions = getFunctions(getApp())
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const getPaymentLinkFromHelloAsso = httpsCallable(functions, "getPaymentLinkFromHelloAsso")
-console.log(student)
+    console.log(student)
     $:id = student.id
     $:firstName = student.public.firstName
     $:lastName = student.public.lastName

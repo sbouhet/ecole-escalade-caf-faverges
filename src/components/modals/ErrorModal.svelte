@@ -56,7 +56,7 @@
         </div>
     {/if}
     <p>
-      Veuillez contacter notre équipe : <b>caf.faverges.ffcam@gmail.com</b>
+      Veuillez contacter notre équipe : <b>julesmarchand74@gmail.com</b>
     </p>
 
     <footer>

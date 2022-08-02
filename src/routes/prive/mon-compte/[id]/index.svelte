@@ -12,17 +12,24 @@
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import {capitalize} from '$utils/capitalize'
+    import { getDayFromUrl } from '$utils/days';
+    import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
   
 
     let error
     let urlId = $params.id
     let student
+    let fetchingPublic = true
+    let fetchingPrivate = true
+    $:fetching = fetchingPrivate || fetchingPublic
     const unsub = onSnapshot(doc(db, "students", urlId), async (doc) => {
         try {
             student = await getStudent(urlId)
+            let day = getDayFromUrl(student.public.seasons[$currentSeason.name].day, $currentSeason.days)
         } catch (err) {
             error = err
         }
+        fetchingPublic = false
     })
     const unsubPrivate = onSnapshot(doc(db, "students", urlId, "privateCol", "privateDoc"), async (doc) => {
         try {
@@ -30,10 +37,13 @@
         } catch (err) {
             error = err
         }
+        fetchingPrivate = false
     })
+
+    // $:if(student && getDayFromUrl(student.public.seasons[$currentSeason.name].day), $currentSeason.days) error = "Une erreur est survenue"
 </script>
-<!-- <ErrorMessage {error} modal={true}/> -->
-{#if student}
+<ErrorMessage {error} modal={true}/>
+{#if student && !fetching}
     {#if student.public.seasons[$currentSeason.name]}
         <article>
             <hgroup>
@@ -62,7 +72,11 @@
         <div style="color:red">Erreur : cet élève n'est pas inscrit sur la saison {$currentSeason.name}</div>
     {/if}
 {:else}
-    <div style="color:red">Erreur : cet élève n'existe pas ou vous n'avez pas les droits pour le voir</div>
+        {#if fetching}
+            <div aria-busy=true>Merci de patienter...</div>
+        {:else}
+            <div style="color:red">Erreur : cet élève n'existe pas ou vous n'avez pas les droits pour le voir</div>
+        {/if}
 {/if}
 
 <slot></slot>

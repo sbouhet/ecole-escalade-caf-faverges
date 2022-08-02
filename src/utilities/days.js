@@ -5,14 +5,11 @@ import { printName } from "$utils/printName"
 export const getDayName = (day, withEndTime = false) => {
   try {
     if (!day) throw "No day"
-    if (!day.weekday) throw "No weekday in day object, day might not be an object"
     let weekday = day.weekday
     let endTimeString = withEndTime ? `‑${day.endTime}` : ""
     return `${weekday} ${day.startTime}` + endTimeString
   } catch (error) {
-    console.error("$utils/days => getDayName()", error)
-    return day
-    //throw new BError("$utils/days => getDayName()", error)
+    throw new BError("$utils/days => getDayName()", error)
   }
 }
 
@@ -47,10 +44,7 @@ export const getDayFromUrl = (url, days) => {
     if (filtered.length > 1) throw new Error("Too many matches for this url")
     if (filtered.length < 1) throw new Error("No matches for this url")
   } catch (error) {
-    console.log(url, days);
-    console.error("$utils/days => getDayFromUrl()", error);
-    return url
-    //throw new BError("$utils/days => getDayFromUrl()", error)
+    throw new BError("$utils/days => getDayFromUrl()", error)
   }
 }
 
