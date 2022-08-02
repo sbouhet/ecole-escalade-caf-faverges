@@ -40,7 +40,7 @@
         {#if dayjs().format("M")<9 && dayjs().format("M") >5}
             <div>
                 
-                <div style="color:red">Il faut attendre le <strong>1er septembre</strong> pour pouvoir prendre votre licence</div>
+                <div style="color:red">Il faut attendre le <strong>1er septembre</strong> pour pouvoir prendre votre licence.</div>
             </div>
             <br>
         {:else}

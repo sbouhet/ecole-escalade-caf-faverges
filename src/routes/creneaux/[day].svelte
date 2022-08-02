@@ -28,6 +28,9 @@
 	})
     const dateOfNoRestriction = dayjs($currentSeason.dateOfNoRestriction)
     $:timeUntilNoRestrictions = dateOfNoRestriction.diff(today, "seconds")
+
+    const resubscriptionDate = dayjs($currentSeason.resubscriptionDate)
+    $:timeUntilResubscription = resubscriptionDate.diff(today, "seconds")
     
     let dayStudents = []
     $:dayStudents = $students.filter(x=>x.data().seasons[$currentSeason.name] != null && x.data().seasons[$currentSeason.name].day===dayUrl)
@@ -80,6 +83,7 @@
 </section>
 
 <section>
+
     {#if info.spotsLeft>0}
         {#if timeUntilNoRestrictions > 0}
             <div role="button" on:click={()=>openModal=true}>Inscription</div>

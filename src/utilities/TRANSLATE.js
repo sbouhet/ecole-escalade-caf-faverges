@@ -38,6 +38,10 @@ export const getHeaderInfo = (header) => {
         return "Date à laquelle tout le monde peut s'inscrire (pas seulement les anciens)"
       case "deadline":
         return "Date à laquelle les élèves doivent avoir remplit leur dossier (paiment, licence, ceritf) sinon leur place est proposée à la liste d'attente"
+      case "declarationLink":
+        return "Lien vers l'attestation sur l'honneur qui remplace le certificat medical"
+      case "resubscriptionDate":
+        return "Date d'ouverture des réinscriptions"
       case "name":
         return "Nom de la saison, il s'affiche sur la page d'inscription"
       case "nbOfSessions":
