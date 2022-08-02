@@ -167,7 +167,6 @@ exports.getPaymentsFromHelloAsso = functions
 .runWith({ secrets: ["HELLOASSO_ID", "HELLOASSO_PASSWORD"] })
 .https.onCall(async (data, context) => {
   try {
-    
 
     //Get new API tokens (access_token and refresh_token)
     const tokens = await getNewTokens()

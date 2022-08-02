@@ -70,7 +70,7 @@
                 {#if payInThree}
                     <br><br>
                     Montant à payer maintenant : <b>{priceDividedByThree} €</b> <br>
-                    Montant prélevé le 1er novembre : <b>{priceDividedByThree} €</b> <br>
+                    Montant prélevé le 1er décembre : <b>{priceDividedByThree} €</b> <br>
                     Montant prélevé le 1er mars : <b>{priceDividedByThree} €</b>
                 {/if}
                 <br><br>
@@ -117,7 +117,7 @@
                 La boite aux lettres se trouve à l'entrée du local du CAF, sur la gauche du batiment de la Soierie (panneau en bois).
             </div>
             <br>
-            Si vous souhaitez payer en trois fois, vos chèques seront encaissés le 1er octobre, le 1er novembre et le 1er mars.
+            Si vous souhaitez payer en trois fois, vos chèques seront encaissés le 1er octobre, le 1er décembre et le 1er mars.
     {:else if status === "yes"}
             <div style="color:green">Votre paiement est validé !</div>
     {/if}

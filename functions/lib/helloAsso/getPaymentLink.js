@@ -32,11 +32,11 @@ module.exports = async (
 
       const currentYear = parseInt(dayjs().format("YYYY"))
 
-      // make 2 other payments in november and march
+      // make 2 other payments in decembre and march
       terms = [
         {
           amount,
-          date: `${currentYear}-11-01T00:00:00+02:00`,
+          date: `${currentYear}-12-01T00:00:00+02:00`,
         },
         {
           amount,
