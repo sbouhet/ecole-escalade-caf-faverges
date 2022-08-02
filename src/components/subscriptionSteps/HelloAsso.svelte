@@ -114,10 +114,10 @@
                 74210 Faverges<br>
                 <a href="https://goo.gl/maps/GziQXf6B5Pe8eqcb6" target="_new">Lien Google Maps</a>
                 <br><br>
-                La boite au lettre se trouve à l'entrée du local du CAF, sur la gauche du batiment de la Soierie (panneau en bois).
+                La boite aux lettres se trouve à l'entrée du local du CAF, sur la gauche du batiment de la Soierie (panneau en bois).
             </div>
             <br>
-            Si vous souhaitez payer en trois fois, vos chèques seront ecaissés le 1er octobre, le 1er novembre et le 1er mars.
+            Si vous souhaitez payer en trois fois, vos chèques seront encaissés le 1er octobre, le 1er novembre et le 1er mars.
     {:else if status === "yes"}
             <div style="color:green">Votre paiement est validé !</div>
     {/if}
