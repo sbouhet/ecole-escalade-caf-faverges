@@ -37,29 +37,37 @@
         <Boolean value={status} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges
     </summary>
     {#if status==="no"}
-        <LicenceInstructions />
-        <HowToFindLicence bind:open={modalOpen}/>
-        <div>
-            <p>
-                Vous avez pris une licence ? Indiquez votre numéro de licence ci-dessous puis
-                cliquez sur le boutton pour valider cette étape.
-            </p>
-            <a href="#" on:click={()=>modalOpen=true}><small>Comment trouver mon numéro de licence ?</small></a>
-            <div class="grid">
-                <input type="text" bind:value={input} placeholder="Votre numéro de licence">
-                <div>
-                    {#if loading}
-                        <a href="#" role="button" aria-busy="true">Merci de patienter...</a>
-                    {:else}
-                        <a href="#" on:click={handleClick} role="button">Verifier la licence</a>
-                    {/if}
-                </div>
+        {#if dayjs().format("M")<9 && dayjs().format("M") >5}
+            <div>
+                
+                <div style="color:red">Il faut attendre le <strong>1er septembre</strong> pour pouvoir prendre votre licence</div>
             </div>
             <br>
-            {#if error}
-                <ErrorMessage {error} />
-            {/if}
-        </div>
+        {:else}
+            <LicenceInstructions />
+            <HowToFindLicence bind:open={modalOpen}/>
+            <div>
+                <p>
+                    Vous avez pris une licence ? Indiquez votre numéro de licence ci-dessous puis
+                    cliquez sur le boutton pour valider cette étape.
+                </p>
+                <a href="#" on:click={()=>modalOpen=true}><small>Comment trouver mon numéro de licence ?</small></a>
+                <div class="grid">
+                    <input type="text" bind:value={input} placeholder="Votre numéro de licence">
+                    <div>
+                        {#if loading}
+                            <a href="#" role="button" aria-busy="true">Merci de patienter...</a>
+                        {:else}
+                            <a href="#" on:click={handleClick} role="button">Verifier la licence</a>
+                        {/if}
+                    </div>
+                </div>
+                <br>
+                {#if error}
+                    <ErrorMessage {error} />
+                {/if}
+            </div>
+        {/if}
     {:else if status === "waiting"}
         <ErrorMessage error="Une erreur est survenue, contactez notre équipe : caf.faverges.ffcam@gmail.com" />
     {:else if status === "yes"}

@@ -55,6 +55,11 @@
                 <div style="color:green">{capitalize(student.public.firstName)} est bien inscrit·e aux cours d'escalade du CAF de Faverges pour la saison {$currentSeason.name}</div>
                 <br><br><br>
             {:else}
+                <div>
+                    Vous avez jusqu'au <b>{dayjs($currentSeason.deadline).format("dddd D MMMM à HH:mm")}</b> pour finaliser votre inscription.
+                    <div style="color:red">Après cette date, votre place sera libérée et proposée aux personnes inscrites sur la liste d'attente.</div>
+                </div>
+                <br>
                 <small>Cliquez sur chaque étape pour plus de détails.</small>
                 <br><br>
         
