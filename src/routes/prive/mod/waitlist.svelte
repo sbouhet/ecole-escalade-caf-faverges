@@ -3,9 +3,6 @@ import { _getDoc } from "$utils/firebase/firestore/basics"
 import { currentSeason } from '$utils/stores'
 import { httpsCallable, connectFunctionsEmulator } from "firebase/functions"
 import { functions } from '$utils/firebase/firebase' 
-connectFunctionsEmulator(functions, "localhost", 5001)
-
-const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
 let waitlist, details, done, count
 let days = []
@@ -14,7 +11,6 @@ const run = async()=>{
     const ref = await _getDoc("waitlist", $currentSeason.name)
     waitlist = ref.data()
     days = Object.keys(waitlist).sort()
-
 }
 
 run()
@@ -39,11 +35,7 @@ const copyToClipboard = (day)=>{
     done = true
 }
 
-const test = async()=>{
-    console.log("start")
-    const result = await sendEmailToPeople({emails:["friarobaz@gmail.com", "julesmarchand74@gmail.com"], subject:"test", htmlContent:"Salut les copains <b>GRAS</b>"})
-    console.log(result)
-}
+
 </script>
 
 
@@ -75,4 +67,3 @@ const test = async()=>{
 
 <input type="checkbox" role="switch" bind:checked={details}> Détails
 
-<button on:click={test}>TEST</button>
