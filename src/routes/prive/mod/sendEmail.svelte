@@ -129,10 +129,14 @@ import { translate } from "$utils/TRANSLATE";
 
     const getLists = async() => {
         lists = []
-        await addWaitlistsTolists()
-        await addDayEmailsToLists()
+        
         await addModsToLists()
-        if($params.id) await addSelectedStudentToLists($params.id)
+        if($params.id){
+            await addSelectedStudentToLists($params.id)
+        }else{
+            await addWaitlistsTolists()
+            await addDayEmailsToLists()
+        }
         lists=lists
     }
 
