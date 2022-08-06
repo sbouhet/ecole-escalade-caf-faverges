@@ -93,7 +93,7 @@ import { translate } from "$utils/TRANSLATE";
         const ref = await _getDoc("students", id, "privateCol", "privateDoc")
         const doc = ref.data()
         let emails = []
-        if(doc.email) emails.push({email:doc.email, name:"Adresse perso"})
+        if(doc.email) emails.push({email:doc.email, name:`Adresse perso (${doc.email})`})
         if(doc.parents && doc.parents.length>0){
             for (const parent of doc.parents) {
                 if(parent.email)emails.push({email:parent.email, name: `${translate(parent.role)} (${parent.email})`})
