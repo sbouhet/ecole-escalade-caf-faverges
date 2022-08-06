@@ -1,6 +1,6 @@
 <!-- routify:meta reset -->
 <script>
-    import { currentSeason, admin } from "$utils/stores"
+    import { currentSeason, admin, mod } from "$utils/stores"
     import { getDayName, getDayFromUrl} from '$utils/days'
     import Boolean from "$components/htmlElements/Boolean.svelte"
     import { deleteStudent } from '$firestore/deleteStudent'
@@ -29,7 +29,7 @@
     //On click of row (not on a button but the row itself)
     const handleClick = (student)=>{
         //if admin, do nothing
-        if($admin) return
+        if($mod) return
 
         //if not current user's student, do nothing
         if(!studentOfCurrentUser(student)) return
@@ -40,9 +40,8 @@
     }
 </script>
 
-
 {#if students.length > 0}
-    {#if $admin}
+    {#if $mod}
         Admin
         <input type="checkbox" role="switch" bind:checked={showAdminControls}>
     {/if}
@@ -53,20 +52,26 @@
             <thead>
                 <tr>
                     <!-- timestamp  -->
-                    {#if timestamp}
+                    {#if timestamp && $admin}
                         <th scope="col">Inscription</th>
                     {/if}
 
                     <!-- admin controls -->
-                    {#if $admin && showAdminControls}
-                        <th scope="col">Supprimer</th>
+                    {#if ($mod) && showAdminControls}
+                        {#if $admin}
+                            <th scope="col">Supprimer</th>
+                        {/if}
                         <th scope="col">Modifier</th>
                         <th scope="col">Infos</th>
                     {/if}
 
                     <!-- name -->
-                    <th scope="col"></th>
-                   
+                    <th scope="col">Nom</th>
+
+                    {#if $mod}
+                        <th scope="col">Email</th>
+                    {/if}
+
                     <!-- day -->
                     {#if showDay}
                         <th scope="col">Créneau</th>
@@ -85,10 +90,10 @@
                     {#if student.data().seasons[$currentSeason.name]}
 
                         <!-- Show mouse pointer only if user's student and not an admin -->
-                        <tr on:click={()=>handleClick(student)} class={studentOfCurrentUser(student) && !$admin?'':'noPointer'}>
+                        <tr on:click={()=>handleClick(student)} class={studentOfCurrentUser(student) && !$mod?'':'noPointer'}>
 
                             <!-- timestamp -->
-                            {#if timestamp}
+                            {#if timestamp && $admin}
                                 <td>
                                     <small style="opacity:0">{student.data().seasons[$currentSeason.name].timestamp}</small>
                                     <br>
@@ -96,22 +101,26 @@
                                     
                                 </td>
                             {/if}
-                            
 
                             <!-- admin contrls -->
-                            {#if $admin && showAdminControls}
-                                <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
+                            {#if $mod && showAdminControls}
+                                {#if $admin}
+                                    <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
+                                {/if}
                                 <td><a href={`/prive/mod/modifyStudent?id=${student.id}`}>⚙</a></td>
                                 <td><a href={`/prive/mod/${student.id}`}>Info</a></td>
                             {/if}
 
-                            
-
                             <!-- name -->
-                            {#if $admin || studentOfCurrentUser(student)}
+                            {#if $mod || studentOfCurrentUser(student)}
                                 <td><a href={`/prive/mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</a></td>
                             {:else}
                                 <td>{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</td>
+                            {/if}
+
+                            <!-- email -->
+                            {#if $mod}
+                                <td><a href={`/prive/mod/sendEmail?id=${student.id}`}>✉</a></td>
                             {/if}
 
                             <!-- day -->

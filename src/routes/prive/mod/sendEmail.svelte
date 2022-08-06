@@ -1,5 +1,6 @@
 <script>
     import { _addDoc, _deleteDoc, _updateDoc, _getDoc, _query } from "$utils/firebase/firestore/basics"
+    import {params} from '@roxi/routify'
     import {currentSeason} from '$utils/stores'
     import { db } from "$utils/firebase/firebase"
     import { collection, query, where, onSnapshot } from "firebase/firestore"
@@ -7,10 +8,13 @@
     import { functions } from '$utils/firebase/firebase' 
     import { getDayUrl } from "$utils/days"
     import Tooltip from '$components/htmlElements/Tooltip.svelte'
-    connectFunctionsEmulator(functions, "localhost", 5001)
+    import { printName } from "$utils/printName";
+import { translate } from "$utils/TRANSLATE";
+    //connectFunctionsEmulator(functions, "localhost", 5001)
     const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
-    let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate
+    let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate, selectedName
+    let studentId = $params.id
     let templates= []
     let allEmails = []
     let lists = []
@@ -24,6 +28,10 @@
             waitlist.selected = false
         }
         lists=lists
+    }
+    $:if(emailString != undefined) {
+        allEmails = mergeEmails()
+        listUpToDate = true
     }
 
     const mergeEmails = ()=>{
@@ -67,14 +75,28 @@
         }
     }
 
+    const addSelectedStudentToLists = async(id)=>{
+        try {
+            const emails = await getEmailsFromStudent(id)
+            for (const obj of emails) {
+                lists.push({selected:true, name:obj.name, emails:[obj.email], type:"student"})
+            }
+            let studentRef = await _getDoc("students", id)
+            selectedName = printName(studentRef.data())
+        } catch (error) {
+            console.log("Could not get seelcted student email")
+            alert(error)
+        }
+    }
+
     const getEmailsFromStudent = async (id)=>{
         const ref = await _getDoc("students", id, "privateCol", "privateDoc")
         const doc = ref.data()
-        const emails = []
-        if(doc.email) emails.push(doc.email)
+        let emails = []
+        if(doc.email) emails.push({email:doc.email, name:"Adresse perso"})
         if(doc.parents && doc.parents.length>0){
             for (const parent of doc.parents) {
-                if(parent.email)emails.push(parent.email)
+                if(parent.email)emails.push({email:parent.email, name: `${translate(parent.role)} (${parent.email})`})
             }
         }
         return emails
@@ -91,7 +113,8 @@
                 const ids = refs.map(x=>x.id)
                 let emails = []
                 for (const id of ids) {
-                    const studentEmails = await getEmailsFromStudent(id)
+                    let studentEmails = await getEmailsFromStudent(id)
+                    studentEmails = studentEmails.map(x=>x.email)
                     for (const email of studentEmails) {
                         emails.push(email)
                     }
@@ -109,6 +132,7 @@
         await addWaitlistsTolists()
         await addDayEmailsToLists()
         await addModsToLists()
+        if($params.id) await addSelectedStudentToLists($params.id)
         lists=lists
     }
 
@@ -198,6 +222,18 @@
 <section>
     <h4>Destinataires</h4>
     
+    {#if $params.id}
+        {selectedName}
+            <br><br>
+            <div class="buttonGrid">
+                {#each lists as list, i}
+                    {#if list.type == "student"}
+                        <a href="" role="button" class={list.selected?'':'outline'} on:click={()=>lists[i].selected = !lists[i].selected}>{list.name}</a>
+                    {/if}
+                {/each}
+            </div>
+            <br><br>
+    {/if}    
         Moderateurs:
         <br><br>
         <div class="buttonGrid">
@@ -207,30 +243,30 @@
                 {/if}
             {/each}
         </div>
-        <br><br>
-        Groupes:<br><br>
-        <div class="buttonGrid">
-            {#each lists as list, i}
-                {#if list.type == "group"}
-                    <a href="" role="button" class={list.selected?'selected':'outline'} on:click={()=>lists[i].selected = !lists[i].selected}>{list.name}</a>
-                {/if}
-            {/each}
-        </div>
-        <br><br>
-        Listes d'attente:
-        <input type="checkbox" role="switch" bind:checked={showWaitlist}>
-        {#if showWaitlist}
+        {#if !$params.id}
             <br><br>
+            Groupes:<br><br>
             <div class="buttonGrid">
                 {#each lists as list, i}
-                    {#if list.type == "waitlist"}
-                        <a href="" role="button" class={list.selected?'secondary':'secondary outline'} on:click={()=>lists[i].selected = !lists[i].selected}>{list.name}</a>
+                    {#if list.type == "group"}
+                        <a href="" role="button" class={list.selected?'selected':'outline'} on:click={()=>lists[i].selected = !lists[i].selected}>{list.name}</a>
                     {/if}
                 {/each}
             </div>
+            <br><br>
+            Listes d'attente:
+            <input type="checkbox" role="switch" bind:checked={showWaitlist}>
+            {#if showWaitlist}
+                <br><br>
+                <div class="buttonGrid">
+                    {#each lists as list, i}
+                        {#if list.type == "waitlist"}
+                            <a href="" role="button" class={list.selected?'secondary':'secondary outline'} on:click={()=>lists[i].selected = !lists[i].selected}>{list.name}</a>
+                        {/if}
+                    {/each}
+                </div>
+            {/if}
         {/if}
-        
-      
         <br><br>
         Ajouter des adresses emails:
         <input type="checkbox" role="switch" bind:checked={showMoreEmails}>
