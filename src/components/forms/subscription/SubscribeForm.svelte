@@ -5,7 +5,6 @@
     import { getDayName, getDayUrl } from '$utils/days'
     import YearWarning from "./YearWarning.svelte"
     import InfoMessage from "./InfoMessage.svelte"
-    import ResubscribeForm from '$components/forms/subscription/ResubscribeForm.svelte'
     import { goto } from "@roxi/routify"
 
     export let adult
@@ -32,7 +31,6 @@
     
     {#if pastStudentsOnly}
         <InfoMessage msg="Inscription reservée aux élèves inscrits l'année dernière (jusqu'au {dateOfNoRestriction.format('dddd D MMMM YYYY à HH:mm')})" />
-        <!-- <ResubscribeForm /> -->
 
         <!-- This section is only there for the first year, delete once everyone is subscribed -->
         {#if adult}
