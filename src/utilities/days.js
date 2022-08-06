@@ -63,7 +63,7 @@ export const isDayForAdults = (day, ageGroups) => {
     if (!day) throw "No day"
     if (!ageGroups) throw "No ageGroups"
     const ageGroup = ageGroups[day.ageGroupIndex]
-    return ageGroup.min === 18
+    return ageGroup.min === 18 || ageGroup.min === '18'
   } catch (error) {
     throw new BError("$utils/days => isDayForAdults()", error)
   }
