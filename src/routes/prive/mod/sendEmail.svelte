@@ -13,7 +13,7 @@
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
-    let subject, htmlContent, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate, selectedName
+    let subject, htmlContent, message, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate, selectedName, showHtml
     let studentId = $params.id
     let templates= []
     let allEmails = []
@@ -33,6 +33,7 @@
         allEmails = mergeEmails()
         listUpToDate = true
     }
+    $:finalHtml = message? htmlContent.replace("#message#", message.replaceAll("\n", "<br>")) :htmlContent
 
     const mergeEmails = ()=>{
         const allEmails = []
@@ -146,6 +147,7 @@
         selectedTemplateIndex = index
         htmlContent = templates[index].data().htmlContent
         subject = templates[index].data().subject
+        message = templates[index].data().message
         name = templates[index].data().name
         id = templates[index].id
     }
@@ -167,7 +169,7 @@
             const name = window.prompt("Donnez un nom à ce modèle")
             if(!name) throw "Il manque le nom"
             console.log("saving")
-            const templateId = await _addDoc({subject,htmlContent, name}, "emails", "templatesDoc", "templatesCol")
+            const templateId = await _addDoc({subject,htmlContent, name, message}, "emails", "templatesDoc", "templatesCol")
             console.log(`Modèle créé avec l'id ${templateId}`)
             
         } catch (error) {
@@ -182,7 +184,7 @@
             const result = window.confirm("Êtes vous sur de vouloir modifier le modèle "+name)
             if(!result)return
             console.log("updating")
-            await _updateDoc({subject, htmlContent}, "emails", "templatesDoc", "templatesCol", id)
+            await _updateDoc({subject, htmlContent, message}, "emails", "templatesDoc", "templatesCol", id)
             console.log("done")
         } catch (error) {
             alert(error)
@@ -219,6 +221,7 @@
             alert(error)
         }
     }
+
 </script>
 
 <h1>Envoyer un email</h1>
@@ -305,10 +308,16 @@
     <form>
         <label for="subject">Objet</label>
         <input type="text" id="subject" bind:value={subject} required>
-    
-        <label for="htmlContent">Message</label>
-        <textarea type="text" id="htmlContent" name="htmlContent" rows="4" required bind:value={htmlContent}></textarea>
         
+        <label for="message">Message</label>
+        <textarea type="text" id="message" name="message" rows="4" bind:value={message}></textarea>
+
+        HTML : <input type="checkbox" bind:checked={showHtml} role="switch"><br>
+    
+        {#if showHtml}
+            <textarea type="text" id="htmlContent" name="htmlContent" rows="4" required bind:value={htmlContent}></textarea>
+        {/if}
+        <br>
         <a href="" role="button" class="del" on:click={deleteDoc}>Supprimer</a>
         <a href="" role="button" class="secondary" on:click={updateTemplate}>Enregistrer le modèle</a>
         <a href="" role="button" class="secondary" on:click={saveAsNewTemplate}>Enregistrer en tant que nouveau modèle</a>
@@ -320,7 +329,7 @@
         {/if}
         <div class="preview">
             {#if htmlContent}
-                {@html htmlContent}
+                {@html finalHtml}
             {/if}
         </div>
     </form>
