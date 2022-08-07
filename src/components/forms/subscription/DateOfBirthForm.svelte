@@ -67,7 +67,7 @@
                 <i>
                 Si vous pensez que votre enfant peut participer à ce cours même si son âge ne correspond pas,
                 vous pouvez faire une demande de dérogation.
-                Les demandes de dérogation ne seront étudiées au cas par cas, <b>uniquement pour les élèves déjà connus des moniteurs.</b>
+                Les demandes de dérogation seront étudiées au cas par cas, <b>uniquement pour les élèves déjà connus des moniteurs.</b>
                 Elles seront accéptées si le moniteur éstime que l'élève pourra profiter du cours malgré sa différence d'âge.
                 <br>
                 Pour faire une demande de dérogation, envoyez un mail à cette adresse : 
@@ -75,7 +75,6 @@
                 
                 </i>
             </small>
-            <br>
         {/if}
         {#if $allowWrongAge}
             <small>Un moniteur (Jules ou Jelena) a donné son accord pour accepter cet élève même si son âge ne correspond pas au cours.</small>
