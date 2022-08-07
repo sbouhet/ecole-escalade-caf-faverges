@@ -22,6 +22,10 @@ export const translate = (english) => {
         return "Père"
       case "other":
         return "Autre"
+      case "payment":
+        return "paiement"
+      case "medicalCertificate":
+        return "certificat médical"
       default:
         return english
     }

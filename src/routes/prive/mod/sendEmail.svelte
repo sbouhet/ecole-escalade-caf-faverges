@@ -63,6 +63,26 @@
         }
     }
 
+    const addIncompleteStudentsToLists = async()=>{
+        try {
+            const keys = ["licence", "payment", "medicalCertificate"]
+            for (const key of keys) {
+                const students = await _query('students', `seasons.${$currentSeason.name}.${key}`, "!=", "yes")
+                console.log(`Found ${students.length} students without ${key}`);
+                let emails = []
+                for (const student of students) {
+                    const studentEmails = await (await getEmailsFromStudent(student.id)).map(x=>x.email)
+                    emails.push(...studentEmails)
+                }
+                lists.push({selected:false, name: `Pas de ${translate(key)}`, emails, type:"query"})
+            }
+        
+        } catch (error) {
+            console.log("Could not get incomplete students")
+            alert(error)
+        }
+    }
+
     const addModsToLists = async()=>{
         try {
             const refs = await _query("users", "mod", "==", true)
@@ -137,6 +157,7 @@
         }else{
             await addWaitlistsTolists()
             await addDayEmailsToLists()
+            await addIncompleteStudentsToLists()
         }
         lists=lists
     }
@@ -207,13 +228,13 @@
         try {
             if(sending) return
             if(!subject) throw "Il manque l'object"
-            if(!htmlContent) throw "Il manque le message"
+            if(!finalHtml) throw "Il manque le message"
             if(!allEmails || allEmails.length<=0) throw "Il manque les adresses email"
     
             const result = window.confirm(`Êtes vous sur de vouloir envoyer cet email à ${allEmails.length} adresses ?`)
             if(!result)return
             sending = true
-            const result2 = await sendEmailToPeople({emails:allEmails, subject, htmlContent})
+            const result2 = await sendEmailToPeople({emails:allEmails, subject, htmlContent:finalHtml})
             sending = false
             console.log(result2)
         } catch (error) {
@@ -256,6 +277,15 @@
             <div class="buttonGrid">
                 {#each lists as list, i}
                     {#if list.type == "group"}
+                        <a href="" role="button" class={list.selected?'selected':'outline'} on:click={()=>lists[i].selected = !lists[i].selected}>{list.name}</a>
+                    {/if}
+                {/each}
+            </div>
+            <br><br>
+            Elèves pas à jour:<br><br>
+            <div class="buttonGrid">
+                {#each lists as list, i}
+                    {#if list.type == "query"}
                         <a href="" role="button" class={list.selected?'selected':'outline'} on:click={()=>lists[i].selected = !lists[i].selected}>{list.name}</a>
                     {/if}
                 {/each}
@@ -310,7 +340,7 @@
         <input type="text" id="subject" bind:value={subject} required>
         
         <label for="message">Message</label>
-        <textarea type="text" id="message" name="message" rows="4" bind:value={message}></textarea>
+        <textarea type="text" id="message" name="message" rows="6" bind:value={message}></textarea>
 
         HTML : <input type="checkbox" bind:checked={showHtml} role="switch"><br>
     
