@@ -9,7 +9,7 @@
     import { getDayUrl } from "$utils/days"
     import Tooltip from '$components/htmlElements/Tooltip.svelte'
     import { printName } from "$utils/printName";
-import { translate } from "$utils/TRANSLATE";
+    import { translate } from "$utils/TRANSLATE";
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
