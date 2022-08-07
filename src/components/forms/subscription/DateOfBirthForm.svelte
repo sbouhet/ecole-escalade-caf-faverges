@@ -63,6 +63,18 @@
                 <span>✕</span>
                 <small>{status.msg}</small><br>
             </div>
+            <small style="color:grey">
+                <i>
+                Si vous pensez que votre enfant peut participer à ce cours même si son âge ne correspond pas,
+                vous pouvez faire une demande de dérogation.
+                Les demandes de dérogation ne seront étudiées au cas par cas, <b>uniquement pour les élèves déjà connus des moniteurs.</b>
+                Elles seront accéptées si le moniteur éstime que l'élève pourra profiter du cours malgré sa différence d'âge.
+                <br>
+                Pour faire une demande de dérogation, envoyez un mail à cette adresse : 
+                <a href="mailto:julesmarchand74@gmail.com?subject=[Ecolde d'escalade] Demande de dérogation {$currentDay.weekday} {$currentDay.startTime}" target="_new">julesmarchand74@gmail.com</a>
+                
+                </i>
+            </small>
             <br>
         {/if}
         {#if $allowWrongAge}
