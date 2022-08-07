@@ -25,7 +25,9 @@
    
     const handleChange = (priorityStudents)=>{
         if(searchInput){
-            releventStudents = priorityStudents.filter(x=>x.firstName.includes(normalize(searchInput))||x.lastName.includes(normalize(searchInput)))
+            releventStudents = priorityStudents.filter(
+                x=>(x.firstName+' '+x.lastName).includes(normalize(searchInput))
+                || (x.lastName+' '+x.firstName).includes(normalize(searchInput)))
         }else{
             releventStudents = priorityStudents
         }
