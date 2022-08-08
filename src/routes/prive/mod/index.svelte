@@ -10,6 +10,7 @@
     <li><a href="/prive/mod/allowStudents">Autoriser un élève à s'inscrire même si il n'a pas le bon age</a></li>
     <li><a href="/prive/mod/waitlist">Listes d'attente</a></li>
     <li><a href="/prive/mod/sendEmail">Envoyer un email</a></li>
+    <li><a href="/prive/mod/emailHistory">Historique des emails envoyés</a></li>
 </ul>
 
 

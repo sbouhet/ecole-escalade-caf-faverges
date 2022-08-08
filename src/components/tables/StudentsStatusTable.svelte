@@ -20,8 +20,7 @@
         return false
     }
 
-
-    let table, showAdminControls
+    let table
     $:if(table){
         new Tablesort(table)
     }
@@ -41,10 +40,6 @@
 </script>
 
 {#if students.length > 0}
-    {#if $mod}
-        Admin
-        <input type="checkbox" role="switch" bind:checked={showAdminControls}>
-    {/if}
     <figure>
         <table role="grid" bind:this={table}>
 
@@ -52,35 +47,27 @@
             <thead>
                 <tr>
                     <!-- timestamp  -->
-                    {#if timestamp && $admin}
+                    {#if timestamp && $mod}
                         <th scope="col">Inscription</th>
                     {/if}
 
-                    <!-- admin controls -->
-                    {#if ($mod) && showAdminControls}
-                        {#if $admin}
-                            <th scope="col">Supprimer</th>
-                        {/if}
-                        <th scope="col">Modifier</th>
-                        <th scope="col">Infos</th>
+                    <!-- admin  -->
+                    {#if $mod}
+                        <th scope="col">Admin</th>
                     {/if}
 
                     <!-- name -->
                     <th scope="col">Nom</th>
-
-                    {#if $mod}
-                        <th scope="col">Email</th>
-                    {/if}
-
+               
                     <!-- day -->
                     {#if showDay}
                         <th scope="col">Créneau</th>
                     {/if}
 
                     <th scope="col">Compte</th>
-                    <th scope="col">Licence</th>
                     <th scope="col">Paiement</th>
                     <th scope="col">Certificat médical</th>
+                    <th scope="col">Licence</th>
                 </tr>
             </thead>
 
@@ -102,14 +89,22 @@
                                 </td>
                             {/if}
 
+                            <!-- mod  -->
+                            {#if $mod}
+                                <td>
+                                    <a href={`/prive/mod/${student.id}`}>⚙</a>
+                                    <a href={`/prive/mod/sendEmail?id=${student.id}`}>✉</a>
+                                </td>
+                            {/if}
+
                             <!-- admin contrls -->
-                            {#if $mod && showAdminControls}
+                           <!--  {#if $mod && showAdminControls}
                                 {#if $admin}
                                     <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
                                 {/if}
                                 <td><a href={`/prive/mod/modifyStudent?id=${student.id}`}>⚙</a></td>
                                 <td><a href={`/prive/mod/${student.id}`}>Info</a></td>
-                            {/if}
+                            {/if} -->
 
                             <!-- name -->
                             {#if $mod || studentOfCurrentUser(student)}
@@ -118,10 +113,6 @@
                                 <td>{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</td>
                             {/if}
 
-                            <!-- email -->
-                            {#if $mod}
-                                <td><a href={`/prive/mod/sendEmail?id=${student.id}`}>✉</a></td>
-                            {/if}
 
                             <!-- day -->
                             {#if showDay && student.data().seasons[$currentSeason.name].day}
@@ -135,14 +126,15 @@
                             <!-- account -->
                             <td><Boolean value=yes/></td>
 
-                            <!-- licence -->
-                            <td><Boolean value={student.data().seasons[$currentSeason.name].licence}/></td>
-
+                            
                             <!-- payment -->
                             <td><Boolean value={student.data().seasons[$currentSeason.name].payment}/></td>
-
+                            
                             <!-- certificate -->
                             <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate}/></td>
+
+                            <!-- licence -->
+                            <td><Boolean value={student.data().seasons[$currentSeason.name].licence}/></td>
                         </tr>
                     {/if}
                 {/each}

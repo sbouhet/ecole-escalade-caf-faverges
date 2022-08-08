@@ -34,7 +34,7 @@
 
 <details open={open}>
     <summary role="button" class="outline">
-        <Boolean value={status} big={true}/>Étape 3 : Prendre une licence au CAF de Faverges
+        <Boolean value={status} big={true}/>Étape 4 : Prendre une licence au CAF de Faverges
     </summary>
     {#if status==="no"}
         {#if dayjs().format("M")<9 && dayjs().format("M") >5}

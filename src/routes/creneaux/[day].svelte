@@ -74,7 +74,7 @@
     {/if}
     <div>Début des cours : <b>{dayjs(info.firstDay).format("dddd D MMMM YYYY")}</b></div>
     <div>Fin des cours : <b>{dayjs(info.lastDay).format("dddd D MMMM YYYY")}</b></div>
-    <div>Nombre de cours : <b>{info.nbOfSessions}</b></div>
+    <!-- <div>Nombre de cours : <b>{info.nbOfSessions}</b></div> -->
     <div>
         Prix <span data-tooltip="Adhésion au club obligatoire.">(hors licence)</span> : 
         <b>{info.price}€</b>

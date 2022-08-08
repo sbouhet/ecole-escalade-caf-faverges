@@ -155,12 +155,17 @@ export const _deleteDoc = async (
   }
 }
 
-export const _getDocs = async (collectionId) => {
+export const _getDocs = async (collectionId, subDocId, subCollection) => {
   try {
     if (!collectionId) throw "No collection"
     
     let result = []
-    const querySnapshot = await getDocs(collection(db, collectionId));
+    let querySnapshot
+    if (subDocId && subCollection) {
+      querySnapshot = await getDocs(collection(db, collectionId, subDocId, subCollection));
+    } else {
+      querySnapshot = await getDocs(collection(db, collectionId));
+    }
     querySnapshot.forEach((doc) => {
       result.push(doc)
     })

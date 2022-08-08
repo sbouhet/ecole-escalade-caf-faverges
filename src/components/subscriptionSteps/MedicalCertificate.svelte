@@ -48,7 +48,7 @@
 </script>
 
 <details open={open}>
-    <summary role="button" class="outline"><Boolean value={status} big={true}/>Étape 4 : Transférer un certificat médical</summary>
+    <summary role="button" class="outline"><Boolean value={status} big={true}/>Étape 3 : Transférer un certificat médical</summary>
 
     {#if status === 'yes' || status ==='waiting'}
         <a href={link} target="_new">Voir votre certificat médical (ou attestation sur l'honneur)</a><br>

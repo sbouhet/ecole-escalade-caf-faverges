@@ -10,10 +10,12 @@
     import Tooltip from '$components/htmlElements/Tooltip.svelte'
     import { printName } from "$utils/printName";
     import { translate } from "$utils/TRANSLATE";
+    import { goto } from "@roxi/routify"
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
-    let subject, htmlContent, message, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate, selectedName, showHtml
+    let subject, message, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate, selectedName, showHtml
+    let htmlContent = "#message#"
     let studentId = $params.id
     let templates= []
     let allEmails = []
@@ -235,8 +237,12 @@
             if(!result)return
             sending = true
             const result2 = await sendEmailToPeople({emails:allEmails, subject, htmlContent:finalHtml})
+            await _addDoc(
+                {emails:allEmails, subject, htmlContent:finalHtml, lists: lists.filter(x=>x.selected), date: dayjs().unix()},
+                 "emails", "historyDoc", "historyCol")
             sending = false
             console.log(result2)
+            $goto("/prive/mod/emailHistory")
         } catch (error) {
             sending = false
             alert(error)

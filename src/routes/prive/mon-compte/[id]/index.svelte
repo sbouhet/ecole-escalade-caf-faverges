@@ -69,8 +69,8 @@
                     <p style="color:green">Votre compte a bien été créé !</p>
                 </details>
                 <HelloAsso {student} open={$params.payment}/>
-                <Licence {student} open={$params.licence}/>
                 <MedicalCertificate  {student} open={$params.certificate}/>
+                <Licence {student} open={$params.licence}/>
             {/if}
         </article>
     {:else}

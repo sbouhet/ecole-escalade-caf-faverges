@@ -289,6 +289,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_emailHistory_svelte",
+              "name": "emailHistory",
+              "module": () => import('../src/routes/prive/mod/emailHistory.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/emailHistory.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "emailHistory.svelte",
+                "ext": ".svelte",
+                "name": "emailHistory"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_helloAssoAPI_svelte",
               "name": "helloAssoAPI",
               "module": () => import('../src/routes/prive/mod/helloAssoAPI.svelte'),
