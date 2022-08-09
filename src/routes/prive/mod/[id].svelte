@@ -85,9 +85,9 @@
         <a href="#" role="button" class="danger" disabled>Supprimer</a>
     {/if}
     <a href="#" role="button" class={showModifyDatabase?'secondary':'secondary outline'} on:click={()=>showModifyDatabase=!showModifyDatabase}>
-        Base de donnée
+        Base de données
     </a>
-    <a href="#" role="button" class="secondary" on:click={addParent}>Ajouter un parent</a>
+    <a href="#" role="button" class="secondary" on:click={addParent}>Donner accès à un utilisateur</a>
     <br><br>
 
     {#if showChangeStatus}
