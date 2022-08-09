@@ -1,6 +1,6 @@
 <script>
     export let context
-    import {params} from '@roxi/routify'
+    import {params, goto} from '@roxi/routify'
     import { getStudent } from '$firestore/getStudent'
     import { printName } from '$utils/printName'
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
@@ -9,12 +9,14 @@
     import Boolean from '$components/htmlElements/Boolean.svelte'
     import { doc, onSnapshot } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
-    import { getAgeGroupFromDayUrl } from '$utils/ageGroups'
     import { deleteStudent } from '$firestore/deleteStudent'
     import DisplayObject from '$components/htmlElements/DisplayObject.svelte'
-import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics';
+    import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics';
+    import ChangeValue from '$components/modals/ChangeValue.svelte';
 
-    let student, seasons
+    let student, input, openModal
+
+    $:if($params.path) openModal = true
 
     //Listen to changes in student public data
     const unsub = onSnapshot(doc(db, "students", $params.id), async (doc) => {
@@ -35,16 +37,16 @@ import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics';
         
     })
 
-    const changePrivateValue = async (key, value="penis")=>{
+    /* const changePrivateValue = async (key, value="null")=>{
         await _updateDoc({[key]:value}, "students", $params.id, "privateCol", "privateDoc")
     }
-    const changePublicValue = async (key, value="penis")=>{
+    const changePublicValue = async (key, value="null")=>{
         await _updateDoc({[key]:value}, "students", $params.id)
     }
 
-    const run = async()=>{
+    const updateValue = async()=>{
+        $goto('./', {id:$params.id, path:null})
         const array = $params.path.split('[')
-        const value = prompt('valeur?')
 
         //if no array in key string
         if (array.length === 1) {
@@ -53,13 +55,13 @@ import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics';
            if (array[0].includes("private")){
                 const string = array[0].split('private.')[1]
                 console.log(string);
-                changePrivateValue(string, value)
+                changePrivateValue(string, input)
 
             //Public
             }else if (array[0].includes("public")){
                 const string = array[0].split('public.')[1]
                 console.log(string);
-               changePublicValue(string, value)
+               changePublicValue(string, input)
            }
         //if array in key string
         } else {
@@ -69,15 +71,13 @@ import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics';
                 const array2 = array[1].split('].')
                 const index = parseInt(array2[0])
                 const key2 = array2[1]
-                console.log(string);
-                console.log(index, key2);
                 const doc = await _getDoc("students", $params.id, 'privateCol', 'privateDoc')
                 const privateArray = doc.data()[string]
                 const element = privateArray[index]
                 if (key2) {
-                    element[key2] = value
+                    element[key2] = input
                 }else{
-                    privateArray[index] = value
+                    privateArray[index] = input
                 }
                 changePrivateValue(string, privateArray)
 
@@ -87,42 +87,42 @@ import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics';
                 const array2 = array[1].split('].')
                 const index = parseInt(array2[0])
                 const key2 = array2[1]
-                console.log(string);
-                console.log(index, key2);
                 const doc = await _getDoc("students", $params.id)
                 const publicArray = doc.data()[string]
                 const element = publicArray[index]
                 if (key2) {
-                    element[key2] = value
+                    element[key2] = input
                 }else{
-                    publicArray[index] = value
+                    publicArray[index] = input
                 }
                 changePublicValue(string, publicArray)
            }
         }
-
-    }
-
-    $:if($params.path){
-      run()
-    }
-
-
+        
+    } */
 </script>
 
-<!-- {#if $params.path && student && student.public && student.private}
-    <dialog open>
-        <article>
 
+<!--     <dialog {openModal}>
+        <article>
             <h3>Modifier la valeur</h3>
-            {$params.path}
+            {$params.path} :
+            <strong>{$params.currentValue}</strong>
+            <form on:submit|preventDefault={updateValue}>
+                <input type="text" bind:value={input}>
+            </form>
             
             <footer>
-                <a href={`./${$params.id}`} role="button">Fermer</a>
+                <a href={`./${$params.id}`} on:click={updateValue} role="button">Mettre à jour</a>
+                <a href={`./${$params.id}`} role="button" class="secondary">Fermer</a>
             </footer>
         </article>
-    </dialog>
-{/if} -->
+    </dialog> -->
+
+<!--     {#if student}
+        <ChangeValue {student} />
+    {/if} -->
+
 
 
 {#if student && student.public && student.private}
@@ -141,7 +141,7 @@ import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics';
     <hr>
     <br>
     <h3>Base de données</h3>
-    <DisplayObject object={student} origin='student' studentId={student.id}/>
+    <DisplayObject object={student} origin='student' {student}/>
 
 {/if}
 

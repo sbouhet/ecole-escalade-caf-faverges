@@ -1,9 +1,11 @@
 <script>
     import DisplayArray from '$components/htmlElements/DisplayArray.svelte'
     import DisplayObject from '$components/htmlElements/DisplayObject.svelte'
+    import ChangeValue from '$components/modals/ChangeValue.svelte'
     export let object = {}
-    export let origin
-    export let studentId
+    export let origin, student
+    let changeValue
+    let closeModal = false
     let hideElements = []
 
     const toggleKey = (key)=>{
@@ -20,25 +22,26 @@
         {#each Object.keys(object).sort() as key}
             <li>
                 <span on:click={()=>toggleKey(key)} class={typeof object[key] === "object" && object[key] != null?'pointer key':'key'}>{key} : </span>
-                {#if object[key] == null}
-                <a href={`?path=${origin}.${key}`}><strong>{object[key]}</strong> </a>
-                {:else}
-                    {#if typeof object[key] === "object"}
-                        <div class={hideElements.includes(key) ?'hidden':''}>
-                            {#if Array.isArray(object[key])}
-                                <DisplayArray array={object[key]} origin={`${origin}.${key}`} studentId={studentId}/>
-                            {:else}
-                                <DisplayObject object={object[key]} origin={`${origin}.${key}`} studentId={studentId}/>
-                            {/if}
-                        </div>
-                    {:else}
-                        {#if typeof object[key] === "string" && object[key].includes('http')}
-                            <a href={object[key]} target="_new">Lien</a>
+                
+                {#if typeof object[key] === "object" && object[key] != null}
+                    <div class={hideElements.includes(key) ?'hidden':''}>
+                        {#if Array.isArray(object[key])}
+                            <DisplayArray array={object[key]} origin={`${origin}.${key}`} {student}/>
                         {:else}
-                            <a href={`?path=${origin}.${key}`}><strong>{object[key]}</strong> </a>
+                            <DisplayObject object={object[key]} origin={`${origin}.${key}`} {student}/>
+                        {/if}
+                    </div>
+                {:else}
+                    {#if typeof object[key] === "string" && object[key].includes('http')}
+                        <a href={object[key]} target="_new">Lien</a>
+                    {:else}
+                        <a href="#" on:click={()=>{changeValue=`${origin}.${key}`;closeModal=false}}><strong>{object[key]}</strong> </a>
+                        {#if changeValue === `${origin}.${key}` && !closeModal}
+                            <ChangeValue {student} path={`${origin}.${key}`} currentValue={object[key]} bind:closeModal={closeModal}/>
                         {/if}
                     {/if}
                 {/if}
+              
             </li>
         {/each}
     </ul>

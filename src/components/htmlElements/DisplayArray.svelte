@@ -1,9 +1,11 @@
 <script>
     import DisplayArray from '$components/htmlElements/DisplayArray.svelte'
     import DisplayObject from '$components/htmlElements/DisplayObject.svelte'
+    import ChangeValue from '$components/modals/ChangeValue.svelte'
     export let array = []
-    export let origin
-    export let studentId
+    export let origin, student
+    let changeValue
+    let closeModal = false
 </script>
 
 {#if array && Array.isArray(array)}
@@ -11,17 +13,16 @@
         <ul>
             {#each array as element, i}
                 <li>
-                    {#if element == null}
-                    <a href={`?path=${origin}[${i}]`}><strong>{element}</strong> </a>
-                    {:else}
-                        {#if typeof element === "object"}
-                            {#if Array.isArray(element)}
-                                <DisplayArray array={element} origin={`${origin}[${i}]`} studentId={studentId}/>
-                            {:else}
-                                <DisplayObject object={element} origin={`${origin}[${i}]`} studentId={studentId}/>
-                            {/if}
+                    {#if typeof element === "object" && element != null}
+                        {#if Array.isArray(element)}
+                            <DisplayArray array={element} origin={`${origin}[${i}]`} {student}/>
                         {:else}
-                            <a href={`?path=${origin}[${i}]`}><strong>{element}</strong> </a>
+                            <DisplayObject object={element} origin={`${origin}[${i}]`} {student}/>
+                        {/if}
+                    {:else}
+                        <a href="#" on:click={()=>{changeValue=`${origin}[${i}]`;closeModal=false}}><strong>{element}</strong> </a>
+                        {#if changeValue === `${origin}[${i}]` && !closeModal}
+                            <ChangeValue {student} path={`${origin}[${i}]`} currentValue={element} bind:closeModal={closeModal}/>
                         {/if}
                     {/if}
                 </li>
