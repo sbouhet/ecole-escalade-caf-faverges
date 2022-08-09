@@ -32,13 +32,9 @@
                         {/if}
                     </div>
                 {:else}
-                    {#if typeof object[key] === "string" && object[key].includes('http')}
-                        <a href={object[key]} target="_new">Lien</a>
-                    {:else}
-                        <a href="#" on:click={()=>{changeValue=`${origin}.${key}`;closeModal=false}}><strong>{object[key]}</strong> </a>
-                        {#if changeValue === `${origin}.${key}` && !closeModal}
-                            <ChangeValue {student} path={`${origin}.${key}`} currentValue={object[key]} bind:closeModal={closeModal}/>
-                        {/if}
+                    <a href="#" on:click={()=>{changeValue=`${origin}.${key}`;closeModal=false}}><strong>{object[key]}</strong> </a>
+                    {#if changeValue === `${origin}.${key}` && !closeModal}
+                        <ChangeValue {student} path={`${origin}.${key}`} currentValue={object[key]} bind:closeModal={closeModal}/>
                     {/if}
                 {/if}
               

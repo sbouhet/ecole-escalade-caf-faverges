@@ -46,7 +46,7 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 10px;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         margin-left: 0;
         max-width: 170px;
     }

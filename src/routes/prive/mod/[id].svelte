@@ -12,6 +12,7 @@
     import { deleteStudent } from '$firestore/deleteStudent'
     import DisplayObject from '$components/htmlElements/DisplayObject.svelte'
     import ChangeStatus from '$components/modals/ChangeStatus.svelte'
+import { capitalize } from '$utils/capitalize';
 
     let student, showModifyDatabase, showChangeStatus
 
@@ -35,8 +36,16 @@
         <h1>{printName(student.public)}</h1>
         <h5>{student.id}</h5>
     </hgroup>
+    <div on:click={()=>showChangeStatus=true} style='cursor:pointer'>
+        {#each ['payment', 'medicalCertificate', 'licence'] as field}
+             {capitalize(translate(field))} : <Boolean value={student.public.seasons[$currentSeason.name][field]} big={true}/>
+             <br>
+        {/each}
+    </div>
+    <br>
     <a href={`/prive/mod/sendEmail?id=${student.id}`} role="button">Envoyer un email</a>
-    <a href="#" role="button" on:click={()=>showChangeStatus=!showChangeStatus}>Changer le status</a>
+    <a href={`/prive/mod/checkMedicalCertificate?season=${$currentSeason.name}&id=${student.id}`} role="button">Certificat médical</a>
+    <a href="#" role="button" on:click={()=>showChangeStatus=true}>Changer les status</a>
     <br>
     {#if $admin}
         <a href="#" role="button" class="danger" on:click={()=>deleteStudent(student.id)}>Supprimer</a>
@@ -44,7 +53,7 @@
         <a href="#" role="button" class="danger" disabled>Supprimer</a>
     {/if}
     <a href="#" role="button" class={showModifyDatabase?'secondary':'secondary outline'} on:click={()=>showModifyDatabase=!showModifyDatabase}>
-        Modifier la base de donnée
+        Base de donnée
     </a>
     <br><br>
 
@@ -54,7 +63,7 @@
     {/if}
 
     {#if showModifyDatabase}
-        <h3>Modifier la base de données</h3>
+        <h3>Base de données</h3>
         <DisplayObject object={student} origin='student' {student}/>
     {/if}
 {/if}

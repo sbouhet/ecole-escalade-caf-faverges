@@ -19,7 +19,7 @@
 
     const handleClick = async (status)=>{
         loading = true
-        console.log("CHanging state")
+        console.log("Changing state")
         try {
             await changeState(studentId, "medicalCertificate", status, seasonName)
             await refreshStudent()
@@ -37,7 +37,11 @@
 {:else } 
     <h1>{printName(student.public)}</h1>
     <h4>{seasonName}</h4>
-    <div><a href={student.private.medicalCertificateLink} target="_new">Cliquez ici pour voir le certificat médical</a></div>
+    {#if student.private.medicalCertificateLink}
+        <div><a href={student.private.medicalCertificateLink} target="_new">Cliquez ici pour voir le certificat médical</a></div>
+    {:else}
+        <div style="color:red; font-weight:bold">Aucun certificat trouvé !</div>
+    {/if}
     <br>
     {#if student.public.seasons[seasonName]}
         <div>Status actuel :
