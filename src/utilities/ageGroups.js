@@ -21,8 +21,9 @@ export const getAge = (dateOfBirth, keepThreeDecimal = true, date) => {
       date = dayjs()
     }
     const age = date.diff(birthday, "year", true)
-    if (!keepThreeDecimal) return Math.floor(age)
     //keep one decimal
+    if (!keepThreeDecimal) return Math.floor(age * 10) / 10
+    //keep three decimals
     const roundedAge = Math.floor(age * 1000) / 1000
     return roundedAge
   } catch (error) {

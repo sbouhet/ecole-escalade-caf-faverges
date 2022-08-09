@@ -12,7 +12,8 @@
     import { deleteStudent } from '$firestore/deleteStudent'
     import DisplayObject from '$components/htmlElements/DisplayObject.svelte'
     import ChangeStatus from '$components/modals/ChangeStatus.svelte'
-import { capitalize } from '$utils/capitalize';
+    import { capitalize } from '$utils/capitalize'
+    import Contact from '$components/htmlElements/Contact.svelte'
 
     let student, showModifyDatabase, showChangeStatus
 
@@ -26,10 +27,7 @@ import { capitalize } from '$utils/capitalize';
         student = await getStudent($params.id)
         
     })
-
 </script>
-
-
 
 {#if student && student.public && student.private}
     <hgroup>
@@ -44,9 +42,11 @@ import { capitalize } from '$utils/capitalize';
     </div>
     <br>
     <a href={`/prive/mod/sendEmail?id=${student.id}`} role="button">Envoyer un email</a>
-    <a href={`/prive/mod/checkMedicalCertificate?season=${$currentSeason.name}&id=${student.id}`} role="button">Certificat médical</a>
     <a href="#" role="button" on:click={()=>showChangeStatus=true}>Changer les status</a>
-    <br>
+    <a href={`/prive/mon-compte/${student.id}`} target='_new' role="button">Aide à l'inscription</a>
+    <br><br>
+    <Contact {student}/>
+    <br><br>
     {#if $admin}
         <a href="#" role="button" class="danger" on:click={()=>deleteStudent(student.id)}>Supprimer</a>
     {:else}

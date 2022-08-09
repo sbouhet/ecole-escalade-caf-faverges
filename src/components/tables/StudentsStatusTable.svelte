@@ -80,7 +80,7 @@
                         <tr on:click={()=>handleClick(student)} class={studentOfCurrentUser(student) && !$mod?'':'noPointer'}>
 
                             <!-- timestamp -->
-                            {#if timestamp && $admin}
+                            {#if timestamp && $mod}
                                 <td>
                                     <small style="opacity:0">{student.data().seasons[$currentSeason.name].timestamp}</small>
                                     <br>
@@ -92,23 +92,16 @@
                             <!-- mod  -->
                             {#if $mod}
                                 <td>
-                                    <a href={`/prive/mod/${student.id}`}>⚙</a>
-                                    <a href={`/prive/mod/sendEmail?id=${student.id}`}>✉</a>
+                                    <a href={`/prive/mod/${student.id}`}><span style="font-size: x-large">⚙</span></a>
+                                    <a href={`/prive/mod/sendEmail?id=${student.id}`}><span style="font-size: x-large">✉</span></a>
                                 </td>
                             {/if}
 
-                            <!-- admin contrls -->
-                           <!--  {#if $mod && showAdminControls}
-                                {#if $admin}
-                                    <td class="del" on:click={()=>deleteStudent(student.id)}>🗑</td>
-                                {/if}
-                                <td><a href={`/prive/mod/modifyStudent?id=${student.id}`}>⚙</a></td>
-                                <td><a href={`/prive/mod/${student.id}`}>Info</a></td>
-                            {/if} -->
-
                             <!-- name -->
-                            {#if $mod || studentOfCurrentUser(student)}
+                            {#if studentOfCurrentUser(student)}
                                 <td><a href={`/prive/mon-compte/${student.id}`} role="button" class="outline">{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</a></td>
+                            {:else if $mod}
+                                <td><a href={`/prive/mon-compte/${student.id}`}>{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</a></td>
                             {:else}
                                 <td>{capitalize(student.data().firstName)} {student.data().lastName.toUpperCase()}</td>
                             {/if}

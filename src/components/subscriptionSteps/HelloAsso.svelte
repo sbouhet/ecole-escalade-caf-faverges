@@ -97,8 +97,12 @@
                     <a href=""  on:click={()=>openOtherPaymentModal=true}>Je ne souhaite pas payer par carte bleue</a>
                 </small>
             {/if}
-        {:else if status === "waiting" && paymentType}
-            Vous avez choisi de régler par {translate(paymentType)}.<br>
+        {:else if status === "waiting"}
+            {#if paymentType}
+                Vous avez choisi de régler par {translate(paymentType)}.<br>
+            {:else}
+                <strong style="color:red">Pas de type de paiement trouvé</strong>
+            {/if}
             <br>
             Nous attendons votre reglement de <b>{price} €</b> avant le <b>{dayjs($currentSeason.deadline).format("dddd D MMMM à HH:mm")}</b>.<br>
             <span style="color:red">Après cette date, votre place sera proposée aux personnes inscrites sur la liste d'attente.</span>
