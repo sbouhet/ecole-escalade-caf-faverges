@@ -117,17 +117,17 @@
                             {/if}
                             
                             <!-- account -->
-                            <td><Boolean value=yes/></td>
+                            <td><Boolean value=yes big={true}/></td>
 
                             
                             <!-- payment -->
-                            <td><Boolean value={student.data().seasons[$currentSeason.name].payment}/></td>
+                            <td><Boolean value={student.data().seasons[$currentSeason.name].payment} big={true}/></td>
                             
                             <!-- certificate -->
-                            <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate}/></td>
+                            <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate} big={true}/></td>
 
                             <!-- licence -->
-                            <td><Boolean value={student.data().seasons[$currentSeason.name].licence}/></td>
+                            <td><Boolean value={student.data().seasons[$currentSeason.name].licence} big={true}/></td>
                         </tr>
                     {/if}
                 {/each}
