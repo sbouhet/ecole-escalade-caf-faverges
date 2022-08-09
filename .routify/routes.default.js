@@ -359,6 +359,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_searchStudent_svelte",
+              "name": "searchStudent",
+              "module": () => import('../src/routes/prive/mod/searchStudent.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/searchStudent.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "searchStudent.svelte",
+                "ext": ".svelte",
+                "name": "searchStudent"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_sendEmail_svelte",
               "name": "sendEmail",
               "module": () => import('../src/routes/prive/mod/sendEmail.svelte'),

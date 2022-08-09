@@ -4,6 +4,7 @@
 
 <ul>
     <li><a href="/prive/mod/allStudents">Tous les élèves</a></li>
+    <li><a href="/prive/mod/searchStudent">Chercher un élève</a></li>
     <li><a href="/prive/mod/helloAssoAPI">Paiements</a></li>
     <li><a href="/prive/mod/logs">Logs</a></li>
     <li><a href="/prive/mod/createSeason">Créer une nouvelle saison</a></li>

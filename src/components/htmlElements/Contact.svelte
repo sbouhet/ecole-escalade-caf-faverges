@@ -1,4 +1,7 @@
 <script>
+import { printName } from "$utils/printName";
+
+
     import { getAge } from "$utils/ageGroups"
     import {translate} from '$utils/TRANSLATE'
     export let student
@@ -39,6 +42,8 @@
         {#if parent.role}
             <br>
             <strong>{translate(parent.role)}</strong><br>
+            {printName(parent)}<br>
+            
             <!-- Email -->
             {#if parent.email}
                 Email : 
@@ -59,7 +64,11 @@
 <!-- Certif -->
 Certificat médical :
 {#if student.private.medicalCertificateLink}
-    <a href={student.private.medicalCertificateLink} target="_new">Cliquez ici pour voir le certificat</a>
+    <a href={student.private.medicalCertificateLink} target="_new">Cliquez ici pour voir le certificat</a><br>
+    {#if student.private.medicalCertificateTimestamp}
+        <small>Transféré le {student.private.medicalCertificateTimestamp}</small>
+    {/if}
+
 {:else}
     <span style="color:red">Pas de cetificat</span>
 {/if}

@@ -32,11 +32,24 @@
 {#if student && student.public && student.private}
     <hgroup>
         <h1>{printName(student.public)}</h1>
-        <h5>{student.id}</h5>
+        <h5>
+            {student.id}
+            {#if student.public.seasons[$currentSeason.name].licenceNb}
+                <br>{student.public.seasons[$currentSeason.name].licenceNb}
+            {/if}
+        </h5>
     </hgroup>
+    {$currentSeason.name} : <strong>{student.public.seasons[$currentSeason.name].day}</strong>
+    {#if student.public.seasons[$currentSeason.name].timestamp}
+        <small>(inscrit·e le {dayjs.unix(student.public.seasons[$currentSeason.name].timestamp).format('DD MMMM à HH:mm')})</small>
+    {/if}
+    <br><br>
     <div on:click={()=>showChangeStatus=true} style='cursor:pointer'>
         {#each ['payment', 'medicalCertificate', 'licence'] as field}
              {capitalize(translate(field))} : <Boolean value={student.public.seasons[$currentSeason.name][field]} big={true}/>
+             {#if field==='payment' && student.public.seasons[$currentSeason.name].paymentType}
+                <small>({translate(student.public.seasons[$currentSeason.name].paymentType)})</small>
+             {/if}
              <br>
         {/each}
     </div>
