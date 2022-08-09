@@ -13,10 +13,10 @@ import { printName } from "$utils/printName";
     <small>né(e) le {dayjs(student.private.dateOfBirth).format('DD/MM/YY')}</small> 
     <br>
 {/if}
-<br>
 
 <!-- Email -->
 {#if student.private.email}
+    <br>
     Email perso : 
     <a href="mailto:{student.private.email}" target="_new"><strong>{student.private.email}</strong></a>
     <br>
@@ -43,7 +43,7 @@ import { printName } from "$utils/printName";
             <br>
             <strong>{translate(parent.role)}</strong><br>
             {printName(parent)}<br>
-            
+
             <!-- Email -->
             {#if parent.email}
                 Email : 

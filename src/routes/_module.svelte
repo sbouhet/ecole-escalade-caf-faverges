@@ -83,15 +83,38 @@
         $error = e
         $fatal = true
     })
-  
-   
-
-  
 </script>
 
 <body>
     
     {#if !$error}
+    <div class=wrapper>
+        <div class="login">
+            <small>
+                {#if $loggedin && getAuth().currentUser}
+                    <div>
+                        <span>👤 </span>
+                        {getAuth().currentUser.email}
+                        {#if $admin}
+                            (admin)
+                        {/if}
+                        {#if $mod}
+                            (mod)
+                        {/if}
+                    </div>
+                    <Logout tiny={true} />
+                {:else}
+                    <a href="/prive/mon-compte">Se connecter</a>
+                {/if}
+            </small>
+        </div>
+
+        <div class='logo'>
+            <a href="https://caf-faverges.ffcam.fr/index.php?alias=ecole-d-escalade&_lang=FR" target="_new">
+                <img src="https://www.ffcam.fr/csx/scripts/resizer.php?filename=STADATA_FFCAM%2Fimg1%2F22%2F55%2F52qnarty0o5p&mime=image%252Fpng&originalname=Logo+FFCAM_couleur-.png&geometry=1024x%3E&t=.jpg" alt="FFCAM">
+            </a>
+        </div>
+       
         <div class="season">
             <small>
                 {#if $admin}
@@ -105,24 +128,7 @@
                 {/if}
             </small>
         </div>
-        <small>
-            {#if $loggedin && getAuth().currentUser}
-                <div>
-                    <span>👤 </span>
-                    {getAuth().currentUser.email}
-                    {#if $admin}
-                        (admin)
-                    {/if}
-                    {#if $mod}
-                        (mod)
-                    {/if}
-                </div>
-                <Logout tiny={true} />
-            {:else}
-                <a href="/prive/mon-compte">Se connecter</a>
-            {/if}
-        </small>
-
+    </div>
         <main class='container'>
             {#await promise}
                 <p aria-busy="true">
@@ -152,33 +158,18 @@
 </body>
 
 <style>
-    @keyframes example {
-        0% {
-            right:-300px;
-        }
-        100%{
-            right:0px;
-        }
+    .wrapper{
+        top:0;
+        display: flex;
+        justify-content: space-between;
     }
-    @keyframes test {
-        0% {
-            background-position: 0% 50%;
-            border-radius: 30px;
-        }
-        50%{
-            background-position: 100% 50%;
-            border-radius: 0px;
-        }
-        100%{
-            background-position: 0% 50%;
-            border-radius: 30px;
-        }
+    select{
+        margin: 0;
+        
     }
-
-   
-    .season{
-        position:absolute;
-        right: 0;
+    .logo img{
+        max-height: 50px;
+        margin-top: 5px;
     }
     footer{
         display:flex;
