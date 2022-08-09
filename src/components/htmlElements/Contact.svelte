@@ -9,7 +9,7 @@ import { printName } from "$utils/printName";
 
 <!-- Age -->
 {#if student.private.dateOfBirth}
-    Age : <strong>{getAge(student.private.dateOfBirth, false)} ans</strong>
+    Âge : <strong>{getAge(student.private.dateOfBirth, false)} ans</strong>
     <small>né(e) le {dayjs(student.private.dateOfBirth).format('DD/MM/YY')}</small> 
     <br>
 {/if}

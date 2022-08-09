@@ -155,6 +155,11 @@
         <ErrorModal />
        <ErrorMessage error={$error}/>
     {/if}
+    <div class='help'>
+        <small style="color:grey"> Besoin d'aide ?
+            <a href="mailto:julesmarchand74@gmail.com" target="_new"> Cliquez ici pour contacter Jules</a>
+        </small>
+    </div>
 </body>
 
 <style>
@@ -185,6 +190,12 @@
 
     span{
         margin: 5px;
+    }
+
+    .help{
+        width:100%;
+        display: flex;
+        justify-content: center;
     }
 
 </style>
