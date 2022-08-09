@@ -7,13 +7,14 @@
     import { currentSeason, admin } from '$utils/stores'
     import { translate } from '$utils/TRANSLATE'
     import Boolean from '$components/htmlElements/Boolean.svelte'
-    import { doc, onSnapshot } from "firebase/firestore";
+    import { doc, onSnapshot, arrayUnion } from "firebase/firestore";
     import { db } from "$utils/firebase/firebase"
     import { deleteStudent } from '$firestore/deleteStudent'
     import DisplayObject from '$components/htmlElements/DisplayObject.svelte'
     import ChangeStatus from '$components/modals/ChangeStatus.svelte'
     import { capitalize } from '$utils/capitalize'
     import Contact from '$components/htmlElements/Contact.svelte'
+    import { _query, _updateDoc } from '$utils/firebase/firestore/basics'
 
     let student, showModifyDatabase, showChangeStatus
 
@@ -27,6 +28,24 @@
         student = await getStudent($params.id)
         
     })
+
+    const addParent =  async ()=>{
+        let secondEmail
+        if(student.private.parents[1] && student.private.parents[1].email) secondEmail = student.private.parents[1].email
+        const email = prompt("Renseignez l'email du parent à ajouter", secondEmail)
+        if(!email) return
+        const users = await _query('users', 'email', '==', email)
+        if (users.length<=0) {
+            alert('Aucun utilisateur trouvé pour cette adresse email')
+            return
+        }else if(users.length>1){
+            alert('Plusieurs utilisateurs trouvé aec cette adresse email')
+            return
+        }else if(users.length===1){
+            const user = users[0]
+            _updateDoc({parents:arrayUnion(user.id)}, 'students', student.id)
+        }
+    }
 </script>
 
 {#if student && student.public && student.private}
@@ -68,6 +87,7 @@
     <a href="#" role="button" class={showModifyDatabase?'secondary':'secondary outline'} on:click={()=>showModifyDatabase=!showModifyDatabase}>
         Base de donnée
     </a>
+    <a href="#" role="button" class="secondary" on:click={addParent}>Ajouter un parent</a>
     <br><br>
 
     {#if showChangeStatus}

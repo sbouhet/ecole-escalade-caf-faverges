@@ -2,6 +2,8 @@
     import DisplayArray from '$components/htmlElements/DisplayArray.svelte'
     import DisplayObject from '$components/htmlElements/DisplayObject.svelte'
     import ChangeValue from '$components/modals/ChangeValue.svelte'
+    import { _updateDoc } from '$utils/firebase/firestore/basics'
+    import { arrayUnion } from "firebase/firestore"
     export let array = []
     export let origin, student
     let changeValue
