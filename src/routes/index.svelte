@@ -13,7 +13,8 @@
     <a href="/prive/admin" role="button"  class="admin">Admin</a>
 {/if}
 {#if $mod}
-    <a href="/prive/mod" role="button"  class="mod">Moderateur</a>
+    <a href="/prive/mod/accident" role="button"  class="admin">Accident</a>
+    <a href="/prive/mod" role="button"  class="mod">Modérateur</a>
 {/if}
 
 {#if $loggedin}

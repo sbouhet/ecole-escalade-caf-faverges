@@ -233,6 +233,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_accident_svelte",
+              "name": "accident",
+              "module": () => import('../src/routes/prive/mod/accident.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/accident.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "accident.svelte",
+                "ext": ".svelte",
+                "name": "accident"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_allStudents_svelte",
               "name": "allStudents",
               "module": () => import('../src/routes/prive/mod/allStudents.svelte'),

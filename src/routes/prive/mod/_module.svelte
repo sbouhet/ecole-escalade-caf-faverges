@@ -6,7 +6,7 @@
 
 {#if $mod}
     <slot></slot>
-    <Back />
+  <!--   <Back /> -->
 {:else}
     <p style="color:red">Vous devez être moderateur pour accéder à cette page</p>
 {/if}
