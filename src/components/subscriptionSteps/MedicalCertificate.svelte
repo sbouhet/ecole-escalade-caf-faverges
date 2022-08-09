@@ -30,7 +30,9 @@
         try {
             if(!file) return
             uploading = true
-            const link = await uploadMedicalCertificate(file, $currentSeason.name, id, getAuth().currentUser.uid)
+            const stringArray = file.name.split('.')
+            const extension = stringArray[stringArray.length-1]
+            const link = await uploadMedicalCertificate(file, $currentSeason.name, id, getAuth().currentUser.uid, `${student.public.lastName.toUpperCase()}_${student.public.firstName}.${extension}`)
             console.log(link)
             const response = await sendEmailAndChangeStatus({seasonName:$currentSeason.name, id, name:printName(student.public)})
             console.log(response)

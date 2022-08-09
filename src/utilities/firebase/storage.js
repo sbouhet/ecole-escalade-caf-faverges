@@ -12,16 +12,19 @@ import { BError } from "berror"
 export const uploadMedicalCertificate = async (
   file,
   seasonName,
-  studentId,
-  userId
+  id,
+  userId,
+  fileName
 ) => {
   try {
     if (!file) throw "No file"
     if (!seasonName) throw "No seasonName"
-    if (!studentId) throw "No studentId"
+    if (!id) throw "No id"
     if (!userId) throw "No userId"
+    if (!fileName) throw "No fileName"
+
     const storage = getStorage()
-    const path = `medicalCertificates/${seasonName}/${studentId}`
+    const path = `medicalCertificates/${seasonName}/${fileName}`
     const storageRef = ref(storage, path)
 
     //Upload certificate
@@ -41,7 +44,7 @@ export const uploadMedicalCertificate = async (
     await _updateDoc(
       { medicalCertificateLink: link, medicalCertificateTimestamp: timestamp },
       "students",
-      studentId,
+      id,
       "privateCol",
       "privateDoc"
     )

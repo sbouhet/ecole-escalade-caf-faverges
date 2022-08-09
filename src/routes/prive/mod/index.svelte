@@ -12,6 +12,7 @@
     <li><a href="/prive/mod/waitlist">Listes d'attente</a></li>
     <li><a href="/prive/mod/sendEmail">Envoyer un email</a></li>
     <li><a href="/prive/mod/emailHistory">Historique des emails envoyés</a></li>
+    <li><a href="/prive/mod/downloadMedicalCertificates">Télécharger les certificats médicaux</a></li>
 </ul>
 
 

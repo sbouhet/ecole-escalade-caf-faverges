@@ -14,36 +14,38 @@
   import { _addDoc, _setDoc } from "$firestore/basics"
   import {_query}from '$firestore/basics'
 
-    const functions = getFunctions(getApp())
-    //const deleteClaims = httpsCallable(functions, 'deleteClaims')
+  import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import {
+  getStorage,
+  listAll,
+  ref,
+  getDownloadURL,
+  getMetadata,
+} from 'firebase/storage';
 
-    let firstName, lastName
+
+
 
       const run = async()=>{
-
-        const priorityStudents = await _query("tmp", "firstName", ">", '')
-        const data = priorityStudents.map(x=>x.data())
-        console.log(data)
-        return {priorityStudents:data}
+        
+      
+       console.log("lol");
       
     }
-    run()
+    
 
   const handleClick = async () => {
       console.log("clicked")
-      const obj = await run()
-      await _setDoc(obj, "tmp", "all")  
-      firstName = ''
-      lastName = ''
-      console.log('done')
+      run()
+    
   }
 </script>
 
 <form on:submit|preventDefault={handleClick}>
-  <input type="text" bind:value={firstName} required>
-  <input type="text" bind:value={lastName} required>
-  <!-- <button on:click|preventDefault={handleClick}>test</button> -->
-  <button>OK</button>
+ 
+ <button on:click|preventDefault={handleClick}>test</button> 
+  
 </form>
 
 

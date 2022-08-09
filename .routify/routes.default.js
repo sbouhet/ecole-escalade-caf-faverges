@@ -289,6 +289,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_downloadMedicalCertificates_svelte",
+              "name": "downloadMedicalCertificates",
+              "module": () => import('../src/routes/prive/mod/downloadMedicalCertificates.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/downloadMedicalCertificates.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "downloadMedicalCertificates.svelte",
+                "ext": ".svelte",
+                "name": "downloadMedicalCertificates"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_emailHistory_svelte",
               "name": "emailHistory",
               "module": () => import('../src/routes/prive/mod/emailHistory.svelte'),
