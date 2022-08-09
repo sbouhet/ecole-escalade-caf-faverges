@@ -6,7 +6,7 @@
     export let closeModal = false
     let input, inputForm
     onMount(() => inputForm.focus())
-    $:if(input==='') input = null
+    $:if(!input) input = null
 
     const changePrivateValue = async (key, value="null")=>{
         await _updateDoc({[key]:value}, "students", student.id, "privateCol", "privateDoc")
@@ -16,6 +16,8 @@
     }
 
     const updateValue = async()=>{
+        let answer = confirm('Êtes vous sûr de vouloir modifier la base de données ? Cette action est irreversible !')
+        if(!answer) return
         const array = path.split('[')
 
         //if no array in key string
@@ -24,7 +26,6 @@
             //Private
            if (array[0].includes("private")){
                 const string = array[0].split('private.')[1]
-                console.log(string);
                 changePrivateValue(string, input)
 
             //Public
@@ -32,6 +33,8 @@
                 const string = array[0].split('public.')[1]
                 console.log(string);
                changePublicValue(string, input)
+           }else{
+            alert('Erreur: impossible de modifier cette valeur')
            }
         //if array in key string
         } else {
@@ -66,6 +69,8 @@
                     publicArray[index] = input
                 }
                 changePublicValue(string, publicArray)
+           }else{
+            alert('Erreur: impossible de modifier cette valeur')
            }
         }
         closeModal = true
@@ -81,9 +86,16 @@
         </hgroup>
         {path} :
         <strong>{currentValue}</strong>
+        <br><br>
         <form on:submit|preventDefault={updateValue}>
             <input type="text" bind:value={input} bind:this={inputForm}>
         </form>
+        <strong style="color:red">
+            Vous allez changer cette valeur dans la base de données, cette action est irreversible !
+        </strong><br><br>
+        {#if typeof currentValue !== 'string'}
+            Attention vous allez passer la valeur du type {typeof currentValue} au type 'string'
+        {/if}
         
         <footer>
             <a href="#" on:click={updateValue} role="button">Mettre à jour</a>

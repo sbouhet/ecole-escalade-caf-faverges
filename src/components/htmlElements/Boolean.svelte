@@ -1,9 +1,10 @@
 <script>
     export let value
     export let big=false
+    export let noTooltip = false
     import {STATES, ICONS_BIG, ICONS_SMALL, COLORS} from '$utils/STEPS'
     let tooltip
-    if(value==="waiting") tooltip = "En cours de validation"
+    if(value==="waiting" && !noTooltip) tooltip = "En cours de validation"
 </script>
 
 {#each STATES as state, index}
@@ -23,7 +24,7 @@
         font-size:x-large;
     }
     .big{
-        margin-right: 20px;
+        /* margin-right: 20px; */
         font-size:large;
         color:white;
     }
