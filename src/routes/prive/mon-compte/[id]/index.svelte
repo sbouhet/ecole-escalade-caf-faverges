@@ -46,10 +46,7 @@
 {#if student && !fetching}
     {#if student.public.seasons[$currentSeason.name]}
         <article>
-            <hgroup>
                 <h1>{printName(student.public)}</h1>
-                <h4>{translate(student.public.seasons[$currentSeason.name].status)}</h4>
-            </hgroup>
             {#if student.public.seasons[$currentSeason.name].payment==="yes" && student.public.seasons[$currentSeason.name].licence==="yes" && student.public.seasons[$currentSeason.name].medicalCertificate==="yes"}
                 <strong style="color:green">L'inscription est terminée !</strong><br>
                 <div style="color:green">{capitalize(student.public.firstName)} est bien inscrit·e aux cours d'escalade du CAF de Faverges pour la saison {$currentSeason.name}</div>
