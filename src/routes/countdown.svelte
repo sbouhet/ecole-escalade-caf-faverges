@@ -71,7 +71,7 @@
     </div>
     {#if !getAuth().currentUser}
       Pour gagner du temps lors de votre inscription, vous pouvez déjà créer un compte en cliquant sur le lien suivant :
-      <a href="/prive/mon-compte?showCreateAccount=true">Créer un compte</a>
+      <a href="/prive?showCreateAccount=true">Créer un compte</a>
     {/if}
   {:else}
     {#if resubscription}

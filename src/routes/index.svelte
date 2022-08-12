@@ -20,8 +20,8 @@
 {#if $loggedin}
     <a href="/prive/mon-compte" role="button" class="outline">Mes inscriptions</a>
 {:else}
-    <a href="/prive/mon-compte" role="button" class="outline">Se connecter</a>
-    <a href="/prive/mon-compte?showCreateAccount=true" role="button" class="outline">Créer un compte</a>
+    <a href="/prive" role="button" class="outline">Se connecter</a>
+    <a href="/prive?showCreateAccount=true" role="button" class="outline">Créer un compte</a>
 {/if}
 <br><br>
 

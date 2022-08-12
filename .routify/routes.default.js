@@ -173,6 +173,20 @@ export default {
         },
         {
           "meta": {},
+          "id": "_default_prive_index_svelte",
+          "name": "index",
+          "module": () => import('../src/routes/prive/index.svelte'),
+          "file": {
+            "path": "src/routes/prive/index.svelte",
+            "dir": "src/routes/prive",
+            "base": "index.svelte",
+            "ext": ".svelte",
+            "name": "index"
+          },
+          "children": []
+        },
+        {
+          "meta": {},
           "id": "_default_prive_inscription",
           "name": "inscription",
           "module": false,
