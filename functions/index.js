@@ -411,6 +411,7 @@ exports.onDeleteStudentFromFirestore = functions.firestore
   .document("students/{studentId}")
   .onDelete(async (snap, context) => {
     const studentId = snap.id
+    //TODO
     try {
       const bucket = admin.storage().bucket()
       const path = `medicalCertificates/${season().current}/${studentId}`

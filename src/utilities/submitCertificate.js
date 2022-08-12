@@ -17,7 +17,8 @@ export const submitCertificate = async(file, seasonName, student, userId) => {
         } else {
             extension = 'jpg'
         }
-        const link = await uploadMedicalCertificate(file, seasonName, student.id, userId, `${student.public.lastName.toUpperCase()}_${student.public.firstName}.${extension}`)
+        const name = `${student.public.lastName.toUpperCase()}_${student.public.firstName}.${extension}`
+        const link = await uploadMedicalCertificate(file, seasonName, student.id, userId, name)
         console.log(link)
         const response = await sendEmailAndChangeStatus({seasonName:seasonName, id:student.id, name:printName(student.public)})
         console.log(response)

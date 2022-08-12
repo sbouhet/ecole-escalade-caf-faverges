@@ -50,7 +50,7 @@ export const uploadMedicalCertificate = async (
 
     //Update student private doc with link and timestamp
     await _updateDoc(
-      { medicalCertificateLink: link, medicalCertificateTimestamp: timestamp },
+      { medicalCertificateLink: link, medicalCertificateTimestamp: timestamp, medicalCertificateName: fileName },
       "students",
       id,
       "privateCol",
