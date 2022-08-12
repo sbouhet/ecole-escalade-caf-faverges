@@ -33,24 +33,36 @@
 </script>
 
 <WhyCreateAccount bind:open={openModal}/>
+<div>
+    <form>
+        <h1>Créer un compte</h1>
+        
+        ℹ<a href="" on:click={()=>openModal=true}>À quoi ca sert ?</a>
+        <br><br>
+        <label for="email">Adresse email</label>
+        <input type="email" id="email" name="email" placeholder="Adresse email" bind:value={email} required>
+        
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" bind:value={password} required/>
+    
+       
+        <br>
+        <button on:click|preventDefault={handleClick}>Créer un compte</button>
+        
+        {#if error}
+            <ErrorMessage error={error}/>
+        {/if}
+        <small>Vous avez déjà un compte ? <a href="#" on:click={handelSwitch}>Connectez-vous</a></small>
+    </form>
+</div>
 
-<form>
-    <h1>Créer un compte</h1>
-    
-    ℹ<a href="" on:click={()=>openModal=true}>À quoi ca sert ?</a>
-    <br><br>
-    <label for="email">Adresse email</label>
-    <input type="email" id="email" name="email" placeholder="Adresse email" bind:value={email} required>
-    
-    <label for="password">Mot de passe</label>
-    <input type="password" id="password" bind:value={password} required/>
-
-   
-    <br>
-    <button on:click|preventDefault={handleClick}>Créer un compte</button>
-    
-    {#if error}
-        <ErrorMessage error={error}/>
-    {/if}
-    <small>Vous avez déjà un compte ? <a href="#" on:click={handelSwitch}>Connectez-vous</a></small>
-</form>
+<style>
+    form{
+        width:80%;
+        max-width: 500px;
+    }
+    div{
+        display: flex;
+        justify-content: center;
+    }
+</style>
