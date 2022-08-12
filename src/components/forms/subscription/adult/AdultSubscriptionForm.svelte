@@ -9,6 +9,7 @@
     export let pastStudentsOnly = false
 
     $:email = getAuth().currentUser.email
+    $subscription.privateInfo.parents = []
     
     // Persistent data, in case user leaves the page and comes back
     // If the forms are empty, fill inputs with $subscription data
