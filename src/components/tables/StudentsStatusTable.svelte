@@ -128,7 +128,15 @@ import Tooltip from "$components/htmlElements/Tooltip.svelte"
                                 <td><Boolean value={student.data().seasons[$currentSeason.name].payment} big={true}/></td>
                                 
                                 <!-- certificate -->
-                                <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate} big={true}/></td>
+                                <td>
+                                    {#if student.data().seasons[$currentSeason.name].medicalCertificate === 'waiting' && $mod}
+                                        <a href={`/prive/mod/checkMedicalCertificate?id=${student.id}&season=${$currentSeason.name}`} class='pointer'>
+                                            <Boolean value='waiting' big={true}/>
+                                        </a>
+                                    {:else}
+                                        <Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate} big={true}/>
+                                    {/if}
+                                </td>
 
                                 <!-- licence -->
                                 <td><Boolean value={student.data().seasons[$currentSeason.name].licence} big={true}/></td>
@@ -149,7 +157,7 @@ import Tooltip from "$components/htmlElements/Tooltip.svelte"
 {/if}
 
 <style>
-    .del{
+    .pointer{
         cursor: pointer;
     }
      th{
@@ -162,5 +170,9 @@ import Tooltip from "$components/htmlElements/Tooltip.svelte"
      }
      .noPointer:hover{
         cursor: default;
+     }
+
+     a:hover{
+        text-decoration: none;
      }
 </style>

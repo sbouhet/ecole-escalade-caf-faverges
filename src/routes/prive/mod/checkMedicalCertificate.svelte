@@ -48,15 +48,15 @@
             {#if loading}
                 <span aria-busy={loading}></span>
             {:else}
-                <Boolean value={student.public.seasons[seasonName].medicalCertificate} big=true/>
+                <Boolean value={student.public.seasons[seasonName].medicalCertificate} big={true}/>
             {/if}
         </div>
         <br>
-        <dir role="button" class="outline" on:click={()=>handleClick("yes")}>Valider <Boolean value="yes" big=true/></dir>
-        <dir role="button" class="outline" on:click={()=>handleClick("waiting")}>Mettre en attente <Boolean value="waiting" big=true/></dir>
-        <dir role="button" class="outline" on:click={()=>handleClick("no")}>Refuser <Boolean value="no" big=true/></dir>
+        <dir role="button" class="outline" on:click={()=>handleClick("yes")}>Valider <Boolean value="yes" big={true}/></dir>
+        <dir role="button" class="outline" on:click={()=>handleClick("waiting")}>Mettre en attente <Boolean value="waiting" big={true}/></dir>
+        <dir role="button" class="outline" on:click={()=>handleClick("no")}>Refuser <Boolean value="no" big={true}/></dir>
         {:else}
-        L'élève n'es pas inscrit sur cette saison
+            L'élève n'est pas inscrit sur cette saison
     {/if}
 {/if}
     <br><br><br><br><br>

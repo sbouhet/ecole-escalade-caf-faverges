@@ -3,8 +3,10 @@
     export let big=false
     export let noTooltip = false
     import {STATES, ICONS_BIG, ICONS_SMALL, COLORS} from '$utils/STEPS'
+    import {mod} from '$utils/stores'
+
     let tooltip
-    if(value==="waiting" && !noTooltip) tooltip = "En cours de validation"
+    if(value==="waiting" && !noTooltip && !$mod) tooltip = "En cours de validation"
 </script>
 
 {#each STATES as state, index}
