@@ -58,12 +58,11 @@
 <style>
     video, canvas{
         
+        width: 100%;
         max-width: 600px ;
         margin-bottom: 10px;
     }
-    dialog, article{
-        width: 100vw;
-    }
+    
 
     .hidden{
         display: none;
