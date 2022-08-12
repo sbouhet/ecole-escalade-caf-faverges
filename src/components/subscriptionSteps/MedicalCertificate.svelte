@@ -92,7 +92,7 @@ import MobilePicture from '$components/modals/MobilePicture.svelte';
         </a>
         <br><br>
         {#if takePicture}
-            <MobilePicture />
+            <MobilePicture bind:open={takePicture}/>
         {:else if takePicture === false}
             <form>
                 <label for="upload">Transférer votre certificat médical (ou attestation sur l'honneur) au format numérique :</label>
