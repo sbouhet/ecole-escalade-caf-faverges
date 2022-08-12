@@ -406,15 +406,16 @@ exports.delAuthUser = functions.auth.user().onDelete((user) => {
 //FIRESTORE TRIGGERS
 
 
-//When a student is deleted from Firestore,  delete medical certificate
+//When a student's private info is deleted from Firestore,  delete medical certificate
 exports.onDeleteStudentFromFirestore = functions.firestore
-  .document("students/{studentId}")
+  .document("students/{studentId}/privateCol/privateDoc")
   .onDelete(async (snap, context) => {
-    const studentId = snap.id
+    //const studentId = snap.id
+    const fileName = snap.data().medicalCertificateName
     //TODO
     try {
       const bucket = admin.storage().bucket()
-      const path = `medicalCertificates/${season().current}/${studentId}`
+      const path = `medicalCertificates/${season().current}/${fileName}`
       return bucket.file(path).delete()
     } catch (error) {
       console.log(error)
