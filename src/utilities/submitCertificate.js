@@ -13,7 +13,7 @@ export const submitCertificate = async(file, seasonName, student, userId) => {
         let extension
         if (file.type === 'doc') {
             const stringArray = file.doc.name.split('.')
-            extension = stringArray[stringArray.length-1]
+            extension = stringArray[stringArray.length-1].toLowerCase()
         } else {
             extension = 'jpg'
         }
