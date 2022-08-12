@@ -6,13 +6,17 @@
     import Boolean from '$components/htmlElements/Boolean.svelte'
     let seasonName = $params.season
     let studentId = $params.id
-    let student
+    let student, error
     let loading = false
 
     const refreshStudent = async ()=>{
             loading = true
-            student = await getStudent(studentId)
-            loading = false
+            try {
+                student = await getStudent(studentId)
+            } catch (e) {
+                error = e
+                loading = false
+            }
     }
 
     refreshStudent()
@@ -33,7 +37,14 @@
 </script>
 
 {#if !student}
-    <p aria-busy="true">Merci de patienter...</p>
+    {#if loading}
+        <p aria-busy="true">Merci de patienter...</p>
+    {:else if error}
+        <div style="color:red">
+            <strong>Utilisateur non trouvé</strong><br><br>
+            <small>{error}</small>
+        </div> 
+    {/if}
 {:else } 
     <h1>{printName(student.public)}</h1>
     <h4>{seasonName}</h4>
