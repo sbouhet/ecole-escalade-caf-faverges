@@ -63,6 +63,15 @@
                 <span>✕</span>
                 <small>{status.msg}</small><br>
             </div>
+        {/if}
+        {#if $allowWrongAge}
+            <br>
+            <small>Un moniteur (Jules ou Jelena) a donné son accord pour accepter cet élève même si son âge ne correspond pas au cours.</small>
+            <br><br>
+            <span><input type="checkbox" bind:checked={hideWarning}></span>
+            <small>J'ai vérifié la date de naissance et je veux continuer l'inscription.</small>
+        {:else}
+            <br>
             <small style="color:grey">
                 <i>
                 Si vous pensez que votre enfant peut participer à ce cours même si son âge ne correspond pas,
@@ -72,16 +81,11 @@
                 <br>
                 Pour faire une demande de dérogation, envoyez un mail à cette adresse : 
                 <a href="mailto:julesmarchand74@gmail.com?subject=[Ecolde d'escalade] Demande de dérogation {$currentDay.weekday} {$currentDay.startTime}" target="_new">julesmarchand74@gmail.com</a>
-                
                 </i>
             </small>
-        {/if}
-        {#if $allowWrongAge}
-            <small>Un moniteur (Jules ou Jelena) a donné son accord pour accepter cet élève même si son âge ne correspond pas au cours.</small>
             <br><br>
-            <span><input type="checkbox" bind:checked={hideWarning}></span>
-            <small>J'ai vérifié la date de naissance et je veux continuer l'inscription.</small>
         {/if}
+        
     {/if}
 {/if}
 <br>
