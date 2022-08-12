@@ -7,6 +7,7 @@
     import { getFunctions, httpsCallable } from "firebase/functions"
     import { getApp } from "firebase/app"
     import { BError } from "berror"
+import MobilePicture from '$components/modals/MobilePicture.svelte';
     const functions = getFunctions(getApp())
     const sendEmailAndChangeStatus = httpsCallable(functions, 'sendEmailAndChangeStatus')
     
@@ -15,7 +16,7 @@
     $:status = student.public.seasons[$currentSeason.name].medicalCertificate
     $:link = student.private.medicalCertificateLink
     $:timestamp = student.private.medicalCertificateTimestamp
-    let file
+    let file, openHelpModal, takePicture
     const thisYear = parseInt($currentSeason.name.split("-")[0])
     
     let uploading = false
@@ -83,17 +84,64 @@
             </div>
         </div>
         <br>
-        <form>
-            <label for="upload">Votre certificat médial (ou attestation sur l'honneur) :</label>
-            <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
-            <button disabled={!file} aria-busy={uploading} on:click|preventDefault={submit} >
-                {#if uploading}
-                    merci de patienter...
-                {:else}
-                    Envoyer le document
-                {/if}
-            </button>
-        </form>
+        <a href="#" role="button" on:click={()=>takePicture=false} class={takePicture===false?'outline selected':'outline faded'}>
+            Transférer votre document au format numérique
+        </a>
+        <a href="#" role="button" on:click={()=>takePicture=true} class={takePicture?'outline selected':'outline faded'}>
+            Prendre une photo avec votre téléphone portable
+        </a>
+        <br><br>
+        {#if takePicture}
+            <MobilePicture />
+        {:else if takePicture === false}
+            <form>
+                <label for="upload">Transférer votre certificat médical (ou attestation sur l'honneur) au format numérique :</label>
+                <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
+                <button disabled={!file} aria-busy={uploading} on:click|preventDefault={submit} >
+                    {#if uploading}
+                        merci de patienter...
+                    {:else}
+                        Envoyer le document
+                    {/if}
+                </button>
+            </form>
+            ℹ <a href="#" on:click={()=>openHelpModal=true}>J'ai un certificat papier comment faire pour le numériser ?</a>
+        {:else}
+        {/if}
+        {#if openHelpModal}
+            <dialog open>
+                <article>
+                    Il existe plusieurs options pour numériser votre document :
+                    <br><br>
+                    <ul>
+                        <li>Utiliser un scanner (la plupart des imprimantes ont un scanner intégré)</li>
+                        <br>
+                        <li>Utiliser votre téléphone 
+                            <ul>
+                                <li>Vous avez l'application Google Drive ?
+                                    <a target="_new" href="https://support.google.com/drive/answer/3145835?hl=fr&co=GENIE.Platform%3DAndroid&oco=0">
+                                        Cliquez ici
+                                    </a>
+                                </li>
+                                <li>Vous avez un Iphone ?
+                                    <a target="_new" href="https://support.apple.com/fr-ca/HT210336">
+                                    Cliquez ici
+                                    </a>
+                                </li>
+                                <li>Vous avez un téléphone Android ? (Samsung, Xiaomi, Honor, OnePlus, Oppo, Sony, etc.)
+                                    <a target="_new" href="https://play.google.com/store/apps/details?id=com.adobe.scan.android&referrer=utm_source%3DAdobe.com%2520DC&utm_medium=Web&utm_term=Scan&utm_content=Get%2520App&utm_campaign=FY18">
+                                        Cliquez ici
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <footer>
+                        <a href="#" role="button" on:click={()=>openHelpModal=false}>C'est compris !</a>
+                    </footer>
+                </article>
+            </dialog>
+        {/if}
     {/if}
 </details>
 
@@ -106,4 +154,17 @@
         border-left: 6px solid #1F95C1;
         padding: 20px;
     }
+
+    li li{
+        list-style:circle;
+    }
+
+    .faded{
+        opacity: 0.8;
+    }
+
+    .selected{
+        font-weight:600;
+    }
+
 </style>
