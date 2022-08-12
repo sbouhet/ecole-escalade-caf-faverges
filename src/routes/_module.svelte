@@ -104,7 +104,7 @@
                     </div>
                     <Logout tiny={true} />
                 {:else}
-                    <a href="/prive/mon-compte">Se connecter</a>
+                    <a href="/prive/mon-compte">&nbsp; Se connecter</a>
                 {/if}
             </small>
         </div>

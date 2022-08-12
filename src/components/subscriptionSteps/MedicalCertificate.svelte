@@ -76,7 +76,7 @@
                 <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
                 <button disabled={!doc || uploading} aria-busy={uploading} on:click|preventDefault={submit} >
                     {#if uploading}
-                        merci de patienter...
+                        Merci de patienter...
                     {:else}
                         Envoyer le document
                     {/if}

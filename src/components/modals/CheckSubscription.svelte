@@ -9,8 +9,6 @@
     import ErrorMessage from '$components/htmlElements/ErrorMessage.svelte'
     import { BError } from "berror"
     import { getAuth} from "firebase/auth"
-    import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-    import { db } from "$utils/firebase/firebase"
     export let adult
    
     let full = false
