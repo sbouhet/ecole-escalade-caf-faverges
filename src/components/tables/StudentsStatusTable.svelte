@@ -133,7 +133,7 @@ import Tooltip from "$components/htmlElements/Tooltip.svelte"
                                 <!-- licence -->
                                 <td><Boolean value={student.data().seasons[$currentSeason.name].licence} big={true}/></td>
                             {:else}
-                                <td><Boolean value=yes big={true}/></td>
+                                <td> <Tooltip msg='Vous devez être modérateur pour voir ca'>🔒</Tooltip></td>
                                 <td> <Tooltip msg='Vous devez être modérateur pour voir ca'>🔒</Tooltip></td>
                                 <td> <Tooltip msg='Vous devez être modérateur pour voir ca'>🔒</Tooltip></td>
                                 <td> <Tooltip msg='Vous devez être modérateur pour voir ca'>🔒</Tooltip></td>
