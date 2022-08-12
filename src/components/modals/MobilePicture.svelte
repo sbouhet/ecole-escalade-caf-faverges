@@ -13,9 +13,13 @@
 
     const takePicture = ()=>{
 
+        canvas.height= video.videoHeight
+        canvas.width= video.videoWidth
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         let image_data_url = canvas.toDataURL('image/jpeg');
-        console.log(image_data_url);
+        //console.log(image_data_url);
+        console.log(video.videoWidth, video.videoHeight);
+        
     }
 
 </script>
@@ -23,14 +27,16 @@
 <a href="#" role="button" on:click={startCamera}>Start Camera</a>
 <a href="#" role="button"  on:click={takePicture}>Click Photo</a>
 <br>
-<video  autoplay bind:this={video}></video>
+<video autoplay bind:this={video}>
+    <track default kind="captions" srclang="fr"/>
+    Désolé votre navigateur n'est pas compatible.
+</video>
 <canvas  bind:this={canvas}></canvas>
 
 <style>
-    video{
-        max-width: 400px;
+    video, canvas{
+        width: 50%;
+        max-width: 400px ;
     }
-    canvas{
-        max-width: 300px;
-    }
+    
 </style>
