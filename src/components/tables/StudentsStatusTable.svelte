@@ -8,6 +8,7 @@
     import { goto } from '@roxi/routify'
     import { getAuth } from "firebase/auth"
     import { printName } from "$utils/printName";
+import Tooltip from "$components/htmlElements/Tooltip.svelte"
     
     export let students = []
     export let showDay = true
@@ -64,10 +65,12 @@
                         <th scope="col">Créneau</th>
                     {/if}
 
+                
                     <th scope="col">Compte</th>
                     <th scope="col">Paiement</th>
                     <th scope="col">Certificat médical</th>
                     <th scope="col">Licence</th>
+                   
                 </tr>
             </thead>
 
@@ -116,18 +119,25 @@
                                 </td>
                             {/if}
                             
-                            <!-- account -->
-                            <td><Boolean value=yes big={true}/></td>
+                            {#if $mod || studentOfCurrentUser(student)}
+                                <!-- account -->
+                                <td><Boolean value=yes big={true}/></td>
 
-                            
-                            <!-- payment -->
-                            <td><Boolean value={student.data().seasons[$currentSeason.name].payment} big={true}/></td>
-                            
-                            <!-- certificate -->
-                            <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate} big={true}/></td>
+                                
+                                <!-- payment -->
+                                <td><Boolean value={student.data().seasons[$currentSeason.name].payment} big={true}/></td>
+                                
+                                <!-- certificate -->
+                                <td><Boolean value={student.data().seasons[$currentSeason.name].medicalCertificate} big={true}/></td>
 
-                            <!-- licence -->
-                            <td><Boolean value={student.data().seasons[$currentSeason.name].licence} big={true}/></td>
+                                <!-- licence -->
+                                <td><Boolean value={student.data().seasons[$currentSeason.name].licence} big={true}/></td>
+                            {:else}
+                                <td><Boolean value=yes big={true}/></td>
+                                <td> <Tooltip msg='Vous devez être modérateur pour voir ca'>🔒</Tooltip></td>
+                                <td> <Tooltip msg='Vous devez être modérateur pour voir ca'>🔒</Tooltip></td>
+                                <td> <Tooltip msg='Vous devez être modérateur pour voir ca'>🔒</Tooltip></td>
+                            {/if}
                         </tr>
                     {/if}
                 {/each}
