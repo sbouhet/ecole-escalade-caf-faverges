@@ -1,70 +1,46 @@
 <script>
     import Boolean from '$components/htmlElements/Boolean.svelte'
-    import {uploadMedicalCertificate} from '$utils/firebase/storage'
-    import {currentSeason, error, fatal} from '$utils/stores'
-    import {printName} from '$utils/printName'
+    import {currentSeason} from '$utils/stores'
+    import {submitCertificate} from '$utils/submitCertificate'
     import { getAuth } from "firebase/auth"
-    import { getFunctions, httpsCallable } from "firebase/functions"
-    import { getApp } from "firebase/app"
-    import { BError } from "berror"
-import MobilePicture from '$components/modals/MobilePicture.svelte';
-    const functions = getFunctions(getApp())
-    const sendEmailAndChangeStatus = httpsCallable(functions, 'sendEmailAndChangeStatus')
-    
-    export let student, open
-    $:id = student.id
+    import PaperCertificate from '$components/htmlElements/PaperCertificate.svelte';
+    export let student, open, error
+ 
     $:status = student.public.seasons[$currentSeason.name].medicalCertificate
     $:link = student.private.medicalCertificateLink
     $:timestamp = student.private.medicalCertificateTimestamp
-    let file, openHelpModal, takePicture
+    let doc, paper
     const thisYear = parseInt($currentSeason.name.split("-")[0])
     
     let uploading = false
 
     //When user choses a certificate, update file variable
     const handleChange = (e)=>{
-        file = e.target.files[0]
+        doc = e.target.files[0]
     }
 
-    //On submit, frontend function + backend functions
-    const submit = async() => {
+    const submit = async ()=>{
+        uploading = true
+        const file = {doc, type: 'doc'}
         try {
-            if(!file) return
-            uploading = true
-            const stringArray = file.name.split('.')
-            const extension = stringArray[stringArray.length-1]
-            const link = await uploadMedicalCertificate(file, $currentSeason.name, id, getAuth().currentUser.uid, `${student.public.lastName.toUpperCase()}_${student.public.firstName}.${extension}`)
-            console.log(link)
-            const response = await sendEmailAndChangeStatus({seasonName:$currentSeason.name, id, name:printName(student.public)})
-            console.log(response)
-            if(response.data.statusCode!==200) throw new Error(response.data.message)
-            console.log("Medical certificate uploaded successfully")
-            uploading = false           
-        } catch (err) {
+            const response = await submitCertificate(file, $currentSeason.name, student, getAuth().currentUser.uid)
+            if (response.statusCode === 200){
+                console.log(response)
+            }else{
+                throw response.error
+            }
             uploading = false
-            const e = new BError("Could not upload certificate", err)
-            e.log()
-            $error = e
-            $fatal = true
+        } catch (e) {
+            uploading = false
+            error = e
         }
-    } 
+    }
+
 </script>
 
 <details open={open}>
     <summary role="button" class="outline"><Boolean value={status} big={true}/>Étape 3 : Transférer un certificat médical</summary>
 
-    {#if status === 'yes' || status ==='waiting'}
-        <a href={link} target="_new">Voir votre certificat médical (ou attestation sur l'honneur)</a><br>
-        <small>(Téléchargé le {timestamp})</small>
-        <br><br>
-    {/if}
-    
-    {#if status === 'yes'}
-        <p style="color:green">Votre certificat médical (ou attestation sur l'honneur) a été validé par notre équipe !</p>
-    {:else if status ==='waiting'}
-        <p style="color:green">Votre certificat (ou attestation sur l'honneur) a bien été transféré, un email a été envoyé à notre équipe pour qu'elle le valide.</p>
-    {/if}
-    <br>
     {#if status !== 'yes'}
         <div>
             Nous avons besoin d'un certificat médical datant de {thisYear} "autorisant la pratique de l'escalade"
@@ -84,20 +60,21 @@ import MobilePicture from '$components/modals/MobilePicture.svelte';
             </div>
         </div>
         <br>
-        <a href="#" role="button" on:click={()=>takePicture=false} class={takePicture===false?'outline selected':'outline faded'}>
-            Transférer votre document au format numérique
+        Votre document (certificat médical ou attestation) est sous quel format ?<br><br>
+        <a href="#" role="button" on:click={()=>paper=false} class={paper===false?'outline selected':'outline faded'}>
+            Numérique
         </a>
-        <a href="#" role="button" on:click={()=>takePicture=true} class={takePicture?'outline selected':'outline faded'}>
-            Prendre une photo avec votre téléphone portable
+        <a href="#" role="button" on:click={()=>paper=true} class={paper?'outline selected':'outline faded'}>
+            Papier
         </a>
         <br><br>
-        {#if takePicture}
-            <MobilePicture bind:open={takePicture}/>
-        {:else if takePicture === false}
+        {#if paper}
+            <PaperCertificate bind:open={paper} {student}/>
+        {:else if paper === false}
             <form>
                 <label for="upload">Transférer votre certificat médical (ou attestation sur l'honneur) au format numérique :</label>
                 <input id="upload" name="upload" type="file" accept="image/*,.pdf" on:change={handleChange}/>
-                <button disabled={!file} aria-busy={uploading} on:click|preventDefault={submit} >
+                <button disabled={!doc || uploading} aria-busy={uploading} on:click|preventDefault={submit} >
                     {#if uploading}
                         merci de patienter...
                     {:else}
@@ -105,43 +82,28 @@ import MobilePicture from '$components/modals/MobilePicture.svelte';
                     {/if}
                 </button>
             </form>
-            ℹ <a href="#" on:click={()=>openHelpModal=true}>J'ai un certificat papier comment faire pour le numériser ?</a>
+            {#if error}
+                <div style="color:red">
+                    <strong>Erreur :</strong> Impossible de transférer le document.<br>
+                    <small>{error}</small>
+                </div>
+            {/if}
         {:else}
+            &nbsp;
         {/if}
-        {#if openHelpModal}
-            <dialog open>
-                <article>
-                    Il existe plusieurs options pour numériser votre document :
-                    <br><br>
-                    <ul>
-                        <li>Utiliser un scanner (la plupart des imprimantes ont un scanner intégré)</li>
-                        <br>
-                        <li>Utiliser votre téléphone 
-                            <ul>
-                                <li>Vous avez l'application Google Drive ?
-                                    <a target="_new" href="https://support.google.com/drive/answer/3145835?hl=fr&co=GENIE.Platform%3DAndroid&oco=0">
-                                        Cliquez ici
-                                    </a>
-                                </li>
-                                <li>Vous avez un Iphone ?
-                                    <a target="_new" href="https://support.apple.com/fr-ca/HT210336">
-                                    Cliquez ici
-                                    </a>
-                                </li>
-                                <li>Vous avez un téléphone Android ? (Samsung, Xiaomi, Honor, OnePlus, Oppo, Sony, etc.)
-                                    <a target="_new" href="https://play.google.com/store/apps/details?id=com.adobe.scan.android&referrer=utm_source%3DAdobe.com%2520DC&utm_medium=Web&utm_term=Scan&utm_content=Get%2520App&utm_campaign=FY18">
-                                        Cliquez ici
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <footer>
-                        <a href="#" role="button" on:click={()=>openHelpModal=false}>C'est compris !</a>
-                    </footer>
-                </article>
-            </dialog>
-        {/if}
+    {/if}
+    <br><br>
+    
+    {#if status === 'yes' || status ==='waiting'}
+        <a href={link} target="_new">Voir votre certificat médical (ou attestation sur l'honneur)</a><br>
+        <small>(Téléchargé le {timestamp})</small>
+        <br><br>
+    {/if}
+    
+    {#if status === 'yes'}
+        <p style="color:green">Votre certificat médical (ou attestation sur l'honneur) a été validé par notre équipe !</p>
+    {:else if status ==='waiting'}
+        <p style="color:green">Votre certificat (ou attestation sur l'honneur) a bien été transféré, un email a été envoyé à notre équipe pour qu'elle le valide.</p>
     {/if}
 </details>
 
@@ -154,17 +116,13 @@ import MobilePicture from '$components/modals/MobilePicture.svelte';
         border-left: 6px solid #1F95C1;
         padding: 20px;
     }
-
-    li li{
-        list-style:circle;
-    }
-
     .faded{
         opacity: 0.8;
     }
-
     .selected{
         font-weight:600;
     }
-
+    .selected, .faded{
+        margin: 5px;
+    }
 </style>

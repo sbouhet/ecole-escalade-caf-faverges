@@ -5,6 +5,7 @@ import {
   getDownloadURL,
   uploadBytes,
   deleteObject,
+  uploadString
 } from "firebase/storage"
 import { _updateDoc } from "$utils/firebase/firestore/basics"
 import { BError } from "berror"
@@ -18,6 +19,7 @@ export const uploadMedicalCertificate = async (
 ) => {
   try {
     if (!file) throw "No file"
+    if (!file.type) throw "No file type"
     if (!seasonName) throw "No seasonName"
     if (!id) throw "No id"
     if (!userId) throw "No userId"
@@ -28,7 +30,13 @@ export const uploadMedicalCertificate = async (
     const storageRef = ref(storage, path)
 
     //Upload certificate
-    await uploadBytes(storageRef, file)
+    if (file.type === 'doc') {
+      await uploadBytes(storageRef, file.doc)
+    } else if (file.type === 'url'){
+      await uploadString(storageRef, file.url, 'data_url')
+    }else{
+      throw 'File type not supported, must be "doc" or "url"'
+    }
 
     //Write metadata
     const customMetadata = { parentId: userId }
