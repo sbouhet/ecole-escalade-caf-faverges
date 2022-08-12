@@ -2,7 +2,12 @@
     let video, canvas
 
     const startCamera = async()=>{
-        let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        let stream = await navigator.mediaDevices.getUserMedia(
+            { 
+                audio: false,
+                video: {facingMode: 'environment'}
+            }
+            )
         video.srcObject = stream;
     }
 
@@ -15,8 +20,17 @@
 
 </script>
 
-<button on:click={startCamera}>Start Camera</button>
-<video  width="320" height="240" autoplay bind:this={video}></video>
+<a href="#" role="button" on:click={startCamera}>Start Camera</a>
+<a href="#" role="button"  on:click={takePicture}>Click Photo</a>
+<br>
+<video  autoplay bind:this={video}></video>
+<canvas  bind:this={canvas}></canvas>
 
-<button  on:click={takePicture}>Click Photo</button>
-<canvas  width="320" height="240" bind:this={canvas}></canvas>
+<style>
+    video{
+        max-width: 400px;
+    }
+    canvas{
+        max-width: 300px;
+    }
+</style>
