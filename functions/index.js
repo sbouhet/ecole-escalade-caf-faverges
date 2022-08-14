@@ -429,38 +429,45 @@ exports.onDeleteStudentFromFirestore = functions.firestore
 //HelloAsso callback
 exports.helloAssoCallback = functions.https.onRequest(
   async (request, response) => {
-    response.set("Access-Control-Allow-Origin", "*")
-    
-    //Log
-    await basics._setDoc({body:request.body}, "helloAssoLogs", dayjs().unix().toString())
-
-    let studentId = request.body.metadata.studentId
-    let seasonName = request.body.metadata.seasonName
-
-    if(!studentId || !seasonName) throw "No StudentId or seasonName"
-
-    //Check current state
-    const studentRef = await basics._getDoc("students", studentId)
-    const currentState = studentRef.data().seasons[seasonName].payment
-
-    //If current payment state is "yes", do nothing
-    if(currentState === "yes") throw `Current state is yes, abort`
-    
-    if(request.body.eventType == "Payment"){
-      const state= request.body.data.state
+    try {
+      response.set("Access-Control-Allow-Origin", "*")
       
-      //If payment is authorized, update firestore
-      if(state==="Authorized"){
-        //Update student doc with status payment > yes
-        await basics._updateDoc(
-          {
-            [`seasons.${seasonName}.payment`]: "yes",
-            [`seasons.${seasonName}.paymentType`]: "CB",
-          },
-          "students",
-          studentId
-          )
+      //Log
+      await basics._setDoc({body:request.body}, "helloAssoLogs", dayjs().unix().toString())
+  
+      if(!request.body.metadata.studentId || !request.body.metadata.seasonName) throw "No StudentId or seasonName"
+
+      let studentId = request.body.metadata.studentId
+      let seasonName = request.body.metadata.seasonName
+  
+  
+      //Check current state
+      const studentRef = await basics._getDoc("students", studentId)
+      const currentState = studentRef.data().seasons[seasonName].payment
+  
+      //If current payment state is "yes", do nothing
+      if(currentState === "yes") throw `Current state is yes, abort`
+      
+      if(request.body.eventType == "Payment"){
+        const state= request.body.data.state
+        
+        //If payment is authorized, update firestore
+        if(state==="Authorized"){
+          //Update student doc with status payment > yes
+          await basics._updateDoc(
+            {
+              [`seasons.${seasonName}.payment`]: "yes",
+              [`seasons.${seasonName}.paymentType`]: "CB",
+            },
+            "students",
+            studentId
+            )
+          }
         }
+        response.json({success:true})
+      } catch (error) {
+        console.error('Erreur ', error);
+        response.status(500).json({success:false, message:error.message})
       }
     }
 )
