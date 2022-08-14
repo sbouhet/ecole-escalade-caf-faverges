@@ -2,6 +2,9 @@
     export let context //just to hide warning in console
     import { currentSeason, admin, loggedin, mod } from '$utils/stores'
     import DaysRecapTable from '$components/tables/DaysRecapTable.svelte'
+    import { _query } from '$utils/firebase/firestore/basics'
+    import { getAuth } from 'firebase/auth'
+    let userStudents = _query("students", 'parents', 'array-contains', getAuth().currentUser.uid)
 </script>
 
 <hgroup>
@@ -18,7 +21,11 @@
 {/if}
 
 {#if $loggedin}
-    <a href="/prive/mon-compte" role="button" class="outline">Mes inscriptions</a>
+    {#await userStudents then userStudents}
+        {#if userStudents.length > 0}
+            <a href="/prive/mon-compte" role="button" class="outline">Mes inscriptions en cours</a>
+        {/if}
+    {/await}
 {:else}
     <a href="/prive" role="button" class="outline">Se connecter</a>
     <a href="/prive?showCreateAccount=true" role="button" class="outline">Créer un compte</a>
