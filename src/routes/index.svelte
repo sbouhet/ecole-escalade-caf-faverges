@@ -4,7 +4,8 @@
     import DaysRecapTable from '$components/tables/DaysRecapTable.svelte'
     import { _query } from '$utils/firebase/firestore/basics'
     import { getAuth } from 'firebase/auth'
-    let userStudents = _query("students", 'parents', 'array-contains', getAuth().currentUser.uid)
+    let userStudents 
+    $:if(getAuth().currentUser) userStudents = _query("students", 'parents', 'array-contains', getAuth().currentUser.uid)
 </script>
 
 <hgroup>
@@ -24,6 +25,10 @@
     {#await userStudents then userStudents}
         {#if userStudents.length > 0}
             <a href="/prive/mon-compte" role="button" class="outline">Mes inscriptions en cours</a>
+        {:else if !$mod}
+            <strong style="color:red">
+                Vous n'avez aucune inscription en cours, cliquez sur un créneau pour vous inscrire.
+            </strong>
         {/if}
     {/await}
 {:else}
