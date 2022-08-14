@@ -440,7 +440,6 @@ exports.helloAssoCallback = functions.https.onRequest(
       let studentId = request.body.metadata.studentId
       let seasonName = request.body.metadata.seasonName
   
-  
       //Check current state
       const studentRef = await basics._getDoc("students", studentId)
       const currentState = studentRef.data().seasons[seasonName].payment
