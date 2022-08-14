@@ -14,7 +14,8 @@
     //connectFunctionsEmulator(functions, "localhost", 5001)
     const sendEmailToPeople = httpsCallable(functions, 'sendEmailToPeople')
 
-    let subject, message, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate, selectedName, showHtml
+    let subject, message, selectedTemplateIndex, name, id, emailString, showWaitlist, showMoreEmails, sending, listUpToDate, selectedName, showHtml, contentWritten
+    let firstTime = true
     let htmlContent = "#message#"
     let studentId = $params.id
     let templates= []
@@ -167,20 +168,43 @@
     getLists()
 
     const updateContent = (index)=>{
-        selectedTemplateIndex = index
-        htmlContent = templates[index].data().htmlContent
-        subject = templates[index].data().subject
-        message = templates[index].data().message
-        name = templates[index].data().name
-        id = templates[index].id
+        //if content written, check if sure
+        if(contentWritten && (subject || message || htmlContent)){
+            const response = confirm('Êtes vous sûrs de vouloir charger ce modèle ? Cela effacera ce que vous avez écrit.')
+            if(!response) return
+        }
+        contentWritten = false
+        //if template already selected, reset
+        if(selectedTemplateIndex === index){
+            selectedTemplateIndex = null
+            htmlContent = null
+            subject = null
+            message = null
+            name = null
+            id = null
+        }else{ //if not selecetd yet, select and update content
+            selectedTemplateIndex = index
+            htmlContent = templates[index].data().htmlContent
+            subject = templates[index].data().subject
+            message = templates[index].data().message
+            name = templates[index].data().name
+            id = templates[index].id
+        }
     }
 
     //Listen to template changes
     const q = query(collection(db, "emails", "templatesDoc", "templatesCol"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
         templates = [];
+        let index = 0
         querySnapshot.forEach((doc) => {
             templates.push(doc);
+            console.log(doc.data().name, index);
+            if(doc.data().name==='Vierge' && firstTime){
+                updateContent(index)
+                firstTime = false
+            }
+            index++
         })
     })
 
@@ -343,10 +367,10 @@
     <br><br>
     <form>
         <label for="subject">Objet</label>
-        <input type="text" id="subject" bind:value={subject} required>
+        <input type="text" id="subject" bind:value={subject} required on:change={()=>contentWritten=true}>
         
         <label for="message">Message</label>
-        <textarea type="text" id="message" name="message" rows="6" bind:value={message}></textarea>
+        <textarea type="text" id="message" name="message" rows="6" bind:value={message} on:change={()=>contentWritten=true}></textarea>
 
         HTML : <input type="checkbox" bind:checked={showHtml} role="switch"><br>
     
@@ -355,7 +379,7 @@
         {/if}
         <br>
         <a href="" role="button" class="del" on:click={deleteDoc}>Supprimer</a>
-        <a href="" role="button" class="secondary" on:click={updateTemplate}>Enregistrer le modèle</a>
+        <a href="" role="button" class="secondary" on:click={updateTemplate}>Mettre à jour le modèle</a>
         <a href="" role="button" class="secondary" on:click={saveAsNewTemplate}>Enregistrer en tant que nouveau modèle</a>
         <a href="" role="button" on:click={()=>sendEmail()}>Envoyer</a>
         <br><br>
