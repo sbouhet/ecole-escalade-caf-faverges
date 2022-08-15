@@ -23,7 +23,9 @@
 
 {#if $loggedin}
     {#await userStudents then userStudents}
-        {#if userStudents.length > 0}
+        {#if userStudents.length === 1}
+            <a href={`/prive/mon-compte/${userStudents[0].id}`} role="button" class="outline">Mes inscriptions en cours</a>
+        {:else if userStudents.length > 1}
             <a href="/prive/mon-compte" role="button" class="outline">Mes inscriptions en cours</a>
         {:else if !$mod}
             <strong style="color:red">
