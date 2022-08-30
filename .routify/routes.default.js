@@ -16,6 +16,20 @@ export default {
   "children": [
     {
       "meta": {},
+      "id": "_default_changerDeMotDePasse_svelte",
+      "name": "changerDeMotDePasse",
+      "module": () => import('../src/routes/changerDeMotDePasse.svelte'),
+      "file": {
+        "path": "src/routes/changerDeMotDePasse.svelte",
+        "dir": "src/routes",
+        "base": "changerDeMotDePasse.svelte",
+        "ext": ".svelte",
+        "name": "changerDeMotDePasse"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_countdown_svelte",
       "name": "countdown",
       "module": () => import('../src/routes/countdown.svelte'),

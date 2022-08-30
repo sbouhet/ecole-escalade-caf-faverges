@@ -34,10 +34,11 @@
     
         <label for="password">Mot de passe</label>
         <input type="password" id="password" bind:value={password} required />
-        
         <br>
         <button on:click|preventDefault={handleClick}>Se connecter</button>
         <ErrorMessage error={error}/>
+        <small>Mot de passe oublié ? <a href={`/changerDeMotDePasse?email=${email}`} >Réinitialiser votre mot de passe</a></small>
+        <br>
         <small>Pas encore de compte ? <a href="#" on:click={handleSwitch}>Créer un compte</a></small>
     </form>
 </div>
