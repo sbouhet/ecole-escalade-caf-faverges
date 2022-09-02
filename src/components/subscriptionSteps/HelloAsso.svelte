@@ -96,6 +96,12 @@
                     <br>
                     <a href=""  on:click={()=>openOtherPaymentModal=true}>Je ne souhaite pas payer par carte bleue</a>
                 </small>
+                <br><br>
+                <small>
+                    Certaines personnes peuvent bénéficier d'une réduction de 50€ grace au pass sport
+                    (<a href="https://sports.gouv.fr/pratiques-sportives/sports-pour-tous/pass-sport/" target="_new">plus d'info ici</a>).
+                    Dans ce cas il faudra payer par chèque(s) et inclure dans une enveloppe le code pass sport et nom et prénom tels qu'ils sont écrits sur le coupon.
+                </small>
             {/if}
         {:else if status === "waiting"}
             {#if paymentType}
