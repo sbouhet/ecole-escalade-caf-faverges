@@ -13,6 +13,7 @@
     <li><a href="/prive/mod/sendEmail">Envoyer un email</a></li>
     <li><a href="/prive/mod/emailHistory">Historique des emails envoyés</a></li>
     <li><a href="/prive/mod/downloadMedicalCertificates">Télécharger les certificats médicaux</a></li>
+    <li><a href="/prive/mod/noel">Contest de Noël</a></li>
 </ul>
 
 
