@@ -1,8 +1,8 @@
 <script>
     import { onMount } from 'svelte';
     import {COLORS} from '../colors'
-    export let scores, test
-    const max = Math.max(...scores.map(x=>x.potential))
+    export let scores
+    let max
     let canvas, ctx
     const CANVAS_HEIGHT = window.innerHeight -20
     const CANVAS_WIDTH = window.innerWidth - 50
@@ -14,6 +14,7 @@
 
     $:if(scores && canvas){
         console.log("VALUE CHANGED !");
+        max = Math.max(...scores.map(x=>x.potential))
         ctx = canvas.getContext("2d")
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         draw()
@@ -43,7 +44,7 @@
 
             for (const route of releventRoutes) {
                 ctx.fillStyle = COLORS.filter(x=>x.name===route.color)[0].background
-                let routeHeight = -route.potential*(CANVAS_HEIGHT-10)/(max+GAP)-(max-route.potential)/10
+                let routeHeight = -route.potential*(CANVAS_HEIGHT-12)/(max+GAP)-(max-route.potential)/10
                 ctx.fillRect(x, originY, routeWidth, routeHeight)
                 //contour
                 if (["Blanche", "Saumon"].includes(route.color)) {
@@ -52,10 +53,12 @@
                 //text
                 ctx.fillStyle = COLORS.filter(x=>x.name===route.color)[0].text;
                 ctx.textAlign = 'center'
-                ctx.font = '20px sans-serif'
+                ctx.font = '23px sans-serif'
                 ctx.fillText(route.grade, x+routeWidth/2, originY-20)
                 ctx.font = '15px sans-serif'
                 ctx.fillText(Math.floor(route.potential), x+routeWidth/2, originY+routeHeight+25)
+                ctx.font = '10px sans-serif'
+                ctx.fillText(`(${route.sends})`, x+routeWidth/2, originY+routeHeight+45)
                 x += routeWidth
             }
             x+=GAP
@@ -70,11 +73,7 @@
     
 
 </script>
-{#if scores}
-    
-{scores[2].potential}
-{/if}<br>
-{test}
+
 <canvas bind:this={canvas}></canvas>
 
 

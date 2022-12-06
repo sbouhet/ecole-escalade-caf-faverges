@@ -10,14 +10,10 @@
     const eventId = $params.id
     let event
     let scores = []
-    let test = 0
 
     const unsub = onSnapshot(doc(db, "events", eventId), (event) => {
-        
             updateScores(event)
             scores = scores
-            test++
-       
     })
 
     const printRoute = (routeId) =>{
@@ -35,7 +31,7 @@
     const updateScores = (event)=>{
         scores = []
         for (const route of event.data().routes) {
-            scores.push({...route, potential: routePotential(route.id, event)})
+            scores.push({...route, potential: routePotential(route.id, event), sends: routeSends(route.id, event)})
         }
         console.log(scores);
         console.log("UPTODATE!");
@@ -54,6 +50,11 @@
         return MAX_POINTS/(releventRuns.length+1)
     }
 
+    const routeSends = (routeId, event)=>{
+        const releventRuns = event.data().runs.filter(x=>x.route==routeId)
+        return releventRuns.length
+    }
+
     const studentPoints = (studentId)=>{
         let points = 0
         const releventRuns = event.data().runs.filter(x=>x.student===studentId)
@@ -68,11 +69,7 @@
 </script>
 
 {#if event}
-   scores.svelte:<br>
-   {scores[2].potential}
-   <br>
-    Canvas:<br>
-    <Canvas {scores} {test}/>
+    <Canvas {scores}/>
 
     <h2>Voies</h2>
     {#each event.data().routes as route}
