@@ -19,8 +19,6 @@
         draw()
     }
 
-    $:console.log(test);
-
     const draw = ()=>{
         canvas.width = CANVAS_WIDTH
         canvas.height = CANVAS_HEIGHT
@@ -74,7 +72,7 @@
 </script>
 {#if scores}
     
-{scores[1].potential}
+{scores[2].potential}
 {/if}<br>
 {test}
 <canvas bind:this={canvas}></canvas>

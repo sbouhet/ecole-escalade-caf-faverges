@@ -11,15 +11,14 @@
     let event
     let scores = []
     let test = 0
-    const unsub = onSnapshot(doc(db, "events", eventId), (doc) => {
-        if (event) {
-            updateScores()
+
+    const unsub = onSnapshot(doc(db, "events", eventId), (event) => {
+        
+            updateScores(event)
             scores = scores
             test++
-        }
+       
     })
-
-    
 
     const printRoute = (routeId) =>{
         const route = event.data().routes.filter(x=>x.id===routeId)[0]
@@ -28,15 +27,15 @@
 
     const getEvent = async ()=>{
         event = await _getDoc('events', eventId)
-        updateScores()
+        updateScores(event)
     }
 
     getEvent()
 
-    const updateScores = ()=>{
+    const updateScores = (event)=>{
         scores = []
         for (const route of event.data().routes) {
-            scores.push({...route, potential: routePotential(route.id)})
+            scores.push({...route, potential: routePotential(route.id, event)})
         }
         console.log(scores);
         console.log("UPTODATE!");
@@ -49,7 +48,7 @@
         return MAX_POINTS/(releventRuns.length)
     }
 
-    const routePotential = (routeId)=>{
+    const routePotential = (routeId, event)=>{
         const releventRuns = event.data().runs.filter(x=>x.route==routeId)
         if(releventRuns.length===0) return MAX_POINTS
         return MAX_POINTS/(releventRuns.length+1)
@@ -69,11 +68,15 @@
 </script>
 
 {#if event}
+   scores.svelte:<br>
+   {scores[2].potential}
+   <br>
+    Canvas:<br>
     <Canvas {scores} {test}/>
 
     <h2>Voies</h2>
     {#each event.data().routes as route}
-        {route.grade} {route.color} {route.lineTxt} =>>>> {routePotential(route.id)}<br>
+        {route.grade} {route.color} {route.lineTxt} =>>>> {routePotential(route.id, event)}<br>
     {/each}
 
     <h2>Classement</h2>
