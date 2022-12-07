@@ -3,9 +3,10 @@
     import {normalize} from '$utils/normalize'
     import { printName } from "$utils/printName"
     import Route from './components/Route.svelte'
-    let title, loading, students, input, releventStudents, routes, gyms, selectedGym, lines
+    let title, loading, students, input, releventStudents, routes, gyms, selectedGym, lines, catInput, catForm, studentForm
     let participants = []
     let selectedRoutes = []
+    let categories = []
 
     function removeDuplicates(arr) {
         return arr.filter((item,index) => arr.indexOf(item) === index);
@@ -47,6 +48,8 @@
         if (participants.map(x=>x.id).includes(student.id)) return
         participants.push({id: student.id, firstName: student.data().firstName, lastName: student.data().lastName})
         participants=participants
+        input = ''
+        studentForm.focus()
     }
 
     const removePax = (pax)=>{
@@ -65,22 +68,60 @@
 
     const createEvent = async ()=>{
         console.log(title, participants, selectedRoutes);
-        await _addDoc({title, participants, routes: selectedRoutes}, "events")
+        await _addDoc({title, participants, routes: selectedRoutes, categories}, "events")
     }
 
+    const addCat = ()=>{
+        categories=[...categories, catInput]
+        catInput = ''
+        catForm.focus()
+    }
+
+    const addOnlyStudent = ()=>{
+        if (releventStudents.length === 1) {
+            addStudent(releventStudents[0])
+        }
+    }
+
+    const asignPaxToCat = (paxId, index)=>{
+        console.log(paxId);
+        participants.filter(x=>x.id===paxId)[0].categorie = index
+        participants = participants
+    }
 </script>
 
 <h1>Créer un évenement</h1>
 
+Nom de l'évènement :<br>
 <input type="text" bind:value={title}>
 
-<h3>Participants</h3>
-{#each participants as pax}
-    <div>{printName(pax)} <a href="#" on:click={()=>removePax(pax)}>🗑️</a></div>
+<h3>Catégories</h3>
+<form on:submit|preventDefault={addCat}>
+    <input type="text" bind:value={catInput} bind:this={catForm}>
+    <a href="#" role="button" on:click={addCat}>Ajouter la catégorie</a>
+</form>
+{#each categories as cat}
+    <div>{cat}</div>
 {/each}
 <br><br>
 
-<input type="text" bind:value={input}>
+<h3>Participants</h3>
+{#each participants as pax}
+    <div>{printName(pax)} <a href="#" on:click={()=>removePax(pax)}>🗑️</a>
+        {#if pax.categorie == undefined}
+            {#each categories as cat, i}
+                <a href="#" on:click={()=>asignPaxToCat(pax.id, i)} role="button">{cat}</a> &nbsp;
+            {/each}
+        {:else}
+            <small>({categories[pax.categorie]})</small> 
+        {/if}
+    </div>
+{/each}
+<br><br>
+
+<form on:submit|preventDefault={addOnlyStudent}>
+    <input type="text" bind:value={input} bind:this={studentForm}>
+</form>
 
 
 {#if loading}

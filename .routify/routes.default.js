@@ -102,6 +102,22 @@ export default {
       "children": []
     },
     {
+      "meta": {
+        "reset": true
+      },
+      "id": "_default_events_svelte",
+      "name": "events",
+      "module": () => import('../src/routes/events.svelte'),
+      "file": {
+        "path": "src/routes/events.svelte",
+        "dir": "src/routes",
+        "base": "events.svelte",
+        "ext": ".svelte",
+        "name": "events"
+      },
+      "children": []
+    },
+    {
       "meta": {},
       "id": "_default_index_svelte",
       "name": "index",
@@ -112,22 +128,6 @@ export default {
         "base": "index.svelte",
         "ext": ".svelte",
         "name": "index"
-      },
-      "children": []
-    },
-    {
-      "meta": {
-        "reset": true
-      },
-      "id": "_default_noel_svelte",
-      "name": "noel",
-      "module": () => import('../src/routes/noel.svelte'),
-      "file": {
-        "path": "src/routes/noel.svelte",
-        "dir": "src/routes",
-        "base": "noel.svelte",
-        "ext": ".svelte",
-        "name": "noel"
       },
       "children": []
     },
