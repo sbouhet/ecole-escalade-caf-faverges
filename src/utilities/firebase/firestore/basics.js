@@ -48,7 +48,7 @@ export const _getDoc = async (collection, docId, subCollection, subDocId) => {
   }
 }
 
-export const _query = async (collectionId, field, operation, value, order) => {
+export const _query = async (collectionId, field, operation, value, orderField, orderDirection="asc") => {
   try {
     if (!collectionId) throw "No collection"
     if (!field) throw "No field"
@@ -56,8 +56,8 @@ export const _query = async (collectionId, field, operation, value, order) => {
     let result = []
     const collectionRef = collection(db, collectionId)
     let q = query(collectionRef, where(field, operation, value))
-    if (order)
-      q = query(collectionRef, where(field, operation, value), orderBy(order))
+    if (orderField)
+      q = query(collectionRef, where(field, operation, value), orderBy(orderField, orderDirection ))
     const querySnapshot = await getDocs(q)
     querySnapshot.forEach((doc) => {
       result.push(doc)

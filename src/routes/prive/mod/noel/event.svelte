@@ -25,7 +25,8 @@
         <h1>{event.data().title}</h1>
 
         <a href="./addRun?id={id}">Ajouter un run</a><br>
-        <a href="./scores?id={id}">Scores</a>
+        <a href="./scores?id={id}">Scores</a><br>
+        <a href="./editEventRoutes?id={id}">Ajouter des voies</a><br>
      
     {:else}
         Pas d'evenement avec cet id

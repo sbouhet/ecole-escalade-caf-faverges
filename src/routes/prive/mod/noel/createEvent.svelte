@@ -68,7 +68,7 @@
 
     const createEvent = async ()=>{
         console.log(title, participants, selectedRoutes);
-        await _addDoc({title, participants, routes: selectedRoutes, categories}, "events")
+        await _addDoc({title, participants, routes: selectedRoutes, categories, timestamp: dayjs().unix(), gymName:selectedGym}, "events")
     }
 
     const addCat = ()=>{
