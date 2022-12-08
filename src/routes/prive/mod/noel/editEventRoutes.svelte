@@ -25,7 +25,7 @@
 {#if event}
     <h1>{event.data().title}</h1>
 
-    <h2>Rajouter des voies</h2>
+    <h2>Rajouter ou supprimer des voies</h2>
     <Routes gymName={event.data().gymName} {event} edit={true}/>
 
 

@@ -1,8 +1,7 @@
 <script>
     import { _getDoc, _getDocs } from '$utils/firebase/firestore/basics';
-    import {removeDuplicates} from '$utils/removeDuplicates'
     import Route from './Route.svelte'
-    export let event, gymName
+    export let event, gymName, selectedRoute, routeList
     export let edit = false
 
     let lines, routes
@@ -23,31 +22,30 @@
             }
             routes = routes
         }
-
-
-        //Get lines sorted, no nuplicated
-        //lines = removeDuplicates(routes.map(x=>x.lineNb))
-        //lines.sort(function(a, b) {return a - b})
     }
-
-   
-    getRoutes()
     
-
-
+    getRoutes()
+    $:if(routeList){
+        routes = routeList
+        routes.sort(function(a, b) {
+        return a.lineNb - b.lineNb;
+        });
+    }
+    
+    $:console.log(selectedRoute);
 </script>
 
 {#if routes && lines}
-
     {#each lines as line, i}
+        {#if routes.filter(x=>x.lineNb==i+1).length}
+            <h3>Ligne {i+1} ({line})</h3>
 
-        <h3>Ligne {i+1} ({line})</h3>
+            {#each routes.filter(x=>x.lineNb==i+1) as route}
+                <Route {route} {edit} {event} bind:selectedRoute={selectedRoute}/><br>
+            {/each}
 
-        {#each routes.filter(x=>x.lineNb==i+1) as route}
-            <Route {route} {edit} {event}/><br>
-        {/each}
-
-        <br>
+            <br>
+        {/if}
 
     {/each}
 

@@ -2,7 +2,7 @@
     import { _updateDoc } from '$utils/firebase/firestore/basics';
     import { arrayRemove, arrayUnion } from 'firebase/firestore';
     import { COLORS } from '../colors'
-    export let route, event
+    export let route, event, selectedRoute
     export let edit = false
     let del = edit
     let add = edit
@@ -21,6 +21,13 @@
         await _updateDoc({routes:arrayUnion(route)}, 'events', event.id)
     }
 
+    const handleClick = (route)=>{
+        if(add){
+            addRoute(route, event)
+        }else{
+            selectedRoute = route
+        }
+    }
 </script>
 
 {#if route}
@@ -28,9 +35,12 @@
         <a href="#" role="button"
         class={event.data().routes.map(x=>x.id).includes(route.id)?'route':'route faded'}
         style="background-image:repeating-linear-gradient({background},{background2 || background}, {background}); color: {text}"
-        on:click={()=>{if(add)addRoute(route, event)}}>
+        on:click={()=>handleClick(route)}>
             {route.grade}
         </a>
+        {#if add && !event.data().routes.map(x=>x.id).includes(route.id)}
+            <a href="#" on:click={()=>addRoute(route, event)}>Ajouter</a>
+        {/if}
         {#if del && event.data().routes.map(x=>x.id).includes(route.id)}
             <a href="#" on:click={()=>delRoute(route, event)}>🗑️</a>
         {/if}
@@ -45,7 +55,7 @@
         border: none;
         font-weight: bold;
         max-width: 300px;
-        min-width: 100px;
+        min-width: 200px;
     }
 
     .faded{
