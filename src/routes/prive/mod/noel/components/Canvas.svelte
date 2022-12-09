@@ -6,7 +6,8 @@
     let canvas, ctx
     const CANVAS_HEIGHT = window.innerHeight -20
     const CANVAS_WIDTH = window.innerWidth - 50
-    const GAP = 20
+    let GAP = 5
+    let FONT_SIZE = {grade:20, score:15, line:15, runs:10}
 
     function removeDuplicates(arr) {
         return arr.filter((item,index) => arr.indexOf(item) === index);
@@ -31,7 +32,27 @@
         return a - b;
         });
 
-        const routeWidth = (CANVAS_WIDTH-GAP*(lines.length-1))/scores.length
+        let routeWidth = (CANVAS_WIDTH-GAP*(lines.length-1))/scores.length
+
+        const gradient = (route)=>{
+            // Create gradient
+            const background = COLORS.filter(x=>x.name===route.color)[0].background
+            const background2 = COLORS.filter(x=>x.name===route.color)[0].background2 || background
+            var grd = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
+                const nbOfStripes = 50
+                console.log(nbOfStripes);
+                for (let i = 0; i < nbOfStripes; i++) {
+                    if (i%2) {
+                        grd.addColorStop(i/nbOfStripes, background);
+                    }else{
+                        
+                        grd.addColorStop(i/nbOfStripes, background2 );
+                    }
+                }
+                return grd
+        }
+
+        
 
         for (const line of lines) {
             const releventRoutes = scores.filter(x=>x.lineNb === line)
@@ -39,25 +60,32 @@
             ctx.fillRect(x, CANVAS_HEIGHT, routeWidth*releventRoutes.length, -20)
             ctx.fillStyle = 'white'
             ctx.textAlign = 'center'
-            ctx.font = '15px sans-serif'
-            ctx.fillText(line, x+(routeWidth*releventRoutes.length)/2, originY+20)
+            ctx.textBaseline = 'middle'
+            ctx.font = `${FONT_SIZE.line}px sans-serif`
+            ctx.fillText(line, x+(routeWidth*releventRoutes.length)/2, originY+15)
 
             for (const route of releventRoutes) {
-                ctx.fillStyle = COLORS.filter(x=>x.name===route.color)[0].background
-                let routeHeight = -route.potential*(CANVAS_HEIGHT-12)/(max+GAP)-(max-route.potential)/10
+                //let routeHeight = -route.potential*(CANVAS_HEIGHT-12)/(max+GAP)-(max-route.potential)/10
+                let routeHeight = -originY*route.potential/max
+                const grd = gradient(route)
+                ctx.fillStyle = grd
                 ctx.fillRect(x, originY, routeWidth, routeHeight)
+                
                 //contour
-                if (["Blanche", "Saumon"].includes(route.color)) {
+                if (["Blanche", "Saumon", "Bleue marbrée", "Verte marbrée", "Rouge marbrée", "Toutes prises"].includes(route.color)) {
                     ctx.rect(x, originY, routeWidth, routeHeight)
                 }
                 //text
                 ctx.fillStyle = COLORS.filter(x=>x.name===route.color)[0].text;
-                ctx.textAlign = 'center'
-                ctx.font = '23px sans-serif'
-                ctx.fillText(route.grade, x+routeWidth/2, originY-20)
-                ctx.font = '15px sans-serif'
+                
+                ctx.font = `${FONT_SIZE.grade}px sans-serif`
+                if (route.grade != 'TP') {
+                    
+                    ctx.fillText(route.grade, x+routeWidth/2, originY-20)
+                }
+                ctx.font = `${FONT_SIZE.score}px sans-serif`
                 ctx.fillText(Math.floor(route.potential), x+routeWidth/2, originY+routeHeight+25)
-                ctx.font = '10px sans-serif'
+                ctx.font = `${FONT_SIZE.runs}px sans-serif`
                 ctx.fillText(`(${route.sends})`, x+routeWidth/2, originY+routeHeight+45)
                 x += routeWidth
             }
@@ -76,6 +104,21 @@
 
 <canvas bind:this={canvas}></canvas>
 
+Gap:
+<input type="range" min=0 max=50 bind:value={GAP} style="width: 200px;" on:change={draw}>{GAP}
+
+
+Grade:
+<input type="range" min=0 max=50 bind:value={FONT_SIZE.grade} style="width: 200px;" on:change={draw}>{FONT_SIZE.grade}
+
+score:
+<input type="range" min=0 max=50 bind:value={FONT_SIZE.score} style="width: 200px;" on:change={draw}>{FONT_SIZE.score}
+
+line:
+<input type="range" min=0 max=50 bind:value={FONT_SIZE.line} style="width: 200px;" on:change={draw}>{FONT_SIZE.line}
+
+runs:
+<input type="range" min=0 max=50 bind:value={FONT_SIZE.runs} style="width: 200px;" on:change={draw}>{FONT_SIZE.runs}
 
 <style>
 

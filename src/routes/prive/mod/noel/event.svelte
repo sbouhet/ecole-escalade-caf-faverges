@@ -24,9 +24,13 @@
     {#if event}
         <h1>{event.data().title}</h1>
 
-        <a href="./addRun?id={id}">Ajouter un run</a><br>
-        <a href="./scores?id={id}">Scores</a><br>
-        <a href="./editEventRoutes?id={id}">Ajouter des voies</a><br>
+        <a href="./addRun?id={id}" role="button">Ajouter un run</a><br>
+        <br><br>
+        <a href="./scores?id={id}">Graphique</a><br>
+        <br>
+        <a href="./editEventRoutes?id={id}">Modifier les voies</a><br>
+        <a href="./editEventPax?id={id}">Modifier les participants</a><br>
+        <a href="./deleteRun?id={id}">Supprimer un run</a><br>
      
     {:else}
         Pas d'evenement avec cet id

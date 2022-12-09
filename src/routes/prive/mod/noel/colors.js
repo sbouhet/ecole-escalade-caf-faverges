@@ -72,5 +72,11 @@ export const COLORS = [
         background2: "white",
         text: "black"
     },
+    {
+        name:"Toutes prises",
+        background: "chartreuse",
+        background2: "coral",
+        text: "black"
+    },
 
 ]

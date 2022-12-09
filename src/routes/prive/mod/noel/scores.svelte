@@ -1,5 +1,7 @@
+
 <!-- routify:meta reset -->
 <script>
+    import {routeSends, routePotential, studentPoints} from '$utils/contest'
     import Canvas from './components/Canvas.svelte'
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
@@ -31,38 +33,13 @@
     const updateScores = (event)=>{
         scores = []
         for (const route of event.data().routes) {
-            scores.push({...route, potential: routePotential(route.id, event), sends: routeSends(route.id, event)})
+            scores.push({...route, potential: routePotential(route.id, event, MAX_POINTS), sends: routeSends(route.id, event)})
         }
         console.log(scores);
         console.log("UPTODATE!");
     }
     
 
-    const routePoints = (routeId)=>{
-        const releventRuns = event.data().runs.filter(x=>x.route==routeId)
-        if(releventRuns.length===0) return 0
-        return MAX_POINTS/(releventRuns.length)
-    }
-
-    const routePotential = (routeId, event)=>{
-        const releventRuns = event.data().runs.filter(x=>x.route==routeId)
-        if(releventRuns.length===0) return MAX_POINTS
-        return MAX_POINTS/(releventRuns.length+1)
-    }
-
-    const routeSends = (routeId, event)=>{
-        const releventRuns = event.data().runs.filter(x=>x.route==routeId)
-        return releventRuns.length
-    }
-
-    const studentPoints = (studentId)=>{
-        let points = 0
-        const releventRuns = event.data().runs.filter(x=>x.student===studentId)
-        for (const run of releventRuns) {
-            points += routePoints(run.route)
-        }
-        return points
-    }
 
     
 
@@ -78,7 +55,7 @@
 
     <h2>Classement</h2>
     {#each event.data().participants as student}
-        {printName(student)} =>>>> {studentPoints(student.id)}<br>
+        {printName(student)} =>>>> {studentPoints(student.id, event, MAX_POINTS)}<br>
     {/each}
 
     <h2>Runs</h2>

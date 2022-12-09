@@ -102,7 +102,9 @@ export default {
       "children": []
     },
     {
-      "meta": {},
+      "meta": {
+        "reset": true
+      },
       "id": "_default_events",
       "name": "events",
       "module": () => import('../src/routes/events/_module.svelte'),
@@ -133,17 +135,60 @@ export default {
               "meta": {
                 "dynamic": true
               },
-              "id": "_default_events__eventId___categorie__svelte",
+              "id": "_default_events__eventId___categorie_",
               "name": "[categorie]",
-              "module": () => import('../src/routes/events/[eventId]/[categorie].svelte'),
+              "module": false,
               "file": {
-                "path": "src/routes/events/[eventId]/[categorie].svelte",
+                "path": "src/routes/events/[eventId]/[categorie]",
                 "dir": "src/routes/events/[eventId]",
-                "base": "[categorie].svelte",
-                "ext": ".svelte",
+                "base": "[categorie]",
+                "ext": "",
                 "name": "[categorie]"
               },
-              "children": []
+              "children": [
+                {
+                  "meta": {},
+                  "id": "_default_events__eventId___categorie__index_svelte",
+                  "name": "index",
+                  "module": () => import('../src/routes/events/[eventId]/[categorie]/index.svelte'),
+                  "file": {
+                    "path": "src/routes/events/[eventId]/[categorie]/index.svelte",
+                    "dir": "src/routes/events/[eventId]/[categorie]",
+                    "base": "index.svelte",
+                    "ext": ".svelte",
+                    "name": "index"
+                  },
+                  "children": []
+                },
+                {
+                  "meta": {},
+                  "id": "_default_events__eventId___categorie__points_svelte",
+                  "name": "points",
+                  "module": () => import('../src/routes/events/[eventId]/[categorie]/points.svelte'),
+                  "file": {
+                    "path": "src/routes/events/[eventId]/[categorie]/points.svelte",
+                    "dir": "src/routes/events/[eventId]/[categorie]",
+                    "base": "points.svelte",
+                    "ext": ".svelte",
+                    "name": "points"
+                  },
+                  "children": []
+                },
+                {
+                  "meta": {},
+                  "id": "_default_events__eventId___categorie__routes_svelte",
+                  "name": "routes",
+                  "module": () => import('../src/routes/events/[eventId]/[categorie]/routes.svelte'),
+                  "file": {
+                    "path": "src/routes/events/[eventId]/[categorie]/routes.svelte",
+                    "dir": "src/routes/events/[eventId]/[categorie]",
+                    "base": "routes.svelte",
+                    "ext": ".svelte",
+                    "name": "routes"
+                  },
+                  "children": []
+                }
+              ]
             },
             {
               "meta": {},
@@ -626,6 +671,34 @@ export default {
                     "base": "createGym.svelte",
                     "ext": ".svelte",
                     "name": "createGym"
+                  },
+                  "children": []
+                },
+                {
+                  "meta": {},
+                  "id": "_default_prive_mod_noel_deleteRun_svelte",
+                  "name": "deleteRun",
+                  "module": () => import('../src/routes/prive/mod/noel/deleteRun.svelte'),
+                  "file": {
+                    "path": "src/routes/prive/mod/noel/deleteRun.svelte",
+                    "dir": "src/routes/prive/mod/noel",
+                    "base": "deleteRun.svelte",
+                    "ext": ".svelte",
+                    "name": "deleteRun"
+                  },
+                  "children": []
+                },
+                {
+                  "meta": {},
+                  "id": "_default_prive_mod_noel_editEventPax_svelte",
+                  "name": "editEventPax",
+                  "module": () => import('../src/routes/prive/mod/noel/editEventPax.svelte'),
+                  "file": {
+                    "path": "src/routes/prive/mod/noel/editEventPax.svelte",
+                    "dir": "src/routes/prive/mod/noel",
+                    "base": "editEventPax.svelte",
+                    "ext": ".svelte",
+                    "name": "editEventPax"
                   },
                   "children": []
                 },

@@ -1,15 +1,42 @@
 import {removeDuplicates} from '$utils/removeDuplicates'
 
+const getLineNb = (event, routeId)=>{
+    const route = event.data().routes.filter(x=>x.id===routeId)[0]
+    return route.lineNb
+}
+
+const releventRuns = (event, routeId)=>{
+    const route = event.data().routes.filter(x=>x.id===routeId)[0]
+    let runs = []
+    if (route.color === "Toutes prises") {
+        //all event runs
+        for (const run of event.data().runs) {
+            const lineNb = getLineNb(event, run.route)
+            //all runs with same lineNb
+            if (lineNb == route.lineNb) {
+                //don't add if same student
+                if(!runs.map(x=>x.student).includes(run.student)){
+                    runs.push(run)
+                }
+            }
+        }
+    } else {
+        //all runs with routeId
+        runs = event.data().runs.filter(x=>x.route==routeId)
+    }
+    return runs
+}
+
 export const routePoints = (routeId, event, maxPoints)=>{
-    const releventRuns = event.data().runs.filter(x=>x.route==routeId)
-    if(releventRuns.length===0) return 0
-    return maxPoints/(releventRuns.length)
+    const runs = releventRuns(event, routeId)
+    if(runs.length===0) return 0
+    return Math.floor(maxPoints/(runs.length))
 }
 
 export const routePotential = (routeId, event, maxPoints)=>{
-    const releventRuns = event.data().runs.filter(x=>x.route==routeId)
-    if(releventRuns.length===0) return maxPoints
-    return maxPoints/(releventRuns.length+1)
+    const runs = releventRuns(event, routeId)
+    if(runs.length===0) return maxPoints
+    return Math.floor(maxPoints/(runs.length+1))
 }
 
 export const routeSends = (routeId, event)=>{

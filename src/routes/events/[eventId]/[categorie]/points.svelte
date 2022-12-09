@@ -14,17 +14,17 @@
         loading = true
         event =  await _getDoc('events', eventId)
         categorie = event.data().categories[catIndex]
-        //students = event.data().participants.filter(x=>x.categorie==catIndex)
-        
         loading = false
      }
 
      getEvent()
 
      const unsub = onSnapshot(doc(db, "events", eventId), (event) => {
-           if (event) {
-            points = pointsWithStudents(event, catIndex, 1000)
-           }
+
+         getEvent()
+         if (event) {
+             points = pointsWithStudents(event, catIndex, 1000)
+         }
     })
 
 
@@ -40,11 +40,10 @@
                 <ul>
                     {#each  point.students as student}
                         <li>
-                            {printName(student)}
+                            {printName(student, event.data().participants.filter(x=>x.categorie==catIndex))}
+                            &nbsp;&nbsp;
                             <small>
-                                ({Math.floor(point.points)} points, {nbOfRuns(event, student.id)} voie
-                                {#if nbOfRuns(event, student.id) > 1}
-                                    s
+                                ({Math.floor(point.points)} points, {nbOfRuns(event, student.id)} voie{#if nbOfRuns(event, student.id) > 1}s
                                 {/if}
                                 )
                             </small>

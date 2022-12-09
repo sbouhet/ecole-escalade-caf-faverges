@@ -28,8 +28,4 @@
     <h2>Rajouter ou supprimer des voies</h2>
     <Routes gymName={event.data().gymName} {event} edit={true}/>
 
-
-    <!-- <br><br>
-    <h2>Voies actuelles ({event.data().routes.length} voies)</h2>
-    <Routes {event} edit={true}/> -->
 {/if}

@@ -27,10 +27,17 @@
     {:else}
         {#if event}
             <h1>{event.data().title}</h1>
-            <h3>Catégories</h3>
-            {#each event.data().categories as cat, i}
-                <a href="./{event.id}/{i}" role="button">{cat}</a> &nbsp;
-            {/each}
+            <center><h3>Catégories</h3></center>
+            <div class="container">
+                {#each event.data().categories as cat, i}
+                    <div class="button">
+                        <a href="./{event.id}/{i}/points" role="button">{cat}</a>
+                    </div>
+                {/each}
+                <div class="button">
+                    <a href="/prive/mod/noel/event?id={event.id}" role="button" class='outline'>Admin</a>
+                </div>
+            </div>
         {:else}
             Pas d'évènement
         {/if}
@@ -38,3 +45,20 @@
 {:else}
     Pas d'id
 {/if}
+
+<style>
+    .container{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .button{
+        margin: 10px;
+    }
+
+    a{
+        width: 200px;
+    }
+
+</style>

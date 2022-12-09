@@ -60,12 +60,6 @@
     {#each COLORS as color}
         <span style="background-image:repeating-linear-gradient({color.background}, {color.background2 || color.background}, {color.background}); color: {color.text}" role="button" class="colorButton"on:click={()=>selectedColor=color}>{color.name}</span>
     {/each}
-    <span style="background-image:repeating-linear-gradient(red, green, yellow, blue); color:black" role="button" class="colorButton"on:click={()=>selectedColor={
-        name:"Smarties",
-        background: "orange",
-        background2: "green",
-        text: "white"
-    }}>Smarties !</span>
     <br> <br><br><br> <br><br>
     <span style="color: {selectedColor.text};background-image:repeating-linear-gradient({selectedColor.background}, {selectedColor.background2 || selectedColor.background}, {selectedColor.background}); margin: 10px; font-size:x-large; padding:10px; border-radius:5px" >
         {#if selectedGrade}

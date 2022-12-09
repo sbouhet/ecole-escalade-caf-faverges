@@ -1,14 +1,21 @@
 <script>
     import { _getDoc, _addDoc, _updateDoc } from '$utils/firebase/firestore/basics';
+    import { doc, onSnapshot } from "firebase/firestore"
+    import { db } from "$utils/firebase/firebase"
     import Routes from './components/Routes.svelte'
     import Route from './components/Route.svelte'
     import { printName } from '$utils/printName';
     import {normalize} from '$utils/normalize'
     import {params} from '@roxi/routify'
     import { arrayUnion } from 'firebase/firestore';
+    import { nbOfRuns, routePotential, studentPoints } from '$utils/contest';
     let id = $params.id
     let event, loading, releventStudents, paxInput, selectedStudent, selectedRoute, lines, routes, nameForm
-    let selectedCategorie, catStudents, confirmButton, gradeInput, gradeForm, releventRoutes
+    let selectedCategorie, catStudents, confirmButton, gradeInput, gradeForm, releventRoutes, hidden
+
+    const unsub = onSnapshot(doc(db, "events", id), (event) => {
+        getEvent()
+    })
 
     function removeDuplicates(arr) {
         return arr.filter((item,index) => arr.indexOf(item) === index);
@@ -69,12 +76,14 @@
   
 
     const addRun = async()=>{
-        await _updateDoc({runs: arrayUnion({student: selectedStudent.id, route: selectedRoute.id, timestamp:dayjs().unix()})}, "events", id)
+        hidden = true
+        await _updateDoc({runs: arrayUnion({student: selectedStudent.id, route: selectedRoute.id})}, "events", id)
         console.log("done");
         selectedRoute = undefined
         selectedStudent = undefined
         selectedCategorie = undefined
         paxInput = ''
+        hidden = false
     }
 
     const toggleCategorie = (catIndex)=>{
@@ -119,10 +128,16 @@
                 <Route route={selectedRoute} {event}/>   
                 <br>
                 <strong>Ligne {selectedRoute.lineNb} ({selectedRoute.lineTxt})</strong>
-                <br><br><br>
-                <form on:submit|preventDefault={addRun}>
-                    <button on:click={addRun} style="max-width: 300px;" class="outline" bind:this={confirmButton}>Valider</button>
-                </form>
+                <br><br>
+                {#if !hidden}
+                    Nombre de voies : {nbOfRuns(event, selectedStudent.id)+1}<br>
+                    Points de la voie : {routePotential(selectedRoute.id, event, 1000)} points<br>
+                    Total pour {printName(selectedStudent, [])} : {routePotential(selectedRoute.id, event, 1000)+studentPoints(selectedStudent.id, event, 1000)}
+                    <br><br>
+                    <form on:submit|preventDefault={addRun}>
+                        <button on:click={addRun} style="max-width: 300px;" class="outline" bind:this={confirmButton}>Valider</button>
+                    </form>
+                {/if}
              {/if}
         {/if}
 
