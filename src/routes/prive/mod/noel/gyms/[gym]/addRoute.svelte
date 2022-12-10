@@ -1,50 +1,42 @@
 <script>
     import { _getDoc, _updateDoc, _addDoc, _getDocs } from '$utils/firebase/firestore/basics';
-    import { COLORS } from './colors'
-    import { gradeToNumber, GRADES } from './grades';
+    import {GRADES} from '$utils/grades'
+    import {COLORS} from '$utils/colors'
+  
     import {params} from '@roxi/routify'
-    const AREAS = ["Dièdre_gauche", "Dalle", "Diedre_droite", "Vertical", "Pan_inclinable", "Toit", "Devers", "Copyrock", "Droite", "Autre"]
-    let selectedGrade, selectedLine, selectedArea, gyms, selectedGym
+    let selectedGrade, selectedLine, gym
     let selectedColor = {
         background: 'white',
     }
-    if ($params.gym) {
-        selectedGym = $params.gym
-    }
+   
+ 
     const addRoute = async()=>{
         await _addDoc({
             line: selectedLine+1,
             grade:  selectedGrade,
             color: selectedColor.name,
-        }, 'gyms', selectedGym.id, 'routes')
+        }, 'gyms', gym.id, 'routes')
         console.log('done');
-        location.reload()
-
+        selectedLine = undefined
+        selectedGrade= undefined
+        selectedColor = {
+        background: 'white',
+        }
+        window.scrollTo(0, 0);
     }
 
-    const run = async ()=>{
-        //const doc = await _getDoc("contest", "routes")
-        //routes = doc.data()
-        gyms = await _getDocs('gyms')
+    const getGym = async ()=>{
+        gym = await _getDoc('gyms', $params.gym)
     }
 
-    run()
+    getGym()
 </script>
 
-{#if !selectedGym && gyms}
-    Choisir une salle :<br><br>
-    <ul>
-        {#each gyms as gym}
-            <li>
-                <a href="#" on:click={()=>selectedGym=gym}>{gym.id}</a>
-            </li>
-        {/each}
-    </ul>
-{:else if selectedGym}
-    <h1>{selectedGym.id}</h1>
+{#if gym}
+    <h1>{gym.id}</h1>
 
     <h4>Couloir</h4>
-    {#each selectedGym.data().lines as line, i}
+    {#each gym.data().lines as line, i}
         <span role="button" class="{selectedLine==i ? 'gradeButton' : 'gradeButton outline'}" on:click={()=>selectedLine=i}>{i+1}) <small>{line}</small> </span>
     {/each}
     <br><br>
@@ -70,7 +62,7 @@
         {/if}
     </span>
         {#if selectedLine !== undefined}
-            en ligne {selectedLine+1} ({selectedGym.data().lines[selectedLine]})
+            en ligne {selectedLine+1} ({gym.data().lines[selectedLine]})
         {/if}
         <br><br>
     {#if selectedGrade && selectedColor.text && selectedLine !== undefined}

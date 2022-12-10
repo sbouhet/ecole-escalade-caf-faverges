@@ -2,14 +2,14 @@
     import { _getDoc, _addDoc, _updateDoc } from '$utils/firebase/firestore/basics';
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
-    import Routes from './components/Routes.svelte'
-    import Route from './components/Route.svelte'
+    import Routes from '$components/contest/Routes.svelte'
+    import Route from '$components/contest/Route.svelte'
     import { printName } from '$utils/printName';
     import {normalize} from '$utils/normalize'
     import {params} from '@roxi/routify'
     import { arrayUnion } from 'firebase/firestore';
     import { nbOfRuns, routePotential, studentPoints } from '$utils/contest';
-    let id = $params.id
+    let id = $params.eventId
     let event, loading, releventStudents, paxInput, selectedStudent, selectedRoute, lines, routes, nameForm
     let selectedCategorie, catStudents, confirmButton, gradeInput, gradeForm, releventRoutes, hidden
 

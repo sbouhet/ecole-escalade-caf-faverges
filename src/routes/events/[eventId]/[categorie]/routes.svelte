@@ -1,6 +1,6 @@
 <script>
     import { _getDoc, _query } from '$utils/firebase/firestore/basics'
-    import Routes from '../../../prive/mod/noel/components/Routes.svelte'
+    import Routes from '../../../prive/mod/noel/components/Routes_old.svelte'
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import { pointsWithStudents, nbOfRuns} from '$utils/contest'

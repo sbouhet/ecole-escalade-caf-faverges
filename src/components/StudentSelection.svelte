@@ -2,28 +2,51 @@
     import { _getDocs } from "$utils/firebase/firestore/basics";
     import { printName } from "$utils/printName";
     import {normalize} from '$utils/normalize'
-    export let selectedStudent
-    let allStudents, searchInput, releventStudents, inputForm
+    export let selectedStudent, studentList, showAll, firstNameOnly
+    let searchInput, releventStudents, inputForm
 
-    const getStudents = async ()=>{
-        allStudents = await _getDocs('students')
-        releventStudents = allStudents
-        inputForm.focus()
+    const objToSearch = (student) =>{
+        if (student.firstName) {
+            return student
+        } else {
+            return student.data()
+        }
     }
+
+    function compare( a, b ) {
+    if ( objToSearch(a).firstName < objToSearch(b).firstName ){
+        return -1;
+    }
+    if ( objToSearch(a).firstName > objToSearch(b).firstName ){
+        return 1;
+    }
+    return 0;
+    }
+    
+    const getStudents = async ()=>{
+        if (!studentList) {
+            studentList = await _getDocs('students')
+        }
+        releventStudents = studentList
+        releventStudents.sort(compare)
+    }
+
+    $:if(inputForm)inputForm.focus()
+    $:if(studentList)getStudents()
 
     getStudents()
 
+
     const handleInput = ()=>{
-        if(!allStudents) return
+        if(!studentList) return
         selectedStudent = undefined
         if(searchInput){
-            releventStudents = allStudents.filter(
-                x=>(normalize(x.data().firstName+' '+x.data().lastName)).includes(normalize(searchInput))
-                || (normalize(x.data().lastName+' '+x.data().firstName)).includes(normalize(searchInput)))
+            releventStudents = studentList.filter(
+                x=>(normalize(objToSearch(x).firstName+' '+objToSearch(x).lastName)).includes(normalize(searchInput))
+                || (normalize(objToSearch(x).lastName+' '+objToSearch(x).firstName)).includes(normalize(searchInput)))
         }else{
-            releventStudents = allStudents
+            releventStudents = studentList
         }
-        
     }
 
 const selectFirst = ()=>{
@@ -40,17 +63,21 @@ const selectFirst = ()=>{
     <input type="text" bind:value={searchInput} on:input={handleInput} bind:this={inputForm}>
 </form>
 
-{#if releventStudents && searchInput}
+{#if releventStudents && (searchInput || showAll)}
     {#if releventStudents.length<1}
         Aucun resultat
-    {:else if releventStudents.length>10}
+    {:else if releventStudents.length>10 && !showAll}
         Trop de resultats, affinez votre recherche
     {:else}
         <ul>
             {#each releventStudents as student}
                 <li>
                     <a href="#" on:click={()=>selectedStudent = student}>
-                        {printName(student.data())}
+                        {#if firstNameOnly}
+                            {printName(objToSearch(student), releventStudents)}
+                        {:else}
+                            {printName(objToSearch(student))}
+                        {/if}
                     </a>
                 </li>
             {/each}
@@ -62,4 +89,6 @@ const selectFirst = ()=>{
      ul li{
         list-style: none;
     }
+
+
 </style>

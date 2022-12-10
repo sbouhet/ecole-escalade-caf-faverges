@@ -17,7 +17,7 @@
 {:else}
     {#if events}
         {#each events as event}
-            <a href="./event?id={event.id}">{event.data().title}</a><br>
+            <a href="./events/{event.id}">{event.data().title}</a><br>
         {/each}
     {/if}
 {/if}

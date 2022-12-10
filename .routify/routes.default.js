@@ -552,125 +552,26 @@ export default {
               "meta": {},
               "id": "_default_prive_mod_noel",
               "name": "noel",
-              "module": false,
+              "module": () => import('../src/routes/prive/mod/noel/_module.svelte'),
               "file": {
-                "path": "src/routes/prive/mod/noel",
-                "dir": "src/routes/prive/mod",
-                "base": "noel",
-                "ext": "",
-                "name": "noel"
+                "path": "src/routes/prive/mod/noel/_module.svelte",
+                "dir": "src/routes/prive/mod/noel",
+                "base": "_module.svelte",
+                "ext": ".svelte",
+                "name": "_module"
               },
               "children": [
                 {
                   "meta": {},
-                  "id": "_default_prive_mod_noel_addRoute_svelte",
-                  "name": "addRoute",
-                  "module": () => import('../src/routes/prive/mod/noel/addRoute.svelte'),
+                  "id": "_default_prive_mod_noel_delRoute_svelte",
+                  "name": "delRoute",
+                  "module": () => import('../src/routes/prive/mod/noel/delRoute.svelte'),
                   "file": {
-                    "path": "src/routes/prive/mod/noel/addRoute.svelte",
+                    "path": "src/routes/prive/mod/noel/delRoute.svelte",
                     "dir": "src/routes/prive/mod/noel",
-                    "base": "addRoute.svelte",
+                    "base": "delRoute.svelte",
                     "ext": ".svelte",
-                    "name": "addRoute"
-                  },
-                  "children": []
-                },
-                {
-                  "meta": {},
-                  "id": "_default_prive_mod_noel_addRun_svelte",
-                  "name": "addRun",
-                  "module": () => import('../src/routes/prive/mod/noel/addRun.svelte'),
-                  "file": {
-                    "path": "src/routes/prive/mod/noel/addRun.svelte",
-                    "dir": "src/routes/prive/mod/noel",
-                    "base": "addRun.svelte",
-                    "ext": ".svelte",
-                    "name": "addRun"
-                  },
-                  "children": []
-                },
-                {
-                  "meta": {},
-                  "id": "_default_prive_mod_noel_components",
-                  "name": "components",
-                  "module": false,
-                  "file": {
-                    "path": "src/routes/prive/mod/noel/components",
-                    "dir": "src/routes/prive/mod/noel",
-                    "base": "components",
-                    "ext": "",
-                    "name": "components"
-                  },
-                  "children": [
-                    {
-                      "meta": {},
-                      "id": "_default_prive_mod_noel_components_Canvas_svelte",
-                      "name": "Canvas",
-                      "module": () => import('../src/routes/prive/mod/noel/components/Canvas.svelte'),
-                      "file": {
-                        "path": "src/routes/prive/mod/noel/components/Canvas.svelte",
-                        "dir": "src/routes/prive/mod/noel/components",
-                        "base": "Canvas.svelte",
-                        "ext": ".svelte",
-                        "name": "Canvas"
-                      },
-                      "children": []
-                    },
-                    {
-                      "meta": {},
-                      "id": "_default_prive_mod_noel_components_Route_svelte",
-                      "name": "Route",
-                      "module": () => import('../src/routes/prive/mod/noel/components/Route.svelte'),
-                      "file": {
-                        "path": "src/routes/prive/mod/noel/components/Route.svelte",
-                        "dir": "src/routes/prive/mod/noel/components",
-                        "base": "Route.svelte",
-                        "ext": ".svelte",
-                        "name": "Route"
-                      },
-                      "children": []
-                    },
-                    {
-                      "meta": {},
-                      "id": "_default_prive_mod_noel_components_Routes_svelte",
-                      "name": "Routes",
-                      "module": () => import('../src/routes/prive/mod/noel/components/Routes.svelte'),
-                      "file": {
-                        "path": "src/routes/prive/mod/noel/components/Routes.svelte",
-                        "dir": "src/routes/prive/mod/noel/components",
-                        "base": "Routes.svelte",
-                        "ext": ".svelte",
-                        "name": "Routes"
-                      },
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "meta": {},
-                  "id": "_default_prive_mod_noel_createEvent_svelte",
-                  "name": "createEvent",
-                  "module": () => import('../src/routes/prive/mod/noel/createEvent.svelte'),
-                  "file": {
-                    "path": "src/routes/prive/mod/noel/createEvent.svelte",
-                    "dir": "src/routes/prive/mod/noel",
-                    "base": "createEvent.svelte",
-                    "ext": ".svelte",
-                    "name": "createEvent"
-                  },
-                  "children": []
-                },
-                {
-                  "meta": {},
-                  "id": "_default_prive_mod_noel_createGym_svelte",
-                  "name": "createGym",
-                  "module": () => import('../src/routes/prive/mod/noel/createGym.svelte'),
-                  "file": {
-                    "path": "src/routes/prive/mod/noel/createGym.svelte",
-                    "dir": "src/routes/prive/mod/noel",
-                    "base": "createGym.svelte",
-                    "ext": ".svelte",
-                    "name": "createGym"
+                    "name": "delRoute"
                   },
                   "children": []
                 },
@@ -718,31 +619,207 @@ export default {
                 },
                 {
                   "meta": {},
-                  "id": "_default_prive_mod_noel_event_svelte",
-                  "name": "event",
-                  "module": () => import('../src/routes/prive/mod/noel/event.svelte'),
+                  "id": "_default_prive_mod_noel_events",
+                  "name": "events",
+                  "module": false,
                   "file": {
-                    "path": "src/routes/prive/mod/noel/event.svelte",
+                    "path": "src/routes/prive/mod/noel/events",
                     "dir": "src/routes/prive/mod/noel",
-                    "base": "event.svelte",
-                    "ext": ".svelte",
-                    "name": "event"
+                    "base": "events",
+                    "ext": "",
+                    "name": "events"
                   },
-                  "children": []
+                  "children": [
+                    {
+                      "meta": {
+                        "dynamic": true
+                      },
+                      "id": "_default_prive_mod_noel_events__eventId_",
+                      "name": "[eventId]",
+                      "module": false,
+                      "file": {
+                        "path": "src/routes/prive/mod/noel/events/[eventId]",
+                        "dir": "src/routes/prive/mod/noel/events",
+                        "base": "[eventId]",
+                        "ext": "",
+                        "name": "[eventId]"
+                      },
+                      "children": [
+                        {
+                          "meta": {},
+                          "id": "_default_prive_mod_noel_events__eventId__addRun_svelte",
+                          "name": "addRun",
+                          "module": () => import('../src/routes/prive/mod/noel/events/[eventId]/addRun.svelte'),
+                          "file": {
+                            "path": "src/routes/prive/mod/noel/events/[eventId]/addRun.svelte",
+                            "dir": "src/routes/prive/mod/noel/events/[eventId]",
+                            "base": "addRun.svelte",
+                            "ext": ".svelte",
+                            "name": "addRun"
+                          },
+                          "children": []
+                        },
+                        {
+                          "meta": {},
+                          "id": "_default_prive_mod_noel_events__eventId__addRun_old_svelte",
+                          "name": "addRun_old",
+                          "module": () => import('../src/routes/prive/mod/noel/events/[eventId]/addRun_old.svelte'),
+                          "file": {
+                            "path": "src/routes/prive/mod/noel/events/[eventId]/addRun_old.svelte",
+                            "dir": "src/routes/prive/mod/noel/events/[eventId]",
+                            "base": "addRun_old.svelte",
+                            "ext": ".svelte",
+                            "name": "addRun_old"
+                          },
+                          "children": []
+                        },
+                        {
+                          "meta": {},
+                          "id": "_default_prive_mod_noel_events__eventId__deleteRun_svelte",
+                          "name": "deleteRun",
+                          "module": () => import('../src/routes/prive/mod/noel/events/[eventId]/deleteRun.svelte'),
+                          "file": {
+                            "path": "src/routes/prive/mod/noel/events/[eventId]/deleteRun.svelte",
+                            "dir": "src/routes/prive/mod/noel/events/[eventId]",
+                            "base": "deleteRun.svelte",
+                            "ext": ".svelte",
+                            "name": "deleteRun"
+                          },
+                          "children": []
+                        },
+                        {
+                          "meta": {},
+                          "id": "_default_prive_mod_noel_events__eventId__index_svelte",
+                          "name": "index",
+                          "module": () => import('../src/routes/prive/mod/noel/events/[eventId]/index.svelte'),
+                          "file": {
+                            "path": "src/routes/prive/mod/noel/events/[eventId]/index.svelte",
+                            "dir": "src/routes/prive/mod/noel/events/[eventId]",
+                            "base": "index.svelte",
+                            "ext": ".svelte",
+                            "name": "index"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "meta": {},
+                      "id": "_default_prive_mod_noel_events_createEvent_svelte",
+                      "name": "createEvent",
+                      "module": () => import('../src/routes/prive/mod/noel/events/createEvent.svelte'),
+                      "file": {
+                        "path": "src/routes/prive/mod/noel/events/createEvent.svelte",
+                        "dir": "src/routes/prive/mod/noel/events",
+                        "base": "createEvent.svelte",
+                        "ext": ".svelte",
+                        "name": "createEvent"
+                      },
+                      "children": []
+                    },
+                    {
+                      "meta": {},
+                      "id": "_default_prive_mod_noel_events_index_svelte",
+                      "name": "index",
+                      "module": () => import('../src/routes/prive/mod/noel/events/index.svelte'),
+                      "file": {
+                        "path": "src/routes/prive/mod/noel/events/index.svelte",
+                        "dir": "src/routes/prive/mod/noel/events",
+                        "base": "index.svelte",
+                        "ext": ".svelte",
+                        "name": "index"
+                      },
+                      "children": []
+                    }
+                  ]
                 },
                 {
                   "meta": {},
-                  "id": "_default_prive_mod_noel_events_svelte",
-                  "name": "events",
-                  "module": () => import('../src/routes/prive/mod/noel/events.svelte'),
+                  "id": "_default_prive_mod_noel_gyms",
+                  "name": "gyms",
+                  "module": false,
                   "file": {
-                    "path": "src/routes/prive/mod/noel/events.svelte",
+                    "path": "src/routes/prive/mod/noel/gyms",
                     "dir": "src/routes/prive/mod/noel",
-                    "base": "events.svelte",
-                    "ext": ".svelte",
-                    "name": "events"
+                    "base": "gyms",
+                    "ext": "",
+                    "name": "gyms"
                   },
-                  "children": []
+                  "children": [
+                    {
+                      "meta": {
+                        "dynamic": true
+                      },
+                      "id": "_default_prive_mod_noel_gyms__gym_",
+                      "name": "[gym]",
+                      "module": false,
+                      "file": {
+                        "path": "src/routes/prive/mod/noel/gyms/[gym]",
+                        "dir": "src/routes/prive/mod/noel/gyms",
+                        "base": "[gym]",
+                        "ext": "",
+                        "name": "[gym]"
+                      },
+                      "children": [
+                        {
+                          "meta": {},
+                          "id": "_default_prive_mod_noel_gyms__gym__addRoute_svelte",
+                          "name": "addRoute",
+                          "module": () => import('../src/routes/prive/mod/noel/gyms/[gym]/addRoute.svelte'),
+                          "file": {
+                            "path": "src/routes/prive/mod/noel/gyms/[gym]/addRoute.svelte",
+                            "dir": "src/routes/prive/mod/noel/gyms/[gym]",
+                            "base": "addRoute.svelte",
+                            "ext": ".svelte",
+                            "name": "addRoute"
+                          },
+                          "children": []
+                        },
+                        {
+                          "meta": {},
+                          "id": "_default_prive_mod_noel_gyms__gym__index_svelte",
+                          "name": "index",
+                          "module": () => import('../src/routes/prive/mod/noel/gyms/[gym]/index.svelte'),
+                          "file": {
+                            "path": "src/routes/prive/mod/noel/gyms/[gym]/index.svelte",
+                            "dir": "src/routes/prive/mod/noel/gyms/[gym]",
+                            "base": "index.svelte",
+                            "ext": ".svelte",
+                            "name": "index"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "meta": {},
+                      "id": "_default_prive_mod_noel_gyms_createGym_svelte",
+                      "name": "createGym",
+                      "module": () => import('../src/routes/prive/mod/noel/gyms/createGym.svelte'),
+                      "file": {
+                        "path": "src/routes/prive/mod/noel/gyms/createGym.svelte",
+                        "dir": "src/routes/prive/mod/noel/gyms",
+                        "base": "createGym.svelte",
+                        "ext": ".svelte",
+                        "name": "createGym"
+                      },
+                      "children": []
+                    },
+                    {
+                      "meta": {},
+                      "id": "_default_prive_mod_noel_gyms_index_svelte",
+                      "name": "index",
+                      "module": () => import('../src/routes/prive/mod/noel/gyms/index.svelte'),
+                      "file": {
+                        "path": "src/routes/prive/mod/noel/gyms/index.svelte",
+                        "dir": "src/routes/prive/mod/noel/gyms",
+                        "base": "index.svelte",
+                        "ext": ".svelte",
+                        "name": "index"
+                      },
+                      "children": []
+                    }
+                  ]
                 },
                 {
                   "meta": {},
@@ -755,20 +832,6 @@ export default {
                     "base": "index.svelte",
                     "ext": ".svelte",
                     "name": "index"
-                  },
-                  "children": []
-                },
-                {
-                  "meta": {},
-                  "id": "_default_prive_mod_noel_routes_svelte",
-                  "name": "routes",
-                  "module": () => import('../src/routes/prive/mod/noel/routes.svelte'),
-                  "file": {
-                    "path": "src/routes/prive/mod/noel/routes.svelte",
-                    "dir": "src/routes/prive/mod/noel",
-                    "base": "routes.svelte",
-                    "ext": ".svelte",
-                    "name": "routes"
                   },
                   "children": []
                 },

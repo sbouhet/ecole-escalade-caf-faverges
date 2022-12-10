@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import {COLORS} from '../colors'
+    import {COLORS} from '$utils/colors'
     export let scores
     let max
     let canvas, ctx

@@ -2,7 +2,7 @@
 <!-- routify:meta reset -->
 <script>
     import {routeSends, routePotential, studentPoints} from '$utils/contest'
-    import Canvas from './components/Canvas.svelte'
+    import Canvas from '$components/contest/Canvas.svelte'
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import { _getDoc } from '$utils/firebase/firestore/basics';

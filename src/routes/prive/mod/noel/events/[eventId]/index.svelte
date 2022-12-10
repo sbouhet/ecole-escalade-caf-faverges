@@ -1,7 +1,7 @@
 <script>
     import { _getDoc, _addDoc, _updateDoc } from '$utils/firebase/firestore/basics';
     import {params} from '@roxi/routify'
-    let id = $params.id
+    let id = $params.eventId
     let event, loading
 
 
@@ -24,13 +24,13 @@
     {#if event}
         <h1>{event.data().title}</h1>
 
-        <a href="./addRun?id={id}" role="button">Ajouter un run</a><br>
+        <a href="./{id}/addRun" role="button">Ajouter un run</a><br>
         <br><br>
-        <a href="./scores?id={id}">Graphique</a><br>
+        <a href="./{id}/scores">Graphique</a><br>
         <br>
-        <a href="./editEventRoutes?id={id}">Modifier les voies</a><br>
-        <a href="./editEventPax?id={id}">Modifier les participants</a><br>
-        <a href="./deleteRun?id={id}">Supprimer un run</a><br>
+        <a href="./{id}/editEventRoutes">Modifier les voies</a><br>
+        <a href="./{id}/editEventPax">Modifier les participants</a><br>
+        <a href="./{id}/deleteRun">Supprimer un run</a><br>
      
     {:else}
         Pas d'evenement avec cet id

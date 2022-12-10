@@ -18,6 +18,7 @@ const releventRuns = (event, routeId)=>{
                 if(!runs.map(x=>x.student).includes(run.student)){
                     runs.push(run)
                 }
+                //runs.push(run)
             }
         }
     } else {
@@ -83,4 +84,21 @@ export const pointsWithStudents = (event, catIndex, maxPoints)=>{
         })
     }
     return result
+}
+
+export const rank = (student, event) =>{
+    const points = studentPoints(student.id, event, 1000)
+    const allPoints = pointsWithStudents(event, student.categorie, 1000)
+    const studentIndex = allPoints.map(x=>x.points).indexOf(points)
+return {rank:studentIndex+1, otherStudents:allPoints[studentIndex].students}
+}
+
+export const gymRouteToEventRoute = (gymRoute, gym)=>{
+    return {
+        id:gymRoute.id,
+        lineNb: gymRoute.data().line,
+        lineTxt: gym.data().lines[gymRoute.data().line-1],
+        grade: gymRoute.data().grade,
+        color: gymRoute.data().color
+    }
 }

@@ -2,7 +2,7 @@
     import {_getDocs, _getDoc, _addDoc} from '$utils/firebase/firestore/basics'
     import {normalize} from '$utils/normalize'
     import { printName } from "$utils/printName"
-    import Route from './components/Route.svelte'
+    import Route from '$components/contest/Route.svelte'
     let title, loading, students, input, releventStudents, routes, gyms, selectedGym, lines, catInput, catForm, studentForm
     let participants = []
     let selectedRoutes = []

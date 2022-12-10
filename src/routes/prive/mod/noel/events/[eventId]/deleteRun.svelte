@@ -1,13 +1,13 @@
 <script>
     import { _getDoc, _updateDoc } from '$utils/firebase/firestore/basics'
-    import Route from './components/Route_old.svelte'
+    import Route from '$components/contest/Route.svelte'
     import {printName} from '$utils/printName'
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     
     import {params} from '@roxi/routify'
     import { arrayRemove } from 'firebase/firestore';
-    let eventId = $params.id
+    let eventId = $params.eventId
     let event
 
     const getEvent = async () =>{

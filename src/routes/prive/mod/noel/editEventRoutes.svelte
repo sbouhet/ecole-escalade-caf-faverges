@@ -3,7 +3,7 @@
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
     import {params} from '@roxi/routify'
-    import Routes from './components/Routes.svelte'
+    import Routes from './components/Routes_old.svelte'
     const eventId = $params.id
 
     let event, loading
