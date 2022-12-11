@@ -15,11 +15,21 @@
         confirmButton.focus()
     }
 
+    const getRoute = (routeId)=>{
+        const index = event.data().routes.map(x=>x.id).indexOf(routeId)
+        return event.data().routes[index]
+    }
     const runRecorded = ()=>{
+        if (route.color=='Toutes prises') {
+            const testRuns = event.data().runs.filter(x=>x.student==student.id).map(x=>x.route)
+            const linesNbs = testRuns.map(x=>getRoute(x)).map(x=>x.lineNb)
+            const lineAlreadyClimbed = linesNbs.includes(route.lineNb)
+            return lineAlreadyClimbed
+        }
+
         return event.data().runs.filter(x=>x.student==student.id).map(x=>x.route).includes(route.id)
     }
 
-$:console.log(rank(student, event))
 
 </script>
 
