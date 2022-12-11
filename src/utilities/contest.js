@@ -30,7 +30,7 @@ const releventRuns = (event, routeId, catIndex)=>{
             }
         }
     } else {
-        //all runs with routeId
+        //all runs from categorie with routeId
         runs = catRuns(event, catIndex).filter(x=>x.route==routeId)
     }
     return runs
