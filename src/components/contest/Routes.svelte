@@ -12,7 +12,7 @@
 
     import Route from '$components/contest/Route.svelte'
     import RouteMenu from '$components/contest/RouteMenu.svelte'
-    export let routes, selectedRoute, menuSettings
+    export let routes, selectedRoute, menuSettings, event, showCategories
 
     export const removeDuplicates = (array)=>{
         array = array.filter(
@@ -26,6 +26,16 @@
     lines.sort((a, b) => {return a.nb - b.nb})
 
     $:console.log(selectedRoute);
+
+    function compare( a, b ) {
+    if ( a.grade < b.grade ){
+        return -1;
+    }
+    if ( a.grade > b.grade ){
+        return 1;
+    }
+    return 0;
+    }
 </script>
 
 <ul>
@@ -36,11 +46,13 @@
                 <small>(Ligne {line.nb})</small>
             </h4>
             <ul>
-                {#each routes.filter(x=>x.lineNb==line.nb)  as route}
+                {#each routes.filter(x=>x.lineNb==line.nb).sort(compare)  as route}
                     <li>
-                        <Route {route} bind:selectedRoute={selectedRoute}/>
-                        {#if selectedRoute == route && menuSettings}
-                            <RouteMenu {route} {menuSettings} />
+                        <Route {route} bind:selectedRoute={selectedRoute}
+                        faded={event && !event.data().routes.map(x=>x.id).includes(route.id)}/>
+
+                        {#if (selectedRoute == route && menuSettings) || showCategories}
+                            <RouteMenu {route} {menuSettings} {event}/>
                         {/if}
                     </li>
                 {/each}

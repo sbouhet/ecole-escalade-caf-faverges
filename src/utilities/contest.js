@@ -5,12 +5,20 @@ const getLineNb = (event, routeId)=>{
     return route.lineNb
 }
 
-const releventRuns = (event, routeId)=>{
+const catRuns = (event, catIndex)=>{
+    if(catIndex==undefined)throw'No catINdex'
+    const catStudents = event.data().participants.filter(x=>x.categorie==catIndex)
+    const ids = catStudents.map(x=>x.id)
+    return event.data().runs.filter(x=>ids.includes(x.student))
+}
+
+const releventRuns = (event, routeId, catIndex)=>{
+    if(catIndex==undefined)throw'No catINdex'
     const route = event.data().routes.filter(x=>x.id===routeId)[0]
     let runs = []
     if (route.color === "Toutes prises") {
-        //all event runs
-        for (const run of event.data().runs) {
+        //all event runs in the categorie
+        for (const run of catRuns(event, catIndex)) {
             const lineNb = getLineNb(event, run.route)
             //all runs with same lineNb
             if (lineNb == route.lineNb) {
@@ -23,35 +31,39 @@ const releventRuns = (event, routeId)=>{
         }
     } else {
         //all runs with routeId
-        runs = event.data().runs.filter(x=>x.route==routeId)
+        runs = catRuns(event, catIndex).filter(x=>x.route==routeId)
     }
     return runs
 }
 
-export const routePoints = (routeId, event, maxPoints)=>{
-    const runs = releventRuns(event, routeId)
+export const routePoints = (routeId, event, maxPoints, catIndex)=>{
+    if(catIndex==undefined)throw'No catINdex for routePoints'
+    const runs = releventRuns(event, routeId, catIndex)
     if(runs.length===0) return 0
     return Math.floor(maxPoints/(runs.length))
 }
 
-export const routePotential = (routeId, event, maxPoints)=>{
-    const runs = releventRuns(event, routeId)
+export const routePotential = (routeId, event, maxPoints, catIndex)=>{
+    if(catIndex==undefined)throw'No catINdex for routePotential'
+    const runs = releventRuns(event, routeId, catIndex)
     if(runs.length===0) return maxPoints
     return Math.floor(maxPoints/(runs.length+1))
 }
 
-export const routeSends = (routeId, event)=>{
+export const routeSends = (routeId, event, catIndex)=>{
+    if(catIndex==undefined)throw'No catINdex for routeSends'
     if (!event.data().runs) return 0
-    const releventRuns = event.data().runs.filter(x=>x.route==routeId)
+    const releventRuns = catRuns(event, catIndex).filter(x=>x.route==routeId)
     return releventRuns.length
 }
 
-export const studentPoints = (studentId, event, maxPoints)=>{
+export const studentPoints = (studentId, event, maxPoints, catIndex)=>{
+    if(catIndex==undefined)throw'No catINdex for studentPoints'
     let points = 0
     if (!event.data().runs) return 0
     const releventRuns = event.data().runs.filter(x=>x.student===studentId)
     for (const run of releventRuns) {
-        points += routePoints(run.route, event, maxPoints)
+        points += routePoints(run.route, event, maxPoints, catIndex)
     }
     return points
 }
@@ -59,7 +71,7 @@ export const studentPoints = (studentId, event, maxPoints)=>{
 export const studentsWithPoints = (event, catIndex, maxPoints)=>{
     const releventPax = event.data().participants.filter(x=>x.categorie==catIndex)
     for (const pax of releventPax) {
-        pax.points = studentPoints(pax.id, event, maxPoints)
+        pax.points = studentPoints(pax.id, event, maxPoints, catIndex)
     }
     releventPax.sort(function(a, b) {return b.points - a.points})
     return releventPax
@@ -87,13 +99,16 @@ export const pointsWithStudents = (event, catIndex, maxPoints)=>{
 }
 
 export const rank = (student, event) =>{
-    const points = studentPoints(student.id, event, 1000)
+    const catIndex = student.categorie
+    if(catIndex==undefined)throw'No catINdex for rank'
+    const points = studentPoints(student.id, event, 1000, catIndex)
     const allPoints = pointsWithStudents(event, student.categorie, 1000)
     const studentIndex = allPoints.map(x=>x.points).indexOf(points)
 return {rank:studentIndex+1, otherStudents:allPoints[studentIndex].students}
 }
 
 export const gymRouteToEventRoute = (gymRoute, gym)=>{
+    if(!gym) throw'no gym'
     return {
         id:gymRoute.id,
         lineNb: gymRoute.data().line,

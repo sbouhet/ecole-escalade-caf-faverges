@@ -5,7 +5,7 @@
     import {params} from '@roxi/routify'
     import { printName } from '$utils/printName';
     import StudentSelection from '$components/StudentSelection.svelte'
-    const eventId = $params.id
+    const eventId = $params.eventId
 
     let event, loading, selectedStudent, selectedCategorie
  

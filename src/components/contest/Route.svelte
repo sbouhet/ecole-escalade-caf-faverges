@@ -22,8 +22,11 @@
     }
 
     const handleClick = ()=>{
-            selectedRoute = route
-            //console.log(selectedRoute);
+            if (selectedRoute == route) {
+                selectedRoute = undefined
+            } else {
+                selectedRoute = route
+            }
     }
 
 </script>

@@ -1,10 +1,8 @@
 <script>
-    import { _getDoc, _addDoc, _updateDoc } from '$utils/firebase/firestore/basics';
+    import { _getDoc} from '$utils/firebase/firestore/basics'
     import {params} from '@roxi/routify'
     let id = $params.eventId
     let event, loading
-
-
     
     const getEvent = async ()=>{
         loading = true
@@ -14,9 +12,10 @@
         loading = false
     }
     getEvent()
-
+    
 
 </script>
+
 
 {#if loading}
     Merci de patienter
@@ -26,10 +25,22 @@
 
         <a href="./{id}/addRun" role="button">Ajouter un run</a><br>
         <br><br>
-        <a href="./{id}/scores">Graphique</a><br>
+        Voies :<br>
+        {#each event.data().categories as cat, i}
+            <a href="./{id}/routes?eventId={id}&catIndex={i}" role="button" class="outline">{cat}</a> &nbsp;
+        {/each}
+        <br><br>
+        Classement :<br>
+        {#each event.data().categories as cat, i}
+            <a href="/events/{id}/{i}/points" role="button" class="outline">{cat}</a> &nbsp;
+        {/each}
+        <br><br>
+        <a href="/events/{id}">Page publique de l'évènement</a><br>
         <br>
-        <a href="./{id}/editEventRoutes">Modifier les voies</a><br>
-        <a href="./{id}/editEventPax">Modifier les participants</a><br>
+        <a href="./{id}/editRoutes">Modifier les voies</a><br>
+        <a href="./{id}/delRoutes">Supprimer des voies</a><br>
+        <a href="./{id}/editParticipants">Modifier les participants</a><br>
+        <a href="./{id}/assignRoutes">Assigner les voies aux catégories d'ages</a><br>
         <a href="./{id}/deleteRun">Supprimer un run</a><br>
      
     {:else}

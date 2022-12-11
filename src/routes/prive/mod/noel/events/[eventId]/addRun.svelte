@@ -7,10 +7,9 @@
     import {params} from '@roxi/routify'
     import { doc, onSnapshot } from "firebase/firestore"
     import { db } from "$utils/firebase/firebase"
-    import Route from '$components/contest/Route.svelte';
     import RunConfirmation from '$components/contest/RunConfirmation.svelte';
     let eventId = $params.eventId
-    let selectedCatIndex, selectedStudent, selectedRoute, loading, event, studentList, hidden
+    let selectedCatIndex, selectedStudent, selectedRoute, loading, event, studentList, reset
 
     const unsub = onSnapshot(doc(db, "events", eventId), () => {
         getEvent()
@@ -31,6 +30,13 @@
     $:if (selectedRoute || selectedStudent) {
         window.scrollTo(0, 0);
     }
+
+    $:if(reset){
+        selectedRoute = undefined
+        selectedStudent = undefined
+        selectedCatIndex = undefined
+        reset = false
+    }
     
 </script>
 
@@ -44,12 +50,15 @@
             <br><br>
             <StudentSelection  {studentList} showAll=true firstNameOnly=true bind:selectedStudent={selectedStudent}/>
         {:else}
-            <h3>{printName(selectedStudent)}</h3>
+            <hgroup>
+                <h3>{printName(selectedStudent)}</h3>
+                <h4>{event.data().categories[selectedStudent.categorie]}</h4>
+            </hgroup>
             {#if !selectedRoute}
-                <Routes routes={event.data().routes} bind:selectedRoute={selectedRoute}/>
+                <Routes routes={event.data().routes.filter(x=>x.categories != undefined && x.categories.includes(selectedStudent.categorie))} bind:selectedRoute={selectedRoute}/>
             {:else}
                 
-                <RunConfirmation route={selectedRoute} student={selectedStudent} {event}/>
+                <RunConfirmation route={selectedRoute} student={selectedStudent} {event} bind:reset={reset}/>
             {/if}
         {/if}
     {:else}

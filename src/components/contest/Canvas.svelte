@@ -1,3 +1,4 @@
+
 <script>
     import { onMount } from 'svelte';
     import {COLORS} from '$utils/colors'
@@ -6,8 +7,9 @@
     let canvas, ctx
     const CANVAS_HEIGHT = window.innerHeight -20
     const CANVAS_WIDTH = window.innerWidth - 50
+    const LABEL_HEIGHT = 30
     let GAP = 5
-    let FONT_SIZE = {grade:20, score:15, line:15, runs:10}
+    let FONT_SIZE = {grade:20, score:15, line:18, runs:10}
 
     function removeDuplicates(arr) {
         return arr.filter((item,index) => arr.indexOf(item) === index);
@@ -26,7 +28,7 @@
         canvas.height = CANVAS_HEIGHT
         ctx = canvas.getContext("2d")
         let x = 0
-        const originY = CANVAS_HEIGHT-25
+        const originY = CANVAS_HEIGHT- LABEL_HEIGHT - 5
         let lines = removeDuplicates(scores.map(x=>x.lineNb));
         lines.sort(function(a, b) {
         return a - b;
@@ -56,13 +58,13 @@
 
         for (const line of lines) {
             const releventRoutes = scores.filter(x=>x.lineNb === line)
-            ctx.fillStyle = 'DimGray'
-            ctx.fillRect(x, CANVAS_HEIGHT, routeWidth*releventRoutes.length, -20)
+            ctx.fillStyle = 'black'
+            ctx.fillRect(x, CANVAS_HEIGHT, routeWidth*releventRoutes.length, -LABEL_HEIGHT)
             ctx.fillStyle = 'white'
             ctx.textAlign = 'center'
             ctx.textBaseline = 'middle'
             ctx.font = `${FONT_SIZE.line}px sans-serif`
-            ctx.fillText(line, x+(routeWidth*releventRoutes.length)/2, originY+15)
+            ctx.fillText(line, x+(routeWidth*releventRoutes.length)/2, originY+LABEL_HEIGHT/2+5)
 
             for (const route of releventRoutes) {
                 //let routeHeight = -route.potential*(CANVAS_HEIGHT-12)/(max+GAP)-(max-route.potential)/10
@@ -103,7 +105,7 @@
 </script>
 
 <canvas bind:this={canvas}></canvas>
-
+<br>
 Gap:
 <input type="range" min=0 max=50 bind:value={GAP} style="width: 200px;" on:change={draw}>{GAP}
 

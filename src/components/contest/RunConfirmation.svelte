@@ -4,7 +4,7 @@
     import { _updateDoc } from '$utils/firebase/firestore/basics'
     import { arrayUnion } from 'firebase/firestore'
     import {printName} from '$utils/printName'
-    export let route, student, event
+    export let route, student, event, reset
     let confirmButton
 
     const addRun = async()=>{
@@ -35,16 +35,16 @@ $:console.log(rank(student, event))
                     <small>(ligne {route.lineNb})</small>
                 </strong>
                 <br>
-                {routePotential(route.id, event, 1000)} points
+                {routePotential(route.id, event, 1000, student.categorie)} points
             </div>
         </div>
         <form on:submit|preventDefault={addRun}>
             <div class="buttons">
                 {#if !runRecorded()}
                     <button on:click={addRun} style="max-width: 300px;" bind:this={confirmButton}>Ajouter la voie</button>
-                    <button on:click={addRun} style="max-width: 300px;" class="outline" >Annuler</button>
+                    <button on:click={()=>reset=true} style="max-width: 300px;" class="outline" >Annuler</button>
                 {:else}
-                    <button on:click={addRun} style="max-width: 300px;" bind:this={confirmButton}>Continuer</button>
+                    <button on:click={()=>reset=true} style="max-width: 300px;" bind:this={confirmButton}>Continuer</button>
                 {/if}
             </div>
         </form>
@@ -53,7 +53,7 @@ $:console.log(rank(student, event))
         <h4>Statistiques pour {printName(student, [])}</h4>
         Nombre de voies : <strong>{nbOfRuns(event, student.id)}</strong><br>
         <br>
-        Points : <strong>{studentPoints(student.id, event, 1000)}</strong><br>
+        Points : <strong>{studentPoints(student.id, event, 1000,student.categorie)}</strong><br>
         <br>
         Classement : <strong>{rank(student, event).rank}</strong>
         {#if rank(student, event).otherStudents.length>1}

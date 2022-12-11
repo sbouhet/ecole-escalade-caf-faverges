@@ -35,7 +35,7 @@
                     </div>
                 {/each}
                 <div class="button">
-                    <a href="/prive/mod/noel/event?id={event.id}" role="button" class='outline'>Admin</a>
+                    <a href="/prive/mod/noel/events/{event.id}" role="button" class='outline'>Admin</a>
                 </div>
             </div>
         {:else}
