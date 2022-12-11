@@ -836,22 +836,6 @@ export default {
                     "name": "index"
                   },
                   "children": []
-                },
-                {
-                  "meta": {
-                    "reset": true
-                  },
-                  "id": "_default_prive_mod_noel_scores_svelte",
-                  "name": "scores",
-                  "module": () => import('../src/routes/prive/mod/noel/scores.svelte'),
-                  "file": {
-                    "path": "src/routes/prive/mod/noel/scores.svelte",
-                    "dir": "src/routes/prive/mod/noel",
-                    "base": "scores.svelte",
-                    "ext": ".svelte",
-                    "name": "scores"
-                  },
-                  "children": []
                 }
               ]
             },

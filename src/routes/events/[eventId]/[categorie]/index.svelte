@@ -21,7 +21,7 @@ const getEvent = async () =>{
     </center>
     <div class="container">
         <a href="./{catIndex}/points" role="button">Classement</a>
-        <a href="./{catIndex}/routes" role="button">Voies</a>
+        <!-- <a href="./{catIndex}/routes" role="button">Voies</a> -->
     </div>
 {/if}
 
