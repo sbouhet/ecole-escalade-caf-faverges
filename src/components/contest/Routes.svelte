@@ -25,8 +25,6 @@
     const lines = removeDuplicates(routes).map(x=>{return {nb:x.lineNb, txt:x.lineTxt}})
     lines.sort((a, b) => {return a.nb - b.nb})
 
-    $:console.log(selectedRoute);
-
     function compare( a, b ) {
     if ( a.grade < b.grade ){
         return -1;

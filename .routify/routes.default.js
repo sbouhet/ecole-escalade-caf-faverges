@@ -721,6 +721,20 @@ export default {
                     },
                     {
                       "meta": {},
+                      "id": "_default_prive_mod_noel_events_createEvent_OLD_svelte",
+                      "name": "createEvent_OLD",
+                      "module": () => import('../src/routes/prive/mod/noel/events/createEvent_OLD.svelte'),
+                      "file": {
+                        "path": "src/routes/prive/mod/noel/events/createEvent_OLD.svelte",
+                        "dir": "src/routes/prive/mod/noel/events",
+                        "base": "createEvent_OLD.svelte",
+                        "ext": ".svelte",
+                        "name": "createEvent_OLD"
+                      },
+                      "children": []
+                    },
+                    {
+                      "meta": {},
                       "id": "_default_prive_mod_noel_events_index_svelte",
                       "name": "index",
                       "module": () => import('../src/routes/prive/mod/noel/events/index.svelte'),
