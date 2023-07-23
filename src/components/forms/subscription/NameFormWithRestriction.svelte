@@ -18,15 +18,17 @@
     const getPriorityStudents = async ()=>{
         const adminDoc = await _getDoc('admin', 'admin')
         const priorityStudents = adminDoc.data().priorityStudents.map(x=> {return {firstName: normalize(x.firstName), lastName:normalize(x.lastName), allowed:x.allowed}})
+        console.log("priority", priorityStudents);
         releventStudents = priorityStudents
         return priorityStudents
     }
 
     const getPastStudents = async ()=>{
-        const pastStudents = await _query('students', `seasons.${seasons().current}.payment`, "==", "yes" )
-        //const priorityStudents = adminDoc.data().priorityStudents.map(x=> {return {firstName: normalize(x.firstName), lastName:normalize(x.lastName), allowed:x.allowed}})
-        releventStudents = pastStudents
-        return pastStudents
+        const pastStudents = await _query('students', `seasons.${seasons().last}.payment`, "==", "yes" )
+        const formatted = pastStudents.map(x=> {return {firstName: normalize(x.data().firstName), lastName:normalize(x.data().lastName), allowed:"false"}})
+        console.log('formatted', formatted);
+        releventStudents = formatted
+        return formatted
     }
 
     //const priorityStudents = getPriorityStudents()
