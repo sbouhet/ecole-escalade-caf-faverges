@@ -2,9 +2,18 @@
     import { subscription } from '$utils/stores'
     import { getAuth } from "firebase/auth"
     import NameFormNoRestriction from '../NameFormNoRestriction.svelte'
-    export let nb
+    export let nb, parent
 
     let firstName, lastName, role, email, tel
+
+    if(parent){
+        firstName = parent.firstName
+        lastName = parent.lastName
+        role = parent.role
+        email = parent.email
+        tel = parent.tel
+
+    }
 
     // First parent has user email 
     if (nb===1) email = getAuth().currentUser.email

@@ -3,6 +3,7 @@
     import ChildInfo from './ChildInfo.svelte'
     import { subscription } from '$utils/stores'
     export let pastStudentsOnly = false
+    export let selectedStudent
 
     $: parents = $subscription.privateInfo.parents
 
@@ -19,11 +20,16 @@
 
 <section>
 
-    <ChildInfo {pastStudentsOnly}/>
-
-    {#each parents as parent, i}
-        <ParentInfo nb={i+1} />
-    {/each}
+    <ChildInfo {pastStudentsOnly} bind:selectedStudent/>
+    {#if selectedStudent}
+        {#each selectedStudent.private.parents as parent, i}
+            <ParentInfo nb={i+1} {parent}/>
+        {/each}
+    {:else}
+        {#each parents as parent, i}
+            <ParentInfo nb={i+1} />
+        {/each}
+    {/if}
    
 
     <div style="display:flex; justify-content:space-between">

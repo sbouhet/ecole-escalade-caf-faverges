@@ -117,7 +117,7 @@
        
         <div class="season">
             <small>
-                {#if $admin}
+                {#if $mod}
                     <select id="season" name="season" bind:value={selectedSeason}>
                         <option value={'last'}>{seasons().last}</option>  
                         <option value={'current'}>{seasons().current}</option>  

@@ -496,6 +496,20 @@ export default {
             },
             {
               "meta": {},
+              "id": "_default_prive_mod_editAdminEmails_svelte",
+              "name": "editAdminEmails",
+              "module": () => import('../src/routes/prive/mod/editAdminEmails.svelte'),
+              "file": {
+                "path": "src/routes/prive/mod/editAdminEmails.svelte",
+                "dir": "src/routes/prive/mod",
+                "base": "editAdminEmails.svelte",
+                "ext": ".svelte",
+                "name": "editAdminEmails"
+              },
+              "children": []
+            },
+            {
+              "meta": {},
               "id": "_default_prive_mod_emailHistory_svelte",
               "name": "emailHistory",
               "module": () => import('../src/routes/prive/mod/emailHistory.svelte'),
