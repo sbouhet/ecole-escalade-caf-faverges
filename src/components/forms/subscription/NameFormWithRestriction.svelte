@@ -1,8 +1,9 @@
 <script>
-    import {_getDoc}from '$firestore/basics'
+    import {_getDoc, _getDocs, _query}from '$firestore/basics'
     import {normalize} from '$utils/normalize'
     import { printName } from '$utils/printName';
     import {allowWrongAge} from '$utils/stores'
+    import { seasons } from "$utils/seasons"
     export let firstName, lastName
 
     let selectedStudent, searchInput
@@ -21,7 +22,15 @@
         return priorityStudents
     }
 
-    const priorityStudents = getPriorityStudents()
+    const getPastStudents = async ()=>{
+        const pastStudents = await _query('students', `seasons.${seasons().current}.payment`, "==", "yes" )
+        //const priorityStudents = adminDoc.data().priorityStudents.map(x=> {return {firstName: normalize(x.firstName), lastName:normalize(x.lastName), allowed:x.allowed}})
+        releventStudents = pastStudents
+        return pastStudents
+    }
+
+    //const priorityStudents = getPriorityStudents()
+    const priorityStudents = getPastStudents()
    
     const handleChange = (priorityStudents)=>{
         if(searchInput){
