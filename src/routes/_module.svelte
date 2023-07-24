@@ -122,6 +122,7 @@
                         <option value={'last'}>{seasons().last}</option>  
                         <option value={'current'}>{seasons().current}</option>  
                         <option value={'next'}>{seasons().next}</option>  
+                        <option value={'benevoles'}>Bénévoles</option>  
                     </select>
                 {:else if $currentSeason}
                     {$currentSeason.name}&nbsp;

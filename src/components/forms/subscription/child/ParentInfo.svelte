@@ -12,12 +12,8 @@
         role = parent.role
         email = parent.email
         tel = parent.tel
-
     }
 
-    // First parent has user email 
-    if (nb===1) email = getAuth().currentUser.email
-    
     // Persistent data, in case user leaves the page and comes back
     // If the forms are empty, fill inputs with $subscription data
     if(!firstName) firstName = $subscription.privateInfo.parents[nb-1].firstName
@@ -25,6 +21,10 @@
     if(!role) role = $subscription.privateInfo.parents[nb-1].role
     if(!email) email = $subscription.privateInfo.parents[nb-1].email
     if(!tel) tel = $subscription.privateInfo.parents[nb-1].tel
+        
+        // First parent has user email 
+    if (nb===1) email = getAuth().currentUser.email
+    
     
     // Sync $subscription store when data in written in form
     $:if(firstName) $subscription.privateInfo.parents[nb-1].firstName = firstName

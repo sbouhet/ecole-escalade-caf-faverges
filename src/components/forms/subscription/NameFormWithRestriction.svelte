@@ -9,8 +9,7 @@
     import { getStudent } from '$utils/firebase/firestore/getStudent';
     export let firstName, lastName, selectedStudent
 
-    $:if(selectedStudent)console.log(selectedStudent);
-    let userStudents, formatted
+    let userStudents
     $:if(getAuth().currentUser) userStudents = _query("students", 'parents', 'array-contains', getAuth().currentUser.uid)
   
 
@@ -32,14 +31,14 @@
         let pastStudents = []
         const userStudents = await _query("students", 'parents', 'array-contains', getAuth().currentUser.uid)
         for (const student of userStudents) {
-            if (student.data().seasons[seasons().last] && student.data().seasons[seasons().last].payment == 'yes') {
+            if ((student.data().seasons[seasons().last] && student.data().seasons[seasons().last].payment == 'yes')||student.data().seasons['benevoles']) {
                 let formatted = await getStudent(student.id)
                 pastStudents.push(formatted)
             }
         }
         if (pastStudents.length == 1) selectedStudent = pastStudents[0]
         //releventStudents = pastStudents
-        console.log(pastStudents);
+        //console.log(pastStudents);
         return pastStudents
     }
 
@@ -131,7 +130,6 @@
         </select>
     {:else if pastStudents.length == 1 }
         <h3>
-
             {printName(pastStudents[0].public)}
         </h3>
         

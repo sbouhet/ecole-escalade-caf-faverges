@@ -5,6 +5,10 @@
     export let pastStudentsOnly = false
     export let selectedStudent
 
+    $:if(selectedStudent) {
+            $subscription.privateInfo.parents = selectedStudent.private.parents
+        //console.log($subscription.privateInfo.parents);
+    }
     $: parents = $subscription.privateInfo.parents
 
     const removeParent = ()=>{
@@ -21,16 +25,13 @@
 <section>
 
     <ChildInfo {pastStudentsOnly} bind:selectedStudent/>
-    {#if selectedStudent}
-        {#each selectedStudent.private.parents as parent, i}
-            <ParentInfo nb={i+1} {parent}/>
-        {/each}
-    {:else}
-        {#each parents as parent, i}
-            <ParentInfo nb={i+1} />
-        {/each}
-    {/if}
+ 
+    {#each parents as parent, i}
+        <ParentInfo nb={i+1} {parent}/>
+    {/each}
+
    
+
 
     <div style="display:flex; justify-content:space-between">
          <div >
