@@ -11,7 +11,7 @@
 </script>
 
 <hgroup>
-    <h1>École d'escalade</h1>
+    <h1>École d'escalade CAF Faverges</h1>
     <h1>Saison {$currentSeason.name}</h1>
 </hgroup>
 

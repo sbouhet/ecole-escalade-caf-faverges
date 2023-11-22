@@ -5,13 +5,12 @@ import { getFirestore } from "firebase/firestore"
 import { getFunctions } from "firebase/functions"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBcwqqqBpdfc-w4drwARcAZvcddbcXpJAk",
-  authDomain: "ecole-escalade-2022.firebaseapp.com",
-  projectId: "ecole-escalade-2022",
-  storageBucket: "ecole-escalade-2022.appspot.com",
-  messagingSenderId: "550320445159",
-  appId: "1:550320445159:web:d74ac5edf10bb43e44f442",
-  measurementId: "G-B76XH9EHLX",
+  apiKey: "AIzaSyDAsyh3dyXTZhCKlU3F6kyxT3R-Hr3KUV0",
+  authDomain: "ecole-escalade-2022-dev.firebaseapp.com",
+  projectId: "ecole-escalade-2022-dev",
+  storageBucket: "ecole-escalade-2022-dev.appspot.com",
+  messagingSenderId: "259646490510",
+  appId: "1:259646490510:web:47b90b678dbca1fe4ac6df"
 }
 
 // Initialize Firebase
