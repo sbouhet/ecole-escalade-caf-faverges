@@ -80,7 +80,7 @@
                 Elles seront accéptées si le moniteur éstime que l'élève pourra profiter du cours malgré sa différence d'âge.
                 <br>
                 Pour faire une demande de dérogation, envoyez un mail à cette adresse : 
-                <a href="mailto:caf_faverges-commission_escalade@framagroupes.org?subject=[Ecolde d'escalade] Demande de dérogation {$currentDay.weekday} {$currentDay.startTime}" target="_new">julesmarchand74@gmail.com</a>
+                <a href="mailto:caf_faverges-commission_escalade@framagroupes.org?subject=[Ecolde d'escalade] Demande de dérogation {$currentDay.weekday} {$currentDay.startTime}" target="_new">caf_faverges-commission_escalade@framagroupes.org</a>
                 </i>
             </small>
             <br><br>
