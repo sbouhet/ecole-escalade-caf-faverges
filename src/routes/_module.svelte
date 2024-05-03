@@ -122,7 +122,6 @@
                         <option value={'last'}>{seasons().last}</option>  
                         <option value={'current'}>{seasons().current}</option>  
                         <option value={'next'}>{seasons().next}</option>  
-                        <option value={'benevoles'}>Bénévoles</option>  
                     </select>
                 {:else if $currentSeason}
                     {$currentSeason.name}&nbsp;
@@ -158,7 +157,7 @@
     {/if}
     <div class='help'>
         <small style="color:grey"> Besoin d'aide ?
-            <a href="mailto:julesmarchand74@gmail.com" target="_new"> Cliquez ici pour contacter Jules</a>
+            <a href="mailto:caf_faverges-commission_escalade@framagroupes.org" target="_new"> Cliquez ici pour contacter l'équipe Commission escalade</a>
         </small>
     </div>
 </body>
