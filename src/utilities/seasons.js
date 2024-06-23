@@ -13,6 +13,7 @@ export const seasons = () => {
       }
     }
     const currentMonth = parseInt(dayjs().format("M"))
+//    const currentMonth = 5
     const juneOrLater = currentMonth > 5
     const julyOrLater = currentMonth > 6
     const augustOrLater = currentMonth > 7

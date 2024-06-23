@@ -157,7 +157,7 @@
     {/if}
     <div class='help'>
         <small style="color:grey"> Besoin d'aide ?
-            <a href="mailto:caf_faverges-commission_escalade@framagroupes.org" target="_new"> Cliquez ici pour contacter l'équipe Commission escalade</a>
+            <a href="mailto:escaladefaverges74@gmail.com" target="_new"> Cliquez ici pour contacter l'équipe Commission escalade</a>
         </small>
     </div>
 </body>

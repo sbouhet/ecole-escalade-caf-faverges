@@ -25,7 +25,7 @@
 <div>
     <strong>Créneaux disponibles</strong>
 </div>
-<small>Cliquez sur un créneau pour plus d'informations.</small>
+<small>Cliquez sur un créneau pour plus d'informations. <b>Attention, pour les cours Adultes: le lundi pour les débutants, le mercredi pour les confirmés</b></small>
 <br>
 <br>
 

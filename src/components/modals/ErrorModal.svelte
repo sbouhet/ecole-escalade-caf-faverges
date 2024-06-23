@@ -56,7 +56,7 @@
         </div>
     {/if}
     <p>
-      Veuillez contacter notre équipe : <b>caf_faverges-commission_escalade@framagroupes.org</b>
+      Veuillez contacter notre équipe : <b>escaladefaverges74@gmail.com</b>
     </p>
 
     <footer>
