@@ -25,7 +25,12 @@
 <div>
     <strong>Créneaux disponibles</strong>
 </div>
-<small>Cliquez sur un créneau pour plus d'informations. <b>Attention, pour les cours Adultes: le lundi pour les débutants, le mercredi pour les confirmés</b></small>
+<small>Cliquez sur un créneau pour plus d'informations.
+<br><br>
+<b>Attention</b>
+<br>Pour les cours Adultes: le lundi pour les débutants, le mercredi pour les confirmés
+<br>Pour les cours 8-10 ans: le lundi pour les débutants et le mercredi pour les 2ème et 3ème année d'escalade
+</small>
 <br>
 <br>
 
