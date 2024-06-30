@@ -30,6 +30,12 @@
 <b>Attention</b>
 <br>Pour les cours Adultes: le lundi pour les débutants, le mercredi pour les confirmés
 <br>Pour les cours 8-10 ans: le lundi pour les débutants et le mercredi pour les 2ème et 3ème année d'escalade
+<br>Durée des cours:
+<br>6-7 ans: 1h
+<br>8-10 ans: 1h
+<br>11-13 ans: 1h30
+<br>14-17 ans et adultes confirmés: 2h dont 1/2h d'échauffement en autonomie
+
 </small>
 <br>
 <br>
