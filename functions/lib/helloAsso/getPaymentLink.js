@@ -63,9 +63,9 @@ module.exports = async (
         initialAmount,
         terms,
         itemName: "Cours d'escalade'",
-        backUrl: `https://ee22.netlify.app/prive/mon-compte/${studentId}?payment=true`,
-        errorUrl: "https://ee22.netlify.app/erreur",
-        returnUrl: `https://ee22.netlify.app/prive/mon-compte/${studentId}?payment=true`,
+        backUrl: `https://ecole-escalade-caf-faverges.netlify.app/prive/mon-compte/${studentId}?payment=true`,
+        errorUrl: "https://ecole-escalade-caf-faverges.netlify.app/erreur",
+        returnUrl: `https://ecole-escalade-caf-faverges.netlify.app/prive/mon-compte/${studentId}?payment=true`,
         containsDonation: false,
 
         payer: {
