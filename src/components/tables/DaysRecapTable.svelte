@@ -39,6 +39,7 @@
 </small>
 <br>
 <br>
+<b>Certains emails peuvent arriver dans votre dossier Spam/Indésirable. Pensez à vérifier</b>
 
 <figure>
         <table role="grid">
