@@ -35,11 +35,12 @@
 <br>8-10 ans: 1h
 <br>11-13 ans: 1h30
 <br>14-17 ans et adultes confirmés: 2h dont 1/2h d'échauffement en autonomie
-
+<br>
+<b>Certains emails peuvent arriver dans votre dossier Spam/Indésirable. Pensez à vérifier</b>
 </small>
 <br>
 <br>
-<b>Certains emails peuvent arriver dans votre dossier Spam/Indésirable. Pensez à vérifier</b>
+
 
 <figure>
         <table role="grid">
