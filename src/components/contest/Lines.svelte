@@ -13,7 +13,7 @@
         lineTxt: 'dièdre'
     }
     */
-    export let routes, selectedRoute, event, categories
+    export let routes, selectedRoute, event, categories, student
     export let showMulticolor = true
 
     export const removeDuplicates = (array)=>{
@@ -34,12 +34,12 @@
         <li>
             <hgroup>
                 <h4>Ligne {line.nb} </h4>
-                <h5>{line.txt}</h5>
+                <h5 class="cap">{line.txt}</h5>
             </hgroup>
             <ul>
-                <Routes2 routes={routes.filter(x=>x.lineNb==line.nb)} bind:selectedRoute={selectedRoute} {event} {categories}/>
+                <Routes2 routes={routes.filter(x=>x.lineNb==line.nb)} bind:selectedRoute={selectedRoute} {event} {categories} {student}/>
                 {#if showMulticolor}
-                    <li><Route2 route={{color:'Toutes prises', grade:'TP', id:`TP_${line.nb}`, lineNb:line.nb, lineTxt:line.txt}} bind:selectedRoute={selectedRoute} {event} {categories}/></li>
+                    <li><Route2 route={{color:'Toutes prises', grade:'TP', id:`TP_${line.nb}`, lineNb:line.nb, lineTxt:line.txt}} bind:selectedRoute={selectedRoute} {event} {categories} {student}/></li>
                 {/if}
             </ul>
                 
@@ -60,5 +60,9 @@
     h4{
         margin-bottom:15px;
         margin-top:30px;
+    }
+
+    h5.cap{
+        text-transform: capitalize;
     }
 </style>
